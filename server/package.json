@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "name": "filmtab-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "loadtest": "colyseus-loadtest-esm loadtest/example.js --room my_room --numClients 2",
+    "test": "mocha test/**_test.js --exit --timeout 15000",
+    "format": "prettier --write ."
+  },
+  "author": "Patryk Krawczyk",
+  "license": "MIT",
+  "homepage": "https://github.com/r1pk/filmtab-backend",
+  "devDependencies": {
+    "@colyseus/loadtest": "^0.14.6",
+    "@colyseus/testing": "^0.14.21",
+    "mocha": "^9.0.2"
+  },
+  "dependencies": {
+    "@colyseus/arena": "^0.14.7",
+    "@colyseus/monitor": "^0.14.0",
+    "colyseus": "^0.14.9"
+  }
+}
