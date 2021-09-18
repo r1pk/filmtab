@@ -1,10 +1,10 @@
-import assert from "assert";
-import { boot } from "@colyseus/testing";
+import assert from 'assert';
+import { boot } from '@colyseus/testing';
 
 // import your "arena.config.ts" file here.
-import appConfig from "../src/arena.config.js";
+import appConfig from '../src/arena.config.js';
 
-describe("testing your Colyseus app", () => {
+describe('testing your Colyseus app', () => {
   let colyseus;
 
   before(async () => (colyseus = await boot(appConfig)));
@@ -12,9 +12,9 @@ describe("testing your Colyseus app", () => {
 
   beforeEach(async () => await colyseus.cleanup());
 
-  it("connecting into a room", async () => {
+  it('connecting into a room', async () => {
     // `room` is the server-side Room instance reference.
-    const room = await colyseus.createRoom("my_room", {});
+    const room = await colyseus.createRoom('my_room', {});
 
     // `client1` is the client-side `Room` instance reference (same as JavaScript SDK)
     const client1 = await colyseus.connectTo(room);
@@ -26,7 +26,7 @@ describe("testing your Colyseus app", () => {
     await room.waitForNextPatch();
 
     assert.deepStrictEqual(
-      { mySynchronizedProperty: "Hello world" },
+      { mySynchronizedProperty: 'Hello world' },
       client1.state.toJSON()
     );
   });
