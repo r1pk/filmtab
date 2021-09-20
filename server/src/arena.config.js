@@ -1,13 +1,13 @@
 import Arena from '@colyseus/arena';
 import { monitor } from '@colyseus/monitor';
 
-import { MyRoom } from './rooms/MyRoom.js';
+import { VideoRoom } from './rooms/VideoRoom.js';
 
 export default Arena.default({
-  getId: () => 'Your Colyseus App',
+  getId: () => 'FilmTab Backend',
 
   initializeGameServer: (gameServer) => {
-    gameServer.define('my_room', MyRoom);
+    gameServer.define('video_room', VideoRoom);
   },
 
   initializeExpress: (app) => {
