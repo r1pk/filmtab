@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "filmtab-backend",
+  "name": "filmtab-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend written in NodeJS using Feathers, used in the FilmTab project ",
   "main": "./src/index.js",
   "type": "module",
   "scripts": {

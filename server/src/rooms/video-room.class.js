@@ -1,7 +1,6 @@
 import { Room } from '@colyseus/core';
 
-import { VideoRoomState } from './schema/VideoRoomState.js';
-import { User } from './schema/User.js';
+import { VideoRoomState, User } from '../schemas/video-room.schemas.js';
 
 import { logger } from '../helpers/logger.js';
 import { normalize } from '../helpers/normalize.js';

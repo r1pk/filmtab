@@ -1,6 +1,10 @@
 import { Schema, MapSchema, defineTypes } from '@colyseus/schema';
 
-import { User } from './User.js';
+export class User extends Schema {}
+
+defineTypes(User, {
+  name: 'string',
+});
 
 export class VideoRoomState extends Schema {
   constructor() {

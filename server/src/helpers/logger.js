@@ -34,10 +34,7 @@ if (process.env.NODE_ENV !== 'production') {
 } else {
   logger.add(
     new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.cli()
-      ),
+      format: winston.format.combine(winston.format.colorize(), winston.format.cli()),
     })
   );
 }
