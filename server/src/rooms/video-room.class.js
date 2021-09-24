@@ -2,7 +2,7 @@ import { Room } from '@colyseus/core';
 import { Dispatcher } from '@colyseus/command';
 
 import { VideoRoomState } from '../schemas/video-room.schemas.js';
-import { OnJoinCommand, OnLeaveCommand } from '../commands/video-room.commands.js';
+import { OnJoinCommand, OnLeaveCommand, SetVideoUrlCommand } from '../commands/video-room.commands.js';
 
 import { logger } from '../helpers/logger.js';
 
@@ -12,6 +12,12 @@ export class VideoRoom extends Room {
 
     this.dispatcher = new Dispatcher(this);
     this.setState(new VideoRoomState());
+
+    this.onMessage('video::set', (client, message) => {
+      this.dispatcher.dispatch(new SetVideoUrlCommand(), {
+        url: message.url,
+      });
+    });
   }
 
   onJoin(client, options) {

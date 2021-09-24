@@ -46,3 +46,12 @@ export class OnLeaveCommand extends Command {
     this.state.users.delete(sessionId);
   }
 }
+
+export class SetVideoUrlCommand extends Command {
+  execute({ url }) {
+    logger.info(`Video url set! - RID: ${this.room.roomId} URL: ${url}`);
+
+    this.state.video.url = url;
+    this.state.video.paused = true;
+  }
+}
