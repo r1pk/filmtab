@@ -2,7 +2,7 @@
   "private": true,
   "name": "filmtab-server",
   "version": "1.0.0",
-  "description": "Backend written in NodeJS using Feathers, used in the FilmTab project ",
+  "description": "Backend for FilmTab application written in Node.js using Colyseus.js framework.",
   "main": "./src/index.js",
   "type": "module",
   "scripts": {
