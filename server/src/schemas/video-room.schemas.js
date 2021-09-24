@@ -12,12 +12,16 @@ export class Video extends Schema {
 
     this.url = '';
     this.paused = true;
+    this.playedSeconds = 0;
+    this.updateTimestamp = new Date().getTime();
   }
 }
 
 defineTypes(Video, {
   url: 'string',
   paused: 'boolean',
+  playedSeconds: 'number',
+  updateTimestamp: 'number',
 });
 
 export class VideoRoomState extends Schema {

@@ -2,7 +2,7 @@ import { Room } from '@colyseus/core';
 import { Dispatcher } from '@colyseus/command';
 
 import { VideoRoomState } from '../schemas/video-room.schemas.js';
-import { OnJoinCommand, OnLeaveCommand, SetVideoUrlCommand } from '../commands/video-room.commands.js';
+import * as Commands from '../commands/video-room.commands.js';
 
 import { logger } from '../helpers/logger.js';
 
@@ -14,21 +14,33 @@ export class VideoRoom extends Room {
     this.setState(new VideoRoomState());
 
     this.onMessage('video::set', (client, message) => {
-      this.dispatcher.dispatch(new SetVideoUrlCommand(), {
+      this.dispatcher.dispatch(new Commands.SetVideoUrlCommand(), {
         url: message.url,
+      });
+    });
+
+    this.onMessage('video::play', (client, message) => {
+      this.dispatcher.dispatch(new Commands.PlayVideoCommand(), {
+        playedSeconds: message.playedSeconds,
+      });
+    });
+
+    this.onMessage('video::pause', (client, message) => {
+      this.dispatcher.dispatch(new Commands.PauseVideoCommand(), {
+        playedSeconds: message.playedSeconds,
       });
     });
   }
 
   onJoin(client, options) {
-    this.dispatcher.dispatch(new OnJoinCommand(), {
+    this.dispatcher.dispatch(new Commands.OnJoinCommand(), {
       sessionId: client.sessionId,
       username: options.username,
     });
   }
 
   onLeave(client) {
-    this.dispatcher.dispatch(new OnLeaveCommand(), {
+    this.dispatcher.dispatch(new Commands.OnLeaveCommand(), {
       sessionId: client.sessionId,
     });
   }
