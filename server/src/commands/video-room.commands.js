@@ -24,7 +24,7 @@ export class OnJoinCommand extends Command {
   }
 
   execute({ sessionId, username }) {
-    logger.info(`Client joined! - SID: ${sessionId} - Username: ${username}`);
+    logger.debug(`Client joined! - SID: ${sessionId} - Username: ${username}`);
 
     const normalizedUsername = normalize(username);
     const user = new User().assign({
@@ -41,7 +41,7 @@ export class OnLeaveCommand extends Command {
   }
 
   execute({ sessionId }) {
-    logger.info(`Client left! - SID: ${sessionId}`);
+    logger.debug(`Client left! - SID: ${sessionId}`);
 
     this.state.users.delete(sessionId);
   }
@@ -49,7 +49,7 @@ export class OnLeaveCommand extends Command {
 
 export class SetVideoUrlCommand extends Command {
   execute({ url }) {
-    logger.info(`Video url set! - RID: ${this.room.roomId} URL: ${url}`);
+    logger.debug(`Video url set! - RID: ${this.room.roomId} URL: ${url}`);
 
     this.state.video.url = url;
     this.state.video.paused = true;
@@ -58,7 +58,7 @@ export class SetVideoUrlCommand extends Command {
 
 export class PlayVideoCommand extends Command {
   execute({ playedSeconds }) {
-    logger.info(`Video resumed! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
+    logger.debug(`Video resumed! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
 
     this.state.video.paused = false;
     this.state.video.playedSeconds = playedSeconds;
@@ -68,7 +68,7 @@ export class PlayVideoCommand extends Command {
 
 export class PauseVideoCommand extends Command {
   execute({ playedSeconds }) {
-    logger.info(`Video paused! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
+    logger.debug(`Video paused! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
 
     this.state.video.paused = true;
     this.state.video.playedSeconds = playedSeconds;
@@ -78,7 +78,7 @@ export class PauseVideoCommand extends Command {
 
 export class SeekVideoCommand extends Command {
   execute({ playedSeconds }) {
-    logger.info(`Video seeking! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
+    logger.debug(`Video seeking! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
 
     this.state.video.playedSeconds = playedSeconds;
     this.state.video.updateTimestamp = new Date().getTime();

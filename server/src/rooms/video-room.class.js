@@ -8,7 +8,7 @@ import { logger } from '../helpers/logger.js';
 
 export class VideoRoom extends Room {
   onCreate(options) {
-    logger.info(`Room RID: ${this.roomId} created!`);
+    logger.debug(`Room RID: ${this.roomId} created!`);
 
     this.dispatcher = new Dispatcher(this);
     this.setState(new VideoRoomState());
@@ -52,7 +52,7 @@ export class VideoRoom extends Room {
   }
 
   onDispose() {
-    logger.info(`Room RID: ${this.roomId} disposing!`);
+    logger.debug(`Room RID: ${this.roomId} disposing!`);
 
     this.dispatcher.stop();
   }
