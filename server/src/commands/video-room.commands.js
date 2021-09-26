@@ -75,3 +75,12 @@ export class PauseVideoCommand extends Command {
     this.state.video.updateTimestamp = new Date().getTime();
   }
 }
+
+export class SeekVideoCommand extends Command {
+  execute({ playedSeconds }) {
+    logger.info(`Video seeking! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
+
+    this.state.video.playedSeconds = playedSeconds;
+    this.state.video.updateTimestamp = new Date().getTime();
+  }
+}

@@ -30,6 +30,12 @@ export class VideoRoom extends Room {
         playedSeconds: message.playedSeconds,
       });
     });
+
+    this.onMessage('video::seek', (client, message) => {
+      this.dispatcher.dispatch(new Commands.SeekVideoCommand(), {
+        playedSeconds: message.playedSeconds,
+      });
+    });
   }
 
   onJoin(client, options) {
