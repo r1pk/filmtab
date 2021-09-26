@@ -52,7 +52,7 @@ export class SetVideoUrlCommand extends Command {
     logger.debug(`Video url set! - RID: ${this.room.roomId} URL: ${url}`);
 
     this.state.video.url = url;
-    this.state.video.paused = true;
+    this.state.video.playing = false;
   }
 }
 
@@ -60,7 +60,7 @@ export class PlayVideoCommand extends Command {
   execute({ playedSeconds }) {
     logger.debug(`Video resumed! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
 
-    this.state.video.paused = false;
+    this.state.video.playing = true;
     this.state.video.playedSeconds = playedSeconds;
     this.state.video.updateTimestamp = new Date().getTime();
   }
@@ -70,7 +70,7 @@ export class PauseVideoCommand extends Command {
   execute({ playedSeconds }) {
     logger.debug(`Video paused! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
 
-    this.state.video.paused = true;
+    this.state.video.playing = false;
     this.state.video.playedSeconds = playedSeconds;
     this.state.video.updateTimestamp = new Date().getTime();
   }

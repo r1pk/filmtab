@@ -11,7 +11,7 @@ export class Video extends Schema {
     super();
 
     this.url = '';
-    this.paused = true;
+    this.playing = false;
     this.playedSeconds = 0;
     this.updateTimestamp = new Date().getTime();
   }
@@ -19,7 +19,7 @@ export class Video extends Schema {
 
 defineTypes(Video, {
   url: 'string',
-  paused: 'boolean',
+  playing: 'boolean',
   playedSeconds: 'number',
   updateTimestamp: 'number',
 });
