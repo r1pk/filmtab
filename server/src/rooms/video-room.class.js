@@ -12,6 +12,7 @@ export class VideoRoom extends Room {
 
     this.dispatcher = new Dispatcher(this);
     this.setState(new VideoRoomState());
+    this.setPrivate(options.private);
 
     this.onMessage('video::set', (client, message) => {
       this.dispatcher.dispatch(new Commands.SetVideoUrlCommand(), {
