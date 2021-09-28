@@ -1,4 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-ReactDOM.render(<React.StrictMode></React.StrictMode>, document.getElementById('root'));
+import FilmTab from './FilmTab';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <FilmTab />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
