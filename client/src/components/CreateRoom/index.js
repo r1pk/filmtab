@@ -22,7 +22,7 @@ const CreateRoom = ({ sx, onCreateRoom }) => {
   };
 
   return (
-    <Box flex sx={sx}>
+    <Box sx={sx}>
       <Typography variant="h6">Create room</Typography>
       <Divider sx={{ m: 1 }} />
       <Stack direction="row" spacing={2}>
@@ -30,14 +30,7 @@ const CreateRoom = ({ sx, onCreateRoom }) => {
           control={<Checkbox checked={roomVisibility} onChange={handleVisibilityChange} sx={{ padding: '5px 9px' }} />}
           label="Private"
         />
-        <TextField
-          size="small"
-          label="Username"
-          variant="outlined"
-          fullWidth
-          onChange={handleUsernameChange}
-          value={username}
-        />
+        <TextField size="small" label="Username" fullWidth onChange={handleUsernameChange} value={username} />
       </Stack>
       <Button variant="contained" size="small" sx={{ mt: 1 }} onClick={handleCreateRoom}>
         Create

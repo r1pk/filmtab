@@ -26,8 +26,8 @@ const JoinRoom = ({ sx, onJoinRoom }) => {
       <Typography variant="h6">Join room</Typography>
       <Divider sx={{ m: 1 }} />
       <Stack direction="row" spacing={2}>
-        <TextField size="small" label="Room Id" variant="outlined" onChange={handleRoomIdChange} value={roomId} />
-        <TextField size="small" label="Username" variant="outlined" onChange={handleUsernameChange} value={username} />
+        <TextField size="small" label="Room Id" onChange={handleRoomIdChange} value={roomId} />
+        <TextField size="small" label="Username" onChange={handleUsernameChange} value={username} />
       </Stack>
       <Button variant="contained" size="small" sx={{ mt: 1 }} onClick={handleJoinRoom}>
         Join
