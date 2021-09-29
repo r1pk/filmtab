@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -16,7 +17,7 @@ const Header = ({ brandName }) => {
   return (
     <AppBar position="static">
       <Toolbar variant="dense">
-        <Brand variant="h6" underline="none" color="inherit" href="/">
+        <Brand variant="h6" underline="none" color="inherit" component={RouterLink} to="/">
           <ConnectedTv />
           {brandName}
         </Brand>
