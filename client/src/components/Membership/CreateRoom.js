@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Typography, Divider, TextField, FormControlLabel, Checkbox, Button, Stack } from '@mui/material';
+import { TextField, FormControlLabel, Checkbox, Stack } from '@mui/material';
 
-const CreateRoom = ({ sx, onCreateRoom }) => {
+import Container from './Container';
+import Button from '../Shared/Button';
+
+const CreateRoom = ({ onCreateRoom }) => {
   const [username, setUsername] = useState('');
   const [roomVisibility, setRoomVisibility] = useState(false);
 
@@ -22,25 +25,20 @@ const CreateRoom = ({ sx, onCreateRoom }) => {
   };
 
   return (
-    <Box sx={sx}>
-      <Typography variant="h6">Create room</Typography>
-      <Divider sx={{ m: 1 }} />
-      <Stack direction="row" spacing={2}>
+    <Container header="Create room">
+      <Stack direction="row" spacing={2} sx={{ my: 1 }}>
         <FormControlLabel
-          control={<Checkbox checked={roomVisibility} onChange={handleVisibilityChange} sx={{ padding: '5px 9px' }} />}
+          control={<Checkbox checked={roomVisibility} onChange={handleVisibilityChange} sx={{ py: 1 }} />}
           label="Private"
         />
         <TextField size="small" label="Username" fullWidth onChange={handleUsernameChange} value={username} />
       </Stack>
-      <Button variant="contained" size="small" sx={{ mt: 1 }} onClick={handleCreateRoom}>
-        Create
-      </Button>
-    </Box>
+      <Button onClick={handleCreateRoom}>Create</Button>
+    </Container>
   );
 };
 
 CreateRoom.propTypes = {
-  sx: PropTypes.object,
   onCreateRoom: PropTypes.func.isRequired,
 };
 

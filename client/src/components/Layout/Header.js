@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 
 import styled from 'styled-components';
-
 import { AppBar, Toolbar, Link } from '@mui/material';
 import { ConnectedTv } from '@mui/icons-material';
 
