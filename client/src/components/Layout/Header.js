@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { AppBar, Toolbar, Link } from '@mui/material';
 import { ConnectedTv } from '@mui/icons-material';
 
-const Brand = styled(Link)`
+const StyledLink = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,10 +16,10 @@ const Header = ({ brandName }) => {
   return (
     <AppBar position="static">
       <Toolbar variant="dense">
-        <Brand variant="h6" underline="none" color="inherit" component={RouterLink} to="/">
+        <StyledLink variant="h6" underline="none" color="inherit" component={RouterLink} to="/">
           <ConnectedTv />
           {brandName}
-        </Brand>
+        </StyledLink>
       </Toolbar>
     </AppBar>
   );
