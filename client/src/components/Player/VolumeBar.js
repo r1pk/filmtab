@@ -5,8 +5,7 @@ import { Stack, Slider, IconButton } from '@mui/material';
 import { VolumeUp, VolumeOff } from '@mui/icons-material';
 
 const VolumeSlider = styled(Slider)`
-  width: 0px;
-  overflow: hidden;
+  width: 80px;
   transition: all ease-in-out 0.2s;
 `;
 
@@ -14,11 +13,6 @@ const Container = styled(Stack)`
   flex-direction: row;
   align-items: center;
   margin: 0 !important;
-
-  &:hover ${VolumeSlider}, &:active ${VolumeSlider} {
-    width: 80px;
-    overflow: visible;
-  }
 `;
 
 const VolumeBar = ({ volume, onVolumeChange, ...rest }) => {
@@ -28,9 +22,13 @@ const VolumeBar = ({ volume, onVolumeChange, ...rest }) => {
     }
   };
 
+  const handleButtonClick = () => {
+    handleVolumeChange(null, volume === 0 ? 30 : 0);
+  };
+
   return (
     <Container {...rest}>
-      <IconButton>{volume === 0 ? <VolumeOff /> : <VolumeUp />}</IconButton>
+      <IconButton onClick={handleButtonClick}>{volume === 0 ? <VolumeOff /> : <VolumeUp />}</IconButton>
       <VolumeSlider size="small" aria-label="Sound volume" value={volume} max={100} onChange={handleVolumeChange} />
     </Container>
   );
