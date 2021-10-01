@@ -18,7 +18,7 @@ const Container = styled(Stack)`
 const VolumeBar = ({ volume, onVolumeChange, ...rest }) => {
   const handleVolumeChange = (e, nextValue) => {
     if (onVolumeChange) {
-      onVolumeChange(nextValue);
+      onVolumeChange(nextValue / 100);
     }
   };
 
