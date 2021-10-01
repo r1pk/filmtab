@@ -8,7 +8,7 @@ import Button from '../Shared/Button';
 
 const CreateRoom = ({ onCreateRoom }) => {
   const [username, setUsername] = useState('');
-  const [roomVisibility, setRoomVisibility] = useState(false);
+  const [isRoomPrivate, setRoomVisibility] = useState(false);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -20,7 +20,7 @@ const CreateRoom = ({ onCreateRoom }) => {
 
   const handleCreateRoom = () => {
     if (onCreateRoom) {
-      onCreateRoom(roomVisibility, username);
+      onCreateRoom(isRoomPrivate, username);
     }
   };
 
@@ -28,7 +28,7 @@ const CreateRoom = ({ onCreateRoom }) => {
     <Container header="Create room">
       <Stack direction="row" spacing={2} sx={{ my: 1 }}>
         <FormControlLabel
-          control={<Checkbox checked={roomVisibility} onChange={handleVisibilityChange} sx={{ py: 1 }} />}
+          control={<Checkbox checked={isRoomPrivate} onChange={handleVisibilityChange} sx={{ py: 1 }} />}
           label="Private"
         />
         <TextField size="small" label="Username" fullWidth onChange={handleUsernameChange} value={username} />
