@@ -23,7 +23,7 @@ ToggleFullscreen.propTypes = {
 };
 
 ToggleFullscreen.defaultProps = {
-  isPlaying: false,
+  isFullscreen: false,
 };
 
 export default ToggleFullscreen;
