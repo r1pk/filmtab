@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 
-import CreateRoom from '../components/Membership/CreateRoom';
-import JoinRoom from '../components/Membership/JoinRoom';
+import CreateRoom from '../components/Forms/CreateRoom';
+import JoinRoom from '../components/Forms/JoinRoom';
 
 const Home = () => {
   return (

@@ -1,9 +1,9 @@
 import { createStore, combineReducers } from 'redux';
 
-import { membershipReducer } from './reducers/membership';
+import { roomReducer } from './reducers/room';
 
 const rootReducer = combineReducers({
-  membership: membershipReducer,
+  room: roomReducer,
 });
 
 export const store = createStore(rootReducer);

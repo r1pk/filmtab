@@ -1,4 +1,4 @@
-import { UPDATE_ROOM_STATE } from '../actions/membership';
+import { UPDATE_ROOM_STATE } from '../actions/room';
 
 const initialReducerState = {
   users: [],
@@ -10,7 +10,7 @@ const initialReducerState = {
   },
 };
 
-export const membershipReducer = (state = initialReducerState, action) => {
+export const roomReducer = (state = initialReducerState, action) => {
   switch (action.type) {
     case UPDATE_ROOM_STATE: {
       const { users, video } = action.payload.state;
