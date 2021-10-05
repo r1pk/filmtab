@@ -1,5 +1,5 @@
 import * as room from '../../actions/room';
-import * as lobby from '../../actions/lobby';
+import * as server from '../../actions/server';
 
 import FilmTabColyseus from './FilmTabColyseus';
 
@@ -13,11 +13,11 @@ export const colyseusMiddleware = (store) => {
   return (next) => async (action) => {
     try {
       switch (action.type) {
-        case lobby.JOIN_ROOM: {
+        case server.JOIN_ROOM: {
           await colyseus.joinRoom(action.payload.roomId, action.payload.username, onStateUpdateHandler);
           return next(action);
         }
-        case lobby.CREATE_ROOM: {
+        case server.CREATE_ROOM: {
           await colyseus.createRoom(action.payload.isRoomPrivate, action.payload.username, onStateUpdateHandler);
           return next(action);
         }

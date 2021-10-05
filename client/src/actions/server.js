@@ -1,5 +1,5 @@
-export const JOIN_ROOM = 'lobby/join_room';
-export const CREATE_ROOM = 'lobby/create_room';
+export const JOIN_ROOM = 'server/join_room';
+export const CREATE_ROOM = 'server/create_room';
 
 export const joinRoom = (roomId, username) => ({
   type: JOIN_ROOM,
