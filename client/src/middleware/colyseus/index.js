@@ -10,16 +10,27 @@ export const colyseusMiddleware = (store) => {
     store.dispatch(room.updateRoomState(state));
   };
 
+  const enhanceActionPayload = (action) => {
+    return {
+      ...action,
+      payload: {
+        ...action.payload,
+        roomId: colyseus.roomId,
+        sessionId: colyseus.sessionId,
+      },
+    };
+  };
+
   return (next) => async (action) => {
     try {
       switch (action.type) {
         case server.JOIN_ROOM: {
           await colyseus.joinRoom(action.payload.roomId, action.payload.username, onStateUpdateHandler);
-          return next(action);
+          return next(enhanceActionPayload(action));
         }
         case server.CREATE_ROOM: {
           await colyseus.createRoom(action.payload.isRoomPrivate, action.payload.username, onStateUpdateHandler);
-          return next(action);
+          return next(enhanceActionPayload(action));
         }
 
         case room.SET_VIDEO: {

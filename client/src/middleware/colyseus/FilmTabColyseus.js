@@ -5,6 +5,21 @@ class FilmTabColyseus {
     this.colyseus = new Colyseus.Client(endpoint);
     this.room = null;
   }
+
+  get sessionId() {
+    if (this.room) {
+      return this.room.sessionId;
+    }
+    return null;
+  }
+
+  get roomId() {
+    if (this.room) {
+      return this.room.id;
+    }
+    return null;
+  }
+
   registerRoomListener(callback) {
     if (this.room !== null) {
       this.room.onStateChange.once(callback);
