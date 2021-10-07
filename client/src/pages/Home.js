@@ -5,11 +5,11 @@ import JoinRoomContainer from '../containers/JoinRoom';
 
 const Home = () => {
   return (
-    <Grid container justifyContent="center">
-      <Grid item xs={11} sm={6} md={5} lg={4} xl={3}>
+    <Grid container justifyContent="center" direction="row">
+      <Grid item>
         <JoinRoomContainer />
       </Grid>
-      <Grid item xs={11} sm={6} md={5} lg={4} xl={3}>
+      <Grid item>
         <CreateRoomContainer />
       </Grid>
     </Grid>

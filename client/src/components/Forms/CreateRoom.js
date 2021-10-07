@@ -25,15 +25,15 @@ const CreateRoom = ({ onCreateRoom }) => {
   };
 
   return (
-    <Container header="Create room">
-      <Stack direction="row" spacing={2} sx={{ my: 1 }}>
-        <FormControlLabel
-          control={<Checkbox checked={isRoomPrivate} onChange={handleVisibilityChange} sx={{ py: 1 }} />}
-          label="Private"
-        />
+    <Container header="Create Room">
+      <Stack spacing={2} sx={{ my: 1 }}>
         <TextField size="small" label="Username" fullWidth onChange={handleUsernameChange} value={username} />
+        <FormControlLabel
+          control={<Checkbox checked={isRoomPrivate} onChange={handleVisibilityChange} />}
+          label="Private room"
+        />
+        <Button onClick={handleCreateRoom}>Create</Button>
       </Stack>
-      <Button onClick={handleCreateRoom}>Create</Button>
     </Container>
   );
 };

@@ -25,12 +25,12 @@ const JoinRoom = ({ onJoinRoom }) => {
   };
 
   return (
-    <Container header="Join room">
-      <Stack direction="row" spacing={2} sx={{ my: 1 }}>
+    <Container header="Join Room">
+      <Stack spacing={2} sx={{ my: 1 }}>
         <TextField size="small" label="Room Id" onChange={handleRoomIdChange} value={roomId} />
         <TextField size="small" label="Username" onChange={handleUsernameChange} value={username} />
+        <Button onClick={handleJoinRoom}>Join</Button>
       </Stack>
-      <Button onClick={handleJoinRoom}>Join</Button>
     </Container>
   );
 };

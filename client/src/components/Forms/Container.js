@@ -1,14 +1,25 @@
 import PropTypes from 'prop-types';
 
+import styled from 'styled-components';
 import { Box, Typography, Divider } from '@mui/material';
+
+const StyledContainer = styled(Box)`
+  min-width: 300px;
+  min-height: 252px;
+  margin: 8px;
+  padding: 24px;
+  border: 1px solid #282828;
+`;
 
 const Container = ({ header, children }) => {
   return (
-    <Box sx={{ m: 1, p: 2, border: '1px solid #282828' }}>
-      <Typography variant="h6">{header}</Typography>
+    <StyledContainer>
+      <Typography variant="h6" align="center">
+        {header}
+      </Typography>
       <Divider sx={{ my: 1 }} />
       {children}
-    </Box>
+    </StyledContainer>
   );
 };
 
