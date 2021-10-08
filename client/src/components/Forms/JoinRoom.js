@@ -6,8 +6,8 @@ import { TextField, Stack } from '@mui/material';
 import Container from './Container';
 import Button from '../Shared/Button';
 
-const JoinRoom = ({ onJoinRoom }) => {
-  const [roomId, setRoomId] = useState('');
+const JoinRoom = ({ onJoinRoom, defaultRoomId }) => {
+  const [roomId, setRoomId] = useState(defaultRoomId);
   const [username, setUsername] = useState('');
 
   const handleRoomIdChange = (e) => {
@@ -36,7 +36,12 @@ const JoinRoom = ({ onJoinRoom }) => {
 };
 
 JoinRoom.propTypes = {
+  defaultRoomId: PropTypes.string,
   onJoinRoom: PropTypes.func.isRequired,
+};
+
+JoinRoom.defaultProps = {
+  defaultRoomId: '',
 };
 
 export default JoinRoom;
