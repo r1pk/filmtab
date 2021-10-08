@@ -5,7 +5,7 @@ import { playVideo, pauseVideo, seekVideo } from '../actions/room';
 
 import Player from '../components/Player';
 
-const PlayerContainer = () => {
+const PlayerContainer = (props) => {
   const [isPlayerReady, setPlayerStatus] = useState(false);
 
   const videoUrl = useSelector((state) => state.room.video.url);
@@ -46,6 +46,7 @@ const PlayerContainer = () => {
       onReady={handlePlayerReady}
       onTogglePlay={handlePlayState}
       onVideoSeek={handleVideoSeek}
+      {...props}
     />
   );
 };
