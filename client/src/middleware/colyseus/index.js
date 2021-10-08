@@ -21,39 +21,42 @@ export const colyseusMiddleware = (store) => {
     };
   };
 
+  const runMiddlewareHandler = async (handlers, action) => {
+    const handler = handlers[action.type];
+    if (handler) {
+      return (await handler(action)) || action;
+    }
+    return action;
+  };
+
+  const middlewareHandlers = {
+    [server.JOIN_ROOM]: async (action) => {
+      await colyseus.joinRoom(action.payload.roomId, action.payload.username, onStateUpdateHandler);
+      return enhanceActionPayload(action);
+    },
+    [server.CREATE_ROOM]: async (action) => {
+      await colyseus.createRoom(action.payload.isRoomPrivate, action.payload.username, onStateUpdateHandler);
+      return enhanceActionPayload(action);
+    },
+
+    [room.SET_VIDEO]: async (action) => {
+      await colyseus.setVideo(action.payload.url);
+    },
+    [room.PLAY_VIDEO]: async (action) => {
+      await colyseus.playVideo(action.payload.playedSeconds);
+    },
+    [room.PAUSE_VIDEO]: async (action) => {
+      await colyseus.pauseVideo(action.payload.playedSeconds);
+    },
+    [room.SEEK_VIDEO]: async (action) => {
+      await colyseus.seekVideo(action.payload.playedSeconds);
+    },
+  };
+
   return (next) => async (action) => {
     try {
-      switch (action.type) {
-        case server.JOIN_ROOM: {
-          await colyseus.joinRoom(action.payload.roomId, action.payload.username, onStateUpdateHandler);
-          return next(enhanceActionPayload(action));
-        }
-        case server.CREATE_ROOM: {
-          await colyseus.createRoom(action.payload.isRoomPrivate, action.payload.username, onStateUpdateHandler);
-          return next(enhanceActionPayload(action));
-        }
-
-        case room.SET_VIDEO: {
-          await colyseus.setVideo(action.payload.url);
-          return next(action);
-        }
-        case room.PLAY_VIDEO: {
-          await colyseus.playVideo(action.payload.playedSeconds);
-          return next(action);
-        }
-        case room.PAUSE_VIDEO: {
-          await colyseus.pauseVideo(action.payload.playedSeconds);
-          return next(action);
-        }
-        case room.SEEK_VIDEO: {
-          await colyseus.seekVideo(action.payload.playedSeconds);
-          return next(action);
-        }
-
-        default: {
-          return next(action);
-        }
-      }
+      const resultAction = await runMiddlewareHandler(middlewareHandlers, action);
+      return next(resultAction);
     } catch (err) {
       console.error('Caught an exception!', err);
     }
