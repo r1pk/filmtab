@@ -20,7 +20,8 @@ const ControlsContainer = styled(Box)`
 
 const Container = styled(Box)`
   position: relative;
-  width: 100%;
+  padding-top: 56.25%;
+  background: #232323;
   overflow: hidden;
 
   :hover > ${ControlsContainer}, :active > ${ControlsContainer} {
@@ -29,11 +30,19 @@ const Container = styled(Box)`
 `;
 
 const StyledPlayer = styled(ReactPlayer)`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
 
   & > div {
     position: absolute;
+  }
+
+  & video,
+  & iframe {
+    display: block;
   }
 `;
 
@@ -59,7 +68,15 @@ const Player = forwardRef((props, ref) => {
 
   return (
     <Container ref={containerRef}>
-      <StyledPlayer {...rest} ref={ref} volume={volume} onDuration={handleDuration} onProgress={handleProgress} />
+      <StyledPlayer
+        ref={ref}
+        volume={volume}
+        onDuration={handleDuration}
+        onProgress={handleProgress}
+        width="100%"
+        height="100%"
+        {...rest}
+      />
       <ControlsContainer>
         <Controls
           isPlaying={props.playing}
