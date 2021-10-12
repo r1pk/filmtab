@@ -14,29 +14,10 @@ export class VideoRoom extends Room {
     this.setState(new VideoRoomState());
     this.setPrivate(options.private);
 
-    this.onMessage('video::set', (client, message) => {
-      this.dispatcher.dispatch(new Commands.SetVideoUrlCommand(), {
-        url: message.url,
-      });
-    });
-
-    this.onMessage('video::play', (client, message) => {
-      this.dispatcher.dispatch(new Commands.PlayVideoCommand(), {
-        playedSeconds: message.playedSeconds,
-      });
-    });
-
-    this.onMessage('video::pause', (client, message) => {
-      this.dispatcher.dispatch(new Commands.PauseVideoCommand(), {
-        playedSeconds: message.playedSeconds,
-      });
-    });
-
-    this.onMessage('video::seek', (client, message) => {
-      this.dispatcher.dispatch(new Commands.SeekVideoCommand(), {
-        playedSeconds: message.playedSeconds,
-      });
-    });
+    this.onMessage('video::set', this.onSetVideo.bind(this));
+    this.onMessage('video::play', this.onPlayVideo.bind(this));
+    this.onMessage('video::pause', this.onPauseVideo.bind(this));
+    this.onMessage('video::seek', this.onSeekVideo.bind(this));
   }
 
   onJoin(client, options) {
@@ -49,6 +30,30 @@ export class VideoRoom extends Room {
   onLeave(client) {
     this.dispatcher.dispatch(new Commands.OnLeaveCommand(), {
       sessionId: client.sessionId,
+    });
+  }
+
+  onSetVideo(client, message) {
+    this.dispatcher.dispatch(new Commands.SetVideoUrlCommand(), {
+      url: message.url,
+    });
+  }
+
+  onPlayVideo(client, message) {
+    this.dispatcher.dispatch(new Commands.PlayVideoCommand(), {
+      playedSeconds: message.playedSeconds,
+    });
+  }
+
+  onPauseVideo(client, message) {
+    this.dispatcher.dispatch(new Commands.PauseVideoCommand(), {
+      playedSeconds: message.playedSeconds,
+    });
+  }
+
+  onSeekVideo(client, message) {
+    this.dispatcher.dispatch(new Commands.SeekVideoCommand(), {
+      playedSeconds: message.playedSeconds,
     });
   }
 
