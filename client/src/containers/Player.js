@@ -19,6 +19,7 @@ const PlayerContainer = (props) => {
     if (isPlayerReady && playerRef.current) {
       playerRef.current.seekTo(playedSeconds);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playedSeconds]);
 
   const handlePlayerReady = () => {
