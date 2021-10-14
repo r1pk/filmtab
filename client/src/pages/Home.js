@@ -9,7 +9,7 @@ const Home = () => {
   const location = useLocation();
 
   return (
-    <Grid container justifyContent="center" direction="row">
+    <Grid container justifyContent="center" direction="row" columnSpacing={1} mt={1}>
       <Grid item>
         <JoinRoomContainer defaultRoomId={location.state?.params.roomId} />
       </Grid>

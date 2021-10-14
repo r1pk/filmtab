@@ -6,7 +6,6 @@ import { Box, Typography, Divider } from '@mui/material';
 const StyledContainer = styled(Box)`
   min-width: 300px;
   min-height: 252px;
-  margin: 8px;
   padding: 24px;
   border: 1px solid #282828;
 `;
