@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { HashRouter, Switch } from 'react-router-dom';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
@@ -17,7 +17,7 @@ const FilmTab = () => {
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
-      <BrowserRouter>
+      <HashRouter basename={process.env.PUBLIC_URL}>
         <Layout>
           <Switch>
             <ProtectedRoute exact path="/" routeEnabled={!isRoomMember} fallbackPath={`/rooms/${activeRoomId}`}>
@@ -28,7 +28,7 @@ const FilmTab = () => {
             </ProtectedRoute>
           </Switch>
         </Layout>
-      </BrowserRouter>
+      </HashRouter>
     </ThemeProvider>
   );
 };
