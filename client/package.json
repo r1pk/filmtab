@@ -39,16 +39,13 @@
       "plugin:react/jsx-runtime"
     ],
     "rules": {
+      "linebreak-style": 0,
       "indent": [
         "error",
         2,
         {
           "SwitchCase": 1
         }
-      ],
-      "linebreak-style": [
-        "error",
-        "windows"
       ],
       "quotes": [
         "error",
