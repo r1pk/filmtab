@@ -4,6 +4,7 @@ export const PAUSE_VIDEO = 'room/pause_video';
 export const SEEK_VIDEO = 'room/seek_video';
 export const SEND_USER_STATUS = 'room/send_user_status';
 export const UPDATE_ROOM_STATE = 'room/update_room_state';
+export const UPDATE_PLAYED_SECONDS = 'room/update_played_seconds';
 
 export const setVideo = (url) => ({
   type: SET_VIDEO,
@@ -44,5 +45,12 @@ export const updateRoomState = (state) => ({
   type: UPDATE_ROOM_STATE,
   payload: {
     state,
+  },
+});
+
+export const updatePlayedSeconds = (playedSeconds) => ({
+  type: UPDATE_PLAYED_SECONDS,
+  payload: {
+    playedSeconds,
   },
 });

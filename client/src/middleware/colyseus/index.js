@@ -10,6 +10,10 @@ export const colyseusMiddleware = (store) => {
     store.dispatch(room.updateRoomState(state));
   };
 
+  const playedSecondsChangeHandler = (payload) => {
+    store.dispatch(room.updatePlayedSeconds(payload.playedSeconds));
+  };
+
   const enhanceActionPayload = (action) => {
     return {
       ...action,
@@ -33,6 +37,7 @@ export const colyseusMiddleware = (store) => {
     [server.JOIN_ROOM]: async (action) => {
       await colyseus.joinRoom(action.payload.roomId, action.payload.username);
       colyseus.addStateChangeListener(stateChangeHandler);
+      colyseus.addPlayedSecondsChangeListener(playedSecondsChangeHandler);
 
       return enhanceActionPayload(action);
     },

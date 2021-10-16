@@ -25,6 +25,10 @@ class FilmTabColyseus {
     this.room.onStateChange(callback);
   }
 
+  addPlayedSecondsChangeListener(callback) {
+    this.room.onMessage('video::playedSeconds', callback);
+  }
+
   async joinRoom(roomId, username) {
     this.room = await this.colyseus.joinById(roomId, { username });
   }

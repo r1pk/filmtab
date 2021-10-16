@@ -1,4 +1,4 @@
-import { UPDATE_ROOM_STATE } from '../actions/room';
+import { UPDATE_ROOM_STATE, UPDATE_PLAYED_SECONDS } from '../actions/room';
 
 const initialReducerState = {
   users: [],
@@ -21,6 +21,15 @@ export const roomReducer = (state = initialReducerState, action) => {
           isReady: user.isReady,
         })),
         video: JSON.parse(JSON.stringify(video)),
+      };
+    }
+    case UPDATE_PLAYED_SECONDS: {
+      return {
+        ...state,
+        video: {
+          ...state.video,
+          playedSeconds: action.payload.playedSeconds,
+        },
       };
     }
     default: {
