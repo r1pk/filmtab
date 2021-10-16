@@ -6,7 +6,7 @@ import FilmTabColyseus from './FilmTabColyseus';
 export const colyseusMiddleware = (store) => {
   const colyseus = new FilmTabColyseus(process.env.REACT_APP_COLYSEUS_ENDPOINT);
 
-  const onStateUpdateHandler = (state) => {
+  const stateChangeHandler = (state) => {
     store.dispatch(room.updateRoomState(state));
   };
 
@@ -31,14 +31,21 @@ export const colyseusMiddleware = (store) => {
 
   const middlewareHandlers = {
     [server.JOIN_ROOM]: async (action) => {
-      await colyseus.joinRoom(action.payload.roomId, action.payload.username, onStateUpdateHandler);
+      await colyseus.joinRoom(action.payload.roomId, action.payload.username);
+      colyseus.addStateChangeListener(stateChangeHandler);
+
       return enhanceActionPayload(action);
     },
     [server.CREATE_ROOM]: async (action) => {
-      await colyseus.createRoom(action.payload.isRoomPrivate, action.payload.username, onStateUpdateHandler);
+      await colyseus.createRoom(action.payload.isRoomPrivate, action.payload.username);
+      colyseus.addStateChangeListener(stateChangeHandler);
+
       return enhanceActionPayload(action);
     },
 
+    [room.SEND_USER_STATUS]: async (action) => {
+      await colyseus.sendUserStatus(action.payload.status);
+    },
     [room.SET_VIDEO]: async (action) => {
       await colyseus.setVideo(action.payload.url);
     },

@@ -20,23 +20,19 @@ class FilmTabColyseus {
     return null;
   }
 
-  registerRoomListener(callback) {
-    if (this.room !== null) {
-      this.room.onStateChange.once(callback);
-      this.room.onStateChange(callback);
-    }
+  addStateChangeListener(callback) {
+    this.room.onStateChange.once(callback);
+    this.room.onStateChange(callback);
   }
 
-  async joinRoom(roomId, username, onStateUpdate) {
+  async joinRoom(roomId, username) {
     this.room = await this.colyseus.joinById(roomId, { username });
-    this.registerRoomListener(onStateUpdate);
   }
-  async createRoom(isRoomPrivate, username, onStateUpdate) {
+  async createRoom(isRoomPrivate, username) {
     this.room = await this.colyseus.create('video-room', {
       private: isRoomPrivate,
       username,
     });
-    this.registerRoomListener(onStateUpdate);
   }
 
   async setVideo(url) {
@@ -50,6 +46,9 @@ class FilmTabColyseus {
   }
   async seekVideo(playedSeconds) {
     await this.room.send('video::seek', { playedSeconds });
+  }
+  async sendUserStatus(status = true) {
+    await this.room.send('user::status', { status });
   }
 }
 

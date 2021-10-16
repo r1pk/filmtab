@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { playVideo, pauseVideo, seekVideo } from '../actions/room';
+import { playVideo, pauseVideo, seekVideo, sendUserStatus } from '../actions/room';
 
 import Player from '../components/Player';
 
@@ -19,11 +19,11 @@ const PlayerContainer = (props) => {
     if (isPlayerReady && playerRef.current) {
       playerRef.current.seekTo(playedSeconds);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playedSeconds]);
+  }, [isPlayerReady, playedSeconds]);
 
   const handlePlayerReady = () => {
     setPlayerStatus(true);
+    dispatch(sendUserStatus(true));
   };
 
   const handlePlayState = () => {
