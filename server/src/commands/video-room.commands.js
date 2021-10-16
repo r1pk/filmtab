@@ -47,12 +47,28 @@ export class OnLeaveCommand extends Command {
   }
 }
 
+export class OnUserStatusChange extends Command {
+  validate({ sessionId }) {
+    return this.state.users.has(sessionId);
+  }
+
+  execute({ sessionId, status }) {
+    logger.debug(`User status change! - SID: ${sessionId} Status: ${status}`);
+
+    this.state.users.get(sessionId).isReady = status;
+  }
+}
+
 export class SetVideoUrlCommand extends Command {
   execute({ url }) {
     logger.debug(`Video url set! - RID: ${this.room.roomId} URL: ${url}`);
 
     this.state.video.url = url;
     this.state.video.playing = false;
+
+    this.state.users.forEach((user) => {
+      user.isReady = false;
+    });
   }
 }
 
