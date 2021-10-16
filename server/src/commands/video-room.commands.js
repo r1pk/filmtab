@@ -56,6 +56,8 @@ export class OnUserStatusChange extends Command {
     logger.debug(`User status change! - SID: ${sessionId} Status: ${status}`);
 
     this.state.users.get(sessionId).isReady = status;
+
+    return [new SendCurrentPlayedSeconds().setPayload({ sessionId })];
   }
 }
 
@@ -98,5 +100,21 @@ export class SeekVideoCommand extends Command {
 
     this.state.video.playedSeconds = playedSeconds;
     this.state.video.updateTimestamp = new Date().getTime();
+  }
+}
+
+export class SendCurrentPlayedSeconds extends Command {
+  validate({ sessionId }) {
+    return this.state.users.get(sessionId).isReady;
+  }
+
+  execute({ sessionId }) {
+    const { playing, playedSeconds, updateTimestamp } = this.state.video;
+    const client = this.room.clients.find((client) => client.sessionId === sessionId);
+    const timeOffset = (new Date().getTime() - updateTimestamp) / 1000;
+
+    client.send('video::playedSeconds', {
+      playedSeconds: playedSeconds + (playing ? timeOffset : 0),
+    });
   }
 }
