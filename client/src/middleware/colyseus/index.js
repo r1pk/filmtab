@@ -1,5 +1,6 @@
 import * as room from '../../actions/room';
 import * as server from '../../actions/server';
+import { addNotification } from '../../actions/notifications';
 
 import FilmTabColyseus from './FilmTabColyseus';
 
@@ -70,7 +71,7 @@ export const colyseusMiddleware = (store) => {
       const resultAction = await runMiddlewareHandler(middlewareHandlers, action);
       return next(resultAction);
     } catch (err) {
-      console.error('Caught an exception!', err);
+      store.dispatch(addNotification('error', err.message));
     }
   };
 };

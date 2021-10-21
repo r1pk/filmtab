@@ -4,6 +4,8 @@ import { HashRouter, Switch } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 
+import Notification from './containers/Notification';
+
 import Layout, { appTheme } from './components/Layout';
 import ProtectedRoute from './components/Shared/ProtectedRoute ';
 
@@ -27,6 +29,7 @@ const FilmTab = () => {
               <Room />
             </ProtectedRoute>
           </Switch>
+          <Notification />
         </Layout>
       </HashRouter>
     </ThemeProvider>
