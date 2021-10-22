@@ -46,13 +46,11 @@ const StyledPlayer = styled(ReactPlayer)`
   }
 `;
 
-const Player = forwardRef((props, ref) => {
+const Player = forwardRef(({ onTogglePlay, onVideoSeek, ...rest }, ref) => {
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(0.1);
   const [isFullscreenActive, toggleFullscreen, containerRef] = useFullscreen();
-
-  const { onTogglePlay, onVideoSeek, ...rest } = props;
 
   const handleDuration = (seconds) => {
     setDuration(seconds);
@@ -79,7 +77,7 @@ const Player = forwardRef((props, ref) => {
       />
       <ControlsContainer>
         <Controls
-          isPlaying={props.playing}
+          isPlaying={rest.playing}
           isFullscreen={isFullscreenActive}
           playedSeconds={progress}
           videoDuration={duration}

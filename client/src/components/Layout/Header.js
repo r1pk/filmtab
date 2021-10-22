@@ -12,9 +12,9 @@ const StyledLink = styled(Link)`
   gap: 5px;
 `;
 
-const Header = ({ brandName }) => {
+const Header = ({ brandName, ...rest }) => {
   return (
-    <AppBar position="static">
+    <AppBar position="static" {...rest}>
       <Toolbar variant="dense">
         <StyledLink variant="h6" underline="none" color="inherit" component={RouterLink} to="/">
           <ConnectedTv />

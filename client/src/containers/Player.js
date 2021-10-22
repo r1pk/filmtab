@@ -28,15 +28,13 @@ const PlayerContainer = (props) => {
 
   const handlePlayState = () => {
     const currentVideoProgress = playerRef.current.getCurrentTime();
+    const action = videoPlaying ? pauseVideo : playVideo;
 
-    if (videoPlaying) {
-      return dispatch(pauseVideo(currentVideoProgress));
-    }
-    return dispatch(playVideo(currentVideoProgress));
+    dispatch(action(currentVideoProgress));
   };
 
   const handleVideoSeek = (playedSeconds) => {
-    return dispatch(seekVideo(playedSeconds));
+    dispatch(seekVideo(playedSeconds));
   };
 
   return (

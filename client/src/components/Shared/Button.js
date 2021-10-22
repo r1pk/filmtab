@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 
 import { Button as MuiButton } from '@mui/material';
 
-const Button = ({ children, ...props }) => {
+const Button = ({ children, ...rest }) => {
   return (
-    <MuiButton variant="contained" size="small" {...props}>
+    <MuiButton variant="contained" size="small" {...rest}>
       {children}
     </MuiButton>
   );

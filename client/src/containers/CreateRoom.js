@@ -8,7 +8,7 @@ const CreateRoomContainer = (props) => {
   const dispatch = useDispatch();
 
   const handleCreateRoom = (isRoomPrivate, username) => {
-    return dispatch(createRoom(isRoomPrivate, username));
+    dispatch(createRoom(isRoomPrivate, username));
   };
 
   return <CreateRoom onCreateRoom={handleCreateRoom} {...props} />;

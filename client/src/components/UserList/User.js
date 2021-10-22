@@ -26,9 +26,9 @@ const StyledUserStatus = styled('div')`
   transition: background-color 0.1s ease;
 `;
 
-const User = ({ name, isReady }) => {
+const User = ({ name, isReady, ...rest }) => {
   return (
-    <Tooltip title={name}>
+    <Tooltip title={name} {...rest}>
       <Badge
         overlap="circular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}

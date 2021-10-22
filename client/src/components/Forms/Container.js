@@ -5,14 +5,14 @@ import { Box, Typography, Divider } from '@mui/material';
 
 const StyledContainer = styled(Box)`
   min-width: 300px;
-  min-height: 252px;
+  min-height: 260px;
   padding: 24px;
   border: 1px solid #282828;
 `;
 
-const Container = ({ header, children }) => {
+const Container = ({ header, children, ...rest }) => {
   return (
-    <StyledContainer>
+    <StyledContainer {...rest}>
       <Typography variant="h6" align="center">
         {header}
       </Typography>

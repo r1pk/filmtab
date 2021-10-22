@@ -8,7 +8,7 @@ const JoinRoomContainer = (props) => {
   const dispatch = useDispatch();
 
   const handleJoinRoom = (isRoomPrivate, username) => {
-    return dispatch(joinRoom(isRoomPrivate, username));
+    dispatch(joinRoom(isRoomPrivate, username));
   };
 
   return <JoinRoom onJoinRoom={handleJoinRoom} {...props} />;

@@ -7,7 +7,7 @@ import Container from './Container';
 import TextField from '../Shared/TextField';
 import Button from '../Shared/Button';
 
-const JoinRoom = ({ onJoinRoom, defaultRoomId }) => {
+const JoinRoom = ({ onJoinRoom, defaultRoomId, ...rest }) => {
   const [roomId, setRoomId] = useState(defaultRoomId);
   const [username, setUsername] = useState('');
 
@@ -26,7 +26,7 @@ const JoinRoom = ({ onJoinRoom, defaultRoomId }) => {
   };
 
   return (
-    <Container header="Join Room">
+    <Container header="Join Room" {...rest}>
       <Stack spacing={2} sx={{ my: 1 }}>
         <TextField label="Room Id" onChange={handleRoomIdChange} value={roomId} />
         <TextField label="Username" onChange={handleUsernameChange} value={username} />

@@ -10,7 +10,7 @@ const VideoAddressBarContainer = (props) => {
   const dispatch = useDispatch();
 
   const handleSetVideo = (videoUrl) => {
-    return dispatch(setVideo(videoUrl));
+    dispatch(setVideo(videoUrl));
   };
 
   return <VideoAddressBar roomVideoAddress={videoAddress} onSetVideo={handleSetVideo} {...props} />;

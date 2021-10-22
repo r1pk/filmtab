@@ -4,9 +4,9 @@ import { Stack } from '@mui/material';
 
 import User from './User';
 
-const UserList = ({ users }) => {
+const UserList = ({ users, ...rest }) => {
   return (
-    <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent="center">
+    <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent="center" {...rest}>
       {users.map((user) => (
         <User name={user.name} isReady={user.isReady} key={user.name} />
       ))}
