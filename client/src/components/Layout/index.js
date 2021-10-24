@@ -1,17 +1,8 @@
 import PropTypes from 'prop-types';
 
-import { createTheme } from '@mui/material/styles';
+import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
 
 import Header from './Header';
-
-const Layout = ({ children }) => {
-  return (
-    <>
-      <Header brandName="FilmTab" />
-      {children}
-    </>
-  );
-};
 
 const appTheme = createTheme({
   palette: {
@@ -19,9 +10,18 @@ const appTheme = createTheme({
   },
 });
 
+const Layout = ({ children }) => {
+  return (
+    <ThemeProvider theme={appTheme}>
+      <CssBaseline />
+      <Header brandName="FilmTab" />
+      {children}
+    </ThemeProvider>
+  );
+};
+
 Layout.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 export default Layout;
-export { appTheme };
