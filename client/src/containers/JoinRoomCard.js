@@ -2,16 +2,16 @@ import { useDispatch } from 'react-redux';
 
 import { joinRoom } from '../actions/server';
 
-import JoinRoom from '../components/Forms/JoinRoom';
+import JoinRoomCard from '../components/JoinRoomCard';
 
-const JoinRoomContainer = (props) => {
+const JoinRoomCardContainer = (props) => {
   const dispatch = useDispatch();
 
   const handleJoinRoom = (isRoomPrivate, username) => {
     dispatch(joinRoom(isRoomPrivate, username));
   };
 
-  return <JoinRoom onJoinRoom={handleJoinRoom} {...props} />;
+  return <JoinRoomCard onJoinRoom={handleJoinRoom} {...props} />;
 };
 
-export default JoinRoomContainer;
+export default JoinRoomCardContainer;

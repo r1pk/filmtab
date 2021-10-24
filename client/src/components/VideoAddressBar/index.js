@@ -4,36 +4,35 @@ import PropTypes from 'prop-types';
 import { Stack } from '@mui/material';
 import { Send } from '@mui/icons-material';
 
-import TextField from '../Shared/TextField';
+import VideoAddressField from '../Shared/VideoAddressField';
 import Button from '../Shared/Button';
 
 const VideoAddressBar = ({ roomVideoAddress, onSetVideo, ...rest }) => {
-  const [localVideoAddress, setLocalVideoAddress] = useState(roomVideoAddress);
+  const [localVideoAddress, setLocalVideoAddress] = useState({ value: roomVideoAddress, valid: true });
+  const isValidForm = localVideoAddress.valid;
 
-  const handleVideoAddressChange = (e) => {
-    setLocalVideoAddress(e.target.value);
+  const handleVideoAddressChange = (e, isValidVideoAddress) => {
+    setLocalVideoAddress({ value: e.target.value, valid: isValidVideoAddress });
   };
 
   const handleSetVideo = () => {
     if (onSetVideo) {
-      onSetVideo(localVideoAddress);
+      onSetVideo(localVideoAddress.value);
     }
   };
 
   useEffect(() => {
-    setLocalVideoAddress(roomVideoAddress);
+    setLocalVideoAddress({ value: roomVideoAddress, valid: true });
   }, [roomVideoAddress]);
 
   return (
     <Stack direction="row" spacing={1} {...rest}>
-      <TextField
-        fullWidth
-        variant="outlined"
-        label="Video Address"
-        value={localVideoAddress}
+      <VideoAddressField
+        value={localVideoAddress.value}
+        error={!localVideoAddress.valid}
         onChange={handleVideoAddressChange}
       />
-      <Button endIcon={<Send />} onClick={handleSetVideo}>
+      <Button endIcon={<Send />} disabled={!isValidForm} onClick={handleSetVideo}>
         Set
       </Button>
     </Stack>
@@ -46,7 +45,7 @@ VideoAddressBar.propTypes = {
 };
 
 VideoAddressBar.defaultProps = {
-  roomVideoAddress: 'https://www.youtube.com/watch?v=LXb3EKWsInQ',
+  roomVideoAddress: '',
 };
 
 export default VideoAddressBar;

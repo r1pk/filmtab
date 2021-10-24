@@ -2,19 +2,19 @@ import { useLocation } from 'react-router-dom';
 
 import { Grid } from '@mui/material';
 
-import CreateRoomContainer from '../containers/CreateRoom';
-import JoinRoomContainer from '../containers/JoinRoom';
+import CreateRoomCardContainer from '../containers/CreateRoomCard';
+import JoinRoomCardContainer from '../containers/JoinRoomCard';
 
 const Home = () => {
   const location = useLocation();
 
   return (
-    <Grid container justifyContent="center" direction="row" columnSpacing={1} mt={1}>
+    <Grid container justifyContent="center" direction="row" spacing={1} mt={0}>
       <Grid item>
-        <JoinRoomContainer defaultRoomId={location.state?.params.roomId} />
+        <JoinRoomCardContainer defaultRoomId={location.state?.params.roomId} />
       </Grid>
       <Grid item>
-        <CreateRoomContainer />
+        <CreateRoomCardContainer />
       </Grid>
     </Grid>
   );
