@@ -1,13 +1,18 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import screenfull from 'screenfull';
 
-const useFullscreen = () => {
-  const [isFullscreenActive, setFullscreenStatus] = useState(false);
-  const containerRef = useRef(null);
+const useFullscreen = (ref) => {
+  const [isFullscreenActive, setIsFullscreenActive] = useState(false);
 
   const handleScreenfullChange = () => {
-    setFullscreenStatus(screenfull.isFullscreen);
+    setIsFullscreenActive(screenfull.isFullscreen);
+  };
+
+  const toggleFullscreen = () => {
+    if (screenfull.isEnabled && ref.current) {
+      screenfull.toggle(ref.current);
+    }
   };
 
   useEffect(() => {
@@ -17,13 +22,7 @@ const useFullscreen = () => {
     };
   }, []);
 
-  const toggleFullscreen = () => {
-    if (screenfull.isEnabled && containerRef.current) {
-      screenfull.toggle(containerRef.current);
-    }
-  };
-
-  return [isFullscreenActive, toggleFullscreen, containerRef];
+  return [isFullscreenActive, toggleFullscreen];
 };
 
 export default useFullscreen;

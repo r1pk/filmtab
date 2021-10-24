@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
@@ -50,7 +50,9 @@ const Player = forwardRef(({ onTogglePlay, onVideoSeek, ...rest }, ref) => {
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(0.1);
-  const [isFullscreenActive, toggleFullscreen, containerRef] = useFullscreen();
+
+  const containerRef = useRef(null);
+  const [isFullscreenActive, toggleFullscreen] = useFullscreen(containerRef);
 
   const handleDuration = (seconds) => {
     setDuration(seconds);
