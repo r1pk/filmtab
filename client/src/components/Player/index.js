@@ -1,111 +1,121 @@
-import { useState, useRef } from 'react';
-import { forwardRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import ReactPlayer from 'react-player';
-import styled from 'styled-components';
 import { Box } from '@mui/material';
 
-import Controls from './Controls';
+import VideoPlayer from './VideoPlayer';
+import ControlBar from './ControlBar';
 
 import useFullscreen from '../../hooks/useFullscreen';
 
-const ControlsContainer = styled(Box)`
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  transition: all ease-in-out 0.2s;
-`;
+const Player = ({ url, playing, playedSeconds, onPlayerReady, onTogglePlay, onVideoSeek }) => {
+  const [isPlayerReady, setIsPlayerReady] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(playing);
 
-const Container = styled(Box)`
-  position: relative;
-  padding-top: 56.25%;
-  background: #232323;
-  overflow: hidden;
-
-  :hover > ${ControlsContainer}, :active > ${ControlsContainer} {
-    transform: translateY(-100%);
-  }
-`;
-
-const StyledPlayer = styled(ReactPlayer)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  & > div {
-    position: absolute;
-  }
-
-  & video,
-  & iframe {
-    display: block;
-  }
-`;
-
-const Player = forwardRef(({ onTogglePlay, onVideoSeek, ...rest }, ref) => {
+  const [address, setAddress] = useState(url);
   const [duration, setDuration] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(0.1);
+  const [progress, setProgress] = useState(playedSeconds);
+  const [volume, setVolume] = useState(0.2);
 
-  const containerRef = useRef(null);
-  const [isFullscreenActive, toggleFullscreen] = useFullscreen(containerRef);
+  const container = useRef(null);
+  const player = useRef(null);
 
-  const handleDuration = (seconds) => {
+  const [isFullscreenEnabled, toggleFullscreen] = useFullscreen(container);
+
+  const handlePlayerReady = () => {
+    if (!isPlayerReady) {
+      setIsPlayerReady(true);
+      onPlayerReady(true);
+    }
+  };
+
+  const handleTogglePlay = (state) => {
+    setIsPlaying(state);
+    onTogglePlay(state, progress);
+  };
+
+  const handleAddressChange = (newAddress) => {
+    setIsPlayerReady(false);
+    setAddress(newAddress);
+  };
+
+  const handleVideoDuration = (seconds) => {
     setDuration(seconds);
   };
 
-  const handleProgress = (progress) => {
+  const handleVideoProgress = (progress) => {
     setProgress(progress.playedSeconds);
   };
 
-  const handleVolume = (volume) => {
-    setVolume(volume);
+  const handleVolumeChange = (value) => {
+    setVolume(value);
   };
 
-  return (
-    <Container ref={containerRef}>
-      <StyledPlayer
-        ref={ref}
-        volume={volume}
-        onDuration={handleDuration}
-        onProgress={handleProgress}
-        width="100%"
-        height="100%"
-        {...rest}
-      />
-      <ControlsContainer>
-        <Controls
-          isPlaying={rest.playing}
-          isFullscreen={isFullscreenActive}
-          playedSeconds={progress}
-          videoDuration={duration}
-          volume={volume * 100}
-          onTogglePlay={onTogglePlay}
-          onToggleFullscreen={toggleFullscreen}
-          onVideoSeek={onVideoSeek}
-          onVolumeChange={handleVolume}
-        />
-      </ControlsContainer>
-    </Container>
-  );
-});
+  const handleVideoSeek = (seconds) => {
+    if (isPlayerReady) {
+      player.current.seekTo(seconds);
+      onVideoSeek(seconds);
+    }
+  };
 
-Player.displayName = 'Player';
+  const handleToggleFullscreen = () => {
+    toggleFullscreen();
+  };
+
+  useEffect(() => {
+    handleAddressChange(url);
+  }, [url]);
+
+  useEffect(() => {
+    setIsPlaying(playing);
+  }, [playing]);
+
+  useEffect(() => {
+    if (isPlayerReady && playedSeconds !== progress) {
+      player.current.seekTo(playedSeconds);
+    }
+    // eslint-disable-next-line
+  }, [isPlayerReady, playedSeconds]);
+
+  return (
+    <Box position="relative" paddingTop="56.25%" overflow="hidden" ref={container} {...null}>
+      <VideoPlayer
+        url={address}
+        playing={isPlaying}
+        volume={volume}
+        onDuration={handleVideoDuration}
+        onProgress={handleVideoProgress}
+        onReady={handlePlayerReady}
+        ref={player}
+      />
+      <ControlBar
+        isPlaying={isPlaying}
+        isFullscreenEnabled={isFullscreenEnabled}
+        progress={progress}
+        duration={duration}
+        volume={volume}
+        onTogglePlay={handleTogglePlay}
+        onToggleFullscreen={handleToggleFullscreen}
+        onVideoSeek={handleVideoSeek}
+        onVolumeChange={handleVolumeChange}
+      />
+    </Box>
+  );
+};
 
 Player.propTypes = {
   url: PropTypes.string,
   playing: PropTypes.bool,
+  playedSeconds: PropTypes.number,
+  onPlayerReady: PropTypes.func.isRequired,
   onTogglePlay: PropTypes.func.isRequired,
   onVideoSeek: PropTypes.func.isRequired,
 };
 
 Player.defaultProps = {
-  url: 'https://www.youtube.com/watch?v=LXb3EKWsInQ',
+  url: '',
   playing: false,
+  playedSeconds: 0,
 };
 
 export default Player;

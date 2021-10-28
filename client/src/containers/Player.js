@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { playVideo, pauseVideo, seekVideo, sendUserStatus } from '../actions/room';
@@ -6,31 +5,19 @@ import { playVideo, pauseVideo, seekVideo, sendUserStatus } from '../actions/roo
 import Player from '../components/Player';
 
 const PlayerContainer = (props) => {
-  const [isPlayerReady, setPlayerStatus] = useState(false);
-
-  const videoUrl = useSelector((state) => state.room.video.url);
-  const videoPlaying = useSelector((state) => state.room.video.playing);
+  const url = useSelector((state) => state.room.video.url);
+  const playing = useSelector((state) => state.room.video.playing);
   const playedSeconds = useSelector((state) => state.room.video.playedSeconds);
 
-  const playerRef = useRef(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (isPlayerReady && playerRef.current) {
-      playerRef.current.seekTo(playedSeconds);
-    }
-  }, [isPlayerReady, playedSeconds]);
-
-  const handlePlayerReady = () => {
-    setPlayerStatus(true);
-    dispatch(sendUserStatus(true));
+  const handlePlayerReady = (status) => {
+    dispatch(sendUserStatus(status));
   };
 
-  const handlePlayState = () => {
-    const currentVideoProgress = playerRef.current.getCurrentTime();
-    const action = videoPlaying ? pauseVideo : playVideo;
-
-    dispatch(action(currentVideoProgress));
+  const handleTogglePlay = (isPlaying, playedSeconds) => {
+    const action = isPlaying ? playVideo : pauseVideo;
+    dispatch(action(playedSeconds));
   };
 
   const handleVideoSeek = (playedSeconds) => {
@@ -39,11 +26,11 @@ const PlayerContainer = (props) => {
 
   return (
     <Player
-      ref={playerRef}
-      url={videoUrl}
-      playing={videoPlaying}
-      onReady={handlePlayerReady}
-      onTogglePlay={handlePlayState}
+      url={url}
+      playing={playing}
+      playedSeconds={playedSeconds}
+      onPlayerReady={handlePlayerReady}
+      onTogglePlay={handleTogglePlay}
       onVideoSeek={handleVideoSeek}
       {...props}
     />

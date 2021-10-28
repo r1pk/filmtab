@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { IconButton } from '@mui/material';
 import { PlayArrow, Pause } from '@mui/icons-material';
 
-const TogglePlay = ({ isPlaying, onTogglePlay, ...rest }) => {
+const TogglePlayButton = ({ isPlaying, onTogglePlay, ...rest }) => {
   const handleTogglePlay = () => {
     if (onTogglePlay) {
       onTogglePlay(!isPlaying);
@@ -17,13 +17,13 @@ const TogglePlay = ({ isPlaying, onTogglePlay, ...rest }) => {
   );
 };
 
-TogglePlay.propTypes = {
+TogglePlayButton.propTypes = {
   isPlaying: PropTypes.bool,
   onTogglePlay: PropTypes.func.isRequired,
 };
 
-TogglePlay.defaultProps = {
+TogglePlayButton.defaultProps = {
   isPlaying: false,
 };
 
-export default TogglePlay;
+export default TogglePlayButton;
