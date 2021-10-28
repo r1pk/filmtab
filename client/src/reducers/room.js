@@ -3,7 +3,7 @@ import { UPDATE_ROOM_STATE, UPDATE_PLAYED_SECONDS } from '../actions/room';
 const initialReducerState = {
   users: [],
   video: {
-    url: 'https://www.youtube.com/watch?v=LXb3EKWsInQ',
+    url: '',
     playing: false,
     playedSeconds: 0,
     timestamp: new Date().getTime(),
