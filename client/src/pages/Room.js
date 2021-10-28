@@ -6,7 +6,7 @@ import UserList from '../containers/UserList';
 
 const Room = () => {
   return (
-    <Grid container justifyContent="center" mt={1}>
+    <Grid container justifyContent="center" mt={2}>
       <Grid item xs={11} md={10} lg={8} xl={6}>
         <Stack spacing={1}>
           <VideoAddressBar />
