@@ -67,6 +67,7 @@ export class SetVideoUrlCommand extends Command {
 
     this.state.video.url = url;
     this.state.video.playing = false;
+    this.state.video.playedSeconds = 0;
 
     this.state.users.forEach((user) => {
       user.isReady = false;
