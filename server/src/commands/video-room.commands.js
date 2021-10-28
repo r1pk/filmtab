@@ -56,6 +56,7 @@ export class OnUserStatusChange extends Command {
     logger.debug(`User status change! - SID: ${sessionId} Status: ${status}`);
 
     this.state.users.get(sessionId).isReady = status;
+    this.room.broadcastPatch();
 
     return [new SendCurrentPlayedSeconds().setPayload({ sessionId })];
   }
