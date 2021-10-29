@@ -16,9 +16,7 @@ const VideoAddressBar = ({ roomVideoAddress, onSetVideo, ...rest }) => {
   };
 
   const handleSetVideo = () => {
-    if (onSetVideo) {
-      onSetVideo(localVideoAddress.value);
-    }
+    onSetVideo(localVideoAddress.value);
   };
 
   useEffect(() => {

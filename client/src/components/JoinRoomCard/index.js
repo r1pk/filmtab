@@ -21,9 +21,7 @@ const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
   };
 
   const handleJoinRoom = () => {
-    if (onJoinRoom) {
-      onJoinRoom(roomId.value, username.value);
-    }
+    onJoinRoom(roomId.value, username.value);
   };
 
   return (

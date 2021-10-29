@@ -5,9 +5,7 @@ import { Fullscreen, FullscreenExit } from '@mui/icons-material';
 
 const ToggleFullscreenButton = ({ isFullscreenEnabled, onToggleFullscreen, ...rest }) => {
   const handleToggleFullscreen = () => {
-    if (onToggleFullscreen) {
-      onToggleFullscreen(!isFullscreenEnabled);
-    }
+    onToggleFullscreen(!isFullscreenEnabled);
   };
 
   return (

@@ -20,10 +20,8 @@ const SeekBar = ({ progress, duration, onVideoSeek, ...rest }) => {
   };
 
   const handleSliderChangeCommitted = (e, value) => {
-    if (onVideoSeek) {
-      setIsChanging(false);
-      onVideoSeek(value);
-    }
+    setIsChanging(false);
+    onVideoSeek(value);
   };
 
   const handleLabelValue = (value) => {

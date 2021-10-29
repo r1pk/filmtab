@@ -10,15 +10,11 @@ const ValidationTextField = ({ error, onFocus, onChange, validator, ...rest }) =
 
   const handleTextFieldFocus = (e) => {
     setWasFocused(true);
-    if (onFocus) {
-      onFocus(e);
-    }
+    onFocus(e);
   };
 
   const handleTextFieldChange = (e) => {
-    if (onChange) {
-      onChange(e, validator(e.target.value));
-    }
+    onChange(e, validator(e.target.value));
   };
 
   return <TextField error={showError} onFocus={handleTextFieldFocus} onChange={handleTextFieldChange} {...rest} />;
@@ -29,6 +25,12 @@ ValidationTextField.propTypes = {
   onFocus: PropTypes.func,
   onChange: PropTypes.func,
   validator: PropTypes.func.isRequired,
+};
+
+ValidationTextField.defaultProps = {
+  error: false,
+  onFocus: () => false,
+  onChange: () => false,
 };
 
 export default ValidationTextField;

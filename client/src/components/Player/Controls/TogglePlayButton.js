@@ -5,9 +5,7 @@ import { PlayArrow, Pause } from '@mui/icons-material';
 
 const TogglePlayButton = ({ isPlaying, onTogglePlay, ...rest }) => {
   const handleTogglePlay = () => {
-    if (onTogglePlay) {
-      onTogglePlay(!isPlaying);
-    }
+    onTogglePlay(!isPlaying);
   };
 
   return (

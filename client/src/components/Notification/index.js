@@ -8,9 +8,7 @@ const capitalizeFirstLetter = (string = '') => {
 
 const Notification = ({ type, message, onClose, ...rest }) => {
   const handleCloseNotification = (e, reason = 'button') => {
-    if (onClose) {
-      onClose(e, reason);
-    }
+    onClose(e, reason);
   };
 
   return (

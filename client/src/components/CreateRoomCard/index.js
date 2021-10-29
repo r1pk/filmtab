@@ -21,9 +21,7 @@ const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
   };
 
   const handleCreateRoom = () => {
-    if (onCreateRoom) {
-      onCreateRoom(isRoomPrivate, username.value);
-    }
+    onCreateRoom(isRoomPrivate, username.value);
   };
 
   return (

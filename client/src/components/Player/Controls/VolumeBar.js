@@ -6,9 +6,7 @@ import { VolumeUp, VolumeOff } from '@mui/icons-material';
 const VolumeBar = ({ volume, onVolumeChange, ...rest }) => {
   const handleVolumeChange = (e, value) => {
     const nextVolume = value / 100;
-    if (onVolumeChange) {
-      onVolumeChange(nextVolume);
-    }
+    onVolumeChange(nextVolume);
   };
 
   const handleButtonClick = () => {
