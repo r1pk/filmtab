@@ -21,11 +21,27 @@ export const colyseusMiddleware = (store) => {
     };
   };
 
-  const stateChangeHandler = (state) => {
+  const onStateChange = (state) => {
     store.dispatch(room.updateRoomState(state));
   };
-  const playedSecondsChangeHandler = ({ playedSeconds }) => {
+  const onPlayedSecondsMessage = ({ playedSeconds }) => {
     store.dispatch(room.updatePlayedSeconds(playedSeconds));
+  };
+  const onErrorHandler = (code, message) => {
+    store.dispatch(notifications.addNotification('error', message));
+  };
+  const onLeaveHandler = () => {
+    colyseus.room.removeAllListeners();
+  };
+
+  const setupListeners = () => {
+    colyseus.room.onStateChange.once(onStateChange);
+    colyseus.room.onStateChange(onStateChange);
+
+    colyseus.room.onError(onErrorHandler);
+    colyseus.room.onLeave(onLeaveHandler);
+
+    colyseus.room.onMessage('video::playedSeconds', onPlayedSecondsMessage);
   };
 
   return (next) => async (action) => {
@@ -34,20 +50,14 @@ export const colyseusMiddleware = (store) => {
         case server.JOIN_ROOM: {
           const { roomId, username } = action.payload;
           colyseus.room = await colyseus.client.joinById(roomId, { username });
-
-          colyseus.room.onStateChange.once(stateChangeHandler);
-          colyseus.room.onStateChange(stateChangeHandler);
-          colyseus.room.onMessage('video::playedSeconds', playedSecondsChangeHandler);
+          setupListeners();
 
           return next(enhanceActionPayload(action));
         }
         case server.CREATE_ROOM: {
           const { isRoomPrivate, username } = action.payload;
           colyseus.room = await colyseus.client.create('video-room', { private: isRoomPrivate, username });
-
-          colyseus.room.onStateChange.once(stateChangeHandler);
-          colyseus.room.onStateChange(stateChangeHandler);
-          colyseus.room.onMessage('video::playedSeconds', playedSecondsChangeHandler);
+          setupListeners();
 
           return next(enhanceActionPayload(action));
         }
