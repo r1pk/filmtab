@@ -10,8 +10,8 @@ import Home from './pages/Home';
 import Room from './pages/Room';
 
 const FilmTab = () => {
-  const isRoomMember = useSelector((state) => state.server.isRoomMember);
-  const activeRoomId = useSelector((state) => state.server.activeRoomId);
+  const isRoomMember = useSelector((state) => state.room.isRoomMember);
+  const activeRoomId = useSelector((state) => state.room.activeRoomId);
 
   return (
     <HashRouter basename={process.env.PUBLIC_URL}>

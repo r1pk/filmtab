@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { joinRoom } from '../actions/server';
+import { joinRoom } from '../actions/room';
 
 import JoinRoomCard from '../components/JoinRoomCard';
 

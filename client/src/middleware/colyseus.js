@@ -1,7 +1,6 @@
 import * as Colyseus from 'colyseus.js';
 
 import * as room from '../actions/room';
-import * as server from '../actions/server';
 import * as notifications from '../actions/notifications';
 
 export const colyseusMiddleware = (store) => {
@@ -47,14 +46,14 @@ export const colyseusMiddleware = (store) => {
   return (next) => async (action) => {
     try {
       switch (action.type) {
-        case server.JOIN_ROOM: {
+        case room.JOIN_ROOM: {
           const { roomId, username } = action.payload;
           colyseus.room = await colyseus.client.joinById(roomId, { username });
           setupListeners();
 
           return next(enhanceActionPayload(action));
         }
-        case server.CREATE_ROOM: {
+        case room.CREATE_ROOM: {
           const { isRoomPrivate, username } = action.payload;
           colyseus.room = await colyseus.client.create('video-room', { private: isRoomPrivate, username });
           setupListeners();

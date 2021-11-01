@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { createRoom } from '../actions/server';
+import { createRoom } from '../actions/room';
 
 import CreateRoomCard from '../components/CreateRoomCard';
 

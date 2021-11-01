@@ -1,6 +1,9 @@
-import { UPDATE_ROOM_STATE, UPDATE_PLAYED_SECONDS } from '../actions/room';
+import { UPDATE_ROOM_STATE, UPDATE_PLAYED_SECONDS, CREATE_ROOM, JOIN_ROOM } from '../actions/room';
 
 const initialReducerState = {
+  isRoomMember: false,
+  activeRoomId: null,
+  sessionId: null,
   users: [],
   video: {
     url: '',
@@ -12,6 +15,17 @@ const initialReducerState = {
 
 export const roomReducer = (state = initialReducerState, action) => {
   switch (action.type) {
+    case CREATE_ROOM:
+    case JOIN_ROOM: {
+      const { roomId, sessionId } = action.payload;
+      return {
+        ...state,
+        isRoomMember: true,
+        activeRoomId: roomId,
+        sessionId: sessionId,
+      };
+    }
+
     case UPDATE_ROOM_STATE: {
       const { users, video } = action.payload.state;
       return {
@@ -32,8 +46,7 @@ export const roomReducer = (state = initialReducerState, action) => {
         },
       };
     }
-    default: {
+    default:
       return state;
-    }
   }
 };
