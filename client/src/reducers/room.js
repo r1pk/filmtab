@@ -1,4 +1,4 @@
-import { UPDATE_ROOM_STATE, UPDATE_PLAYED_SECONDS, CREATE_ROOM, JOIN_ROOM } from '../actions/room';
+import { UPDATE_ROOM_STATE, UPDATE_PLAYED_SECONDS, CREATE_ROOM, JOIN_ROOM, LEAVE_ROOM } from '../actions/room';
 
 const initialReducerState = {
   isRoomMember: false,
@@ -23,6 +23,11 @@ export const roomReducer = (state = initialReducerState, action) => {
         isRoomMember: true,
         activeRoomId: roomId,
         sessionId: sessionId,
+      };
+    }
+    case LEAVE_ROOM: {
+      return {
+        ...initialReducerState,
       };
     }
 

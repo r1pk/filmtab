@@ -3,6 +3,7 @@ import { Grid, Stack } from '@mui/material';
 import Player from '../containers/Player';
 import VideoAddressBar from '../containers/VideoAddressBar';
 import UserList from '../containers/UserList';
+import LeaveRoomButton from '../containers/LeaveRoomButton';
 
 const Room = () => {
   return (
@@ -12,6 +13,9 @@ const Room = () => {
           <VideoAddressBar />
           <Player />
           <UserList />
+          <Stack direction="row" spacing={1} justifyContent="flex-end">
+            <LeaveRoomButton />
+          </Stack>
         </Stack>
       </Grid>
     </Grid>

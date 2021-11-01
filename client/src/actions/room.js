@@ -1,5 +1,6 @@
 export const CREATE_ROOM = 'room/create';
 export const JOIN_ROOM = 'room/join';
+export const LEAVE_ROOM = 'room/leave';
 
 export const SET_VIDEO = 'room/set_video';
 export const PLAY_VIDEO = 'room/play_video';
@@ -28,6 +29,10 @@ export const createRoom = (isRoomPrivate, username) => ({
     sessionId: null,
     private: isRoomPrivate,
   },
+});
+
+export const leaveRoom = () => ({
+  type: LEAVE_ROOM,
 });
 
 export const setVideo = (url) => ({

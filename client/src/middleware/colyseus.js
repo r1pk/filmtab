@@ -60,6 +60,11 @@ export const colyseusMiddleware = (store) => {
 
           return next(enhanceActionPayload(action));
         }
+        case room.LEAVE_ROOM: {
+          await colyseus.room.leave(true);
+
+          return next(action);
+        }
 
         case room.SEND_USER_STATUS: {
           const { status = true } = action.payload;
