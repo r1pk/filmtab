@@ -8,6 +8,7 @@ const PlayerContainer = styled(Box)`
   padding-top: 56.25%;
   overflow: hidden;
   background: #191919;
+  cursor: ${(p) => (p.isUserIdle ? 'none' : 'default')};
 
   & > :last-child {
     transform: ${(p) => (p.isUserIdle ? 'translateY(100%)' : 'none')};
