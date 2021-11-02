@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
@@ -10,8 +9,6 @@ import SeekBar from './Controls/SeekBar';
 import TimeProgressText from './Controls/TimeProgressText';
 import ToggleFullscreenButton from './Controls/ToggleFullscreenButton';
 
-import { useIdleTimer } from 'react-idle-timer';
-
 const StyledBox = styled(Box)`
   position: absolute;
   bottom: 0;
@@ -19,7 +16,6 @@ const StyledBox = styled(Box)`
   width: 100%;
   background: rgba(0, 0, 0, 0.7);
   transition: transform 0.3s ease-out;
-  transform: ${(p) => (p.isIdle ? 'translateY(100%)' : 'none')};
 `;
 
 const StyledSeekBar = styled(SeekBar)`
@@ -28,28 +24,11 @@ const StyledSeekBar = styled(SeekBar)`
 `;
 
 const ControlBar = (props) => {
-  const [isIdle, setIsIdle] = useState(false);
-
-  const handleIdle = () => {
-    setIsIdle(true);
-  };
-
-  const handleActive = () => {
-    setIsIdle(false);
-  };
-
-  useIdleTimer({
-    timeout: 5000,
-    events: ['mousemove', 'touchstart', 'touchmove'],
-    onIdle: handleIdle,
-    onActive: handleActive,
-  });
-
   const { isPlaying, isFullscreenEnabled, progress, duration, volume, ...handlers } = props;
   const { onTogglePlay, onToggleFullscreen, onVideoSeek, onVolumeChange, ...rest } = handlers;
 
   return (
-    <StyledBox isIdle={isIdle} {...rest}>
+    <StyledBox {...rest}>
       <StyledSeekBar progress={progress} duration={duration} onVideoSeek={onVideoSeek} />
       <Stack direction="row">
         <Stack direction="row" alignItems="center" spacing={1}>

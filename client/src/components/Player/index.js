@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { Box } from '@mui/material';
-
+import PlayerContainer from './PlayerContainer';
 import VideoPlayer from './VideoPlayer';
 import ControlBar from './ControlBar';
 
 import useFullscreen from '../../hooks/useFullscreen';
+import useIdleDetection from '../../hooks/useIdleDetection';
 
-const Player = ({ url, playing, playedSeconds, onPlayerReady, onTogglePlay, onVideoSeek }) => {
+const Player = ({ url, playing, playedSeconds, onPlayerReady, onTogglePlay, onVideoSeek, ...rest }) => {
   const [isPlayerReady, setIsPlayerReady] = useState(true);
   const [isPlaying, setIsPlaying] = useState(playing);
 
@@ -21,6 +21,7 @@ const Player = ({ url, playing, playedSeconds, onPlayerReady, onTogglePlay, onVi
   const player = useRef(null);
 
   const [isFullscreenEnabled, toggleFullscreen] = useFullscreen(container);
+  const isUserIdle = useIdleDetection(5000);
 
   const handlePlayerReady = () => {
     if (!isPlayerReady) {
@@ -78,7 +79,7 @@ const Player = ({ url, playing, playedSeconds, onPlayerReady, onTogglePlay, onVi
   }, [isPlayerReady, playedSeconds]);
 
   return (
-    <Box position="relative" paddingTop="56.25%" overflow="hidden" ref={container} {...null}>
+    <PlayerContainer isUserIdle={isUserIdle} ref={container} {...rest}>
       <VideoPlayer
         url={address}
         playing={isPlaying}
@@ -99,7 +100,7 @@ const Player = ({ url, playing, playedSeconds, onPlayerReady, onTogglePlay, onVi
         onVideoSeek={handleVideoSeek}
         onVolumeChange={handleVolumeChange}
       />
-    </Box>
+    </PlayerContainer>
   );
 };
 
