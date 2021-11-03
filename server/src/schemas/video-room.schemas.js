@@ -5,13 +5,11 @@ export class User extends Schema {
     super();
 
     this.name = null;
-    this.isReady = false;
   }
 }
 
 defineTypes(User, {
   name: 'string',
-  isReady: 'boolean',
 });
 
 export class Video extends Schema {

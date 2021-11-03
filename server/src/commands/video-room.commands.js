@@ -32,6 +32,9 @@ export class OnJoinCommand extends Command {
     });
 
     this.state.users.set(sessionId, user);
+    this.room.broadcastPatch();
+
+    return [new SendCurrentPlayedSeconds().setPayload({ sessionId })];
   }
 }
 
@@ -47,21 +50,6 @@ export class OnLeaveCommand extends Command {
   }
 }
 
-export class OnUserStatusChange extends Command {
-  validate({ sessionId }) {
-    return this.state.users.has(sessionId);
-  }
-
-  execute({ sessionId, status }) {
-    logger.debug(`User status change! - SID: ${sessionId} Status: ${status}`);
-
-    this.state.users.get(sessionId).isReady = status;
-    this.room.broadcastPatch();
-
-    return [new SendCurrentPlayedSeconds().setPayload({ sessionId })];
-  }
-}
-
 export class SetVideoUrlCommand extends Command {
   execute({ url }) {
     logger.debug(`Video url set! - RID: ${this.room.roomId} URL: ${url}`);
@@ -69,10 +57,6 @@ export class SetVideoUrlCommand extends Command {
     this.state.video.url = url;
     this.state.video.playing = false;
     this.state.video.playedSeconds = 0;
-
-    this.state.users.forEach((user) => {
-      user.isReady = false;
-    });
   }
 }
 
@@ -106,17 +90,13 @@ export class SeekVideoCommand extends Command {
 }
 
 export class SendCurrentPlayedSeconds extends Command {
-  validate({ sessionId }) {
-    return this.state.users.get(sessionId).isReady;
-  }
-
   execute({ sessionId }) {
     const { playing, playedSeconds, updateTimestamp } = this.state.video;
     const client = this.room.clients.find((client) => client.sessionId === sessionId);
     const timeOffset = (new Date().getTime() - updateTimestamp) / 1000;
 
-    client.send('video::playedSeconds', {
-      playedSeconds: playedSeconds + (playing ? timeOffset : 0),
+    client.send('video::currentPlayedSeconds', {
+      currentPlayedSeconds: playedSeconds + (playing ? timeOffset : 0),
     });
   }
 }
