@@ -8,7 +8,7 @@ import ControlBar from './ControlBar';
 import useFullscreen from '../../hooks/useFullscreen';
 import useIdleDetection from '../../hooks/useIdleDetection';
 
-const Player = ({ url, playing, playedSeconds, onPlayerReady, onTogglePlay, onVideoSeek, ...rest }) => {
+const Player = ({ url, playing, playedSeconds, onTogglePlay, onVideoSeek, ...rest }) => {
   const [isPlayerReady, setIsPlayerReady] = useState(true);
   const [isPlaying, setIsPlaying] = useState(playing);
 
@@ -26,7 +26,6 @@ const Player = ({ url, playing, playedSeconds, onPlayerReady, onTogglePlay, onVi
   const handlePlayerReady = () => {
     if (!isPlayerReady) {
       setIsPlayerReady(true);
-      onPlayerReady(true);
     }
   };
 
@@ -108,7 +107,6 @@ Player.propTypes = {
   url: PropTypes.string,
   playing: PropTypes.bool,
   playedSeconds: PropTypes.number,
-  onPlayerReady: PropTypes.func.isRequired,
   onTogglePlay: PropTypes.func.isRequired,
   onVideoSeek: PropTypes.func.isRequired,
 };

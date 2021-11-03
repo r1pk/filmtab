@@ -37,7 +37,6 @@ export const roomReducer = (state = initialReducerState, action) => {
         ...state,
         users: [...users.values()].map((user) => ({
           name: user.name,
-          isReady: user.isReady,
         })),
         video: JSON.parse(JSON.stringify(video)),
       };

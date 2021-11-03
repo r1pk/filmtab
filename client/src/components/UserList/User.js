@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
-import { Tooltip, Badge, Avatar } from '@mui/material';
+import { Tooltip, Avatar } from '@mui/material';
 
 const createValue = (sum) => {
   const sin = Math.sin(sum).toString().substr(6);
@@ -18,37 +18,18 @@ const StyledAvatar = styled(Avatar)`
   color: #f1f2f3;
 `;
 
-const StyledUserStatus = styled('div')`
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: ${(props) => (props.isReady ? '#009432' : '#EA2027')};
-  transition: background-color 0.1s ease;
-`;
-
-const User = ({ name, isReady, ...rest }) => {
+const User = ({ name, ...rest }) => {
   return (
     <Tooltip title={name} {...rest}>
-      <Badge
-        overlap="circular"
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        badgeContent={<StyledUserStatus isReady={isReady} />}
-      >
-        <StyledAvatar alt={name} name={name}>
-          {name[0]}
-        </StyledAvatar>
-      </Badge>
+      <StyledAvatar alt={name} name={name}>
+        {name[0]}
+      </StyledAvatar>
     </Tooltip>
   );
 };
 
 User.propTypes = {
   name: PropTypes.string.isRequired,
-  isReady: PropTypes.bool,
-};
-
-User.defaultTypes = {
-  isReady: false,
 };
 
 export default User;

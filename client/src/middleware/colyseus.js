@@ -23,8 +23,8 @@ export const colyseusMiddleware = (store) => {
   const onStateChange = (state) => {
     store.dispatch(room.updateRoomState(state));
   };
-  const onPlayedSecondsMessage = ({ playedSeconds }) => {
-    store.dispatch(room.updatePlayedSeconds(playedSeconds));
+  const onCurrentPlayedSecondsMessage = ({ currentPlayedSeconds }) => {
+    store.dispatch(room.updatePlayedSeconds(currentPlayedSeconds));
   };
   const onErrorHandler = (code, message) => {
     store.dispatch(notifications.addNotification('error', message));
@@ -40,7 +40,7 @@ export const colyseusMiddleware = (store) => {
     colyseus.room.onError(onErrorHandler);
     colyseus.room.onLeave(onLeaveHandler);
 
-    colyseus.room.onMessage('video::playedSeconds', onPlayedSecondsMessage);
+    colyseus.room.onMessage('video::currentPlayedSeconds', onCurrentPlayedSecondsMessage);
   };
 
   return (next) => async (action) => {
@@ -66,12 +66,6 @@ export const colyseusMiddleware = (store) => {
           return next(action);
         }
 
-        case room.SEND_USER_STATUS: {
-          const { status = true } = action.payload;
-          await colyseus.room.send('user::status', { status });
-
-          return next(action);
-        }
         case room.SET_VIDEO: {
           const { url } = action.payload;
           await colyseus.room.send('video::set', { url });

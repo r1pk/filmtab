@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import { playVideo, pauseVideo, seekVideo, sendUserStatus } from '../actions/room';
+import { playVideo, pauseVideo, seekVideo } from '../actions/room';
 
 import Player from '../components/Player';
 
@@ -10,10 +10,6 @@ const PlayerContainer = (props) => {
   const playedSeconds = useSelector((state) => state.room.video.playedSeconds);
 
   const dispatch = useDispatch();
-
-  const handlePlayerReady = (status) => {
-    dispatch(sendUserStatus(status));
-  };
 
   const handleTogglePlay = (isPlaying, playedSeconds) => {
     const action = isPlaying ? playVideo : pauseVideo;
@@ -29,7 +25,6 @@ const PlayerContainer = (props) => {
       url={url}
       playing={playing}
       playedSeconds={playedSeconds}
-      onPlayerReady={handlePlayerReady}
       onTogglePlay={handleTogglePlay}
       onVideoSeek={handleVideoSeek}
       {...props}
