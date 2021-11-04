@@ -42,11 +42,13 @@ export const roomReducer = (state = initialReducerState, action) => {
       };
     }
     case UPDATE_PLAYED_SECONDS: {
+      const { currentPlayedSeconds, updateTimestamp } = action.payload;
       return {
         ...state,
         video: {
           ...state.video,
-          playedSeconds: action.payload.playedSeconds,
+          playedSeconds: currentPlayedSeconds,
+          updateTimestamp: updateTimestamp,
         },
       };
     }

@@ -68,9 +68,10 @@ export const updateRoomState = (state) => ({
   },
 });
 
-export const updatePlayedSeconds = (playedSeconds) => ({
+export const updatePlayedSeconds = (currentPlayedSeconds, updateTimestamp) => ({
   type: UPDATE_PLAYED_SECONDS,
   payload: {
-    playedSeconds,
+    currentPlayedSeconds,
+    updateTimestamp,
   },
 });

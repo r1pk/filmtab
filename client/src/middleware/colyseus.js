@@ -23,8 +23,8 @@ export const colyseusMiddleware = (store) => {
   const onStateChange = (state) => {
     store.dispatch(room.updateRoomState(state));
   };
-  const onCurrentPlayedSecondsMessage = ({ currentPlayedSeconds }) => {
-    store.dispatch(room.updatePlayedSeconds(currentPlayedSeconds));
+  const onCurrentPlayedSecondsMessage = ({ currentPlayedSeconds, updateTimestamp }) => {
+    store.dispatch(room.updatePlayedSeconds(currentPlayedSeconds, updateTimestamp));
   };
   const onErrorHandler = (code, message) => {
     store.dispatch(notifications.addNotification('error', message));
