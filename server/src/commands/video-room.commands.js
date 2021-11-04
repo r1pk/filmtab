@@ -4,6 +4,7 @@ import { User } from '../schemas/video-room.schemas.js';
 
 import { logger } from '../helpers/logger.js';
 import { normalize } from '../helpers/normalize.js';
+import { getTimestamp } from '../helpers/getTimestamp.js';
 
 export class OnJoinCommand extends Command {
   validate({ username }) {
@@ -57,6 +58,7 @@ export class SetVideoUrlCommand extends Command {
     this.state.video.url = url;
     this.state.video.playing = false;
     this.state.video.playedSeconds = 0;
+    this.state.video.updateTimestamp = getTimestamp();
   }
 }
 
@@ -66,7 +68,7 @@ export class PlayVideoCommand extends Command {
 
     this.state.video.playing = true;
     this.state.video.playedSeconds = playedSeconds;
-    this.state.video.updateTimestamp = new Date().getTime();
+    this.state.video.updateTimestamp = getTimestamp();
   }
 }
 
@@ -76,7 +78,7 @@ export class PauseVideoCommand extends Command {
 
     this.state.video.playing = false;
     this.state.video.playedSeconds = playedSeconds;
-    this.state.video.updateTimestamp = new Date().getTime();
+    this.state.video.updateTimestamp = getTimestamp();
   }
 }
 
@@ -85,18 +87,23 @@ export class SeekVideoCommand extends Command {
     logger.debug(`Video seeking! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
 
     this.state.video.playedSeconds = playedSeconds;
-    this.state.video.updateTimestamp = new Date().getTime();
+    this.state.video.updateTimestamp = getTimestamp();
   }
 }
 
 export class SendCurrentPlayedSeconds extends Command {
+  validate() {
+    return this.state.users.size > 1;
+  }
+
   execute({ sessionId }) {
     const { playing, playedSeconds, updateTimestamp } = this.state.video;
     const client = this.room.clients.find((client) => client.sessionId === sessionId);
-    const timeOffset = (new Date().getTime() - updateTimestamp) / 1000;
+    const timeOffset = (getTimestamp() - updateTimestamp) / 1000;
 
     client.send('video::currentPlayedSeconds', {
       currentPlayedSeconds: playedSeconds + (playing ? timeOffset : 0),
+      updateTimestamp: getTimestamp(),
     });
   }
 }

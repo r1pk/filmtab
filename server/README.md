@@ -57,7 +57,7 @@ room schema {
     url: string - address to the currently playing video
     playing: boolean - status of the currently set video
     playedSeconds: number - number of seconds that elapsed from the beginning of the video (until the last update)
-    updateTimestamp: number - time at which the last action took place, such as setting address, changing movie status
+    updateTimestamp: number - time at which a video object was changed by, for example, a play/pause action
   }
 }
 ```
@@ -114,6 +114,7 @@ Available message types
   ```
     message {
       currentPlayedSeconds: number - calculated number of played seconds based on timestamp and played seconds from last action
+      updateTimestamp: number - time at which the event was sent
     }
   ```
   The purpose of this method is to send the current played seconds to the user who joined while the video is playing.

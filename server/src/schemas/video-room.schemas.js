@@ -19,7 +19,7 @@ export class Video extends Schema {
     this.url = null;
     this.playing = false;
     this.playedSeconds = 0;
-    this.updateTimestamp = new Date().getTime();
+    this.updateTimestamp = null;
   }
 }
 
