@@ -9,10 +9,8 @@ import useFullscreen from '../../hooks/useFullscreen';
 import useIdleDetection from '../../hooks/useIdleDetection';
 
 const Player = ({ url, playing, playedSeconds, onTogglePlay, onVideoSeek, ...rest }) => {
-  const [isPlayerReady, setIsPlayerReady] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(playing);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
 
-  const [address, setAddress] = useState(url);
   const [duration, setDuration] = useState(0);
   const [progress, setProgress] = useState(playedSeconds);
   const [volume, setVolume] = useState(0.2);
@@ -20,30 +18,18 @@ const Player = ({ url, playing, playedSeconds, onTogglePlay, onVideoSeek, ...res
   const container = useRef(null);
   const player = useRef(null);
 
-  const [isFullscreenEnabled, toggleFullscreen] = useFullscreen(container);
-  const isUserIdle = useIdleDetection(5000);
+  const [isFullscreenEnabled, handleToggleFullscreen] = useFullscreen(container);
+  const isUserIdle = useIdleDetection(3500);
 
   const handlePlayerReady = () => {
-    if (!isPlayerReady) {
-      setIsPlayerReady(true);
-    }
+    setIsPlayerReady(true);
   };
 
-  const handleTogglePlay = (state) => {
-    setIsPlaying(state);
-    onTogglePlay(state, progress);
-  };
-
-  const handleAddressChange = (newAddress) => {
-    setIsPlayerReady(false);
-    setAddress(newAddress);
-  };
-
-  const handleVideoDuration = (seconds) => {
+  const handleDuration = (seconds) => {
     setDuration(seconds);
   };
 
-  const handleVideoProgress = (progress) => {
+  const handleProgress = (progress) => {
     setProgress(progress.playedSeconds);
   };
 
@@ -51,45 +37,37 @@ const Player = ({ url, playing, playedSeconds, onTogglePlay, onVideoSeek, ...res
     setVolume(value);
   };
 
-  const handleVideoSeek = (seconds) => {
-    if (isPlayerReady) {
-      player.current.seekTo(seconds);
-      onVideoSeek(seconds);
-    }
+  const handleTogglePlay = (videoState) => {
+    onTogglePlay(videoState, progress);
   };
 
-  const handleToggleFullscreen = () => {
-    toggleFullscreen();
+  const handleVideoSeek = (seconds) => {
+    onVideoSeek(seconds);
   };
 
   useEffect(() => {
-    handleAddressChange(url);
+    setIsPlayerReady(false);
   }, [url]);
 
   useEffect(() => {
-    setIsPlaying(playing);
-  }, [playing]);
-
-  useEffect(() => {
-    if (isPlayerReady && playedSeconds !== progress) {
+    if (isPlayerReady && player.current.getInternalPlayer()) {
       player.current.seekTo(playedSeconds);
     }
-    // eslint-disable-next-line
   }, [isPlayerReady, playedSeconds]);
 
   return (
     <PlayerContainer isUserIdle={isUserIdle} ref={container} {...rest}>
       <VideoPlayer
-        url={address}
-        playing={isPlaying}
+        url={url}
+        playing={playing}
         volume={volume}
-        onDuration={handleVideoDuration}
-        onProgress={handleVideoProgress}
+        onDuration={handleDuration}
+        onProgress={handleProgress}
         onReady={handlePlayerReady}
         ref={player}
       />
       <ControlBar
-        isPlaying={isPlaying}
+        isPlaying={playing}
         isFullscreenEnabled={isFullscreenEnabled}
         progress={progress}
         duration={duration}
