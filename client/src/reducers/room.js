@@ -9,7 +9,7 @@ const initialReducerState = {
     url: '',
     playing: false,
     playedSeconds: 0,
-    timestamp: new Date().getTime(),
+    updateTimestamp: 0,
   },
 };
 
@@ -18,6 +18,7 @@ export const roomReducer = (state = initialReducerState, action) => {
     case CREATE_ROOM:
     case JOIN_ROOM: {
       const { roomId, sessionId } = action.payload;
+
       return {
         ...state,
         isRoomMember: true,
@@ -33,16 +34,23 @@ export const roomReducer = (state = initialReducerState, action) => {
 
     case UPDATE_ROOM_STATE: {
       const { users, video } = action.payload.state;
+
+      const shouldVideoStateUpdate = video.updateTimestamp > state.video.updateTimestamp;
+      const validVideoState = shouldVideoStateUpdate ? JSON.parse(JSON.stringify(video)) : state.video;
+
       return {
         ...state,
         users: [...users.values()].map((user) => ({
           name: user.name,
         })),
-        video: JSON.parse(JSON.stringify(video)),
+        video: {
+          ...validVideoState,
+        },
       };
     }
     case UPDATE_PLAYED_SECONDS: {
       const { currentPlayedSeconds, updateTimestamp } = action.payload;
+
       return {
         ...state,
         video: {
