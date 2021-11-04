@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import styled from 'styled-components';
 import { Slider } from '@mui/material';
 
 const convertSecondsToHMS = (seconds) => {
@@ -8,19 +9,27 @@ const convertSecondsToHMS = (seconds) => {
   return seconds < 3600 ? isoString.substr(14, 5) : isoString.substr(11, 8);
 };
 
+const StyledSlider = styled(Slider)`
+  & .MuiSlider-thumb {
+    height: 8px;
+    width: 8px;
+  }
+`;
+
 const SeekBar = ({ progress, duration, onVideoSeek, ...rest }) => {
-  const [isChanging, setIsChanging] = useState(false);
-  const [localProgress, setLocalProgress] = useState(progress);
+  const [isValueChanging, setIsValueChanging] = useState(false);
+  const [localSeekBarValue, setLocalSeekBarValue] = useState(progress);
+  const currentSeekBarValue = isValueChanging ? localSeekBarValue : progress;
 
   const handleSliderChange = (e, value) => {
-    if (!isChanging) {
-      setIsChanging(true);
+    if (!isValueChanging) {
+      setIsValueChanging(true);
     }
-    setLocalProgress(value);
+    setLocalSeekBarValue(value);
   };
 
   const handleSliderChangeCommitted = (e, value) => {
-    setIsChanging(false);
+    setIsValueChanging(false);
     onVideoSeek(value);
   };
 
@@ -29,14 +38,14 @@ const SeekBar = ({ progress, duration, onVideoSeek, ...rest }) => {
   };
 
   return (
-    <Slider
+    <StyledSlider
       size="small"
       valueLabelDisplay="auto"
-      valueLabelFormat={handleLabelValue}
-      value={isChanging ? localProgress : progress}
       max={duration}
+      value={currentSeekBarValue}
       onChange={handleSliderChange}
       onChangeCommitted={handleSliderChangeCommitted}
+      valueLabelFormat={handleLabelValue}
       {...rest}
     />
   );
