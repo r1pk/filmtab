@@ -42,6 +42,7 @@ const Player = ({ url, playing, playedSeconds, onTogglePlay, onVideoSeek, ...res
   };
 
   const handleVideoSeek = (seconds) => {
+    setProgress(seconds);
     onVideoSeek(seconds);
   };
 
