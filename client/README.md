@@ -71,9 +71,9 @@ src
 
 ## Live Demo
 
-Application is automatically deployed using Heroku.
+Application is automatically deployed using Vercel.
 
-[Live demo](https://filmtab-client.herokuapp.com)
+[Live demo](https://filmtab.vercel.app)
 
 ## Author
 
