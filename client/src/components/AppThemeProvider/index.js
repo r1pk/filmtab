@@ -8,7 +8,7 @@ const appTheme = createTheme({
   },
 });
 
-const Layout = ({ children }) => {
+const AppThemeProvider = ({ children }) => {
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
@@ -17,8 +17,8 @@ const Layout = ({ children }) => {
   );
 };
 
-Layout.propTypes = {
+AppThemeProvider.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
-export default Layout;
+export default AppThemeProvider;

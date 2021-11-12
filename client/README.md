@@ -52,21 +52,22 @@ npm run build
 ## Project structure
 
 ```bash
-public               # folder containing static files such as index.html
+public                     # folder containing static files such as index.html
 src
-   |-- components    # all the components that are used in application
-   |   |-- Component # a component folder that can contain smaller components
-   |   |-- Shared    # components that are used by other components
-   |-- containers    # components that are connected to the redux store
-   |-- hooks         # custom hooks used by some components
-   |-- pages         # folder containing a page template composed of components and containers
-   |-- actions       # action type constants and action creators for redux
-   |-- reducers      # reducers and initial states for redux
-   |-- middleware    # custom middleware used in app
-   |-- store.js      # file that creates a store from all reducers and middlewares
-   |-- FilmTab.js    # file containing routing and other definitions for the whole application
-   |-- index.js      # starting point to render app and provide app connection to redux store
-.env                 # file containing environment variables
+   |-- components          # all the components that are used in application
+   |   |-- Component       # a component folder that can contain smaller components
+   |   |-- Shared          # components that are used by other components
+   |-- containers          # components that are connected to the redux store
+   |-- hooks               # custom hooks used by some components
+   |-- pages               # folder containing a page template composed of components and containers
+   |-- actions             # action type constants and action creators for redux
+   |-- reducers            # reducers and initial states for redux
+   |-- middleware          # custom middleware used in app
+   |-- store.js            # file that creates a store from all reducers and middlewares
+   |-- FilmTabRouting.js   # file containing app routing
+   |-- FilmTab.js          # file containing additional stuff that affect the behavior of the entire app
+   |-- index.js            # starting point to render app and provide app connection to redux store
+.env                       # file containing environment variables
 ```
 
 ## Live Demo
