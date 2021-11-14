@@ -11,7 +11,13 @@ export const logger = winston.createLogger({
   transports: [],
 });
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
+  logger.add(
+    new winston.transports.Console({
+      format: winston.format.combine(winston.format.colorize(), winston.format.cli()),
+    })
+  );
+} else if (process.env.NODE_ENV === 'development') {
   logger.add(
     new winston.transports.Console({
       level: 'silly',
@@ -29,12 +35,6 @@ if (process.env.NODE_ENV !== 'production') {
       handleExceptions: true,
       humanReadableUnhandledException: true,
       exitOnError: false,
-    })
-  );
-} else {
-  logger.add(
-    new winston.transports.Console({
-      format: winston.format.combine(winston.format.colorize(), winston.format.cli()),
     })
   );
 }
