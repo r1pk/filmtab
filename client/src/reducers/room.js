@@ -1,4 +1,12 @@
-import { UPDATE_ROOM_STATE, UPDATE_PLAYED_SECONDS, CREATE_ROOM, JOIN_ROOM, LEAVE_ROOM } from '../actions/room';
+import {
+  UPDATE_PLAYED_SECONDS,
+  CREATE_ROOM,
+  JOIN_ROOM,
+  LEAVE_ROOM,
+  ADD_USER,
+  REMOVE_USER,
+  UPDATE_VIDEO_STATE,
+} from '../actions/room';
 
 const initialReducerState = {
   isRoomMember: false,
@@ -18,7 +26,6 @@ export const roomReducer = (state = initialReducerState, action) => {
     case CREATE_ROOM:
     case JOIN_ROOM: {
       const { roomId, sessionId } = action.payload;
-
       return {
         ...state,
         isRoomMember: true,
@@ -32,25 +39,32 @@ export const roomReducer = (state = initialReducerState, action) => {
       };
     }
 
-    case UPDATE_ROOM_STATE: {
-      const { users, video } = action.payload.state;
-
-      const shouldVideoStateUpdate = video.updateTimestamp > state.video.updateTimestamp;
-      const validVideoState = shouldVideoStateUpdate ? JSON.parse(JSON.stringify(video)) : state.video;
-
+    case ADD_USER: {
+      const { user, sessionId } = action.payload;
       return {
         ...state,
-        users: [...users.values()].map((user) => ({
-          name: user.name,
-        })),
+        users: [...state.users, { name: user.name, sessionId: sessionId }],
+      };
+    }
+    case REMOVE_USER: {
+      const { sessionId } = action.payload;
+      return {
+        ...state,
+        users: state.users.filter((user) => user.sessionId !== sessionId),
+      };
+    }
+    case UPDATE_VIDEO_STATE: {
+      const { updatedState } = action.payload;
+      return {
+        ...state,
         video: {
-          ...validVideoState,
+          ...state.video,
+          ...updatedState,
         },
       };
     }
     case UPDATE_PLAYED_SECONDS: {
       const { currentPlayedSeconds, updateTimestamp } = action.payload;
-
       return {
         ...state,
         video: {

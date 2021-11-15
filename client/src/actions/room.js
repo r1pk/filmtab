@@ -7,7 +7,9 @@ export const PLAY_VIDEO = 'room/play_video';
 export const PAUSE_VIDEO = 'room/pause_video';
 export const SEEK_VIDEO = 'room/seek_video';
 
-export const UPDATE_ROOM_STATE = 'room/update_room_state';
+export const ADD_USER = 'room/add_user';
+export const REMOVE_USER = 'room/remove_user';
+export const UPDATE_VIDEO_STATE = 'room/update_video_state';
 export const UPDATE_PLAYED_SECONDS = 'room/update_played_seconds';
 
 export const joinRoom = (roomId, username) => ({
@@ -61,10 +63,25 @@ export const seekVideo = (playedSeconds) => ({
   },
 });
 
-export const updateRoomState = (state) => ({
-  type: UPDATE_ROOM_STATE,
+export const addUser = (user, sessionId) => ({
+  type: ADD_USER,
   payload: {
-    state,
+    user,
+    sessionId,
+  },
+});
+
+export const removeUser = (sessionId) => ({
+  type: REMOVE_USER,
+  payload: {
+    sessionId,
+  },
+});
+
+export const updateVideoState = (updatedState) => ({
+  type: UPDATE_VIDEO_STATE,
+  payload: {
+    updatedState,
   },
 });
 

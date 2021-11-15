@@ -20,8 +20,14 @@ export const colyseusMiddleware = (store) => {
     };
   };
 
-  const onStateChange = (state) => {
-    store.dispatch(room.updateRoomState(state));
+  const onAddRoomUser = (user, sessionId) => {
+    store.dispatch(room.addUser(user, sessionId));
+  };
+  const onRemoveRoomUser = (user, sessionId) => {
+    store.dispatch(room.removeUser(sessionId));
+  };
+  const onVideoStateChange = (updatedState) => {
+    store.dispatch(room.updateVideoState(updatedState));
   };
   const onCurrentPlayedSecondsMessage = ({ currentPlayedSeconds, updateTimestamp }) => {
     store.dispatch(room.updatePlayedSeconds(currentPlayedSeconds, updateTimestamp));
@@ -34,8 +40,12 @@ export const colyseusMiddleware = (store) => {
   };
 
   const setupListeners = () => {
-    colyseus.room.onStateChange.once(onStateChange);
-    colyseus.room.onStateChange(onStateChange);
+    colyseus.room.state.users.onAdd = onAddRoomUser;
+    colyseus.room.state.users.onRemove = onRemoveRoomUser;
+    colyseus.room.state.video.onChange = (changes) => {
+      const updatedState = changes.reduce((state, change) => ({ ...state, [change.field]: change.value }), {});
+      onVideoStateChange(updatedState);
+    };
 
     colyseus.room.onError(onErrorHandler);
     colyseus.room.onLeave(onLeaveHandler);
