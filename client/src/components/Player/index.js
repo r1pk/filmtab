@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import PlayerContainer from './PlayerContainer';
 import VideoPlayer from './VideoPlayer';
 import ControlBar from './ControlBar';
+import InvisibleLayer from './InvisibleLayer';
 
 import useFullscreen from '../../hooks/useFullscreen';
 import useIdleDetection from '../../hooks/useIdleDetection';
@@ -67,6 +68,7 @@ const Player = ({ url, playing, playedSeconds, onTogglePlay, onVideoSeek, ...res
         onReady={handlePlayerReady}
         ref={player}
       />
+      <InvisibleLayer />
       <ControlBar
         isPlaying={playing}
         isFullscreenEnabled={isFullscreenEnabled}
