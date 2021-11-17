@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 import PlayerContainer from './PlayerContainer';
 import VideoPlayer from './VideoPlayer';
-import ControlBar from './ControlBar';
-import InvisibleLayer from './InvisibleLayer';
+import VideoControls from './VideoControls';
 
 import useFullscreen from '../../hooks/useFullscreen';
 import useIdleDetection from '../../hooks/useIdleDetection';
@@ -58,7 +57,7 @@ const Player = ({ url, playing, playedSeconds, onTogglePlay, onVideoSeek, ...res
   }, [isPlayerReady, playedSeconds]);
 
   return (
-    <PlayerContainer isUserIdle={isUserIdle} ref={container} {...rest}>
+    <PlayerContainer ref={container} {...rest}>
       <VideoPlayer
         url={url}
         playing={playing}
@@ -68,10 +67,10 @@ const Player = ({ url, playing, playedSeconds, onTogglePlay, onVideoSeek, ...res
         onReady={handlePlayerReady}
         ref={player}
       />
-      <InvisibleLayer />
-      <ControlBar
+      <VideoControls
         isPlaying={playing}
         isFullscreenEnabled={isFullscreenEnabled}
+        isUserIdle={isUserIdle}
         progress={progress}
         duration={duration}
         volume={volume}
