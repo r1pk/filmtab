@@ -7,6 +7,8 @@ import { Grid, Typography } from '@mui/material';
 import CreateRoomCardContainer from '../containers/CreateRoomCard';
 import JoinRoomCardContainer from '../containers/JoinRoomCard';
 
+import useDocumentTitle from '../hooks/useDocumentTitle';
+
 const Home = () => {
   const isRoomMember = useSelector((state) => state.room.isRoomMember);
   const activeRoomId = useSelector((state) => state.room.activeRoomId);
@@ -19,6 +21,8 @@ const Home = () => {
       navigate(`rooms/${activeRoomId}`);
     }
   }, [navigate, isRoomMember, activeRoomId]);
+
+  useDocumentTitle('FilmTab - Home');
 
   return (
     <Grid container justifyContent="center" direction="row" spacing={1} mt={2}>
