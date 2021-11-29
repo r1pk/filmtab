@@ -109,7 +109,7 @@ Available message types
       playedSeconds: number - number of seconds passed since the beginning of the video
     }
   ```
-  Server emits only one event `video::playedSeconds` to the user who joined the room
+  Server emits only one event `video::currentPlayedSeconds` to the user who joined the room
 - `video::currentPlayedSeconds`
   ```
     message {
