@@ -8,6 +8,7 @@ const PlayerContainer = (props) => {
   const url = useSelector((state) => state.room.video.url);
   const playing = useSelector((state) => state.room.video.playing);
   const playedSeconds = useSelector((state) => state.room.video.playedSeconds);
+  const updateTimestamp = useSelector((state) => state.room.video.updateTimestamp);
 
   const dispatch = useDispatch();
 
@@ -25,6 +26,7 @@ const PlayerContainer = (props) => {
       url={url}
       playing={playing}
       playedSeconds={playedSeconds}
+      updateTimestamp={updateTimestamp}
       onTogglePlay={handleTogglePlay}
       onVideoSeek={handleVideoSeek}
       {...props}

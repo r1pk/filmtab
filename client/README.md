@@ -8,7 +8,7 @@ Home page
 ![Home page](https://i.imgur.com/0t5RnVw.png)
 
 Room page with playing video
-![Video player page](https://i.imgur.com/nD4oYRw.png)
+![Video player page](https://i.imgur.com/QmrGZwu.png)
 
 ## Pre-requisites
 

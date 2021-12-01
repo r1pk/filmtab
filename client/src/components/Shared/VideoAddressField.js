@@ -1,9 +1,16 @@
-import ReactPlayer from 'react-player';
-
 import ValidationTextField from './ValidationTextField';
 
 const validator = (value) => {
-  return ReactPlayer.canPlay(value);
+  const validAddressPatterns = [
+    /((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+/,
+    /vimeo\.com\/.+/,
+    /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/,
+  ];
+  const validAddressPatternIndex = validAddressPatterns.findIndex((validAddressPattern) =>
+    validAddressPattern.test(value)
+  );
+
+  return validAddressPatternIndex !== -1;
 };
 
 const VideoAddressField = (props) => {
