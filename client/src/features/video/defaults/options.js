@@ -4,4 +4,5 @@ export const options = {
     focused: false,
     global: false,
   },
+  clickToPlay: false,
 };
