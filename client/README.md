@@ -54,19 +54,22 @@ npm run build
 ```bash
 public                     # folder containing static files such as index.html
 src
-   |-- components          # all the components that are used in application
-   |   |-- Component       # a component folder that can contain smaller components
-   |   |-- Shared          # components that are used by other components
-   |-- containers          # components that are connected to the redux store
+   |-- components          # shared components used across the entire application
+   |-- features            # feature based modules
+   |   |-- feature         # feature module
+   |   |   |-- components  # components scoped to a specific feature
+   |   |   |-- containers  # components of a specific feature connected to a redux store
+   |   |   |-- defaults    # constants and defaults values for a specific feature
+   |   |   |-- redux       # redux reducer and actions for a specific feature
+   |   |   |-- utils       # utility functions used only by this feature
+   |   |   |-- index.js    # exports of all required elements from specific feature
    |-- hooks               # custom hooks used by some components
+   |-- middlewares         # middlewares used by redux
    |-- pages               # folder containing a page template composed of components and containers
-   |-- actions             # action type constants and action creators for redux
-   |-- reducers            # reducers and initial states for redux
-   |-- middleware          # custom middleware used in app
-   |-- store.js            # file that creates a store from all reducers and middlewares
-   |-- FilmTabRouting.js   # file containing app routing
    |-- FilmTab.js          # file containing additional stuff that affect the behavior of the entire app
+   |-- FilmTabRouting.js   # file containing app routing
    |-- index.js            # starting point to render app and provide app connection to redux store
+   |-- store.js            # file that creates a store from all reducers and middlewares
 .env                       # file containing environment variables
 ```
 

@@ -1,6 +1,6 @@
 {
   "name": "filmtab-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.4.1",
@@ -54,6 +54,28 @@
       "semi": [
         "error",
         "always"
+      ],
+      "padding-line-between-statements": [
+        "error",
+        {
+          "blankLine": "always",
+          "prev": [
+            "const",
+            "let"
+          ],
+          "next": "*"
+        },
+        {
+          "blankLine": "any",
+          "prev": [
+            "const",
+            "let"
+          ],
+          "next": [
+            "const",
+            "let"
+          ]
+        }
       ]
     }
   },
