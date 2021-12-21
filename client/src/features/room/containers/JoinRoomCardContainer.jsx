@@ -7,8 +7,8 @@ import JoinRoomCard from '../components/JoinRoomCard';
 const JoinRoomCardContainer = (props) => {
   const dispatch = useDispatch();
 
-  const handleJoinRoom = (isRoomPrivate, username) => {
-    dispatch(joinRoom(isRoomPrivate, username));
+  const handleJoinRoom = (roomId, username) => {
+    dispatch(joinRoom(roomId, username));
   };
 
   return <JoinRoomCard onJoinRoom={handleJoinRoom} {...props} />;
