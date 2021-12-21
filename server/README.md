@@ -67,7 +67,7 @@ Available native methods
 - onCreate(options) - called if user create a room
   ```
     options {
-      private: boolean - true if the room should be private
+      
     }
   ```
 - onJoin(client, options) - called if user wants to join a room

@@ -7,12 +7,12 @@ import * as Commands from '../commands/video-room.commands.js';
 import { logger } from '../helpers/logger.js';
 
 export class VideoRoom extends Room {
-  onCreate(options) {
+  onCreate() {
     logger.debug(`Room RID: ${this.roomId} created!`);
 
     this.dispatcher = new Dispatcher(this);
     this.setState(new VideoRoomState());
-    this.setPrivate(options.private);
+    this.setPrivate(true);
 
     this.onMessage('video::set', this.onSetVideo.bind(this));
     this.onMessage('video::play', this.onPlayVideo.bind(this));
