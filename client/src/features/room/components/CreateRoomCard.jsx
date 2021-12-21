@@ -6,24 +6,18 @@ import { Card, CardContent, CardActions, Stack, Typography } from '@mui/material
 import { isValidUsername } from '../utils/isValidUsername';
 
 import ValidationTextField from '../../../components/ValidationTextField';
-import Checkbox from '../../../components/Checkbox';
 import Button from '../../../components/Button';
 
 const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
   const [username, setUsername] = useState({ value: '', valid: false });
-  const [isRoomPrivate, setIsRoomPrivate] = useState(false);
   const isSubmitButtonDisabled = !username.valid;
 
   const handleUsernameChange = (e, validatorResult) => {
     setUsername({ value: e.target.value, valid: validatorResult });
   };
 
-  const handleVisibilityChange = (e) => {
-    setIsRoomPrivate(e.target.checked);
-  };
-
   const handleCreateRoom = () => {
-    onCreateRoom(isRoomPrivate, username.value);
+    onCreateRoom(username.value);
   };
 
   return (
@@ -40,7 +34,6 @@ const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
             validator={isValidUsername}
             onChange={handleUsernameChange}
           />
-          <Checkbox label="Private room" checked={isRoomPrivate} onChange={handleVisibilityChange} />
         </Stack>
       </CardContent>
       <CardActions>

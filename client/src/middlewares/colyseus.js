@@ -70,9 +70,9 @@ export const colyseusMiddleware = (store) => {
           return next(enhanceActionPayload(action));
         }
         case room.CREATE_ROOM: {
-          const { isRoomPrivate, username } = action.payload;
+          const { username } = action.payload;
 
-          colyseus.room = await colyseus.client.create('video-room', { private: isRoomPrivate, username });
+          colyseus.room = await colyseus.client.create('video-room', { username });
           setupListeners();
 
           return next(enhanceActionPayload(action));

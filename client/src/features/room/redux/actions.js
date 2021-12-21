@@ -11,13 +11,12 @@ export const joinRoom = (roomId, username) => ({
   },
 });
 
-export const createRoom = (isRoomPrivate, username) => ({
+export const createRoom = (username) => ({
   type: CREATE_ROOM,
   payload: {
     username,
     roomId: null,
     sessionId: null,
-    private: isRoomPrivate,
   },
 });
 

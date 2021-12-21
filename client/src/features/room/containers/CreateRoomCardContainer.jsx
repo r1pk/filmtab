@@ -7,8 +7,8 @@ import CreateRoomCard from '../components/CreateRoomCard';
 const CreateRoomCardContainer = (props) => {
   const dispatch = useDispatch();
 
-  const handleCreateRoom = (isRoomPrivate, username) => {
-    dispatch(createRoom(isRoomPrivate, username));
+  const handleCreateRoom = (username) => {
+    dispatch(createRoom(username));
   };
 
   return <CreateRoomCard onCreateRoom={handleCreateRoom} {...props} />;
