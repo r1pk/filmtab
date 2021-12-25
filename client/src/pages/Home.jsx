@@ -1,19 +1,28 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Tabs, Tab, Box } from '@mui/material';
 
 import { CreateRoomCardContainer, JoinRoomCardContainer } from '../features/room';
 
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const Home = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const initialRoomId = location.state?.roomId;
+  const initialTab = initialRoomId ? 1 : 0;
+
+  const [activeTab, setActiveTab] = useState(initialTab);
+
   const isRoomMember = useSelector((store) => store.room.isRoomMember);
   const activeRoomId = useSelector((store) => store.room.activeRoomId);
 
-  const location = useLocation();
-  const navigate = useNavigate();
+  const handleChangeTab = (e, tabIndex) => {
+    setActiveTab(tabIndex);
+  };
 
   useEffect(() => {
     if (isRoomMember) {
@@ -31,10 +40,14 @@ const Home = () => {
         </Typography>
       </Grid>
       <Grid item>
-        <JoinRoomCardContainer defaultRoomId={location.state?.roomId} />
-      </Grid>
-      <Grid item>
-        <CreateRoomCardContainer />
+        <Tabs value={activeTab} onChange={handleChangeTab} centered>
+          <Tab label="Create room" />
+          <Tab label="Join room" />
+        </Tabs>
+        <Box p={1}>
+          {activeTab === 0 && <CreateRoomCardContainer />}
+          {activeTab === 1 && <JoinRoomCardContainer defaultRoomId={initialRoomId} />}
+        </Box>
       </Grid>
     </Grid>
   );
