@@ -40,7 +40,7 @@ const Home = () => {
         </Typography>
       </Grid>
       <Grid item>
-        <Tabs value={activeTab} onChange={handleChangeTab} centered>
+        <Tabs centered variant="fullWidth" value={activeTab} onChange={handleChangeTab}>
           <Tab label="Create room" />
           <Tab label="Join room" />
         </Tabs>
