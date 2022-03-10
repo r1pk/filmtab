@@ -3,12 +3,12 @@ import { Command } from '@colyseus/command';
 import { User } from '../schemas/video-room.schemas.js';
 
 import { logger } from '../helpers/logger.js';
-import { normalize } from '../helpers/normalize.js';
+import { usernameNormalizer } from '../helpers/normalizers.js';
 import { getTimestamp } from '../helpers/getTimestamp.js';
 
 export class JoinRoomCommand extends Command {
   validate({ username }) {
-    const normalizedUsername = normalize(username);
+    const normalizedUsername = usernameNormalizer(username);
     const users = this.state.users.values();
 
     if (normalizedUsername.length < 3) {
@@ -27,7 +27,7 @@ export class JoinRoomCommand extends Command {
   execute({ sessionId, username }) {
     logger.debug(`Client joined! - SID: ${sessionId} - Username: ${username}`);
 
-    const normalizedUsername = normalize(username);
+    const normalizedUsername = usernameNormalizer(username);
     const user = new User().assign({
       name: normalizedUsername,
     });
