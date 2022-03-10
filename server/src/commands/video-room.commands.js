@@ -6,7 +6,7 @@ import { logger } from '../helpers/logger.js';
 import { normalize } from '../helpers/normalize.js';
 import { getTimestamp } from '../helpers/getTimestamp.js';
 
-export class OnJoinCommand extends Command {
+export class JoinRoomCommand extends Command {
   validate({ username }) {
     const normalizedUsername = normalize(username);
     const users = this.state.users.values();
@@ -39,7 +39,7 @@ export class OnJoinCommand extends Command {
   }
 }
 
-export class OnLeaveCommand extends Command {
+export class LeaveRoomCommand extends Command {
   validate({ sessionId }) {
     return this.state.users.has(sessionId);
   }

@@ -21,14 +21,14 @@ export class VideoRoom extends Room {
   }
 
   onJoin(client, options) {
-    this.dispatcher.dispatch(new Commands.OnJoinCommand(), {
+    this.dispatcher.dispatch(new Commands.JoinRoomCommand(), {
       sessionId: client.sessionId,
       username: options.username,
     });
   }
 
   onLeave(client) {
-    this.dispatcher.dispatch(new Commands.OnLeaveCommand(), {
+    this.dispatcher.dispatch(new Commands.LeaveRoomCommand(), {
       sessionId: client.sessionId,
     });
   }
