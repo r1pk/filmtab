@@ -33,7 +33,7 @@ npm start
 ```
 src
    |-- commands         # folder contains commands used in room class
-   |-- helpers          # folder contains helper functions used in many files
+   |-- utils            # folder contains utils functions used in many files
    |-- rooms            # folder contains definitions of room classes
    |-- schemas          # folder contains state definitions for rooms
    |-- arena.config.js  # server definition by colyseus/arena
