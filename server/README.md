@@ -37,6 +37,7 @@ src
    |-- rooms            # folder contains definitions of room classes
    |-- schemas          # folder contains state definitions for rooms
    |-- arena.config.js  # server definition by colyseus/arena
+   |-- logger.js        # file contains definition and config of the module responsible for logs
    |-- index.js         # start point
 ```
 

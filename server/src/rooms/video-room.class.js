@@ -4,7 +4,7 @@ import { Dispatcher } from '@colyseus/command';
 import { VideoRoomState } from '../schemas/video-room.schemas.js';
 import * as Commands from '../commands/video-room.commands.js';
 
-import { logger } from '../helpers/logger.js';
+import { logger } from '../logger.js';
 
 export class VideoRoom extends Room {
   onCreate() {

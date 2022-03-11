@@ -2,7 +2,7 @@ import { Command } from '@colyseus/command';
 
 import { User } from '../schemas/video-room.schemas.js';
 
-import { logger } from '../helpers/logger.js';
+import { logger } from '../logger.js';
 import { usernameNormalizer } from '../helpers/normalizers.js';
 import { getTimestamp } from '../helpers/getTimestamp.js';
 
