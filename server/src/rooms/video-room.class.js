@@ -21,6 +21,10 @@ export class VideoRoom extends Room {
   }
 
   onJoin(client, options) {
+    this.dispatcher.dispatch(new Commands.ValidateUsernameCommand(), {
+      username: options.username,
+    });
+
     this.dispatcher.dispatch(new Commands.JoinRoomCommand(), {
       sessionId: client.sessionId,
       username: options.username,

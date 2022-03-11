@@ -7,8 +7,8 @@ import { logger } from '../logger.js';
 import { getTimestamp } from '../utils/get-timestamp.js';
 import { normalizeUsername } from '../utils/normalize-username.js';
 
-export class JoinRoomCommand extends Command {
-  validate({ username }) {
+export class ValidateUsernameCommand extends Command {
+  execute({ username }) {
     const normalizedUsername = normalizeUsername(username);
     const users = this.state.users.values();
 
@@ -21,10 +21,10 @@ export class JoinRoomCommand extends Command {
         throw new Error('Username is already taken!');
       }
     }
-
-    return true;
   }
+}
 
+export class JoinRoomCommand extends Command {
   execute({ sessionId, username }) {
     logger.debug(`Client joined! - SID: ${sessionId} - Username: ${username}`);
 
