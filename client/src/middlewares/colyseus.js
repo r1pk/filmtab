@@ -4,6 +4,7 @@ import { actions as room } from '../features/room';
 import { actions as users } from '../features/users';
 import { actions as video } from '../features/video';
 import { actions as notifications } from '../features/notifications';
+import { actions as chat } from '../features/chat';
 
 export const colyseusMiddleware = (store) => {
   const colyseus = {
@@ -34,6 +35,9 @@ export const colyseusMiddleware = (store) => {
   const onCurrentPlayedSecondsMessage = ({ currentPlayedSeconds, updateTimestamp }) => {
     store.dispatch(video.updatePlayedSeconds(currentPlayedSeconds, updateTimestamp));
   };
+  const onAddChatMessage = (message) => {
+    store.dispatch(chat.receiveMessage(message));
+  };
   const onErrorHandler = (code, message) => {
     store.dispatch(notifications.addNotification('error', message));
   };
@@ -41,6 +45,7 @@ export const colyseusMiddleware = (store) => {
     colyseus.room.removeAllListeners();
     store.dispatch(users.resetUsers());
     store.dispatch(video.resetVideoState());
+    store.dispatch(chat.clearChat());
   };
 
   const setupListeners = () => {
@@ -51,6 +56,7 @@ export const colyseusMiddleware = (store) => {
 
       onVideoStateChange(updatedState);
     };
+    colyseus.room.state.messages.onAdd = onAddChatMessage;
 
     colyseus.room.onError(onErrorHandler);
     colyseus.room.onLeave(onLeaveHandler);
@@ -108,6 +114,13 @@ export const colyseusMiddleware = (store) => {
           const { playedSeconds } = action.payload;
 
           await colyseus.room.send('video::seek', { playedSeconds });
+
+          return next(action);
+        }
+        case chat.SEND_MESSAGE: {
+          const { content } = action.payload;
+
+          await colyseus.room.send('chat::send', { content });
 
           return next(action);
         }
