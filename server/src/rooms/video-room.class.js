@@ -18,6 +18,7 @@ export class VideoRoom extends Room {
     this.onMessage('video::play', this.onPlayVideo.bind(this));
     this.onMessage('video::pause', this.onPauseVideo.bind(this));
     this.onMessage('video::seek', this.onSeekVideo.bind(this));
+    this.onMessage('chat::send', this.onSendMessage.bind(this));
   }
 
   onJoin(client, options) {
@@ -28,6 +29,10 @@ export class VideoRoom extends Room {
     this.dispatcher.dispatch(new Commands.JoinRoomCommand(), {
       sessionId: client.sessionId,
       username: options.username,
+    });
+
+    this.dispatcher.dispatch(new Commands.SendCurrentPlayedSeconds(), {
+      sessionId: client.sessionId,
     });
   }
 
@@ -59,6 +64,19 @@ export class VideoRoom extends Room {
     this.dispatcher.dispatch(new Commands.SeekVideoCommand(), {
       playedSeconds: message.playedSeconds,
     });
+  }
+
+  onSendMessage(client, message) {
+    this.dispatcher.dispatch(new Commands.ValidateMessageContent(), {
+      content: message.content,
+    });
+
+    this.dispatcher.dispatch(new Commands.SaveMessage(), {
+      sessionId: client.sessionId,
+      content: message.content,
+    });
+
+    this.dispatcher.dispatch(new Commands.RemoveOldMessage());
   }
 
   onDispose() {

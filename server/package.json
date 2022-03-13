@@ -32,6 +32,7 @@
     "@colyseus/monitor": "^0.14.0",
     "colyseus": "^0.14.9",
     "colyseus.js": "^0.14.13",
+    "uuid": "^8.3.2",
     "winston": "^3.3.0"
   }
 }

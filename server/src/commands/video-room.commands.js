@@ -1,11 +1,13 @@
 import { Command } from '@colyseus/command';
 
-import { User } from '../schemas/video-room.schemas.js';
+import { User, Message } from '../schemas/video-room.schemas.js';
 
 import { logger } from '../logger.js';
 
 import { getTimestamp } from '../utils/get-timestamp.js';
 import { normalizeUsername } from '../utils/normalize-username.js';
+import { normalizeMessageContent } from '../utils/normalize-message-content.js';
+import { getUniqueId } from '../utils/get-unique-id.js';
 
 export class ValidateUsernameCommand extends Command {
   execute({ username }) {
@@ -35,8 +37,6 @@ export class JoinRoomCommand extends Command {
 
     this.state.users.set(sessionId, user);
     this.room.broadcastPatch();
-
-    return [new SendCurrentPlayedSeconds().setPayload({ sessionId })];
   }
 }
 
@@ -106,5 +106,47 @@ export class SendCurrentPlayedSeconds extends Command {
       currentPlayedSeconds: playedSeconds + (playing ? timeOffset : 0),
       updateTimestamp: getTimestamp(),
     });
+  }
+}
+
+export class ValidateMessageContent extends Command {
+  execute({ content }) {
+    const normalizedMessageContent = normalizeMessageContent(content);
+
+    if (normalizedMessageContent.length < 1) {
+      throw new Error('Message must have at least one character!');
+    }
+
+    if (normalizedMessageContent.length > 140) {
+      throw new Error('The length of message is too long. The maximum length is 140!');
+    }
+  }
+}
+
+export class SaveMessage extends Command {
+  validate({ sessionId }) {
+    return this.state.users.has(sessionId);
+  }
+
+  execute({ sessionId, content }) {
+    const normalizedMessageContent = normalizeMessageContent(content);
+    const message = new Message().assign({
+      id: getUniqueId(),
+      timestamp: getTimestamp(),
+      author: this.state.users.get(sessionId),
+      content: normalizedMessageContent,
+    });
+
+    this.state.messages.push(message);
+  }
+}
+
+export class RemoveOldMessage extends Command {
+  validate() {
+    return this.state.messages.length > 50;
+  }
+
+  execute() {
+    this.state.messages.shift();
   }
 }
