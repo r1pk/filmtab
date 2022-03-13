@@ -1,6 +1,6 @@
 # Filmtab-client
 
-Filmtab-client is a responsive application written in React which uses tools such as [Redux](https://redux.js.org/), [Styled Components](https://styled-components.com/), [Material UI](https://mui.com/getting-started/usage/) and [Colyseus.js](https://www.colyseus.io/). Filmtab-client allows you to synchronically watch videos with your friends after you create or join a room.
+Filmtab-client is a responsive application written in React which uses tools such as [Redux](https://redux.js.org/), [Material UI](https://mui.com/getting-started/usage/) and [Colyseus.js](https://www.colyseus.io/). Filmtab-client allows you to synchronically watch videos with your friends after you create or join a room.
 
 ## Screenshots
 
