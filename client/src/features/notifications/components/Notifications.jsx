@@ -19,7 +19,7 @@ const Notifications = ({ notifications, onCloseNotification, ...rest }) => {
         onClose={handleCloseNotification}
         type={notifications[0].type}
         message={notifications[0].message}
-        key={notifications[0].message}
+        key={notifications[0].id}
         {...rest}
       />
     )
@@ -29,6 +29,7 @@ const Notifications = ({ notifications, onCloseNotification, ...rest }) => {
 Notifications.propTypes = {
   notifications: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string.isRequired,
       type: PropTypes.string,
       message: PropTypes.string,
     })
