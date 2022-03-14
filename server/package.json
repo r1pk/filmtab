@@ -24,7 +24,8 @@
   "devDependencies": {
     "@colyseus/testing": "^0.14.21",
     "eslint": "^7.32.0",
-    "mocha": "^9.0.2"
+    "mocha": "^9.0.2",
+    "prettier": "2.5.1"
   },
   "dependencies": {
     "@colyseus/arena": "^0.14.7",
