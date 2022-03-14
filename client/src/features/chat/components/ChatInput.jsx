@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Stack, IconButton } from '@mui/material';
-import { Delete } from '@mui/icons-material';
+import { Stack, IconButton, Tooltip } from '@mui/material';
+import { DeleteSweep } from '@mui/icons-material';
 
 import { isValidMessageContent } from '../utils/isValidMessageContent';
 
@@ -49,9 +49,11 @@ const ChatInput = ({ onSendMessage, onClearChat }) => {
       />
       <Stack direction="row">
         <Stack direction="row" mr="auto">
-          <IconButton aria-label="clear chat" size="small" onClick={handleClearChat}>
-            <Delete />
-          </IconButton>
+          <Tooltip title="Clear chat">
+            <IconButton aria-label="clear chat" size="small" onClick={handleClearChat}>
+              <DeleteSweep />
+            </IconButton>
+          </Tooltip>
         </Stack>
         <Button disabled={isSubmitButtonDisabled} onClick={handleSendMessage}>
           Send
