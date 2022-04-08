@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useEffect } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Plyr from 'plyr-react';
@@ -33,35 +33,28 @@ const VideoPlayer = ({ url, playing, playedSeconds, onTogglePlay, onSeekVideo, .
     []
   );
 
-  const setPlayerRef = useCallback(
-    (node) => {
-      if (node !== null && node.plyr.ready !== undefined) {
-        if (!node.plyr.isAlreadyUsedInstance) {
-          node.plyr.once('ready', (e) => {
-            e.detail.plyr.once('playing', () => {
-              const shouldAddOffset = playedSeconds !== 0;
-              const offset = shouldAddOffset ? (new Date().getTime() - componentMountTimestamp) / 1000 : 0;
+  useEffect(() => {
+    if (player.current.plyr.ready !== undefined) {
+      player.current.plyr.once('ready', () => {
+        player.current.plyr.once('playing', () => {
+          const shouldAddOffset = playedSeconds !== 0;
+          const offset = shouldAddOffset ? (new Date().getTime() - componentMountTimestamp) / 1000 : 0;
 
-              e.detail.plyr.currentTime = playedSeconds + offset;
-            });
-            e.detail.plyr.togglePlay(playing);
-          });
-          node.plyr.isAlreadyUsedInstance = true;
-        }
-      }
-      player.current = node;
-    },
-    [playing, playedSeconds, componentMountTimestamp]
-  );
+          player.current.plyr.currentTime = playedSeconds + offset;
+        });
+        player.current.plyr.togglePlay(playing);
+      });
+    }
+  }, [playing, playedSeconds, componentMountTimestamp]);
 
   useEffect(() => {
-    if (player.current !== null && player.current.plyr.ready) {
+    if (player.current.plyr.ready) {
       player.current.plyr.currentTime = playedSeconds;
       player.current.plyr.togglePlay(playing);
     }
   }, [playing, playedSeconds]);
 
-  return <Plyr ref={setPlayerRef} source={videoSource} options={playerOptions} {...rest} />;
+  return <Plyr ref={player} source={videoSource} options={playerOptions} {...rest} />;
 };
 
 VideoPlayer.propTypes = {
