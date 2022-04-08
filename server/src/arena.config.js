@@ -12,7 +12,7 @@ export default Arena.default({
 
   initializeExpress: (app) => {
     app.get('/', (req, res) => {
-      res.send("It's time to kick ass and chew bubblegum!");
+      res.send('It\'s time to kick ass and chew bubblegum!');
     });
 
     app.use('/colyseus', monitor());

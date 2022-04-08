@@ -74,11 +74,13 @@ room schema {
 Available native methods
 
 - onCreate(options) - called if user create a room
+
   ```
     options {
 
     }
   ```
+
 - onJoin(client, options) - called if user wants to join a room
   ```
     client - websocket client provided by colyseus.js

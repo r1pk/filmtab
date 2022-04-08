@@ -10,9 +10,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "test": "mocha test/**_test.js --exit --timeout 15000",
-    "loadtest": "colyseus-loadtest-esm loadtest/example.js --room my_room --numClients 2",
-    "lint": "eslint src/. test/. --config .eslintrc.json --fix",
+    "lint": "eslint src/. --config .eslintrc.json --fix",
     "prettier": "prettier --write ."
   },
   "author": {
