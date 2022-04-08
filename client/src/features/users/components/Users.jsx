@@ -8,7 +8,7 @@ const Users = ({ users, ...rest }) => {
   return (
     <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent="center" {...rest}>
       {users.map((user) => (
-        <User name={user.name} key={user.sessionId} />
+        <User name={user.name} color={user.color} key={user.sessionId} />
       ))}
     </Stack>
   );
@@ -18,6 +18,7 @@ Users.propTypes = {
   users: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
+      color: PropTypes.string,
       sessionId: PropTypes.string,
     })
   ),

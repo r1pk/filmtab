@@ -7,7 +7,7 @@ export const reducer = (state = initialReducerState, action) => {
     case ADD_USER: {
       const { user, sessionId } = action.payload;
 
-      return [...state, { name: user.name, sessionId: sessionId }];
+      return [...state, { name: user.name, color: user.color, sessionId: sessionId }];
     }
     case REMOVE_USER: {
       const { sessionId } = action.payload;
