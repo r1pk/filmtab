@@ -6,6 +6,7 @@ import { logger } from '../logger.js';
 
 import { getTimestamp } from '../utils/get-timestamp.js';
 import { normalizeUsername } from '../utils/normalize-username.js';
+import { createUserColor } from '../utils/create-user-color.js';
 import { normalizeMessageContent } from '../utils/normalize-message-content.js';
 import { getUniqueId } from '../utils/get-unique-id.js';
 
@@ -33,6 +34,7 @@ export class JoinRoomCommand extends Command {
     const normalizedUsername = normalizeUsername(username);
     const user = new User().assign({
       name: normalizedUsername,
+      color: createUserColor(normalizedUsername),
     });
 
     this.state.users.set(sessionId, user);
