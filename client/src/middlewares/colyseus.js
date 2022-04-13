@@ -25,9 +25,11 @@ export const colyseusMiddleware = (store) => {
 
   const onAddRoomUser = (user, sessionId) => {
     store.dispatch(users.addUser(user, sessionId));
+    store.dispatch(chat.sendNotificationMessage(`${user.name} joined the room.`));
   };
   const onRemoveRoomUser = (user, sessionId) => {
     store.dispatch(users.removeUser(sessionId));
+    store.dispatch(chat.sendNotificationMessage(`${user.name} left the room.`));
   };
   const onVideoStateChange = (updatedState) => {
     store.dispatch(video.updateVideoState(updatedState));

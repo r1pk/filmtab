@@ -1,16 +1,9 @@
-import { RECEIVE_MESSAGE, CLEAR_CHAT } from './actions';
+import { RECEIVE_MESSAGE, CLEAR_CHAT, NOTIFICATION_MESSAGE } from './actions';
 
-const welcomeMessage = {
-  id: 'welcome_message',
-  author: {
-    name: 'FilmTab Bot',
-    color: 'rgb(255,215,0)',
-  },
-  content: 'Welcome to FilmTab!',
-  timestamp: new Date().getTime(),
-};
+import { getUniqueId } from '../utils/getUniqueId';
+
 const initialReducerState = {
-  messages: [welcomeMessage],
+  messages: [],
 };
 
 export const reducer = (state = initialReducerState, action) => {
@@ -19,6 +12,22 @@ export const reducer = (state = initialReducerState, action) => {
       const { message } = action.payload;
 
       return { ...state, messages: [...state.messages, message] };
+    }
+    case NOTIFICATION_MESSAGE: {
+      const { author, content } = action.payload;
+
+      return {
+        ...state,
+        messages: [
+          ...state.messages,
+          {
+            id: getUniqueId(),
+            author: author,
+            content: content,
+            timestamp: new Date().getTime(),
+          },
+        ],
+      };
     }
     case CLEAR_CHAT: {
       return { ...state, messages: initialReducerState.messages.slice(1) };
