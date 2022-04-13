@@ -1,5 +1,3 @@
-import { v4 as uuid4 } from 'uuid';
-
 export const getUniqueId = () => {
-  return uuid4();
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
 };
