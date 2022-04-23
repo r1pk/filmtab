@@ -10,14 +10,15 @@ import ValidationTextField from '../../../components/ValidationTextField';
 import Button from '../../../components/Button';
 
 const ChatInput = ({ onSendMessage, onClearChat }) => {
-  const [message, setMessage] = useState({ value: '', valid: false });
-  const isSubmitButtonDisabled = !message.valid;
-  const showInputError = message.value.length > 0 && isSubmitButtonDisabled;
+  const [message, setMessage] = useState('');
+  const [isMessageValid, setIsMessageValid] = useState(false);
+  const showInputError = message.length > 0 && !isMessageValid;
 
   const handleSendMessage = () => {
-    if (message.valid) {
-      onSendMessage(message.value);
-      setMessage({ value: '', valid: false });
+    if (isMessageValid) {
+      onSendMessage(message);
+      setMessage('');
+      setIsMessageValid(false);
     }
   };
 
@@ -26,7 +27,8 @@ const ChatInput = ({ onSendMessage, onClearChat }) => {
   };
 
   const handleMessageContentChange = (e, validatorResult) => {
-    setMessage({ value: e.target.value, valid: validatorResult });
+    setMessage(e.target.value);
+    setIsMessageValid(validatorResult);
   };
 
   const handleKeyDown = (e) => {
@@ -41,7 +43,7 @@ const ChatInput = ({ onSendMessage, onClearChat }) => {
         fullWidth
         label="Message"
         variant="outlined"
-        value={message.value}
+        value={message}
         error={showInputError}
         validator={isValidMessageContent}
         onChange={handleMessageContentChange}
@@ -55,7 +57,7 @@ const ChatInput = ({ onSendMessage, onClearChat }) => {
             </IconButton>
           </Tooltip>
         </Stack>
-        <Button disabled={isSubmitButtonDisabled} onClick={handleSendMessage}>
+        <Button disabled={!isMessageValid} onClick={handleSendMessage}>
           Send
         </Button>
       </Stack>

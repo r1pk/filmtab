@@ -10,19 +10,21 @@ import ValidationTextField from '../../../components/ValidationTextField';
 import Button from '../../../components/Button';
 
 const VideoAddressBar = ({ videoAddress, onSetVideo, ...rest }) => {
-  const [localVideoAddress, setLocalVideoAddress] = useState({ value: videoAddress, valid: true });
-  const isSubmitButtonDisabled = !localVideoAddress.valid;
+  const [localVideoAddress, setLocalVideoAddress] = useState(videoAddress);
+  const [isLocalVideoAddressValid, setIsLocalVideoAddressValid] = useState(true);
 
   const handleVideoAddressChange = (e, validatorResult) => {
-    setLocalVideoAddress({ value: e.target.value, valid: validatorResult });
+    setLocalVideoAddress(e.target.value);
+    setIsLocalVideoAddressValid(validatorResult);
   };
 
   const handleVideoSet = () => {
-    onSetVideo(localVideoAddress.value);
+    onSetVideo(localVideoAddress);
   };
 
   useEffect(() => {
-    setLocalVideoAddress({ value: videoAddress, valid: true });
+    setLocalVideoAddress(videoAddress);
+    setIsLocalVideoAddressValid(true);
   }, [videoAddress]);
 
   return (
@@ -31,12 +33,12 @@ const VideoAddressBar = ({ videoAddress, onSetVideo, ...rest }) => {
         fullWidth
         variant="outlined"
         label="Video Address"
-        value={localVideoAddress.value}
-        error={!localVideoAddress.valid}
+        value={localVideoAddress}
+        error={!isLocalVideoAddressValid}
         validator={isVideoSupported}
         onChange={handleVideoAddressChange}
       />
-      <Button endIcon={<Send />} disabled={isSubmitButtonDisabled} onClick={handleVideoSet}>
+      <Button endIcon={<Send />} disabled={!isLocalVideoAddressValid} onClick={handleVideoSet}>
         Set
       </Button>
     </Stack>

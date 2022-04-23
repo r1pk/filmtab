@@ -10,20 +10,24 @@ import ValidationTextField from '../../../components/ValidationTextField';
 import Button from '../../../components/Button';
 
 const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
-  const [roomId, setRoomId] = useState({ value: defaultRoomId, valid: !!defaultRoomId });
-  const [username, setUsername] = useState({ value: '', valid: false });
-  const isSubmitButtonDisabled = !(roomId.valid && username.valid);
+  const [roomId, setRoomId] = useState(defaultRoomId);
+  const [isRoomIdValid, setIsRoomIdValid] = useState(!!defaultRoomId);
+  const [username, setUsername] = useState('');
+  const [isUsernameValid, setIsUsernameValid] = useState(false);
+  const isSubmitButtonDisabled = !(isRoomIdValid && isUsernameValid);
 
   const handleRoomIdChange = (e, validatorResult) => {
-    setRoomId({ value: e.target.value, valid: validatorResult });
+    setRoomId(e.target.value);
+    setIsRoomIdValid(validatorResult);
   };
 
   const handleUsernameChange = (e, validatorResult) => {
-    setUsername({ value: e.target.value, valid: validatorResult });
+    setUsername(e.target.value);
+    setIsUsernameValid(validatorResult);
   };
 
   const handleJoinRoom = () => {
-    onJoinRoom(roomId.value, username.value);
+    onJoinRoom(roomId, username);
   };
 
   return (
@@ -35,15 +39,15 @@ const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
         <Stack spacing={2}>
           <ValidationTextField
             label="Room id"
-            value={roomId.value}
-            error={!roomId.valid}
+            value={roomId}
+            error={!isRoomIdValid}
             validator={isValidRoomId}
             onChange={handleRoomIdChange}
           />
           <ValidationTextField
             label="Username"
-            value={username.value}
-            error={!username.valid}
+            value={username}
+            error={!isUsernameValid}
             validator={isValidUsername}
             onChange={handleUsernameChange}
           />

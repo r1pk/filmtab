@@ -9,15 +9,16 @@ import ValidationTextField from '../../../components/ValidationTextField';
 import Button from '../../../components/Button';
 
 const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
-  const [username, setUsername] = useState({ value: '', valid: false });
-  const isSubmitButtonDisabled = !username.valid;
+  const [username, setUsername] = useState('');
+  const [isUsernameValid, setIsUsernameValid] = useState(false);
 
   const handleUsernameChange = (e, validatorResult) => {
-    setUsername({ value: e.target.value, valid: validatorResult });
+    setUsername(e.target.value);
+    setIsUsernameValid(validatorResult);
   };
 
   const handleCreateRoom = () => {
-    onCreateRoom(username.value);
+    onCreateRoom(username);
   };
 
   return (
@@ -29,15 +30,15 @@ const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
         <Stack spacing={2}>
           <ValidationTextField
             label="Username"
-            value={username.value}
-            error={!username.valid}
+            value={username}
+            error={!isUsernameValid}
             validator={isValidUsername}
             onChange={handleUsernameChange}
           />
         </Stack>
       </CardContent>
       <CardActions>
-        <Button fullWidth disabled={isSubmitButtonDisabled} onClick={handleCreateRoom}>
+        <Button fullWidth disabled={!isUsernameValid} onClick={handleCreateRoom}>
           Create
         </Button>
       </CardActions>
