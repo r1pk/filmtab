@@ -4,18 +4,19 @@ import PropTypes from 'prop-types';
 import { Stack } from '@mui/material';
 import { Send } from '@mui/icons-material';
 
-import { isVideoSupported } from '../utils/isVideoSupported';
+import { validateVideoAddress } from '../utils/validateVideoAddress';
 
-import ValidationTextField from '../../../components/ValidationTextField';
+import TextField from '../../../components/TextField';
 import Button from '../../../components/Button';
 
 const VideoAddressBar = ({ videoAddress, onSetVideo, ...rest }) => {
   const [localVideoAddress, setLocalVideoAddress] = useState(videoAddress);
-  const [isLocalVideoAddressValid, setIsLocalVideoAddressValid] = useState(true);
+  const [isValidLocalVideoAddress, setIsValidLocalVideoAddress] = useState(true);
+  const showLocalVideoAddressInputError = localVideoAddress !== '' && !isValidLocalVideoAddress;
 
-  const handleVideoAddressChange = (e, validatorResult) => {
+  const handleVideoAddressChange = (e) => {
     setLocalVideoAddress(e.target.value);
-    setIsLocalVideoAddressValid(validatorResult);
+    setIsValidLocalVideoAddress(validateVideoAddress(e.target.value));
   };
 
   const handleVideoSet = () => {
@@ -24,21 +25,20 @@ const VideoAddressBar = ({ videoAddress, onSetVideo, ...rest }) => {
 
   useEffect(() => {
     setLocalVideoAddress(videoAddress);
-    setIsLocalVideoAddressValid(true);
+    setIsValidLocalVideoAddress(true);
   }, [videoAddress]);
 
   return (
     <Stack direction="row" spacing={1} {...rest}>
-      <ValidationTextField
+      <TextField
         fullWidth
         variant="outlined"
         label="Video Address"
         value={localVideoAddress}
-        error={!isLocalVideoAddressValid}
-        validator={isVideoSupported}
+        error={showLocalVideoAddressInputError}
         onChange={handleVideoAddressChange}
       />
-      <Button endIcon={<Send />} disabled={!isLocalVideoAddressValid} onClick={handleVideoSet}>
+      <Button endIcon={<Send />} disabled={!isValidLocalVideoAddress} onClick={handleVideoSet}>
         Set
       </Button>
     </Stack>

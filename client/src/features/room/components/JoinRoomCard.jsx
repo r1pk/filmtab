@@ -3,27 +3,29 @@ import PropTypes from 'prop-types';
 
 import { Card, CardContent, CardActions, Stack, Typography } from '@mui/material';
 
-import { isValidRoomId } from '../utils/isValidRoomId';
-import { isValidUsername } from '../utils/isValidUsername';
+import { validateRoomId } from '../utils/validateRoomId';
+import { validateUsername } from '../utils/validateUsername';
 
-import ValidationTextField from '../../../components/ValidationTextField';
+import TextField from '../../../components/TextField';
 import Button from '../../../components/Button';
 
 const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
   const [roomId, setRoomId] = useState(defaultRoomId);
-  const [isRoomIdValid, setIsRoomIdValid] = useState(!!defaultRoomId);
+  const [isValidRoomId, setIsValidRoomId] = useState(!!defaultRoomId);
   const [username, setUsername] = useState('');
-  const [isUsernameValid, setIsUsernameValid] = useState(false);
-  const isSubmitButtonDisabled = !(isRoomIdValid && isUsernameValid);
+  const [isValidUsername, setIsValidUsername] = useState(false);
+  const showRoomIdInputError = roomId !== '' && !isValidRoomId;
+  const showUsernameInputError = username !== '' && !isValidUsername;
+  const isSubmitButtonDisabled = !(isValidRoomId && isValidUsername);
 
-  const handleRoomIdChange = (e, validatorResult) => {
+  const handleRoomIdChange = (e) => {
     setRoomId(e.target.value);
-    setIsRoomIdValid(validatorResult);
+    setIsValidRoomId(validateRoomId(e.target.value));
   };
 
-  const handleUsernameChange = (e, validatorResult) => {
+  const handleUsernameChange = (e) => {
     setUsername(e.target.value);
-    setIsUsernameValid(validatorResult);
+    setIsValidUsername(validateUsername(e.target.value));
   };
 
   const handleJoinRoom = () => {
@@ -37,20 +39,8 @@ const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
           Join Room
         </Typography>
         <Stack spacing={2}>
-          <ValidationTextField
-            label="Room id"
-            value={roomId}
-            error={!isRoomIdValid}
-            validator={isValidRoomId}
-            onChange={handleRoomIdChange}
-          />
-          <ValidationTextField
-            label="Username"
-            value={username}
-            error={!isUsernameValid}
-            validator={isValidUsername}
-            onChange={handleUsernameChange}
-          />
+          <TextField label="Room id" value={roomId} error={showRoomIdInputError} onChange={handleRoomIdChange} />
+          <TextField label="Username" value={username} error={showUsernameInputError} onChange={handleUsernameChange} />
         </Stack>
       </CardContent>
       <CardActions>

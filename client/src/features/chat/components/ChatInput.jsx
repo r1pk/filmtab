@@ -4,48 +4,45 @@ import PropTypes from 'prop-types';
 import { Stack, IconButton, Tooltip } from '@mui/material';
 import { DeleteSweep } from '@mui/icons-material';
 
-import { isValidMessageContent } from '../utils/isValidMessageContent';
+import { validateMessageContent } from '../utils/validateMessageContent';
 
-import ValidationTextField from '../../../components/ValidationTextField';
+import TextField from '../../../components/TextField';
 import Button from '../../../components/Button';
 
 const ChatInput = ({ onSendMessage, onClearChat }) => {
   const [message, setMessage] = useState('');
-  const [isMessageValid, setIsMessageValid] = useState(false);
-  const showInputError = message.length > 0 && !isMessageValid;
+  const [isValidMessage, setIsValidMessage] = useState(false);
+  const showMessageInputError = message !== '' && !isValidMessage;
 
   const handleSendMessage = () => {
-    if (isMessageValid) {
-      onSendMessage(message);
-      setMessage('');
-      setIsMessageValid(false);
-    }
+    onSendMessage(message);
+    setMessage('');
+    setIsValidMessage(false);
   };
 
   const handleClearChat = () => {
     onClearChat();
   };
 
-  const handleMessageContentChange = (e, validatorResult) => {
+  const handleMessageContentChange = (e) => {
     setMessage(e.target.value);
-    setIsMessageValid(validatorResult);
+    setIsValidMessage(validateMessageContent(e.target.value));
   };
 
   const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 && isValidMessage) {
       handleSendMessage();
     }
   };
 
   return (
     <Stack direction="column" spacing={1} py={1} px={2}>
-      <ValidationTextField
+      <TextField
         fullWidth
         label="Message"
         variant="outlined"
         value={message}
-        error={showInputError}
-        validator={isValidMessageContent}
+        error={showMessageInputError}
         onChange={handleMessageContentChange}
         onKeyDown={handleKeyDown}
       />
@@ -57,7 +54,7 @@ const ChatInput = ({ onSendMessage, onClearChat }) => {
             </IconButton>
           </Tooltip>
         </Stack>
-        <Button disabled={!isMessageValid} onClick={handleSendMessage}>
+        <Button disabled={!isValidMessage} onClick={handleSendMessage}>
           Send
         </Button>
       </Stack>

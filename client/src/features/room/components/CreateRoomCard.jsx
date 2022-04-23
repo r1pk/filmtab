@@ -3,18 +3,19 @@ import PropTypes from 'prop-types';
 
 import { Card, CardContent, CardActions, Stack, Typography } from '@mui/material';
 
-import { isValidUsername } from '../utils/isValidUsername';
+import { validateUsername } from '../utils/validateUsername';
 
-import ValidationTextField from '../../../components/ValidationTextField';
+import TextField from '../../../components/TextField';
 import Button from '../../../components/Button';
 
 const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
   const [username, setUsername] = useState('');
   const [isUsernameValid, setIsUsernameValid] = useState(false);
+  const showUsernameInputError = username !== '' && !isUsernameValid;
 
-  const handleUsernameChange = (e, validatorResult) => {
+  const handleUsernameChange = (e) => {
     setUsername(e.target.value);
-    setIsUsernameValid(validatorResult);
+    setIsUsernameValid(validateUsername(e.target.value));
   };
 
   const handleCreateRoom = () => {
@@ -28,13 +29,7 @@ const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
           Create Room
         </Typography>
         <Stack spacing={2}>
-          <ValidationTextField
-            label="Username"
-            value={username}
-            error={!isUsernameValid}
-            validator={isValidUsername}
-            onChange={handleUsernameChange}
-          />
+          <TextField label="Username" value={username} error={showUsernameInputError} onChange={handleUsernameChange} />
         </Stack>
       </CardContent>
       <CardActions>
