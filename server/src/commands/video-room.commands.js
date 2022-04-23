@@ -34,7 +34,7 @@ export class JoinRoomCommand extends Command {
     const normalizedUsername = normalizeUsername(username);
     const user = new User().assign({
       name: normalizedUsername,
-      color: createUserColor(normalizedUsername),
+      color: createUserColor(normalizedUsername, 0.7),
     });
 
     this.state.users.set(sessionId, user);
