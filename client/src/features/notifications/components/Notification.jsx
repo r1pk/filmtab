@@ -27,7 +27,7 @@ Notification.propTypes = {
 
 Notification.defaultProps = {
   type: 'info',
-  message: 'Default notification message',
+  message: '',
 };
 
 export default Notification;

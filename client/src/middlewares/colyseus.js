@@ -130,7 +130,9 @@ export const colyseusMiddleware = (store) => {
           return next(action);
       }
     } catch (error) {
-      store.dispatch(notifications.addNotification('error', error.message));
+      const errorMessage = error.message || 'Something went wrong.';
+
+      store.dispatch(notifications.addNotification('error', errorMessage));
     }
   };
 };
