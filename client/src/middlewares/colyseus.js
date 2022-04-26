@@ -37,7 +37,7 @@ export const colyseusMiddleware = (store) => {
   const onCurrentVideoProgressMessage = ({ currentProgress, updateTimestamp }) => {
     store.dispatch(video.updateVideoProgress(currentProgress, updateTimestamp));
   };
-  const onAddChatMessage = (message) => {
+  const onChatMessage = (message) => {
     store.dispatch(chat.receiveMessage(message));
   };
   const onErrorHandler = (code, message) => {
@@ -58,11 +58,11 @@ export const colyseusMiddleware = (store) => {
 
       onVideoStateChange(updatedState);
     };
-    colyseus.room.state.messages.onAdd = onAddChatMessage;
 
     colyseus.room.onError(onErrorHandler);
     colyseus.room.onLeave(onLeaveHandler);
 
+    colyseus.room.onMessage('chat::message', onChatMessage);
     colyseus.room.onMessage('video::current_video_progress', onCurrentVideoProgressMessage);
   };
 
@@ -122,7 +122,7 @@ export const colyseusMiddleware = (store) => {
         case chat.SEND_MESSAGE: {
           const { content } = action.payload;
 
-          await colyseus.room.send('chat::send', { content });
+          await colyseus.room.send('chat::message', { content });
 
           return next(action);
         }
