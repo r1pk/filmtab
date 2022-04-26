@@ -1,9 +1,9 @@
-import { UPDATE_PLAYED_SECONDS, UPDATE_VIDEO_STATE, RESET_VIDEO_STATE } from './actions';
+import { UPDATE_VIDEO_PROGRESS, UPDATE_VIDEO_STATE, RESET_VIDEO_STATE } from './actions';
 
 const initialReducerState = {
   url: '',
   playing: false,
-  playedSeconds: 0,
+  progress: 0,
   updateTimestamp: 0,
 };
 
@@ -17,12 +17,12 @@ export const reducer = (state = initialReducerState, action) => {
         ...updatedState,
       };
     }
-    case UPDATE_PLAYED_SECONDS: {
-      const { currentPlayedSeconds, updateTimestamp } = action.payload;
+    case UPDATE_VIDEO_PROGRESS: {
+      const { currentProgress, updateTimestamp } = action.payload;
 
       return {
         ...state,
-        playedSeconds: currentPlayedSeconds,
+        progress: currentProgress,
         updateTimestamp: updateTimestamp,
       };
     }

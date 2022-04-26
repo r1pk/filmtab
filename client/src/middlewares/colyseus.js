@@ -34,8 +34,8 @@ export const colyseusMiddleware = (store) => {
   const onVideoStateChange = (updatedState) => {
     store.dispatch(video.updateVideoState(updatedState));
   };
-  const onCurrentPlayedSecondsMessage = ({ currentPlayedSeconds, updateTimestamp }) => {
-    store.dispatch(video.updatePlayedSeconds(currentPlayedSeconds, updateTimestamp));
+  const onCurrentVideoProgressMessage = ({ currentProgress, updateTimestamp }) => {
+    store.dispatch(video.updateVideoProgress(currentProgress, updateTimestamp));
   };
   const onAddChatMessage = (message) => {
     store.dispatch(chat.receiveMessage(message));
@@ -63,7 +63,7 @@ export const colyseusMiddleware = (store) => {
     colyseus.room.onError(onErrorHandler);
     colyseus.room.onLeave(onLeaveHandler);
 
-    colyseus.room.onMessage('video::currentPlayedSeconds', onCurrentPlayedSecondsMessage);
+    colyseus.room.onMessage('video::current_video_progress', onCurrentVideoProgressMessage);
   };
 
   return (next) => async (action) => {
@@ -99,23 +99,23 @@ export const colyseusMiddleware = (store) => {
           return next(action);
         }
         case video.PLAY_VIDEO: {
-          const { playedSeconds } = action.payload;
+          const { progress } = action.payload;
 
-          await colyseus.room.send('video::play', { playedSeconds });
+          await colyseus.room.send('video::play', { progress });
 
           return next(action);
         }
         case video.PAUSE_VIDEO: {
-          const { playedSeconds } = action.payload;
+          const { progress } = action.payload;
 
-          await colyseus.room.send('video::pause', { playedSeconds });
+          await colyseus.room.send('video::pause', { progress });
 
           return next(action);
         }
         case video.SEEK_VIDEO: {
-          const { playedSeconds } = action.payload;
+          const { progress } = action.payload;
 
-          await colyseus.room.send('video::seek', { playedSeconds });
+          await colyseus.room.send('video::seek', { progress });
 
           return next(action);
         }

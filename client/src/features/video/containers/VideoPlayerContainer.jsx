@@ -7,25 +7,25 @@ import VideoPlayer from '../components/VideoPlayer';
 const VideoPlayerContainer = (props) => {
   const url = useSelector((store) => store.video.url);
   const playing = useSelector((store) => store.video.playing);
-  const playedSeconds = useSelector((store) => store.video.playedSeconds);
+  const progress = useSelector((store) => store.video.progress);
 
   const dispatch = useDispatch();
 
-  const handleTogglePlay = (isPlaying, playedSeconds) => {
+  const handleTogglePlay = (isPlaying, progress) => {
     const action = isPlaying ? playVideo : pauseVideo;
 
-    dispatch(action(playedSeconds));
+    dispatch(action(progress));
   };
 
-  const handleSeekVideo = (playedSeconds) => {
-    dispatch(seekVideo(playedSeconds));
+  const handleSeekVideo = (progress) => {
+    dispatch(seekVideo(progress));
   };
 
   return (
     <VideoPlayer
       url={url}
       playing={playing}
-      playedSeconds={playedSeconds}
+      progress={progress}
       onTogglePlay={handleTogglePlay}
       onSeekVideo={handleSeekVideo}
       {...props}

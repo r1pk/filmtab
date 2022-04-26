@@ -3,7 +3,7 @@ export const PLAY_VIDEO = 'video/play';
 export const PAUSE_VIDEO = 'video/pause';
 export const SEEK_VIDEO = 'video/seek';
 export const UPDATE_VIDEO_STATE = 'video/update_state';
-export const UPDATE_PLAYED_SECONDS = 'video/update_played_seconds';
+export const UPDATE_VIDEO_PROGRESS = 'video/update_video_progress';
 export const RESET_VIDEO_STATE = 'video/reset_video_state';
 
 export const setVideo = (url) => ({
@@ -13,24 +13,24 @@ export const setVideo = (url) => ({
   },
 });
 
-export const playVideo = (playedSeconds) => ({
+export const playVideo = (progress) => ({
   type: PLAY_VIDEO,
   payload: {
-    playedSeconds,
+    progress,
   },
 });
 
-export const pauseVideo = (playedSeconds) => ({
+export const pauseVideo = (progress) => ({
   type: PAUSE_VIDEO,
   payload: {
-    playedSeconds,
+    progress,
   },
 });
 
-export const seekVideo = (playedSeconds) => ({
+export const seekVideo = (progress) => ({
   type: SEEK_VIDEO,
   payload: {
-    playedSeconds,
+    progress,
   },
 });
 
@@ -41,10 +41,10 @@ export const updateVideoState = (updatedState) => ({
   },
 });
 
-export const updatePlayedSeconds = (currentPlayedSeconds, updateTimestamp) => ({
-  type: UPDATE_PLAYED_SECONDS,
+export const updateVideoProgress = (currentProgress, updateTimestamp) => ({
+  type: UPDATE_VIDEO_PROGRESS,
   payload: {
-    currentPlayedSeconds,
+    currentProgress,
     updateTimestamp,
   },
 });
