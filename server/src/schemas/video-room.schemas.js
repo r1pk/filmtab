@@ -56,7 +56,6 @@ export class VideoRoomState extends Schema {
 
     this.users = new MapSchema();
     this.video = new Video();
-    this.messages = new ArraySchema();
   }
 }
 
@@ -65,5 +64,4 @@ defineTypes(VideoRoomState, {
     map: User,
   },
   video: Video,
-  messages: [Message],
 });

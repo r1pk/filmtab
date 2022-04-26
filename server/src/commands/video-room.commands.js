@@ -125,7 +125,7 @@ export class ValidateMessageContentCommand extends Command {
   }
 }
 
-export class SaveMessageCommand extends Command {
+export class PublishChatMessageCommand extends Command {
   validate({ sessionId }) {
     return this.state.users.has(sessionId);
   }
@@ -139,16 +139,6 @@ export class SaveMessageCommand extends Command {
       content: normalizedMessageContent,
     });
 
-    this.state.messages.push(message);
-  }
-}
-
-export class RemoveOldMessageCommand extends Command {
-  validate() {
-    return this.state.messages.length > 50;
-  }
-
-  execute() {
-    this.state.messages.shift();
+    this.room.broadcast('chat::message', message);
   }
 }
