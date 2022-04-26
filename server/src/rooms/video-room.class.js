@@ -32,7 +32,7 @@ export class VideoRoom extends Room {
         username: options.username,
       });
 
-      this.dispatcher.dispatch(new Commands.SendCurrentPlayedSeconds(), {
+      this.dispatcher.dispatch(new Commands.SendCurrentVideoProgressCommand(), {
         sessionId: client.sessionId,
       });
     } catch (error) {
@@ -63,7 +63,7 @@ export class VideoRoom extends Room {
   onPlayVideo(client, message) {
     try {
       this.dispatcher.dispatch(new Commands.PlayVideoCommand(), {
-        playedSeconds: message.playedSeconds,
+        progress: message.progress,
       });
     } catch (error) {
       this.handleRoomErrors(client, error);
@@ -73,7 +73,7 @@ export class VideoRoom extends Room {
   onPauseVideo(client, message) {
     try {
       this.dispatcher.dispatch(new Commands.PauseVideoCommand(), {
-        playedSeconds: message.playedSeconds,
+        progress: message.progress,
       });
     } catch (error) {
       this.handleRoomErrors(client, error);
@@ -83,7 +83,7 @@ export class VideoRoom extends Room {
   onSeekVideo(client, message) {
     try {
       this.dispatcher.dispatch(new Commands.SeekVideoCommand(), {
-        playedSeconds: message.playedSeconds,
+        progress: message.progress,
       });
     } catch (error) {
       this.handleRoomErrors(client, error);
@@ -92,16 +92,16 @@ export class VideoRoom extends Room {
 
   onSendMessage(client, message) {
     try {
-      this.dispatcher.dispatch(new Commands.ValidateMessageContent(), {
+      this.dispatcher.dispatch(new Commands.ValidateMessageContentCommand(), {
         content: message.content,
       });
 
-      this.dispatcher.dispatch(new Commands.SaveMessage(), {
+      this.dispatcher.dispatch(new Commands.SaveMessageCommand(), {
         sessionId: client.sessionId,
         content: message.content,
       });
 
-      this.dispatcher.dispatch(new Commands.RemoveOldMessage());
+      this.dispatcher.dispatch(new Commands.RemoveOldMessageCommand());
     } catch (error) {
       this.handleRoomErrors(client, error);
     }

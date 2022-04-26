@@ -58,7 +58,7 @@ room schema {
   video: {
     url: string - address to the currently playing video
     playing: boolean - status of the currently set video
-    playedSeconds: number - number of seconds that elapsed from the beginning of the video (until the last update)
+    progress: number - number of seconds that elapsed from the beginning of the video (until the last update)
     updateTimestamp: number - time at which a video object was changed by, for example, a play/pause action
   }
   messages: Array {
@@ -107,26 +107,26 @@ Available message types
 - `video::play`
   ```
     message {
-      playedSeconds: number - number of seconds passed since the beginning of the video
+      progress: number - number of seconds passed since the beginning of the video
     }
   ```
 - `video::pause`
   ```
     message {
-      playedSeconds: number - number of seconds passed since the beginning of the video
+      progress: number - number of seconds passed since the beginning of the video
     }
   ```
 - `video::seek`
   ```
     message {
-      playedSeconds: number - number of seconds passed since the beginning of the video
+      progress: number - number of seconds passed since the beginning of the video
     }
   ```
-  Server emits only one event `video::currentPlayedSeconds` to the user who joined the room
-- `video::currentPlayedSeconds`
+  Server emits only one event `video::current_video_progress` to the user who joined the room
+- `video::current_video_progress`
   ```
     message {
-      currentPlayedSeconds: number - calculated number of played seconds based on timestamp and played seconds from last action
+      currentProgress: number - calculated number of played seconds based on timestamp and played seconds from last action
       updateTimestamp: number - time at which the event was sent
     }
   ```
@@ -140,7 +140,7 @@ Available message types
 
 #### Client communication
 
-communication with the client is performed through room state updates which are automatically sent to each user in the room via Colyseus.js, the only exception is the `video::playedSeconds` event which is sent by the server to the user who joined the room.
+communication with the client is performed through room state updates which are automatically sent to each user in the room via Colyseus.js, the only exception is the `video::current_video_progress` event which is sent by the server to the user who joined the room.
 
 ## Author
 

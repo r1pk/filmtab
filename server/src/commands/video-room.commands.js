@@ -60,58 +60,58 @@ export class SetVideoUrlCommand extends Command {
 
     this.state.video.url = url;
     this.state.video.playing = false;
-    this.state.video.playedSeconds = 0;
+    this.state.video.progress = 0;
     this.state.video.updateTimestamp = getTimestamp();
   }
 }
 
 export class PlayVideoCommand extends Command {
-  execute({ playedSeconds }) {
-    logger.debug(`Video resumed! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
+  execute({ progress }) {
+    logger.debug(`Video resumed! - RID: ${this.room.roomId} Progress: ${progress}`);
 
     this.state.video.playing = true;
-    this.state.video.playedSeconds = playedSeconds;
+    this.state.video.progress = progress;
     this.state.video.updateTimestamp = getTimestamp();
   }
 }
 
 export class PauseVideoCommand extends Command {
-  execute({ playedSeconds }) {
-    logger.debug(`Video paused! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
+  execute({ progress }) {
+    logger.debug(`Video paused! - RID: ${this.room.roomId} Progress: ${progress}`);
 
     this.state.video.playing = false;
-    this.state.video.playedSeconds = playedSeconds;
+    this.state.video.progress = progress;
     this.state.video.updateTimestamp = getTimestamp();
   }
 }
 
 export class SeekVideoCommand extends Command {
-  execute({ playedSeconds }) {
-    logger.debug(`Video seeking! - RID: ${this.room.roomId} Played seconds: ${playedSeconds}`);
+  execute({ progress }) {
+    logger.debug(`Video seeking! - RID: ${this.room.roomId} Progress: ${progress}`);
 
-    this.state.video.playedSeconds = playedSeconds;
+    this.state.video.progress = progress;
     this.state.video.updateTimestamp = getTimestamp();
   }
 }
 
-export class SendCurrentPlayedSeconds extends Command {
+export class SendCurrentVideoProgressCommand extends Command {
   validate() {
     return this.state.users.size > 1;
   }
 
   execute({ sessionId }) {
-    const { playing, playedSeconds, updateTimestamp } = this.state.video;
+    const { playing, progress, updateTimestamp } = this.state.video;
     const client = this.room.clients.find((client) => client.sessionId === sessionId);
     const timeOffset = (getTimestamp() - updateTimestamp) / 1000;
 
-    client.send('video::currentPlayedSeconds', {
-      currentPlayedSeconds: playedSeconds + (playing ? timeOffset : 0),
+    client.send('video::current_video_progress', {
+      currentProgress: progress + (playing ? timeOffset : 0),
       updateTimestamp: getTimestamp(),
     });
   }
 }
 
-export class ValidateMessageContent extends Command {
+export class ValidateMessageContentCommand extends Command {
   execute({ content }) {
     const normalizedMessageContent = normalizeMessageContent(content);
 
@@ -125,7 +125,7 @@ export class ValidateMessageContent extends Command {
   }
 }
 
-export class SaveMessage extends Command {
+export class SaveMessageCommand extends Command {
   validate({ sessionId }) {
     return this.state.users.has(sessionId);
   }
@@ -143,7 +143,7 @@ export class SaveMessage extends Command {
   }
 }
 
-export class RemoveOldMessage extends Command {
+export class RemoveOldMessageCommand extends Command {
   validate() {
     return this.state.messages.length > 50;
   }
