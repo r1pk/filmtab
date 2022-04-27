@@ -1,6 +1,6 @@
 import { Command } from '@colyseus/command';
 
-import { User, Message } from '../schemas/video-room.schemas.js';
+import { User, Message, CurrentVideoProgress } from '../schemas/video-room.schemas.js';
 
 import { logger } from '../logger.js';
 
@@ -104,10 +104,12 @@ export class SendCurrentVideoProgressCommand extends Command {
     const client = this.room.clients.find((client) => client.sessionId === sessionId);
     const timeOffset = (getTimestamp() - updateTimestamp) / 1000;
 
-    client.send('video::current_video_progress', {
-      currentProgress: progress + (playing ? timeOffset : 0),
+    const currentVideoProgress = new CurrentVideoProgress().assign({
+      currentProgress: playing ? progress + timeOffset : progress,
       updateTimestamp: getTimestamp(),
     });
+
+    client.send('video::current_video_progress', currentVideoProgress);
   }
 }
 

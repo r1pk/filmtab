@@ -32,6 +32,36 @@ defineTypes(Video, {
   updateTimestamp: 'number',
 });
 
+export class VideoRoomState extends Schema {
+  constructor() {
+    super();
+
+    this.users = new MapSchema();
+    this.video = new Video();
+  }
+}
+
+defineTypes(VideoRoomState, {
+  users: {
+    map: User,
+  },
+  video: Video,
+});
+
+export class CurrentVideoProgress extends Schema {
+  constructor() {
+    super();
+
+    this.currentProgress = 0;
+    this.updateTimestamp = 0;
+  }
+}
+
+defineTypes(CurrentVideoProgress, {
+  currentProgress: 'number',
+  updateTimestamp: 'number',
+});
+
 export class Message extends Schema {
   constructor() {
     super();
@@ -48,20 +78,4 @@ defineTypes(Message, {
   author: User,
   content: 'string',
   timestamp: 'number',
-});
-
-export class VideoRoomState extends Schema {
-  constructor() {
-    super();
-
-    this.users = new MapSchema();
-    this.video = new Video();
-  }
-}
-
-defineTypes(VideoRoomState, {
-  users: {
-    map: User,
-  },
-  video: Video,
 });
