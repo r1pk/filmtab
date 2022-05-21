@@ -8,5 +8,7 @@ export { default as JoinRoomCardContainer } from './containers/JoinRoomCardConta
 export { default as LeaveRoomButtonContainer } from './containers/LeaveRoomButtonContainer';
 export { default as RequireRoomMembershipContainer } from './containers/RequireRoomMembershipContainer';
 
+export { default as ColyseusRoomModule } from './api/ColyseusRoomModule';
+
 export * as actions from './redux/actions';
 export * from './redux/reducer';

@@ -57,9 +57,10 @@ src
    |-- components          # shared components used across the entire application
    |-- features            # feature based modules
    |   |-- feature         # feature module
+   |   |   |-- api         # functions, classes, modules that connects feature with external resources
    |   |   |-- components  # components scoped to a specific feature
    |   |   |-- containers  # components of a specific feature connected to a redux store
-   |   |   |-- defaults    # constants and defaults values for a specific feature
+   |   |   |-- defaults    # constants and default values for a specific feature
    |   |   |-- redux       # redux reducer and actions for a specific feature
    |   |   |-- utils       # utility functions used only by this feature
    |   |   |-- index.js    # exports of all required elements from specific feature

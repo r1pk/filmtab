@@ -1,4 +1,4 @@
-import { CREATE_ROOM, JOIN_ROOM, LEAVE_ROOM } from './actions';
+import { SET_ROOM_DETAILS, LEAVE_ROOM } from './actions';
 
 const initialReducerState = {
   isRoomMember: false,
@@ -8,13 +8,12 @@ const initialReducerState = {
 
 export const reducer = (state = initialReducerState, action) => {
   switch (action.type) {
-    case CREATE_ROOM:
-    case JOIN_ROOM: {
+    case SET_ROOM_DETAILS: {
       const { roomId, sessionId } = action.payload;
 
       return {
         ...state,
-        isRoomMember: true,
+        isRoomMember: roomId !== null,
         activeRoomId: roomId,
         sessionId: sessionId,
       };
