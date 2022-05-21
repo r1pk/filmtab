@@ -6,7 +6,6 @@ import VideoAddressBar from '../components/VideoAddressBar';
 
 const VideoAddressBarContainer = (props) => {
   const videoAddress = useSelector((store) => store.video.url);
-
   const dispatch = useDispatch();
 
   const handleSetVideo = (videoUrl) => {

@@ -6,7 +6,6 @@ import Notifications from '../components/Notifications';
 
 const NotificationsContainer = (props) => {
   const notifications = useSelector((store) => store.notifications);
-
   const dispatch = useDispatch();
 
   const handleCloseNotification = () => {

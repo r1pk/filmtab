@@ -6,7 +6,6 @@ import Chat from '../components/Chat';
 
 const ChatContainer = (props) => {
   const messages = useSelector((store) => store.chat.messages);
-
   const dispatch = useDispatch();
 
   const handleSendMessage = (content) => {

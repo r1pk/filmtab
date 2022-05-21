@@ -8,7 +8,6 @@ const VideoPlayerContainer = (props) => {
   const url = useSelector((store) => store.video.url);
   const playing = useSelector((store) => store.video.playing);
   const progress = useSelector((store) => store.video.progress);
-
   const dispatch = useDispatch();
 
   const handleTogglePlay = (isPlaying, progress) => {
