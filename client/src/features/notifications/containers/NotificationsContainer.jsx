@@ -6,10 +6,11 @@ import Notifications from '../components/Notifications';
 
 const NotificationsContainer = (props) => {
   const notifications = useSelector((store) => store.notifications);
+
   const dispatch = useDispatch();
 
-  const handleCloseNotification = () => {
-    dispatch(closeNotification());
+  const handleCloseNotification = (id) => {
+    dispatch(closeNotification(id));
   };
 
   return <Notifications notifications={notifications} onCloseNotification={handleCloseNotification} {...props} />;

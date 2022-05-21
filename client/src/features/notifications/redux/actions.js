@@ -10,8 +10,11 @@ export const addNotification = (type, message) => ({
   },
 });
 
-export const closeNotification = () => ({
+export const closeNotification = (id) => ({
   type: CLOSE_NOTIFICATION,
+  payload: {
+    id,
+  },
 });
 
 export const clearNotifications = () => ({

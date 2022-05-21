@@ -11,8 +11,9 @@ const FilmTab = () => {
   return (
     <Provider store={store}>
       <AppThemeProvider>
-        <FilmTabRouting />
-        <NotificationsContainer />
+        <NotificationsContainer>
+          <FilmTabRouting />
+        </NotificationsContainer>
       </AppThemeProvider>
     </Provider>
   );

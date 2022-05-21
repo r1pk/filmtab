@@ -10,7 +10,7 @@ export const reducer = (state = initialReducerState, action) => {
       return [...state, { id: getUniqueId(), ...action.payload }];
     }
     case CLOSE_NOTIFICATION: {
-      return state.slice(1);
+      return state.filter((notification) => notification.id !== action.payload.id);
     }
     case CLEAR_NOTIFICATIONS: {
       return [...initialReducerState];

@@ -1,4 +1,4 @@
-export { default as Notification } from './components/Notification';
+export { default as NotificationHandler } from './components/NotificationHandler';
 export { default as Notifications } from './components/Notifications';
 
 export { default as NotificationsContainer } from './containers/NotificationsContainer';

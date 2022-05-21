@@ -1,40 +1,28 @@
 import PropTypes from 'prop-types';
 
-import Notification from '../components/Notification';
+import { SnackbarProvider } from 'notistack';
 
-const Notifications = ({ notifications, onCloseNotification, ...rest }) => {
-  const isNotificationAvailable = notifications.length > 0;
+import NotificationHandler from './NotificationHandler';
 
-  const handleCloseNotification = (e, reason) => {
-    if (reason !== 'clickaway') {
-      onCloseNotification();
-    }
-  };
-
+const Notifications = ({ notifications, onCloseNotification, children, ...rest }) => {
   return (
-    isNotificationAvailable && (
-      <Notification
-        open
-        autoHideDuration={10000}
-        onClose={handleCloseNotification}
-        type={notifications[0].type}
-        message={notifications[0].message}
-        key={notifications[0].id}
-        {...rest}
-      />
-    )
+    <SnackbarProvider dense={true} {...rest}>
+      {children}
+      <NotificationHandler notifications={notifications} onCloseNotification={onCloseNotification} />
+    </SnackbarProvider>
   );
 };
 
 Notifications.propTypes = {
   notifications: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      type: PropTypes.string,
+      id: PropTypes.string,
       message: PropTypes.string,
+      type: PropTypes.string,
     })
   ),
-  onCloseNotification: PropTypes.func.isRequired,
+  onCloseNotification: PropTypes.func,
+  children: PropTypes.node.isRequired,
 };
 
 export default Notifications;
