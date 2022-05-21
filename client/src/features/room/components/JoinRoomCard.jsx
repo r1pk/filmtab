@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Card, CardContent, CardActions, Stack, Typography } from '@mui/material';
+import { useForm, Controller } from 'react-hook-form';
 
 import { validateRoomId } from '../utils/validateRoomId';
 import { validateUsername } from '../utils/validateUsername';
@@ -10,26 +10,16 @@ import TextField from '../../../components/TextField';
 import Button from '../../../components/Button';
 
 const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
-  const [roomId, setRoomId] = useState(defaultRoomId);
-  const [isValidRoomId, setIsValidRoomId] = useState(!!defaultRoomId);
-  const [username, setUsername] = useState('');
-  const [isValidUsername, setIsValidUsername] = useState(false);
-  const showRoomIdInputError = roomId !== '' && !isValidRoomId;
-  const showUsernameInputError = username !== '' && !isValidUsername;
-  const isSubmitButtonDisabled = !(isValidRoomId && isValidUsername);
+  const { control, formState, handleSubmit } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      roomId: defaultRoomId,
+      username: '',
+    },
+  });
 
-  const handleRoomIdChange = (e) => {
-    setRoomId(e.target.value);
-    setIsValidRoomId(validateRoomId(e.target.value));
-  };
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-    setIsValidUsername(validateUsername(e.target.value));
-  };
-
-  const handleJoinRoom = () => {
-    onJoinRoom(roomId, username);
+  const onSubmit = (data) => {
+    onJoinRoom(data.roomId, data.username);
   };
 
   return (
@@ -39,12 +29,22 @@ const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
           Join Room
         </Typography>
         <Stack spacing={2}>
-          <TextField label="Room id" value={roomId} error={showRoomIdInputError} onChange={handleRoomIdChange} />
-          <TextField label="Username" value={username} error={showUsernameInputError} onChange={handleUsernameChange} />
+          <Controller
+            name="roomId"
+            control={control}
+            rules={{ required: true, validate: validateRoomId }}
+            render={({ field }) => <TextField {...field} error={!!formState.errors.roomId} label="Room id" />}
+          />
+          <Controller
+            name="username"
+            control={control}
+            rules={{ required: true, validate: validateUsername }}
+            render={({ field }) => <TextField {...field} error={!!formState.errors.username} label="Username" />}
+          />
         </Stack>
       </CardContent>
       <CardActions>
-        <Button fullWidth disabled={isSubmitButtonDisabled} onClick={handleJoinRoom}>
+        <Button fullWidth disabled={!formState.isValid} onClick={handleSubmit(onSubmit)}>
           Join
         </Button>
       </CardActions>

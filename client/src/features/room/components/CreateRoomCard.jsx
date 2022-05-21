@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Card, CardContent, CardActions, Stack, Typography } from '@mui/material';
+import { useForm, Controller } from 'react-hook-form';
 
 import { validateUsername } from '../utils/validateUsername';
 
@@ -9,17 +9,15 @@ import TextField from '../../../components/TextField';
 import Button from '../../../components/Button';
 
 const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
-  const [username, setUsername] = useState('');
-  const [isUsernameValid, setIsUsernameValid] = useState(false);
-  const showUsernameInputError = username !== '' && !isUsernameValid;
+  const { control, formState, handleSubmit } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      username: '',
+    },
+  });
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-    setIsUsernameValid(validateUsername(e.target.value));
-  };
-
-  const handleCreateRoom = () => {
-    onCreateRoom(username);
+  const onSubmit = (data) => {
+    onCreateRoom(data.username);
   };
 
   return (
@@ -29,11 +27,16 @@ const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
           Create Room
         </Typography>
         <Stack spacing={2}>
-          <TextField label="Username" value={username} error={showUsernameInputError} onChange={handleUsernameChange} />
+          <Controller
+            name="username"
+            control={control}
+            rules={{ required: true, validate: validateUsername }}
+            render={({ field }) => <TextField {...field} error={!!formState.errors.username} label="Username" />}
+          />
         </Stack>
       </CardContent>
       <CardActions>
-        <Button fullWidth disabled={!isUsernameValid} onClick={handleCreateRoom}>
+        <Button fullWidth disabled={!formState.isValid} onClick={handleSubmit(onSubmit)}>
           Create
         </Button>
       </CardActions>

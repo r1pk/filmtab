@@ -1,7 +1,9 @@
+import { forwardRef } from 'react';
+
 import { TextField as MUITextField } from '@mui/material';
 
-const TextField = (props) => {
-  return <MUITextField variant="standard" size="small" {...props} />;
+const TextField = (props, ref) => {
+  return <MUITextField variant="standard" size="small" {...props} ref={ref} />;
 };
 
-export default TextField;
+export default forwardRef(TextField);

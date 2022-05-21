@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Stack, IconButton, Tooltip } from '@mui/material';
 import { DeleteSweep } from '@mui/icons-material';
+import { useForm, Controller } from 'react-hook-form';
 
 import { validateMessageContent } from '../utils/validateMessageContent';
 
@@ -10,41 +10,37 @@ import TextField from '../../../components/TextField';
 import Button from '../../../components/Button';
 
 const ChatInput = ({ onSendMessage, onClearChat }) => {
-  const [message, setMessage] = useState('');
-  const [isValidMessage, setIsValidMessage] = useState(false);
-  const showMessageInputError = message !== '' && !isValidMessage;
+  const { control, reset, formState, handleSubmit } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      messageContent: '',
+    },
+  });
 
-  const handleSendMessage = () => {
-    onSendMessage(message);
-    setMessage('');
-    setIsValidMessage(false);
+  const onSubmit = (data) => {
+    onSendMessage(data.messageContent);
+    reset();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13 && formState.isValid) {
+      handleSubmit(onSubmit)();
+    }
   };
 
   const handleClearChat = () => {
     onClearChat();
   };
 
-  const handleMessageContentChange = (e) => {
-    setMessage(e.target.value);
-    setIsValidMessage(validateMessageContent(e.target.value));
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 13 && isValidMessage) {
-      handleSendMessage();
-    }
-  };
-
   return (
     <Stack direction="column" spacing={1} py={1} px={2}>
-      <TextField
-        fullWidth
-        label="Message"
-        variant="outlined"
-        value={message}
-        error={showMessageInputError}
-        onChange={handleMessageContentChange}
-        onKeyDown={handleKeyDown}
+      <Controller
+        name="messageContent"
+        control={control}
+        rules={{ required: true, validate: validateMessageContent }}
+        render={({ field }) => (
+          <TextField {...field} error={!!formState.errors.messageContent} onKeyDown={handleKeyDown} label="Message" />
+        )}
       />
       <Stack direction="row">
         <Stack direction="row" mr="auto">
@@ -54,7 +50,7 @@ const ChatInput = ({ onSendMessage, onClearChat }) => {
             </IconButton>
           </Tooltip>
         </Stack>
-        <Button disabled={!isValidMessage} onClick={handleSendMessage}>
+        <Button disabled={!formState.isValid} onClick={handleSubmit(onSubmit)}>
           Send
         </Button>
       </Stack>
