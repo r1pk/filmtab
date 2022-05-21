@@ -13,7 +13,7 @@ const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'onChange',
     defaultValues: {
-      roomId: defaultRoomId,
+      roomId: defaultRoomId || '',
       username: '',
     },
   });
@@ -55,10 +55,6 @@ const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
 JoinRoomCard.propTypes = {
   defaultRoomId: PropTypes.string,
   onJoinRoom: PropTypes.func.isRequired,
-};
-
-JoinRoomCard.defaultProps = {
-  defaultRoomId: '',
 };
 
 export default JoinRoomCard;

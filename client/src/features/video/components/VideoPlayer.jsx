@@ -58,17 +58,11 @@ const VideoPlayer = ({ url, playing, progress, onTogglePlay, onSeekVideo, ...res
 };
 
 VideoPlayer.propTypes = {
-  url: PropTypes.string,
-  playing: PropTypes.bool,
-  progress: PropTypes.number,
+  url: PropTypes.string.isRequired,
+  playing: PropTypes.bool.isRequired,
+  progress: PropTypes.number.isRequired,
   onTogglePlay: PropTypes.func.isRequired,
   onSeekVideo: PropTypes.func.isRequired,
-};
-
-VideoPlayer.defaultProps = {
-  url: '',
-  playing: false,
-  progress: 0,
 };
 
 export default VideoPlayer;

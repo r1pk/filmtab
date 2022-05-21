@@ -14,7 +14,7 @@ const VideoAddressBar = ({ videoAddress, onSetVideo, ...rest }) => {
   const { control, formState, setValue, trigger, handleSubmit } = useForm({
     mode: 'onChange',
     defaultValues: {
-      videoAddress: videoAddress,
+      videoAddress: videoAddress || '',
     },
   });
 
@@ -55,10 +55,6 @@ const VideoAddressBar = ({ videoAddress, onSetVideo, ...rest }) => {
 VideoAddressBar.propTypes = {
   videoAddress: PropTypes.string,
   onSetVideo: PropTypes.func.isRequired,
-};
-
-VideoAddressBar.defaultProps = {
-  videoAddress: '',
 };
 
 export default VideoAddressBar;

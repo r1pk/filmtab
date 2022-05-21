@@ -19,13 +19,9 @@ Users.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       color: PropTypes.string,
-      sessionId: PropTypes.string,
+      sessionId: PropTypes.string.isRequired,
     })
   ),
-};
-
-Users.defaultProps = {
-  users: [],
 };
 
 export default Users;

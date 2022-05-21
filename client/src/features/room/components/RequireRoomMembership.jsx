@@ -12,13 +12,8 @@ const RequireRoomMembership = ({ isRoomMember, fallbackPath }) => {
 };
 
 RequireRoomMembership.propTypes = {
-  isRoomMember: PropTypes.bool,
-  fallbackPath: PropTypes.string,
-};
-
-RequireRoomMembership.defaultProps = {
-  isRoomMember: false,
-  fallbackPath: '/',
+  isRoomMember: PropTypes.bool.isRequired,
+  fallbackPath: PropTypes.string.isRequired,
 };
 
 export default RequireRoomMembership;

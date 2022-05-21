@@ -46,8 +46,8 @@ Chat.propTypes = {
       timestamp: PropTypes.number,
     })
   ).isRequired,
-  onSendMessage: PropTypes.func.isRequired,
-  onClearChat: PropTypes.func.isRequired,
+  onSendMessage: PropTypes.func,
+  onClearChat: PropTypes.func,
 };
 
 export default Chat;
