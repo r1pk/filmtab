@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 import { Grid, Typography, Tabs, Tab, Box } from '@mui/material';
 
@@ -9,26 +7,11 @@ import { CreateRoomCardContainer, JoinRoomCardContainer } from '../features/room
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const Home = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const initialRoomId = location.state?.roomId;
-  const initialTab = initialRoomId ? 1 : 0;
-
-  const [activeTab, setActiveTab] = useState(initialTab);
-
-  const isRoomMember = useSelector((store) => store.room.isRoomMember);
-  const activeRoomId = useSelector((store) => store.room.activeRoomId);
+  const [activeTab, setActiveTab] = useState(0);
 
   const handleChangeTab = (e, tabIndex) => {
     setActiveTab(tabIndex);
   };
-
-  useEffect(() => {
-    if (isRoomMember) {
-      navigate(`rooms/${activeRoomId}`);
-    }
-  }, [navigate, isRoomMember, activeRoomId]);
 
   useDocumentTitle('FilmTab - Home');
 
@@ -46,7 +29,7 @@ const Home = () => {
         </Tabs>
         <Box p={1}>
           {activeTab === 0 && <CreateRoomCardContainer />}
-          {activeTab === 1 && <JoinRoomCardContainer defaultRoomId={initialRoomId} />}
+          {activeTab === 1 && <JoinRoomCardContainer />}
         </Box>
       </Grid>
     </Grid>
