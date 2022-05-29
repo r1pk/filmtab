@@ -22,6 +22,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.0",
     "redux": "^4.1.1",
+    "unique-names-generator": "^4.7.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

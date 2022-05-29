@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, CardContent, CardActions, Stack, Typography } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 
+import { generateDefaultUsername } from '../utils/generateDefaultUsername';
 import { validateRoomId } from '../utils/validateRoomId';
 import { validateUsername } from '../utils/validateUsername';
 
@@ -14,7 +15,7 @@ const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
     mode: 'onChange',
     defaultValues: {
       roomId: defaultRoomId || '',
-      username: '',
+      username: generateDefaultUsername(),
     },
   });
 

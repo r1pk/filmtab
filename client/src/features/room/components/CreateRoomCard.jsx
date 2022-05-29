@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, CardContent, CardActions, Stack, Typography } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 
+import { generateDefaultUsername } from '../utils/generateDefaultUsername';
 import { validateUsername } from '../utils/validateUsername';
 
 import TextField from '../../../components/TextField';
@@ -12,7 +13,7 @@ const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'onChange',
     defaultValues: {
-      username: '',
+      username: generateDefaultUsername(),
     },
   });
 
