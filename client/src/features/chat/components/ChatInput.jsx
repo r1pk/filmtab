@@ -33,7 +33,7 @@ const ChatInput = ({ onSendMessage, onClearChat }) => {
   };
 
   return (
-    <Stack direction="column" spacing={1} py={1} px={2}>
+    <Stack direction="column" spacing={1} py={1} px={2} sx={{ width: '100%' }}>
       <Controller
         name="messageContent"
         control={control}

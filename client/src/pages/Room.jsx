@@ -48,7 +48,7 @@ const Room = () => {
             </Stack>
           </Stack>
         </Grid>
-        <Grid item>
+        <Grid item xs={11} md={10} lg="auto">
           <ChatContainer />
         </Grid>
       </Grid>

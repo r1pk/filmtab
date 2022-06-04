@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { Box, Paper, List, Divider } from '@mui/material';
+import { Card, CardContent, CardActions, Stack, Divider } from '@mui/material';
 
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -16,9 +16,9 @@ const Chat = ({ messages, onSendMessage, onClearChat }) => {
   }, [messages]);
 
   return (
-    <Paper sx={{ height: '100%' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: 360, height: '100%' }}>
-        <List ref={messageList} sx={{ flex: '1 0 300px', overflow: 'auto' }} dense>
+    <Card sx={{ width: { xs: '100%', lg: 360 } }}>
+      <CardContent ref={messageList} sx={{ height: { xs: 360, lg: 500 }, overflow: 'auto' }}>
+        <Stack>
           {messages.map((message) => (
             <ChatMessage
               key={message.id}
@@ -27,11 +27,13 @@ const Chat = ({ messages, onSendMessage, onClearChat }) => {
               timestamp={message.timestamp}
             />
           ))}
-        </List>
-        <Divider />
+        </Stack>
+      </CardContent>
+      <Divider />
+      <CardActions>
         <ChatInput onSendMessage={onSendMessage} onClearChat={onClearChat} />
-      </Box>
-    </Paper>
+      </CardActions>
+    </Card>
   );
 };
 
