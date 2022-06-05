@@ -53,7 +53,7 @@ Currently the server supports only one type of room
 room schema {
   users: Map {
     name: string - username
-    color: string - user color in rgb format
+    color: string - user color in hsl format
   }
   video: {
     url: string - address to the currently playing video
@@ -136,7 +136,7 @@ room schema {
       id: string - unique id
       author: User {
         name: string - username of the author
-        color: string - user color in rgb format
+        color: string - user color in hsl format
       }
       content: string - content of the message
       timestamp: number - time at which the server received the message

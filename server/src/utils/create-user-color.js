@@ -1,15 +1,9 @@
-export const createValue = (sum) => {
-  const stringSin = Math.sin(sum).toString().substr(6);
-
-  return ~~(parseFloat(`0.${stringSin}`) * 150);
-};
-
-export const createUserColor = (name, brightnessMultiplier = 1) => {
+export const createUserColor = (name, saturationMultiplier = 0.7, lightnessMultiplier = 0.75) => {
   const sum = name.split('').reduce((p, c) => (p += c.charCodeAt(0)), 0);
 
-  const r = Math.min(createValue(sum + 1) * brightnessMultiplier, 255);
-  const g = Math.min(createValue(sum + 2) * brightnessMultiplier, 255);
-  const b = Math.min(createValue(sum + 3) * brightnessMultiplier, 255);
+  const hue = (sum * 137.5) % 360;
+  const saturation = 100 * Math.min(Math.max(saturationMultiplier, 0), 1);
+  const lightness = 100 * Math.min(Math.max(lightnessMultiplier, 0), 1);
 
-  return `rgb(${r}, ${g}, ${b})`;
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 };
