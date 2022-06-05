@@ -5,7 +5,7 @@ import { Tooltip, Avatar } from '@mui/material';
 const User = ({ name, color, ...rest }) => {
   return (
     <Tooltip title={name} {...rest}>
-      <Avatar alt={name} name={name} sx={{ bgcolor: color, color: '#f1f2f3' }}>
+      <Avatar alt={name} name={name} sx={{ bgcolor: color }}>
         {name[0]}
       </Avatar>
     </Tooltip>
