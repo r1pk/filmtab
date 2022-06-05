@@ -43,6 +43,7 @@ Chat.propTypes = {
       id: PropTypes.string.isRequired,
       author: PropTypes.shape({
         name: PropTypes.string,
+        color: PropTypes.string,
       }),
       content: PropTypes.string,
       timestamp: PropTypes.number,
