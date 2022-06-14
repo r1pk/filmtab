@@ -2,7 +2,17 @@ import { Room } from '@colyseus/core';
 import { Dispatcher } from '@colyseus/command';
 
 import { VideoRoomState } from '../schemas/video-room.schemas.js';
-import * as Commands from '../commands/video-room.commands.js';
+
+import { JoinRoomCommand } from '../commands/video-room/join-room.command.js';
+import { LeaveRoomCommand } from '../commands/video-room/leave-room.command.js';
+import { PauseVideoCommand } from '../commands/video-room/pause-video.command.js';
+import { PlayVideoCommand } from '../commands/video-room/play-video.command.js';
+import { PublishChatMessageCommand } from '../commands/video-room/publish-chat-message.command.js';
+import { SeekVideoCommand } from '../commands/video-room/seek-video.command.js';
+import { SendCurrentVideoProgressCommand } from '../commands/video-room/send-current-video-progress.command.js';
+import { SetVideoUrlCommand } from '../commands/video-room/set-video-url.command.js';
+import { ValidateMessageContentCommand } from '../commands/video-room/validate-message-content.command.js';
+import { ValidateUsernameCommand } from '../commands/video-room/validate-username.command.js';
 
 import { logger } from '../logger.js';
 
@@ -23,16 +33,16 @@ export class VideoRoom extends Room {
 
   onJoin(client, options) {
     try {
-      this.dispatcher.dispatch(new Commands.ValidateUsernameCommand(), {
+      this.dispatcher.dispatch(new ValidateUsernameCommand(), {
         username: options.username,
       });
 
-      this.dispatcher.dispatch(new Commands.JoinRoomCommand(), {
+      this.dispatcher.dispatch(new JoinRoomCommand(), {
         sessionId: client.sessionId,
         username: options.username,
       });
 
-      this.dispatcher.dispatch(new Commands.SendCurrentVideoProgressCommand(), {
+      this.dispatcher.dispatch(new SendCurrentVideoProgressCommand(), {
         sessionId: client.sessionId,
       });
     } catch (error) {
@@ -42,7 +52,7 @@ export class VideoRoom extends Room {
 
   onLeave(client) {
     try {
-      this.dispatcher.dispatch(new Commands.LeaveRoomCommand(), {
+      this.dispatcher.dispatch(new LeaveRoomCommand(), {
         sessionId: client.sessionId,
       });
     } catch (error) {
@@ -52,7 +62,7 @@ export class VideoRoom extends Room {
 
   onSetVideo(client, message) {
     try {
-      this.dispatcher.dispatch(new Commands.SetVideoUrlCommand(), {
+      this.dispatcher.dispatch(new SetVideoUrlCommand(), {
         url: message.url,
       });
     } catch (error) {
@@ -62,7 +72,7 @@ export class VideoRoom extends Room {
 
   onPlayVideo(client, message) {
     try {
-      this.dispatcher.dispatch(new Commands.PlayVideoCommand(), {
+      this.dispatcher.dispatch(new PlayVideoCommand(), {
         progress: message.progress,
       });
     } catch (error) {
@@ -72,7 +82,7 @@ export class VideoRoom extends Room {
 
   onPauseVideo(client, message) {
     try {
-      this.dispatcher.dispatch(new Commands.PauseVideoCommand(), {
+      this.dispatcher.dispatch(new PauseVideoCommand(), {
         progress: message.progress,
       });
     } catch (error) {
@@ -82,7 +92,7 @@ export class VideoRoom extends Room {
 
   onSeekVideo(client, message) {
     try {
-      this.dispatcher.dispatch(new Commands.SeekVideoCommand(), {
+      this.dispatcher.dispatch(new SeekVideoCommand(), {
         progress: message.progress,
       });
     } catch (error) {
@@ -92,11 +102,11 @@ export class VideoRoom extends Room {
 
   onChatMessage(client, message) {
     try {
-      this.dispatcher.dispatch(new Commands.ValidateMessageContentCommand(), {
+      this.dispatcher.dispatch(new ValidateMessageContentCommand(), {
         content: message.content,
       });
 
-      this.dispatcher.dispatch(new Commands.PublishChatMessageCommand(), {
+      this.dispatcher.dispatch(new PublishChatMessageCommand(), {
         sessionId: client.sessionId,
         content: message.content,
       });

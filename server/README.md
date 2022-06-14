@@ -32,7 +32,7 @@ npm start
 
 ```
 src
-   |-- commands         # folder contains commands used in room class
+   |-- commands         # folder containing grouped commands for a given type of room
    |-- utils            # folder contains utils functions used in many files
    |-- rooms            # folder contains definitions of room classes
    |-- schemas          # folder contains state definitions for rooms
