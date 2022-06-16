@@ -4,14 +4,13 @@ const useDocumentTitle = (title) => {
   const initialTitle = useRef(document.title);
 
   useEffect(() => {
-    initialTitle.current = document.title;
-    return () => {
-      document.title = initialTitle.current;
-    };
-  }, []);
+    const previousTitle = initialTitle.current;
 
-  useEffect(() => {
     document.title = title;
+
+    return () => {
+      document.title = previousTitle;
+    };
   }, [title]);
 };
 
