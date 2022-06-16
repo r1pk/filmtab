@@ -5,4 +5,5 @@ export const options = {
     global: false,
   },
   clickToPlay: false,
+  ratio: '16:9',
 };
