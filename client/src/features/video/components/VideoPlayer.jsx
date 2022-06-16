@@ -7,7 +7,6 @@ import { resolveVideoSource } from '../utils/resolveVideoSource';
 import { buildPlayerOptions } from '../utils/buildPlayerOptions';
 
 const VideoPlayer = ({ url, playing, progress, onTogglePlay, onSeekVideo, ...rest }) => {
-  const componentMountTimestamp = useMemo(() => new Date().getTime(), []);
   const player = useRef(null);
 
   const handleTogglePlay = () => {
@@ -34,23 +33,35 @@ const VideoPlayer = ({ url, playing, progress, onTogglePlay, onSeekVideo, ...res
   );
 
   useEffect(() => {
-    if (player.current.plyr.ready !== undefined) {
-      player.current.plyr.once('ready', () => {
-        player.current.plyr.once('playing', () => {
-          const shouldAddOffset = progress !== 0;
-          const offset = shouldAddOffset ? (new Date().getTime() - componentMountTimestamp) / 1000 : 0;
+    const playerInstance = player.current.plyr;
 
-          player.current.plyr.currentTime = progress + offset;
-        });
-        player.current.plyr.togglePlay(playing);
-      });
+    const handlePlayerPlaying = () => {
+      playerInstance.currentTime = progress;
+    };
+
+    const handlePlayerReady = () => {
+      playerInstance.once('playing', handlePlayerPlaying);
+      playerInstance.togglePlay(playing);
+    };
+
+    if (playerInstance.ready !== undefined) {
+      playerInstance.once('ready', handlePlayerReady);
     }
-  }, [playing, progress, componentMountTimestamp]);
+
+    return () => {
+      if (playerInstance.ready !== undefined) {
+        playerInstance.off('ready', handlePlayerReady);
+        playerInstance.off('playing', handlePlayerPlaying);
+      }
+    };
+  }, [playing, progress]);
 
   useEffect(() => {
-    if (player.current.plyr.ready) {
-      player.current.plyr.currentTime = progress;
-      player.current.plyr.togglePlay(playing);
+    const playerInstance = player.current.plyr;
+
+    if (playerInstance.ready) {
+      playerInstance.currentTime = progress;
+      playerInstance.togglePlay(playing);
     }
   }, [playing, progress]);
 
