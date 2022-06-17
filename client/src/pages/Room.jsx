@@ -12,19 +12,17 @@ import { ChatContainer } from '../features/chat';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const Room = () => {
-  const { roomId } = useParams();
-
-  const [isTheaterModeActive, setIsTheaterModeActive] = useState(false);
-  const theatreModeGridSizes = { xs: 11, md: 10, lg: 10, xl: 9 };
-
   const isRoomMember = useSelector((store) => store.room.isRoomMember);
   const dispatch = useDispatch();
 
-  useDocumentTitle(`FilmTab - Room: ${roomId}`);
+  const [isTheaterModeActive, setIsTheaterModeActive] = useState(false);
+  const theaterModeGridSizes = { xs: 11, md: 10, lg: 10, xl: 9 };
 
   const handleToggleTheaterMode = () => {
     setIsTheaterModeActive(!isTheaterModeActive);
   };
+
+  const { roomId } = useParams();
 
   useEffect(() => {
     return () => {
@@ -33,6 +31,8 @@ const Room = () => {
       }
     };
   }, [dispatch, isRoomMember]);
+
+  useDocumentTitle(`FilmTab - Room: ${roomId}`);
 
   return (
     <>
@@ -45,7 +45,7 @@ const Room = () => {
         </Stack>
       </Backdrop>
       <Grid container justifyContent="center" my={2} spacing={1}>
-        <Grid item xs={11} md={10} lg={8} xl={6} {...(isTheaterModeActive && theatreModeGridSizes)}>
+        <Grid item xs={11} md={10} lg={8} xl={6} {...(isTheaterModeActive && theaterModeGridSizes)}>
           <Stack spacing={1}>
             <VideoAddressBarContainer />
             <VideoPlayerContainer />
