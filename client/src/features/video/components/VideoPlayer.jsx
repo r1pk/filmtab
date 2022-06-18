@@ -33,35 +33,24 @@ const VideoPlayer = ({ url, playing, progress, onTogglePlay, onSeekVideo, ...res
   );
 
   useEffect(() => {
-    const playerInstance = player.current.plyr;
-
     const handlePlayerPlaying = () => {
-      playerInstance.currentTime = progress;
+      player.current.plyr.currentTime = progress;
     };
 
     const handlePlayerReady = () => {
-      playerInstance.once('playing', handlePlayerPlaying);
-      playerInstance.togglePlay(playing);
+      player.current.plyr.once('playing', handlePlayerPlaying);
+      player.current.plyr.togglePlay(playing);
     };
 
-    if (playerInstance.ready !== undefined) {
-      playerInstance.once('ready', handlePlayerReady);
+    if (player.current.plyr.ready !== undefined) {
+      player.current.plyr.once('ready', handlePlayerReady);
     }
-
-    return () => {
-      if (playerInstance.ready !== undefined) {
-        playerInstance.off('ready', handlePlayerReady);
-        playerInstance.off('playing', handlePlayerPlaying);
-      }
-    };
   }, [playing, progress]);
 
   useEffect(() => {
-    const playerInstance = player.current.plyr;
-
-    if (playerInstance.ready) {
-      playerInstance.currentTime = progress;
-      playerInstance.togglePlay(playing);
+    if (player.current.plyr.ready) {
+      player.current.plyr.currentTime = progress;
+      player.current.plyr.togglePlay(playing);
     }
   }, [playing, progress]);
 
