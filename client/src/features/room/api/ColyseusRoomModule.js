@@ -39,6 +39,7 @@ class ColyseusRoomModule {
   handleLeaveRoomEvent = () => {
     if (this.colyseus.roomInstance) {
       this.colyseus.roomInstance.removeAllListeners();
+      this.store.dispatch(actions.leaveRoom());
     }
   };
 
