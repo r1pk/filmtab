@@ -6,7 +6,7 @@
   "main": "./src/index.js",
   "type": "module",
   "engines": {
-    "node": "16.x"
+    "node": "17.x"
   },
   "scripts": {
     "start": "node src/index.js",
@@ -26,10 +26,10 @@
     "prettier": "2.5.1"
   },
   "dependencies": {
-    "@colyseus/arena": "^0.14.7",
-    "@colyseus/command": "^0.1.7",
+    "@colyseus/arena": "^0.14.24",
+    "@colyseus/command": "^0.2.1",
     "@colyseus/monitor": "^0.14.22",
-    "colyseus": "^0.14.9",
+    "colyseus": "^0.14.23",
     "colyseus.js": "^0.14.13",
     "express-basic-auth": "^1.2.1",
     "winston": "^3.3.0"
