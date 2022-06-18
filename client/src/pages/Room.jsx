@@ -4,7 +4,7 @@ import { useParams, Link as RouterLink } from 'react-router-dom';
 
 import { Grid, Stack, Backdrop, Link } from '@mui/material';
 
-import { VideoAddressBarContainer, VideoPlayerContainer, TheaterModeButton } from '../features/video';
+import { VideoAddressBarContainer, VideoPlayerContainer, TheaterModeButton, TheaterModeBox } from '../features/video';
 import { UsersContainer } from '../features/users';
 import { JoinRoomCardContainer, LeaveRoomButtonContainer, actions } from '../features/room';
 import { ChatContainer } from '../features/chat';
@@ -16,7 +16,7 @@ const Room = () => {
   const dispatch = useDispatch();
 
   const [isTheaterModeActive, setIsTheaterModeActive] = useState(false);
-  const theaterModeGridSizes = { xs: 11, md: 10, lg: 10, xl: 9 };
+  const theaterModeGridSizes = { xs: 12, md: 12, lg: 12, xl: 12 };
 
   const handleToggleTheaterMode = () => {
     setIsTheaterModeActive(!isTheaterModeActive);
@@ -48,7 +48,9 @@ const Room = () => {
         <Grid item xs={11} md={10} lg={8} xl={6} {...(isTheaterModeActive && theaterModeGridSizes)}>
           <Stack spacing={1}>
             <VideoAddressBarContainer />
-            <VideoPlayerContainer />
+            <TheaterModeBox isTheaterModeActive={isTheaterModeActive}>
+              <VideoPlayerContainer />
+            </TheaterModeBox>
             <UsersContainer />
             <Stack direction="row" spacing={1} justifyContent="flex-end">
               <TheaterModeButton
