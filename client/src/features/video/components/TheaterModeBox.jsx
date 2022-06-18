@@ -18,7 +18,7 @@ const TheaterModeBox = ({ children, isTheaterModeActive, ...rest }) => {
   }, [isTheaterModeActive]);
 
   return (
-    <Box ref={box} sx={isTheaterModeActive && theaterModeStyles} {...rest}>
+    <Box ref={box} sx={isTheaterModeActive ? theaterModeStyles : null} {...rest}>
       {children}
     </Box>
   );
