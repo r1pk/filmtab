@@ -1,6 +1,8 @@
 import Arena from '@colyseus/arena';
 import { monitor } from '@colyseus/monitor';
 
+import basicAuth from 'express-basic-auth';
+
 import { VideoRoom } from './rooms/video-room.class.js';
 
 export default Arena.default({
@@ -11,11 +13,22 @@ export default Arena.default({
   },
 
   initializeExpress: (app) => {
-    app.get('/', (req, res) => {
-      res.send('It\'s time to kick ass and chew bubblegum!');
-    });
+    const { MONITOR_ADMIN_USERNAME, MONITOR_ADMIN_PASSWORD } = process.env;
 
-    app.use('/colyseus', monitor());
+    if (MONITOR_ADMIN_USERNAME && MONITOR_ADMIN_PASSWORD) {
+      const basicAuthMiddleware = basicAuth({
+        users: {
+          [MONITOR_ADMIN_USERNAME]: MONITOR_ADMIN_PASSWORD,
+        },
+        challenge: true,
+      });
+
+      app.use('/colyseus', basicAuthMiddleware, monitor());
+    }
+
+    app.get('/', (req, res) => {
+      res.send('Its time to kick ass and chew bubblegum!');
+    });
   },
 
   beforeListen: () => {},

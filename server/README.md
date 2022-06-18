@@ -151,6 +151,11 @@ Communication with the clients in the room is performed mainly by updating the r
 - `video::current_video_progress` - Event sends the calculated video progress to a new user who joins the room while watching the video.
 - `chat::message` - Event sends the parsed message that was received from a single client to every client in that room.
 
+## Server monitor
+
+The filmtab-server also has a configured monitor provided from the `@colyseus/monitor` package which is available at `{SERVER_IP}:{SERVER_PORT}/colyseus` url.
+The monitor starts only if an admin has assigned authorization data in environment variables (`MONITOR_ADMIN_USERNAME` and `MONITOR_ADMIN_PASSWORD`).
+
 ## Author
 
 - Patryk [r1pk](https://github.com/r1pk) Krawczyk

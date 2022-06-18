@@ -28,9 +28,10 @@
   "dependencies": {
     "@colyseus/arena": "^0.14.7",
     "@colyseus/command": "^0.1.7",
-    "@colyseus/monitor": "^0.14.0",
+    "@colyseus/monitor": "^0.14.22",
     "colyseus": "^0.14.9",
     "colyseus.js": "^0.14.13",
+    "express-basic-auth": "^1.2.1",
     "winston": "^3.3.0"
   }
 }
