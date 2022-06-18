@@ -7,9 +7,9 @@ import { generateDefaultUsername } from '../utils/generateDefaultUsername';
 import { validateUsername } from '../utils/validateUsername';
 
 import TextField from '../../../components/TextField';
-import Button from '../../../components/Button';
+import LoadingButton from '../../../components/LoadingButton';
 
-const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
+const CreateRoomCard = ({ isConnecting, onCreateRoom, ...rest }) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -37,15 +37,21 @@ const CreateRoomCard = ({ onCreateRoom, ...rest }) => {
         </Stack>
       </CardContent>
       <CardActions>
-        <Button fullWidth disabled={!formState.isValid} onClick={handleSubmit(onSubmit)}>
-          Create
-        </Button>
+        <LoadingButton
+          fullWidth
+          disabled={!formState.isValid}
+          loading={isConnecting}
+          onClick={handleSubmit(onSubmit)}
+        >
+          {isConnecting ? 'Creating...' : 'Create'}
+        </LoadingButton>
       </CardActions>
     </Card>
   );
 };
 
 CreateRoomCard.propTypes = {
+  isConnecting: PropTypes.bool,
   onCreateRoom: PropTypes.func.isRequired,
 };
 

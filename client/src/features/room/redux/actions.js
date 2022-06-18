@@ -1,7 +1,15 @@
+export const SET_CONNECTING_FLAG = 'room/set_connecting_flag';
 export const SET_ROOM_DETAILS = 'room/set_details';
 export const CREATE_ROOM = 'room/create';
 export const JOIN_ROOM = 'room/join';
 export const LEAVE_ROOM = 'room/leave';
+
+export const setConnectingFlag = (isConnecting) => ({
+  type: SET_CONNECTING_FLAG,
+  payload: {
+    isConnecting,
+  },
+});
 
 export const setRoomDetails = (roomId, sessionId) => ({
   type: SET_ROOM_DETAILS,

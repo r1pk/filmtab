@@ -8,9 +8,9 @@ import { validateRoomId } from '../utils/validateRoomId';
 import { validateUsername } from '../utils/validateUsername';
 
 import TextField from '../../../components/TextField';
-import Button from '../../../components/Button';
+import LoadingButton from '../../../components/LoadingButton';
 
-const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
+const JoinRoomCard = ({ isConnecting, defaultRoomId, onJoinRoom, ...rest }) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -45,15 +45,21 @@ const JoinRoomCard = ({ onJoinRoom, defaultRoomId, ...rest }) => {
         </Stack>
       </CardContent>
       <CardActions>
-        <Button fullWidth disabled={!formState.isValid} onClick={handleSubmit(onSubmit)}>
-          Join
-        </Button>
+        <LoadingButton
+          fullWidth
+          disabled={!formState.isValid}
+          loading={isConnecting}
+          onClick={handleSubmit(onSubmit)}
+        >
+          {isConnecting ? 'Joining...' : 'Join'}
+        </LoadingButton>
       </CardActions>
     </Card>
   );
 };
 
 JoinRoomCard.propTypes = {
+  isConnecting: PropTypes.bool,
   defaultRoomId: PropTypes.string,
   onJoinRoom: PropTypes.func.isRequired,
 };

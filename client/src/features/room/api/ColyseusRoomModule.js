@@ -9,11 +9,27 @@ class ColyseusRoomModule {
   }
 
   handleCreateRoom = async (payload) => {
-    this.colyseus.roomInstance = await this.colyseus.client.create('video-room', { username: payload.username });
+    if (!this.store.getState().room.isConnecting) {
+      try {
+        this.store.dispatch(actions.setConnectingFlag(true));
+        this.colyseus.roomInstance = await this.colyseus.client.create('video-room', { username: payload.username });
+      } finally {
+        this.store.dispatch(actions.setConnectingFlag(false));
+      }
+    }
   };
 
   handleJoinRoom = async (payload) => {
-    this.colyseus.roomInstance = await this.colyseus.client.joinById(payload.roomId, { username: payload.username });
+    if (!this.store.getState().room.isConnecting) {
+      try {
+        this.store.dispatch(actions.setConnectingFlag(true));
+        this.colyseus.roomInstance = await this.colyseus.client.joinById(payload.roomId, {
+          username: payload.username,
+        });
+      } finally {
+        this.store.dispatch(actions.setConnectingFlag(false));
+      }
+    }
   };
 
   handleLeaveRoom = async () => {

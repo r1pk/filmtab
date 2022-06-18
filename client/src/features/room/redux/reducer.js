@@ -1,6 +1,7 @@
-import { SET_ROOM_DETAILS, LEAVE_ROOM } from './actions';
+import { SET_CONNECTING_FLAG, SET_ROOM_DETAILS, LEAVE_ROOM } from './actions';
 
 const initialReducerState = {
+  isConnecting: false,
   isRoomMember: false,
   activeRoomId: null,
   sessionId: null,
@@ -8,6 +9,12 @@ const initialReducerState = {
 
 export const reducer = (state = initialReducerState, action) => {
   switch (action.type) {
+    case SET_CONNECTING_FLAG: {
+      return {
+        ...state,
+        isConnecting: action.payload.isConnecting,
+      };
+    }
     case SET_ROOM_DETAILS: {
       const { roomId, sessionId } = action.payload;
 
