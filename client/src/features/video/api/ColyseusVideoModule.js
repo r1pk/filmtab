@@ -5,6 +5,8 @@ class ColyseusVideoModule {
     this.colyseus = colyseus;
     this.store = store;
 
+    this.progress = 0;
+
     this.colyseus.roomInstanceSubscribers.push(this.roomInstanceListener);
   }
 
@@ -24,8 +26,16 @@ class ColyseusVideoModule {
     await this.colyseus.roomInstance.send('video::seek', { progress: payload.progress });
   };
 
+  handleIntervalProgressTick = (payload) => {
+    this.progress = payload.progress;
+  };
+
+  handleRequestVideoProgressMessage = async () => {
+    await this.colyseus.roomInstance.send('video::current_progress', { progress: this.progress });
+  };
+
   handleCurrentVideoProgressMessage = (payload) => {
-    this.store.dispatch(actions.updateVideoProgress(payload.currentProgress, payload.updateTimestamp));
+    this.store.dispatch(actions.setVideoProgress(payload.progress, payload.updateTimestamp));
   };
 
   handleLeaveRoomEvent = () => {
@@ -38,6 +48,7 @@ class ColyseusVideoModule {
       [actions.PLAY_VIDEO]: this.handlePlayVideo,
       [actions.PAUSE_VIDEO]: this.handlePauseVideo,
       [actions.SEEK_VIDEO]: this.handleSeekVideo,
+      [actions.VIDEO_INTERVAL_PROGRESS_TICK]: this.handleIntervalProgressTick,
     };
   };
 
@@ -55,7 +66,8 @@ class ColyseusVideoModule {
         this.store.dispatch(actions.updateVideoState(updatedState));
       };
 
-      room.onMessage('video::current_video_progress', this.handleCurrentVideoProgressMessage);
+      room.onMessage('video::current_progress', this.handleCurrentVideoProgressMessage);
+      room.onMessage('video::request_progress', this.handleRequestVideoProgressMessage);
       room.onLeave(this.handleLeaveRoomEvent);
     }
   };

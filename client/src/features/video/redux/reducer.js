@@ -1,4 +1,4 @@
-import { UPDATE_VIDEO_PROGRESS, UPDATE_VIDEO_STATE, RESET_VIDEO_STATE } from './actions';
+import { SET_VIDEO_PROGRESS, UPDATE_VIDEO_STATE, RESET_VIDEO_STATE } from './actions';
 
 const initialReducerState = {
   url: '',
@@ -17,12 +17,12 @@ export const reducer = (state = initialReducerState, action) => {
         ...updatedState,
       };
     }
-    case UPDATE_VIDEO_PROGRESS: {
-      const { currentProgress, updateTimestamp } = action.payload;
+    case SET_VIDEO_PROGRESS: {
+      const { progress, updateTimestamp } = action.payload;
 
       return {
         ...state,
-        progress: currentProgress,
+        progress: progress,
         updateTimestamp: updateTimestamp,
       };
     }

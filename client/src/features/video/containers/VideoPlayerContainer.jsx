@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import { playVideo, pauseVideo, seekVideo } from '../redux/actions';
+import { playVideo, pauseVideo, seekVideo, sendIntervalProgressTick } from '../redux/actions';
 
 import VideoPlayer from '../components/VideoPlayer';
 
@@ -20,6 +20,10 @@ const VideoPlayerContainer = (props) => {
     dispatch(seekVideo(progress));
   };
 
+  const handleIntervalProgressTick = (progress) => {
+    dispatch(sendIntervalProgressTick(progress));
+  };
+
   return (
     <VideoPlayer
       url={url}
@@ -27,6 +31,7 @@ const VideoPlayerContainer = (props) => {
       progress={progress}
       onTogglePlay={handleTogglePlay}
       onSeekVideo={handleSeekVideo}
+      onIntervalProgressTick={handleIntervalProgressTick}
       {...props}
     />
   );

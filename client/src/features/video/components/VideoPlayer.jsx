@@ -6,7 +6,7 @@ import Plyr from 'plyr-react';
 import { resolveVideoSource } from '../utils/resolveVideoSource';
 import { buildPlayerOptions } from '../utils/buildPlayerOptions';
 
-const VideoPlayer = ({ url, playing, progress, onTogglePlay, onSeekVideo, ...rest }) => {
+const VideoPlayer = ({ url, playing, progress, onTogglePlay, onSeekVideo, onIntervalProgressTick, ...rest }) => {
   const player = useRef(null);
 
   const handleTogglePlay = () => {
@@ -54,6 +54,18 @@ const VideoPlayer = ({ url, playing, progress, onTogglePlay, onSeekVideo, ...res
     }
   }, [playing, progress]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (playing && player.current.plyr.ready) {
+        onIntervalProgressTick(player.current.plyr.currentTime);
+      }
+    }, 250);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [playing, onIntervalProgressTick]);
+
   return <Plyr ref={player} source={videoSource} options={playerOptions} {...rest} />;
 };
 
@@ -63,6 +75,7 @@ VideoPlayer.propTypes = {
   progress: PropTypes.number.isRequired,
   onTogglePlay: PropTypes.func.isRequired,
   onSeekVideo: PropTypes.func.isRequired,
+  onIntervalProgressTick: PropTypes.func.isRequired,
 };
 
 export default VideoPlayer;
