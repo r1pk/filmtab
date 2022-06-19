@@ -113,6 +113,12 @@ room schema {
       progress: number - number of seconds passed since the beginning of the video
     }
   ```
+- `video::current_progress`
+  ```
+    message {
+      progress: number - current progres of the video
+    }
+  ```
 - `chat::message`
   ```
     message {
@@ -122,14 +128,21 @@ room schema {
 
 #### Events emitted by the server
 
-- `video::current_video_progress`
+- `video::current_progress`
   ```
     message {
-      currentProgress: number - calculated number of played seconds based on timestamp and played seconds from last action
+      progress: number - number of played seconds received from the fastest response
       updateTimestamp: number - time at which the event was sent
     }
   ```
-  Event is sent to the next users who have joined the room where the video is currently playing to synchronize the progress of the video.
+  Event is sent to the new users who have joined the room where the video is currently playing to synchronize the progress of the video.
+- `video::request_progress`
+  ```
+    message {
+    }
+  ```
+  Event is emitted only after new user has joined the room. It is used to request inform users that they should send their current progress of the video in
+  the previous `video::current_progress` event. Event is emitted to all users in the room except the user who just joined.
 - `chat::message`
   ```
     message {
@@ -146,9 +159,10 @@ room schema {
 
 #### Client communication
 
-Communication with the clients in the room is performed mainly by updating the room state which is later synchronized for each client by Colyseus.js. The exceptions to the above rule are the two events described below:
+Communication with the clients in the room is performed mainly by updating the room state which is later synchronized for each client by Colyseus.js. The exceptions to the above rule are the three events described below.
 
-- `video::current_video_progress` - Event sends the calculated video progress to a new user who joins the room while watching the video.
+- `video::request_progress` - Event is emitted only after new user has joined the room. It is used to request inform users that they should send their current progress of the video in the previous `video::current_progress` event.
+- `video::current_progress` - Event sends current progress of the video to the client.
 - `chat::message` - Event sends the parsed message that was received from a single client to every client in that room.
 
 ## Server monitor

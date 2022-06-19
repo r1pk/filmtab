@@ -8,8 +8,9 @@ import { LeaveRoomCommand } from '../commands/video-room/leave-room.command.js';
 import { PauseVideoCommand } from '../commands/video-room/pause-video.command.js';
 import { PlayVideoCommand } from '../commands/video-room/play-video.command.js';
 import { PublishChatMessageCommand } from '../commands/video-room/publish-chat-message.command.js';
+import { RequestVideoProgress } from '../commands/video-room/request-video-progress.command.js';
 import { SeekVideoCommand } from '../commands/video-room/seek-video.command.js';
-import { SendCurrentVideoProgressCommand } from '../commands/video-room/send-current-video-progress.command.js';
+import { SendVideoProgressCommand } from '../commands/video-room/send-video-progress.command.js';
 import { SetVideoUrlCommand } from '../commands/video-room/set-video-url.command.js';
 import { ValidateMessageContentCommand } from '../commands/video-room/validate-message-content.command.js';
 import { ValidateUsernameCommand } from '../commands/video-room/validate-username.command.js';
@@ -28,6 +29,7 @@ export class VideoRoom extends Room {
     this.onMessage('video::play', this.onPlayVideo.bind(this));
     this.onMessage('video::pause', this.onPauseVideo.bind(this));
     this.onMessage('video::seek', this.onSeekVideo.bind(this));
+    this.onMessage('video::current_progress', this.onCurrentVideoProgressMessage.bind(this));
     this.onMessage('chat::message', this.onChatMessage.bind(this));
   }
 
@@ -42,8 +44,8 @@ export class VideoRoom extends Room {
         username: options.username,
       });
 
-      this.dispatcher.dispatch(new SendCurrentVideoProgressCommand(), {
-        sessionId: client.sessionId,
+      this.dispatcher.dispatch(new RequestVideoProgress(), {
+        client: client,
       });
     } catch (error) {
       this.handleRoomErrors(client, error);
@@ -98,6 +100,13 @@ export class VideoRoom extends Room {
     } catch (error) {
       this.handleRoomErrors(client, error);
     }
+  }
+
+  onCurrentVideoProgressMessage(client, message) {
+    this.dispatcher.dispatch(new SendVideoProgressCommand(), {
+      clients: this.clients,
+      progress: message.progress,
+    });
   }
 
   onChatMessage(client, message) {

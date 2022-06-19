@@ -52,13 +52,13 @@ export class CurrentVideoProgress extends Schema {
   constructor() {
     super();
 
-    this.currentProgress = 0;
+    this.progress = 0;
     this.updateTimestamp = 0;
   }
 }
 
 defineTypes(CurrentVideoProgress, {
-  currentProgress: 'number',
+  progress: 'number',
   updateTimestamp: 'number',
 });
 
