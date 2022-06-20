@@ -11,7 +11,8 @@
   "scripts": {
     "start": "node src/index.js",
     "lint": "eslint src/. --config .eslintrc.json --fix",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "test": "mocha"
   },
   "author": {
     "name": "Patryk Krawczyk",
@@ -21,6 +22,8 @@
   "homepage": "https://github.com/r1pk/filmtab-backend",
   "devDependencies": {
     "@colyseus/testing": "^0.14.21",
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^7.32.0",
     "mocha": "^9.0.2",
     "prettier": "2.5.1"
