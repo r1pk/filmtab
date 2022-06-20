@@ -4,8 +4,8 @@ export class User extends Schema {
   constructor() {
     super();
 
-    this.name = null;
-    this.color = null;
+    this.name = '';
+    this.color = '';
   }
 }
 
@@ -18,10 +18,10 @@ export class Video extends Schema {
   constructor() {
     super();
 
-    this.url = null;
+    this.url = '';
     this.playing = false;
     this.progress = 0;
-    this.updateTimestamp = null;
+    this.updateTimestamp = 0;
   }
 }
 
@@ -66,9 +66,9 @@ export class ChatMessage extends Schema {
   constructor() {
     super();
 
-    this.id = null;
-    this.author = null;
-    this.content = null;
+    this.id = '';
+    this.author = new User();
+    this.content = '';
     this.timestamp = 0;
   }
 }

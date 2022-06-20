@@ -18,11 +18,17 @@ describe('"video-room" tests', () => {
   beforeEach(async () => (room = await colyseus.createRoom('video-room')));
 
   it('creates a room', async () => {
-    const test_room = await colyseus.createRoom('video-room');
-
-    expect(test_room).to.be.an('object');
-    expect(test_room.roomId).to.be.a('string');
-    expect(test_room.roomId).to.have.lengthOf(9);
+    expect(room).to.be.an('object');
+    expect(room.roomId).to.be.a('string');
+    expect(room.roomId).to.have.lengthOf(9);
+    expect(room.state).to.be.an('object');
+    expect(room.state.video).to.be.an('object');
+    expect(room.state.video.url).to.be.a('string');
+    expect(room.state.video.url).to.have.lengthOf(0);
+    expect(room.state.video.progress).to.be.a('number');
+    expect(room.state.video.progress).to.equal(0);
+    expect(room.state.video.updateTimestamp).to.be.a('number');
+    expect(room.state.video.updateTimestamp).to.equal(0);
   });
 
   it('joins a room', async () => {
@@ -33,6 +39,9 @@ describe('"video-room" tests', () => {
     expect(client1.state).to.be.an('object');
     expect(room.state.users.size).to.equal(1);
     expect(room.state.users.has(client1.sessionId)).to.be.true;
+    expect(room.state.users.get(client1.sessionId).name).to.be.a('string');
+    expect(room.state.users.get(client1.sessionId).name).to.equal('client1');
+    expect(room.state.users.get(client1.sessionId).color).to.be.a('string');
   });
 
   it('normalizes username', async () => {
