@@ -8,7 +8,7 @@ import { LeaveRoomCommand } from '../commands/video-room/leave-room.command.js';
 import { PauseVideoCommand } from '../commands/video-room/pause-video.command.js';
 import { PlayVideoCommand } from '../commands/video-room/play-video.command.js';
 import { PublishChatMessageCommand } from '../commands/video-room/publish-chat-message.command.js';
-import { RequestVideoProgress } from '../commands/video-room/request-video-progress.command.js';
+import { RequestVideoProgressCommand } from '../commands/video-room/request-video-progress.command.js';
 import { SeekVideoCommand } from '../commands/video-room/seek-video.command.js';
 import { SendVideoProgressCommand } from '../commands/video-room/send-video-progress.command.js';
 import { SetVideoUrlCommand } from '../commands/video-room/set-video-url.command.js';
@@ -40,12 +40,12 @@ export class VideoRoom extends Room {
       });
 
       this.dispatcher.dispatch(new JoinRoomCommand(), {
-        sessionId: client.sessionId,
+        client: client,
         username: options.username,
       });
 
-      this.dispatcher.dispatch(new RequestVideoProgress(), {
-        client: client,
+      this.dispatcher.dispatch(new RequestVideoProgressCommand(), {
+        requester: client,
       });
     } catch (error) {
       this.handleRoomErrors(client, error);
@@ -104,7 +104,6 @@ export class VideoRoom extends Room {
 
   onCurrentVideoProgressMessage(client, message) {
     this.dispatcher.dispatch(new SendVideoProgressCommand(), {
-      clients: this.clients,
       progress: message.progress,
     });
   }
