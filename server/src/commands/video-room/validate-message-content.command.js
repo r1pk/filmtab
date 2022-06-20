@@ -4,6 +4,10 @@ import { normalizeMessageContent } from '../../utils/normalize-message-content.j
 
 export class ValidateMessageContentCommand extends Command {
   execute({ content }) {
+    if (content === undefined || content === null) {
+      throw new Error('Message content must be provided!');
+    }
+
     const normalizedMessageContent = normalizeMessageContent(content);
 
     if (normalizedMessageContent.length < 1) {
