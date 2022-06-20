@@ -12,7 +12,7 @@
     "start": "node src/index.js",
     "lint": "eslint src/. --config .eslintrc.json --fix",
     "prettier": "prettier --write .",
-    "test": "mocha"
+    "test": "cross-env NODE_ENV=test mocha test/*.test.js"
   },
   "author": {
     "name": "Patryk Krawczyk",
@@ -34,6 +34,7 @@
     "@colyseus/monitor": "^0.14.22",
     "colyseus": "^0.14.23",
     "colyseus.js": "^0.14.13",
+    "cross-env": "^7.0.3",
     "express-basic-auth": "^1.2.1",
     "winston": "^3.3.0"
   }
