@@ -1,4 +1,4 @@
-import { Schema, MapSchema, ArraySchema, defineTypes } from '@colyseus/schema';
+import { Schema, MapSchema, defineTypes } from '@colyseus/schema';
 
 export class User extends Schema {
   constructor() {
@@ -48,7 +48,7 @@ defineTypes(VideoRoomState, {
   video: Video,
 });
 
-export class CurrentVideoProgress extends Schema {
+export class VideoProgressMessage extends Schema {
   constructor() {
     super();
 
@@ -57,12 +57,12 @@ export class CurrentVideoProgress extends Schema {
   }
 }
 
-defineTypes(CurrentVideoProgress, {
+defineTypes(VideoProgressMessage, {
   progress: 'number',
   updateTimestamp: 'number',
 });
 
-export class Message extends Schema {
+export class ChatMessage extends Schema {
   constructor() {
     super();
 
@@ -73,7 +73,7 @@ export class Message extends Schema {
   }
 }
 
-defineTypes(Message, {
+defineTypes(ChatMessage, {
   id: 'string',
   author: User,
   content: 'string',

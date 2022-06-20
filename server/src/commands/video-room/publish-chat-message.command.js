@@ -1,6 +1,6 @@
 import { Command } from '@colyseus/command';
 
-import { Message } from '../../schemas/video-room.schemas.js';
+import { ChatMessage } from '../../schemas/video-room.schemas.js';
 
 import { getTimestamp } from '../../utils/get-timestamp.js';
 import { normalizeMessageContent } from '../../utils/normalize-message-content.js';
@@ -13,13 +13,13 @@ export class PublishChatMessageCommand extends Command {
 
   execute({ sessionId, content }) {
     const normalizedMessageContent = normalizeMessageContent(content);
-    const message = new Message().assign({
+    const chatMessage = new ChatMessage().assign({
       id: getUniqueId(),
       timestamp: getTimestamp(),
       author: this.state.users.get(sessionId),
       content: normalizedMessageContent,
     });
 
-    this.room.broadcast('chat::message', message);
+    this.room.broadcast('chat::message', chatMessage);
   }
 }

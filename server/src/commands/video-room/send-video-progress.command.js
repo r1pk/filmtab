@@ -1,6 +1,6 @@
 import { Command } from '@colyseus/command';
 
-import { CurrentVideoProgress } from '../../schemas/video-room.schemas.js';
+import { VideoProgressMessage } from '../../schemas/video-room.schemas.js';
 
 import { getTimestamp } from '../../utils/get-timestamp.js';
 
@@ -10,14 +10,14 @@ export class SendVideoProgressCommand extends Command {
 
     for (const requestingUser of requestingUsers) {
       const offset = (getTimestamp() - requestingUser.userData.videoProgressRequestTimestamp) / 1000;
-      const currentVideoProgress = new CurrentVideoProgress().assign({
+      const videoProgressMessage = new VideoProgressMessage().assign({
         progress: progress + offset + 0.25,
         updateTimestamp: getTimestamp(),
       });
 
       requestingUser.userData.shouldReceiveVideoProgress = false;
       requestingUser.userData.videoProgressRequestTimestamp = null;
-      requestingUser.send('video::current_progress', currentVideoProgress);
+      requestingUser.send('video::current_progress', videoProgressMessage);
     }
   }
 }

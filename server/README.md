@@ -69,9 +69,7 @@ room schema {
 - onCreate(options) - called if user create a room
 
   ```
-    options {
-
-    }
+    options {}
   ```
 
 - onJoin(client, options) - called if user wants to join a room
@@ -138,8 +136,7 @@ room schema {
   Event is sent to the new users who have joined the room where the video is currently playing to synchronize the progress of the video.
 - `video::request_progress`
   ```
-    message {
-    }
+    message {}
   ```
   Event is emitted only after new user has joined the room. It is used to request inform users that they should send their current progress of the video in
   the previous `video::current_progress` event. Event is emitted to all users in the room except the user who just joined.
