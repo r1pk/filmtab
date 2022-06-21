@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Plyr from 'plyr-react';
@@ -7,6 +7,7 @@ import { resolveVideoSource } from '../utils/resolveVideoSource';
 import { buildPlayerOptions } from '../utils/buildPlayerOptions';
 
 const VideoPlayer = ({ url, playing, progress, onTogglePlay, onSeekVideo, onIntervalProgressTick, ...rest }) => {
+  const [shouldSynchronizePlayer, setShouldSynchronizePlayer] = useState(false);
   const player = useRef(null);
 
   const handleTogglePlay = () => {
@@ -33,33 +34,43 @@ const VideoPlayer = ({ url, playing, progress, onTogglePlay, onSeekVideo, onInte
   );
 
   useEffect(() => {
-    const handlePlayerPlaying = () => {
+    const setPlayerParameters = async () => {
+      await player.current.plyr.togglePlay(playing);
       player.current.plyr.currentTime = progress;
     };
 
-    const handlePlayerReady = () => {
-      player.current.plyr.once('playing', handlePlayerPlaying);
-      player.current.plyr.togglePlay(playing);
-    };
-
-    if (player.current.plyr.ready !== undefined) {
-      player.current.plyr.once('ready', handlePlayerReady);
+    if (shouldSynchronizePlayer && player.current.plyr.ready) {
+      setPlayerParameters();
     }
-  }, [playing, progress]);
+  }, [shouldSynchronizePlayer, playing, progress]);
 
   useEffect(() => {
-    if (player.current.plyr.ready) {
-      player.current.plyr.currentTime = progress;
-      player.current.plyr.togglePlay(playing);
-    }
-  }, [playing, progress]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (playing && player.current.plyr.ready) {
-        onIntervalProgressTick(player.current.plyr.currentTime);
+    let interval;
+    const handleIntervalTick = () => {
+      if (player.current.plyr.source) {
+        clearInterval(interval);
+        setShouldSynchronizePlayer(true);
       }
-    }, 250);
+    };
+
+    if (!shouldSynchronizePlayer) {
+      interval = setInterval(handleIntervalTick, 100);
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [shouldSynchronizePlayer]);
+
+  useEffect(() => {
+    let interval;
+    const handleIntervalTick = () => {
+      onIntervalProgressTick(player.current.plyr.currentTime);
+    };
+
+    if (playing && player.current.plyr.ready) {
+      interval = setInterval(handleIntervalTick, 250);
+    }
 
     return () => {
       clearInterval(interval);
