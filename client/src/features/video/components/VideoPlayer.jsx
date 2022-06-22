@@ -56,9 +56,18 @@ const VideoPlayer = ({
 
   useEffect(() => {
     let interval;
+  
+    const setInitialPlayerParameters = async () => {
+      if (progress > 0) {
+        await player.current.plyr.togglePlay(true);
+        player.current.plyr.currentTime = reduceProgressDelay(progress, updateTimestamp);
+      }
+    };
+
     const handleIntervalTick = () => {
       if (player.current.plyr.source) {
         clearInterval(interval);
+        setInitialPlayerParameters();
         setShouldSynchronizePlayer(true);
       }
     };
@@ -70,10 +79,11 @@ const VideoPlayer = ({
     return () => {
       clearInterval(interval);
     };
-  }, [shouldSynchronizePlayer]);
+  }, [shouldSynchronizePlayer, progress, updateTimestamp]);
 
   useEffect(() => {
     let interval;
+    
     const handleIntervalTick = () => {
       onProgressIntervalTick(player.current.plyr.currentTime);
     };
