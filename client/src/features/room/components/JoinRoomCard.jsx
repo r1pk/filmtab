@@ -45,12 +45,7 @@ const JoinRoomCard = ({ isConnecting, defaultRoomId, onJoinRoom, ...rest }) => {
         </Stack>
       </CardContent>
       <CardActions>
-        <LoadingButton
-          fullWidth
-          disabled={!formState.isValid}
-          loading={isConnecting}
-          onClick={handleSubmit(onSubmit)}
-        >
+        <LoadingButton fullWidth disabled={!formState.isValid} loading={isConnecting} onClick={handleSubmit(onSubmit)}>
           {isConnecting ? 'Joining...' : 'Join'}
         </LoadingButton>
       </CardActions>

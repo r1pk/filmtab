@@ -37,12 +37,7 @@ const CreateRoomCard = ({ isConnecting, onCreateRoom, ...rest }) => {
         </Stack>
       </CardContent>
       <CardActions>
-        <LoadingButton
-          fullWidth
-          disabled={!formState.isValid}
-          loading={isConnecting}
-          onClick={handleSubmit(onSubmit)}
-        >
+        <LoadingButton fullWidth disabled={!formState.isValid} loading={isConnecting} onClick={handleSubmit(onSubmit)}>
           {isConnecting ? 'Creating...' : 'Create'}
         </LoadingButton>
       </CardActions>
