@@ -3,7 +3,7 @@ export const PLAY_VIDEO = 'video/play';
 export const PAUSE_VIDEO = 'video/pause';
 export const SEEK_VIDEO = 'video/seek';
 export const SET_VIDEO_PROGRESS = 'video/set_video_progress';
-export const VIDEO_INTERVAL_PROGRESS_TICK = 'video/interval_progress_tick';
+export const VIDEO_PROGRESS_INTERVAL_TICK = 'video/progress_interval_tick';
 export const UPDATE_VIDEO_STATE = 'video/update_state';
 export const RESET_VIDEO_STATE = 'video/reset_video_state';
 
@@ -43,8 +43,8 @@ export const setVideoProgress = (progress, updateTimestamp) => ({
   },
 });
 
-export const sendIntervalProgressTick = (progress) => ({
-  type: VIDEO_INTERVAL_PROGRESS_TICK,
+export const sendProgressIntervalTick = (progress) => ({
+  type: VIDEO_PROGRESS_INTERVAL_TICK,
   payload: {
     progress,
   },

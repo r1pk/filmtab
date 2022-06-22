@@ -26,7 +26,7 @@ class ColyseusVideoModule {
     await this.colyseus.roomInstance.send('video::seek', { progress: payload.progress });
   };
 
-  handleIntervalProgressTick = (payload) => {
+  handleProgressIntervalTick = (payload) => {
     this.progress = payload.progress;
   };
 
@@ -48,7 +48,7 @@ class ColyseusVideoModule {
       [actions.PLAY_VIDEO]: this.handlePlayVideo,
       [actions.PAUSE_VIDEO]: this.handlePauseVideo,
       [actions.SEEK_VIDEO]: this.handleSeekVideo,
-      [actions.VIDEO_INTERVAL_PROGRESS_TICK]: this.handleIntervalProgressTick,
+      [actions.VIDEO_PROGRESS_INTERVAL_TICK]: this.handleProgressIntervalTick,
     };
   };
 

@@ -14,7 +14,7 @@ const VideoPlayer = ({
   updateTimestamp,
   onTogglePlay,
   onSeekVideo,
-  onIntervalProgressTick,
+  onProgressIntervalTick,
   ...rest
 }) => {
   const [shouldSynchronizePlayer, setShouldSynchronizePlayer] = useState(false);
@@ -75,7 +75,7 @@ const VideoPlayer = ({
   useEffect(() => {
     let interval;
     const handleIntervalTick = () => {
-      onIntervalProgressTick(player.current.plyr.currentTime);
+      onProgressIntervalTick(player.current.plyr.currentTime);
     };
 
     if (playing && player.current.plyr.ready) {
@@ -85,7 +85,7 @@ const VideoPlayer = ({
     return () => {
       clearInterval(interval);
     };
-  }, [playing, onIntervalProgressTick]);
+  }, [playing, onProgressIntervalTick]);
 
   return <Plyr ref={player} source={videoSource} options={playerOptions} {...rest} />;
 };
@@ -97,7 +97,7 @@ VideoPlayer.propTypes = {
   updateTimestamp: PropTypes.number.isRequired,
   onTogglePlay: PropTypes.func.isRequired,
   onSeekVideo: PropTypes.func.isRequired,
-  onIntervalProgressTick: PropTypes.func.isRequired,
+  onProgressIntervalTick: PropTypes.func.isRequired,
 };
 
 export default VideoPlayer;
