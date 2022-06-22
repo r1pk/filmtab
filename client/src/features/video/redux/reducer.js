@@ -1,10 +1,13 @@
 import { SET_VIDEO_PROGRESS, UPDATE_VIDEO_STATE, RESET_VIDEO_STATE } from './actions';
 
+import { getTimestamp } from '../utils/getTimestamp';
+
 const initialReducerState = {
   url: '',
   playing: false,
   progress: 0,
   updateTimestamp: 0,
+  localUpdateTimestamp: 0,
 };
 
 export const reducer = (state = initialReducerState, action) => {
@@ -15,6 +18,7 @@ export const reducer = (state = initialReducerState, action) => {
       return {
         ...state,
         ...updatedState,
+        localUpdateTimestamp: getTimestamp(),
       };
     }
     case SET_VIDEO_PROGRESS: {
@@ -24,6 +28,7 @@ export const reducer = (state = initialReducerState, action) => {
         ...state,
         progress: progress,
         updateTimestamp: updateTimestamp,
+        localUpdateTimestamp: getTimestamp(),
       };
     }
     case RESET_VIDEO_STATE: {

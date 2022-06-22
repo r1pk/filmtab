@@ -8,6 +8,7 @@ const VideoPlayerContainer = (props) => {
   const url = useSelector((store) => store.video.url);
   const playing = useSelector((store) => store.video.playing);
   const progress = useSelector((store) => store.video.progress);
+  const localUpdateTimestamp = useSelector((store) => store.video.localUpdateTimestamp);
   const dispatch = useDispatch();
 
   const handleTogglePlay = (isPlaying, progress) => {
@@ -29,6 +30,7 @@ const VideoPlayerContainer = (props) => {
       url={url}
       playing={playing}
       progress={progress}
+      updateTimestamp={localUpdateTimestamp}
       onTogglePlay={handleTogglePlay}
       onSeekVideo={handleSeekVideo}
       onIntervalProgressTick={handleIntervalProgressTick}

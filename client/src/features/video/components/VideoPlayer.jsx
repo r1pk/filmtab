@@ -5,8 +5,18 @@ import Plyr from 'plyr-react';
 
 import { resolveVideoSource } from '../utils/resolveVideoSource';
 import { buildPlayerOptions } from '../utils/buildPlayerOptions';
+import { reduceProgressDelay } from '../utils/reduceProgressDelay';
 
-const VideoPlayer = ({ url, playing, progress, onTogglePlay, onSeekVideo, onIntervalProgressTick, ...rest }) => {
+const VideoPlayer = ({
+  url,
+  playing,
+  progress,
+  updateTimestamp,
+  onTogglePlay,
+  onSeekVideo,
+  onIntervalProgressTick,
+  ...rest
+}) => {
   const [shouldSynchronizePlayer, setShouldSynchronizePlayer] = useState(false);
   const player = useRef(null);
 
@@ -36,13 +46,13 @@ const VideoPlayer = ({ url, playing, progress, onTogglePlay, onSeekVideo, onInte
   useEffect(() => {
     const setPlayerParameters = async () => {
       await player.current.plyr.togglePlay(playing);
-      player.current.plyr.currentTime = progress;
+      player.current.plyr.currentTime = reduceProgressDelay(progress, updateTimestamp);
     };
 
     if (shouldSynchronizePlayer && player.current.plyr.ready) {
       setPlayerParameters();
     }
-  }, [shouldSynchronizePlayer, playing, progress]);
+  }, [shouldSynchronizePlayer, playing, progress, updateTimestamp]);
 
   useEffect(() => {
     let interval;
@@ -84,6 +94,7 @@ VideoPlayer.propTypes = {
   url: PropTypes.string.isRequired,
   playing: PropTypes.bool.isRequired,
   progress: PropTypes.number.isRequired,
+  updateTimestamp: PropTypes.number.isRequired,
   onTogglePlay: PropTypes.func.isRequired,
   onSeekVideo: PropTypes.func.isRequired,
   onIntervalProgressTick: PropTypes.func.isRequired,
