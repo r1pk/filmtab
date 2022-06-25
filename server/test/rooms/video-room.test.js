@@ -3,11 +3,11 @@ import chaiAsPromised from 'chai-as-promised';
 
 import { boot } from '@colyseus/testing';
 
-import appConfig from '../src/arena.config.js';
+import appConfig from '../../src/arena.config.js';
 
 chai.use(chaiAsPromised);
 
-describe('"video-room" tests', () => {
+describe('Room: "video-room" tests', () => {
   let colyseus;
   let room;
 
