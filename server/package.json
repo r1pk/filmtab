@@ -12,7 +12,7 @@
     "start": "node src/index.js",
     "lint": "eslint src/. --config .eslintrc.json --fix",
     "prettier": "prettier --write .",
-    "test": "cross-env NODE_ENV=test mocha test/*.test.js"
+    "test": "cross-env NODE_ENV=test mocha test/**/*.test.js"
   },
   "author": {
     "name": "Patryk Krawczyk",
