@@ -5,9 +5,9 @@ import { VideoProgressMessage } from '../../schemas/video-room.schemas.js';
 import { getTimestamp } from '../../utils/get-timestamp.js';
 
 export class SendVideoProgressCommand extends Command {
-  execute({ progress }) {
+  execute({ progress, clients }) {
     const eventName = 'video::request_progress';
-    for (const client of this.room.clients) {
+    for (const client of clients) {
       if (client.userData.events[eventName]) {
         const { requester, timestamp } = client.userData.events[eventName];
 

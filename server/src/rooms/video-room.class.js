@@ -105,6 +105,7 @@ export class VideoRoom extends Room {
   onCurrentVideoProgressMessage(client, message) {
     this.dispatcher.dispatch(new SendVideoProgressCommand(), {
       progress: message.progress,
+      clients: this.clients,
     });
   }
 
