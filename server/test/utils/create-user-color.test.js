@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { createUserColor } from '../../src/utils/create-user-color.js';
 
-describe('Util: "create-user-color" tests', () => {
+describe('[UTILS] Util: "create-user-color" tests', () => {
   it('creates color in hsl format based on username', async () => {
     const color = createUserColor('username');
 

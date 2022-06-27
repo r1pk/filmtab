@@ -7,7 +7,7 @@ import appConfig from '../../src/arena.config.js';
 
 chai.use(chaiAsPromised);
 
-describe('Room: "video-room" tests', () => {
+describe('[ROOMS] Room: "video-room" tests', () => {
   let colyseus;
   let room;
 
@@ -81,8 +81,16 @@ describe('Room: "video-room" tests', () => {
 
     expect(author.sessionId).to.equal(client1.sessionId);
     expect(room.state.video.url).to.equal(message.url);
-    expect(room.state.video.progress).to.equal(0);
+  });
+
+  it('resets video progress and playing state when new video url is set', async () => {
+    const client1 = await colyseus.sdk.joinById(room.roomId, { username: 'client1' });
+    client1.send('video::set', { url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+
+    await room.waitForMessage('video::set');
+
     expect(room.state.video.playing).to.be.false;
+    expect(room.state.video.progress).to.equal(0);
   });
 
   it('plays a video in the room', async () => {
@@ -92,19 +100,37 @@ describe('Room: "video-room" tests', () => {
     const [author, message] = await room.waitForMessage('video::play');
 
     expect(author.sessionId).to.equal(client1.sessionId);
-    expect(room.state.video.progress).to.equal(message.progress);
     expect(room.state.video.playing).to.be.true;
+  });
+
+  it('plays a video from given progress', async () => {
+    const client1 = await colyseus.sdk.joinById(room.roomId, { username: 'client1' });
+    client1.send('video::play', { progress: 15 });
+
+    await room.waitForMessage('video::play');
+
+    expect(room.state.video.playing).to.be.true;
+    expect(room.state.video.progress).to.be.equal(15);
   });
 
   it('pauses a video in the room', async () => {
     const client1 = await colyseus.sdk.joinById(room.roomId, { username: 'client1' });
-    client1.send('video::pause', { progress: 10 });
+    client1.send('video::pause', { progress: 0 });
 
     const [author, message] = await room.waitForMessage('video::pause');
 
     expect(author.sessionId).to.equal(client1.sessionId);
-    expect(room.state.video.progress).to.equal(message.progress);
     expect(room.state.video.playing).to.be.false;
+  });
+
+  it('pauses a video at given progress', async () => {
+    const client1 = await colyseus.sdk.joinById(room.roomId, { username: 'client1' });
+    client1.send('video::pause', { progress: 10 });
+
+    await room.waitForMessage('video::pause');
+
+    expect(room.state.video.playing).to.be.false;
+    expect(room.state.video.progress).to.be.equal(10);
   });
 
   it('seeks a video in the room', async () => {

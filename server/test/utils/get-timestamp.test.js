@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { getTimestamp } from '../../src/utils/get-timestamp.js';
 
-describe('Util: "get-timestamp" tests', () => {
+describe('[UTILS] Util: "get-timestamp" tests', () => {
   it('creates timestamp', async () => {
     const timestamp = getTimestamp();
 

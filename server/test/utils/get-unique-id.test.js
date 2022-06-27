@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { getUniqueId } from '../../src/utils/get-unique-id.js';
 
-describe('Util: "get-unique-id" tests', () => {
+describe('[UTILS] Util: "get-unique-id" tests', () => {
   it('creates unique id', async () => {
     const id = getUniqueId();
 

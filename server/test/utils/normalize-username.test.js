@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { normalizeUsername } from '../../src/utils/normalize-username.js';
 
-describe('Util: "normalize-username" tests', () => {
+describe('[UTILS] Util: "normalize-username" tests', () => {
   it('removes non-alphanumeric characters from username', async () => {
     const normalizedUsername = normalizeUsername('!!#username??');
 
