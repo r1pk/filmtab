@@ -7,16 +7,9 @@ import { resolveVideoSource } from '../utils/resolveVideoSource';
 import { buildPlayerOptions } from '../utils/buildPlayerOptions';
 import { reduceProgressDelay } from '../utils/reduceProgressDelay';
 
-const VideoPlayer = ({
-  url,
-  playing,
-  progress,
-  updateTimestamp,
-  onTogglePlay,
-  onSeekVideo,
-  onProgressIntervalTick,
-  ...rest
-}) => {
+const VideoPlayer = (props) => {
+  const { url, playing, progress, updateTimestamp, onTogglePlay, onSeekVideo, onProgressIntervalTick, ...rest } = props;
+
   const [shouldSynchronizePlayer, setShouldSynchronizePlayer] = useState(false);
   const player = useRef(null);
 
@@ -56,7 +49,7 @@ const VideoPlayer = ({
 
   useEffect(() => {
     let interval;
-  
+
     const setInitialPlayerParameters = async () => {
       if (progress > 0) {
         await player.current.plyr.togglePlay(true);
@@ -83,7 +76,7 @@ const VideoPlayer = ({
 
   useEffect(() => {
     let interval;
-    
+
     const handleIntervalTick = () => {
       onProgressIntervalTick(player.current.plyr.currentTime);
     };
