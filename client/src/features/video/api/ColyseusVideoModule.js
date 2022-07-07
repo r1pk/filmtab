@@ -14,6 +14,14 @@ class ColyseusVideoModule {
     await this.colyseus.roomInstance.send('video::set', { url: payload.url });
   };
 
+  handleToggleVideoPlayback = async (payload) => {
+    if (this.store.getState().video.playing) {
+      await this.handlePauseVideo(payload);
+    } else {
+      await this.handlePlayVideo(payload);
+    }
+  };
+
   handlePlayVideo = async (payload) => {
     await this.colyseus.roomInstance.send('video::play', { progress: payload.progress });
   };
@@ -26,7 +34,7 @@ class ColyseusVideoModule {
     await this.colyseus.roomInstance.send('video::seek', { progress: payload.progress });
   };
 
-  handleProgressIntervalTick = (payload) => {
+  handleSaveVideoProgress = (payload) => {
     this.progress = payload.progress;
   };
 
@@ -45,10 +53,9 @@ class ColyseusVideoModule {
   getModuleActions = () => {
     return {
       [actions.SET_VIDEO]: this.handleSetVideo,
-      [actions.PLAY_VIDEO]: this.handlePlayVideo,
-      [actions.PAUSE_VIDEO]: this.handlePauseVideo,
+      [actions.TOGGLE_VIDEO_PLAYBACK]: this.handleToggleVideoPlayback,
       [actions.SEEK_VIDEO]: this.handleSeekVideo,
-      [actions.VIDEO_PROGRESS_INTERVAL_TICK]: this.handleProgressIntervalTick,
+      [actions.SAVE_VIDEO_PROGRESS]: this.handleSaveVideoProgress,
     };
   };
 

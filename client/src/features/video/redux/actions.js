@@ -1,9 +1,8 @@
 export const SET_VIDEO = 'video/set';
-export const PLAY_VIDEO = 'video/play';
-export const PAUSE_VIDEO = 'video/pause';
+export const TOGGLE_VIDEO_PLAYBACK = 'video/toggle_playback';
 export const SEEK_VIDEO = 'video/seek';
 export const SET_VIDEO_PROGRESS = 'video/set_video_progress';
-export const VIDEO_PROGRESS_INTERVAL_TICK = 'video/progress_interval_tick';
+export const SAVE_VIDEO_PROGRESS = 'video/save_progress';
 export const UPDATE_VIDEO_STATE = 'video/update_state';
 export const RESET_VIDEO_STATE = 'video/reset_video_state';
 
@@ -14,15 +13,8 @@ export const setVideo = (url) => ({
   },
 });
 
-export const playVideo = (progress) => ({
-  type: PLAY_VIDEO,
-  payload: {
-    progress,
-  },
-});
-
-export const pauseVideo = (progress) => ({
-  type: PAUSE_VIDEO,
+export const toggleVideoPlayback = (progress) => ({
+  type: TOGGLE_VIDEO_PLAYBACK,
   payload: {
     progress,
   },
@@ -43,8 +35,8 @@ export const setVideoProgress = (progress, updateTimestamp) => ({
   },
 });
 
-export const sendProgressIntervalTick = (progress) => ({
-  type: VIDEO_PROGRESS_INTERVAL_TICK,
+export const saveVideoProgress = (progress) => ({
+  type: SAVE_VIDEO_PROGRESS,
   payload: {
     progress,
   },

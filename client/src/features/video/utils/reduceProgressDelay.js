@@ -1,5 +1,9 @@
-export const reduceProgressDelay = (progress, updateTimestamp) => {
-  const offset = (new Date().getTime() - updateTimestamp) / 1000;
+export const reduceProgressDelay = (isVideoPlaying, videoProgress, updateTimestamp) => {
+  if (isVideoPlaying) {
+    const offset = (new Date().getTime() - updateTimestamp) / 1000;
 
-  return progress + Math.max(offset, 0);
+    return videoProgress + Math.max(offset, 0);
+  }
+
+  return videoProgress;
 };

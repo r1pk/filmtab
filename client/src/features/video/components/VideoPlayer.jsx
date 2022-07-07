@@ -1,96 +1,123 @@
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Plyr from 'plyr-react';
+import Plyr from 'plyr';
 
 import { resolveVideoSource } from '../utils/resolveVideoSource';
-import { buildPlayerOptions } from '../utils/buildPlayerOptions';
 import { reduceProgressDelay } from '../utils/reduceProgressDelay';
 
+import { options } from '../defaults/options';
+
 const VideoPlayer = (props) => {
-  const { url, playing, progress, updateTimestamp, onTogglePlay, onSeekVideo, onProgressIntervalTick, ...rest } = props;
+  const { url, playing, progress, updateTimestamp, onTogglePlayback, onSeekVideo, onVideoProgress, ...rest } = props;
 
-  const [shouldSynchronizePlayer, setShouldSynchronizePlayer] = useState(false);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
+
   const player = useRef(null);
-
-  const handleTogglePlay = () => {
-    const { playing, currentTime } = player.current.plyr;
-
-    onTogglePlay(!playing, currentTime);
-  };
-
-  const handleSeekVideo = (e) => {
-    const currentVideoProgress = (e.target.value / e.target.max) * player.current.plyr.media.duration;
-
-    onSeekVideo(currentVideoProgress);
-  };
-
-  const videoSource = useMemo(() => resolveVideoSource(url), [url]);
-  const playerOptions = useMemo(
-    () =>
-      buildPlayerOptions({
-        play: handleTogglePlay,
-        seek: handleSeekVideo,
-      }),
-    // eslint-disable-next-line
-    []
-  );
+  const video = useRef(null);
 
   useEffect(() => {
-    const setPlayerParameters = async () => {
-      await player.current.plyr.togglePlay(playing);
-      player.current.plyr.currentTime = reduceProgressDelay(progress, updateTimestamp);
-    };
-
-    if (shouldSynchronizePlayer && player.current.plyr.ready) {
-      setPlayerParameters();
-    }
-  }, [shouldSynchronizePlayer, playing, progress, updateTimestamp]);
-
-  useEffect(() => {
-    let interval;
-
-    const setInitialPlayerParameters = async () => {
-      if (progress > 0) {
-        await player.current.plyr.togglePlay(true);
-        player.current.plyr.currentTime = reduceProgressDelay(progress, updateTimestamp);
+    const handlePlayerReady = async () => {
+      if (player.current.source && !player.current.duration) {
+        await player.current.togglePlay(true);
+        await player.current.togglePlay(false);
       }
+      setIsPlayerReady(true);
     };
 
-    const handleIntervalTick = () => {
-      if (player.current.plyr.source) {
-        clearInterval(interval);
-        setInitialPlayerParameters();
-        setShouldSynchronizePlayer(true);
-      }
-    };
-
-    if (!shouldSynchronizePlayer) {
-      interval = setInterval(handleIntervalTick, 100);
+    if (!player.current && video.current) {
+      player.current = new Plyr(video.current, options);
+      player.current.on('ready', () => handlePlayerReady());
     }
 
     return () => {
-      clearInterval(interval);
+      if (player.current) {
+        player.current.destroy();
+        player.current = null;
+      }
     };
-  }, [shouldSynchronizePlayer, progress, updateTimestamp]);
+  }, []);
 
   useEffect(() => {
-    let interval;
-
-    const handleIntervalTick = () => {
-      onProgressIntervalTick(player.current.plyr.currentTime);
+    const handleTogglePlayback = () => {
+      onTogglePlayback(player.current.currentTime);
     };
 
-    if (playing && player.current.plyr.ready) {
-      interval = setInterval(handleIntervalTick, 250);
+    const handleSeekVideo = () => {
+      const { value, max } = player.current.elements.inputs.seek;
+      const currentVideoProgress = (value / max) * player.current.media.duration;
+
+      onSeekVideo(currentVideoProgress);
+    };
+
+    const setupControlsListeners = () => {
+      if (player.current.elements.buttons.play) {
+        player.current.elements.buttons.play.forEach((element) => {
+          element.addEventListener('click', handleTogglePlayback);
+        });
+      }
+      if (player.current.elements.inputs.seek) {
+        player.current.elements.inputs.seek.addEventListener('click', handleSeekVideo);
+      }
+    };
+
+    if (player.current && isPlayerReady) {
+      setupControlsListeners();
     }
 
     return () => {
-      clearInterval(interval);
+      if (player.current) {
+        if (player.current.elements.buttons.play) {
+          player.current.elements.buttons.play.forEach((element) => {
+            element.removeEventListener('click', handleTogglePlayback);
+          });
+        }
+        if (player.current.elements.inputs.seek) {
+          player.current.elements.inputs.seek.removeEventListener('click', handleSeekVideo);
+        }
+      }
     };
-  }, [playing, onProgressIntervalTick]);
+  }, [isPlayerReady, onSeekVideo, onTogglePlayback]);
 
-  return <Plyr ref={player} source={videoSource} options={playerOptions} {...rest} />;
+  useEffect(() => {
+    const setPlayerSource = () => {
+      player.current.source = resolveVideoSource(url);
+      setIsPlayerReady(false);
+    };
+
+    if (player.current && player.current.source !== url) {
+      setPlayerSource();
+    }
+  }, [url]);
+
+  useEffect(() => {
+    const updatePlayerParameters = async () => {
+      await player.current.togglePlay(playing);
+      player.current.currentTime = reduceProgressDelay(playing, progress, updateTimestamp);
+    };
+
+    if (player.current && isPlayerReady) {
+      updatePlayerParameters();
+    }
+  }, [isPlayerReady, playing, progress, updateTimestamp]);
+
+  useEffect(() => {
+    const handleTimeUpdate = () => {
+      onVideoProgress(player.current.currentTime);
+    };
+
+    if (player.current) {
+      player.current.on('timeupdate', handleTimeUpdate);
+    }
+
+    return () => {
+      if (player.current) {
+        player.current.off('timeupdate', handleTimeUpdate);
+      }
+    };
+  }, [onVideoProgress]);
+
+  return <video ref={video} {...rest} />;
 };
 
 VideoPlayer.propTypes = {
@@ -98,9 +125,9 @@ VideoPlayer.propTypes = {
   playing: PropTypes.bool.isRequired,
   progress: PropTypes.number.isRequired,
   updateTimestamp: PropTypes.number.isRequired,
-  onTogglePlay: PropTypes.func.isRequired,
+  onTogglePlayback: PropTypes.func.isRequired,
   onSeekVideo: PropTypes.func.isRequired,
-  onProgressIntervalTick: PropTypes.func.isRequired,
+  onVideoProgress: PropTypes.func.isRequired,
 };
 
 export default VideoPlayer;
