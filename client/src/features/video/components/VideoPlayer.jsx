@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Plyr from 'plyr';
 
-import { resolveVideoSource } from '../utils/resolveVideoSource';
+import { buildPlyrSourceObject } from '../utils/buildPlyrSourceObject';
 import { reduceProgressDelay } from '../utils/reduceProgressDelay';
 
 import { options } from '../defaults/options';
@@ -81,7 +81,7 @@ const VideoPlayer = (props) => {
 
   useEffect(() => {
     const setPlayerSource = () => {
-      player.current.source = resolveVideoSource(url);
+      player.current.source = buildPlyrSourceObject(url);
       setIsPlayerReady(false);
     };
 

@@ -1,14 +1,20 @@
+export default class Provider {
+  constructor(name, pattern) {
+    this.name = name;
+    this.pattern = pattern;
+  }
+
+  getProviderName() {
+    return this.name;
+  }
+
+  isVideoSupported(url) {
+    return typeof url === 'string' && this.pattern.test(url);
+  }
+}
+
 export const providers = [
-  {
-    pattern: /((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+/,
-    name: 'youtube',
-  },
-  {
-    pattern: /vimeo\.com\/.+/,
-    name: 'vimeo',
-  },
-  {
-    pattern: /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/,
-    name: 'html5',
-  },
+  new Provider('youtube', /((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+/),
+  new Provider('vimeo', /vimeo\.com\/(?!progressive_redirect).+/),
+  new Provider('html5', /\.(mp4|og[gv]|webm|mov|m4v)(#t=[,\d+]+)?($|\?)/i),
 ];
