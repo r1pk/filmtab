@@ -1,6 +1,6 @@
 import * as actions from '../redux/actions';
 
-class ColyseusRoomModule {
+class ColyseusAffiliationModule {
   constructor(colyseus, store) {
     this.colyseus = colyseus;
     this.store = store;
@@ -9,7 +9,7 @@ class ColyseusRoomModule {
   }
 
   handleCreateRoom = async (payload) => {
-    if (!this.store.getState().room.isConnecting) {
+    if (!this.store.getState().affiliation.isConnecting) {
       try {
         this.store.dispatch(actions.setConnectingFlag(true));
         this.colyseus.roomInstance = await this.colyseus.client.create('video-room', { username: payload.username });
@@ -20,7 +20,7 @@ class ColyseusRoomModule {
   };
 
   handleJoinRoom = async (payload) => {
-    if (!this.store.getState().room.isConnecting) {
+    if (!this.store.getState().affiliation.isConnecting) {
       try {
         this.store.dispatch(actions.setConnectingFlag(true));
         this.colyseus.roomInstance = await this.colyseus.client.joinById(payload.roomId, {
@@ -60,4 +60,4 @@ class ColyseusRoomModule {
   };
 }
 
-export default ColyseusRoomModule;
+export default ColyseusAffiliationModule;

@@ -2,7 +2,7 @@ import * as Colyseus from 'colyseus.js';
 
 import { ColyseusChatModule } from '../features/chat';
 import { ColyseusNotificationModule } from '../features/notifications';
-import { ColyseusRoomModule } from '../features/room';
+import { ColyseusAffiliationModule } from '../features/affiliation';
 import { ColyseusUsersModule } from '../features/users';
 import { ColyseusVideoModule } from '../features/video';
 
@@ -25,7 +25,7 @@ export const colyseusMediator = (store) => {
     },
   };
 
-  modules.push(new ColyseusRoomModule(colyseus, store));
+  modules.push(new ColyseusAffiliationModule(colyseus, store));
   modules.push(new ColyseusVideoModule(colyseus, store));
   modules.push(new ColyseusUsersModule(colyseus, store));
   modules.push(new ColyseusChatModule(colyseus, store));

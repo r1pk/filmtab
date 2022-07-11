@@ -1,5 +1,5 @@
 import { history } from '../history';
-import { actions } from '../features/room';
+import { actions } from '../features/affiliation';
 
 export const reduxRouter = () => {
   return (next) => async (action) => {

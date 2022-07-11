@@ -6,13 +6,13 @@ import { Grid, Stack, Backdrop, Link } from '@mui/material';
 
 import { VideoAddressBarContainer, VideoPlayerContainer, TheaterModeButton, TheaterModeBox } from '../features/video';
 import { UsersContainer } from '../features/users';
-import { JoinRoomCardContainer, LeaveRoomButtonContainer, actions } from '../features/room';
+import { JoinRoomCardContainer, LeaveRoomButtonContainer, actions } from '../features/affiliation';
 import { ChatContainer } from '../features/chat';
 
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const Room = () => {
-  const isRoomMember = useSelector((store) => store.room.isRoomMember);
+  const isRoomMember = useSelector((store) => store.affiliation.isRoomMember);
   const dispatch = useDispatch();
 
   const [isTheaterModeActive, setIsTheaterModeActive] = useState(false);

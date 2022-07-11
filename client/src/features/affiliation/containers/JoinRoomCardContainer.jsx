@@ -5,7 +5,7 @@ import { joinRoom } from '../redux/actions';
 import JoinRoomCard from '../components/JoinRoomCard';
 
 const JoinRoomCardContainer = (props) => {
-  const isConnecting = useSelector((state) => state.room.isConnecting);
+  const isConnecting = useSelector((state) => state.affiliation.isConnecting);
 
   const dispatch = useDispatch();
 

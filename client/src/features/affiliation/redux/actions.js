@@ -1,8 +1,8 @@
-export const SET_CONNECTING_FLAG = 'room/set_connecting_flag';
-export const SET_ROOM_DETAILS = 'room/set_details';
-export const CREATE_ROOM = 'room/create';
-export const JOIN_ROOM = 'room/join';
-export const LEAVE_ROOM = 'room/leave';
+export const SET_CONNECTING_FLAG = 'affiliation/set_connecting_flag';
+export const SET_ROOM_DETAILS = 'affiliation/set_room_details';
+export const CREATE_ROOM = 'affiliation/create_room';
+export const JOIN_ROOM = 'affiliation/join_room';
+export const LEAVE_ROOM = 'affiliation/leave_room';
 
 export const setConnectingFlag = (isConnecting) => ({
   type: SET_CONNECTING_FLAG,

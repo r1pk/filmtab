@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Grid, Typography, Tabs, Tab, Box } from '@mui/material';
 
-import { CreateRoomCardContainer, JoinRoomCardContainer } from '../features/room';
+import { CreateRoomCardContainer, JoinRoomCardContainer } from '../features/affiliation';
 
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
