@@ -3,7 +3,6 @@ import * as Colyseus from 'colyseus.js';
 import { ColyseusChatModule } from '../features/chat';
 import { ColyseusNotificationModule } from '../features/notifications';
 import { ColyseusAffiliationModule } from '../features/affiliation';
-import { ColyseusUsersModule } from '../features/users';
 import { ColyseusVideoModule } from '../features/video';
 
 import { actions as notifications } from '../features/notifications';
@@ -27,7 +26,6 @@ export const colyseusMediator = (store) => {
 
   modules.push(new ColyseusAffiliationModule(colyseus, store));
   modules.push(new ColyseusVideoModule(colyseus, store));
-  modules.push(new ColyseusUsersModule(colyseus, store));
   modules.push(new ColyseusChatModule(colyseus, store));
   modules.push(new ColyseusNotificationModule(colyseus, store));
 

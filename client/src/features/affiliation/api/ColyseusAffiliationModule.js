@@ -43,6 +43,14 @@ class ColyseusAffiliationModule {
     }
   };
 
+  handleAddUser = (user, sessionId) => {
+    this.store.dispatch(actions.addUser(user, sessionId));
+  };
+
+  handleRemoveUser = (user, sessionId) => {
+    this.store.dispatch(actions.removeUser(sessionId));
+  };
+
   getModuleActions = () => {
     return {
       [actions.CREATE_ROOM]: this.handleCreateRoom,
@@ -53,9 +61,26 @@ class ColyseusAffiliationModule {
 
   roomInstanceListener = (room) => {
     if (room !== null) {
-      this.store.dispatch(actions.setRoomDetails(room.id, room.sessionId));
+      const previousOnAddCallback = room.state.users.onAdd;
+      const previousOnRemoveCallback = room.state.users.onRemove;
+
+      room.state.users.onAdd = (...args) => {
+        if (previousOnAddCallback) {
+          previousOnAddCallback(...args);
+        }
+        this.handleAddUser(...args);
+      };
+
+      room.state.users.onRemove = (...args) => {
+        if (previousOnRemoveCallback) {
+          previousOnRemoveCallback(...args);
+        }
+        this.handleRemoveUser(...args);
+      };
 
       room.onLeave(this.handleLeaveRoomEvent);
+
+      this.store.dispatch(actions.setRoomDetails(room.id, room.sessionId));
     }
   };
 }

@@ -4,7 +4,7 @@ import { Stack } from '@mui/material';
 
 import User from './User';
 
-const Users = ({ users, ...rest }) => {
+const UserList = ({ users, ...rest }) => {
   return (
     <Stack direction="row" spacing={1} flexWrap="wrap" justifyContent="center" {...rest}>
       {users.map((user) => (
@@ -14,7 +14,7 @@ const Users = ({ users, ...rest }) => {
   );
 };
 
-Users.propTypes = {
+UserList.propTypes = {
   users: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
@@ -24,4 +24,4 @@ Users.propTypes = {
   ),
 };
 
-export default Users;
+export default UserList;

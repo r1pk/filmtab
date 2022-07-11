@@ -5,8 +5,7 @@ import { useParams, Link as RouterLink } from 'react-router-dom';
 import { Grid, Stack, Backdrop, Link } from '@mui/material';
 
 import { VideoAddressBarContainer, VideoPlayerContainer, TheaterModeButton, TheaterModeBox } from '../features/video';
-import { UsersContainer } from '../features/users';
-import { JoinRoomCardContainer, LeaveRoomButtonContainer, actions } from '../features/affiliation';
+import { JoinRoomCardContainer, LeaveRoomButtonContainer, UserListContainer, actions } from '../features/affiliation';
 import { ChatContainer } from '../features/chat';
 
 import useDocumentTitle from '../hooks/useDocumentTitle';
@@ -51,7 +50,7 @@ const Room = () => {
             <TheaterModeBox isTheaterModeActive={isTheaterModeActive}>
               <VideoPlayerContainer />
             </TheaterModeBox>
-            <UsersContainer />
+            <UserListContainer />
             <Stack direction="row" spacing={1} justifyContent="flex-end">
               <TheaterModeButton
                 isTheaterModeActive={isTheaterModeActive}
