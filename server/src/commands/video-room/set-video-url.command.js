@@ -9,6 +9,7 @@ export class SetVideoUrlCommand extends Command {
     logger.debug(`Video url set! - RID: ${this.room.roomId} URL: ${url}`);
 
     this.state.video.url = url;
+    this.state.video.subtitles = '';
     this.state.video.playing = false;
     this.state.video.progress = 0;
     this.state.video.updateTimestamp = getTimestamp();

@@ -3,6 +3,7 @@ import { Dispatcher } from '@colyseus/command';
 
 import { VideoRoomState } from '../schemas/video-room.schemas.js';
 
+import { ClearVideoSubtitlesCommand } from '../commands/video-room/clear-video-subtitles.command.js';
 import { JoinRoomCommand } from '../commands/video-room/join-room.command.js';
 import { LeaveRoomCommand } from '../commands/video-room/leave-room.command.js';
 import { PauseVideoCommand } from '../commands/video-room/pause-video.command.js';
@@ -11,9 +12,11 @@ import { PublishChatMessageCommand } from '../commands/video-room/publish-chat-m
 import { RequestVideoProgressCommand } from '../commands/video-room/request-video-progress.command.js';
 import { SeekVideoCommand } from '../commands/video-room/seek-video.command.js';
 import { SendVideoProgressCommand } from '../commands/video-room/send-video-progress.command.js';
+import { SetVideoSubtitlesCommand } from '../commands/video-room/set-video-subtitles.command.js';
 import { SetVideoUrlCommand } from '../commands/video-room/set-video-url.command.js';
 import { ValidateMessageContentCommand } from '../commands/video-room/validate-message-content.command.js';
 import { ValidateUsernameCommand } from '../commands/video-room/validate-username.command.js';
+import { ValidateVTTSubtitlesCommand } from '../commands/video-room/validate-vtt-subtitles.command.js';
 
 import { logger } from '../logger.js';
 
@@ -26,6 +29,8 @@ export class VideoRoom extends Room {
     this.setPrivate(true);
 
     this.onMessage('video::set', this.onSetVideo.bind(this));
+    this.onMessage('video::set_subtitles', this.onSetVideoSubtitles.bind(this));
+    this.onMessage('video::clear_subtitles', this.onClearVideoSubtitles.bind(this));
     this.onMessage('video::play', this.onPlayVideo.bind(this));
     this.onMessage('video::pause', this.onPauseVideo.bind(this));
     this.onMessage('video::seek', this.onSeekVideo.bind(this));
@@ -67,6 +72,28 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new SetVideoUrlCommand(), {
         url: message.url,
       });
+    } catch (error) {
+      this.handleRoomErrors(client, error);
+    }
+  }
+
+  onSetVideoSubtitles(client, message) {
+    try {
+      this.dispatcher.dispatch(new ValidateVTTSubtitlesCommand(), {
+        subtitles: message.subtitles,
+      });
+
+      this.dispatcher.dispatch(new SetVideoSubtitlesCommand(), {
+        subtitles: message.subtitles,
+      });
+    } catch (error) {
+      this.handleRoomErrors(client, error);
+    }
+  }
+
+  onClearVideoSubtitles(client) {
+    try {
+      this.dispatcher.dispatch(new ClearVideoSubtitlesCommand(), {});
     } catch (error) {
       this.handleRoomErrors(client, error);
     }

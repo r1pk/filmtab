@@ -25,6 +25,8 @@ describe('[ROOMS] Room: "video-room" tests', () => {
     expect(room.state.video).to.be.an('object');
     expect(room.state.video.url).to.be.a('string');
     expect(room.state.video.url).to.have.lengthOf(0);
+    expect(room.state.video.subtitles).to.be.a('string');
+    expect(room.state.video.subtitles).to.have.lengthOf(0);
     expect(room.state.video.progress).to.be.a('number');
     expect(room.state.video.progress).to.equal(0);
     expect(room.state.video.updateTimestamp).to.be.a('number');
@@ -83,13 +85,69 @@ describe('[ROOMS] Room: "video-room" tests', () => {
     expect(room.state.video.url).to.equal(message.url);
   });
 
-  it('resets video progress and playing state when new video url is set', async () => {
+  it('sets video subtitles in the room', async () => {
+    const client1 = await colyseus.sdk.joinById(room.roomId, { username: 'client1' });
+    client1.send('video::set', { url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+    client1.send('video::set_subtitles', { subtitles: 'WEBVTT\n\n1\n00:00:00.000 --> 00:00:05.000\nHello, world!' });
+
+    const [author, message] = await room.waitForMessage('video::set_subtitles');
+
+    expect(author.sessionId).to.equal(client1.sessionId);
+    expect(room.state.video.subtitles).to.equal(message.subtitles);
+  });
+
+  it('throws error when subtitles are not provided', async () => {
+    const client1 = await colyseus.sdk.joinById(room.roomId, { username: 'client1' });
+    client1.send('video::set', { url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+
+    await room.waitForMessage('video::set');
+
+    const setSubtitles = async () => await client1.send('video::set_subtitles', {});
+
+    expect(setSubtitles()).to.be.rejectedWith(/Subtitles must be provided!/);
+  });
+
+  it('throws error when subtitles are invalid', async () => {
+    const client1 = await colyseus.sdk.joinById(room.roomId, { username: 'client1' });
+    client1.send('video::set', { url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+
+    await room.waitForMessage('video::set');
+
+    const setSubtitles = async () => await client1.send('video::set_subtitles', { subtitles: 'invalid' });
+
+    expect(setSubtitles()).to.be.rejectedWith(/Must start with "WEBVTT"/);
+  });
+
+  it('does not set video subtitles if video is not set', async () => {
+    const client1 = await colyseus.sdk.joinById(room.roomId, { username: 'client1' });
+    client1.send('video::set_subtitles', { subtitles: 'WEBVTT\n\n1\n00:00:00.000 --> 00:00:05.000\nHello, world!' });
+
+    await room.waitForMessage('video::set_subtitles');
+
+    expect(room.state.video.subtitles).to.be.a('string');
+    expect(room.state.video.subtitles).to.equal('');
+  });
+
+  it('clears video subtitles', async () => {
+    const client1 = await colyseus.sdk.joinById(room.roomId, { username: 'client1' });
+    client1.send('video::set', { url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+    client1.send('video::set_subtitles', { subtitles: 'WEBVTT\n\n1\n00:00:00.000 --> 00:00:05.000\nHello, world!' });
+    client1.send('video::clear_subtitles');
+
+    await room.waitForMessage('video::clear_subtitles');
+
+    expect(room.state.video.subtitles).to.be.a('string');
+    expect(room.state.video.subtitles).to.equal('');
+  });
+
+  it('resets video state when new video url is set', async () => {
     const client1 = await colyseus.sdk.joinById(room.roomId, { username: 'client1' });
     client1.send('video::set', { url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
 
     await room.waitForMessage('video::set');
 
     expect(room.state.video.playing).to.be.false;
+    expect(room.state.video.subtitles).to.equal('');
     expect(room.state.video.progress).to.equal(0);
   });
 

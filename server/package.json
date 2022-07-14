@@ -38,6 +38,7 @@
     "colyseus.js": "^0.14.13",
     "cross-env": "^7.0.3",
     "express-basic-auth": "^1.2.1",
+    "node-webvtt": "^1.9.4",
     "winston": "^3.3.0"
   }
 }

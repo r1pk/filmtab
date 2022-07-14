@@ -19,6 +19,7 @@ export class Video extends Schema {
     super();
 
     this.url = '';
+    this.subtitles = '';
     this.playing = false;
     this.progress = 0;
     this.updateTimestamp = 0;
@@ -27,6 +28,7 @@ export class Video extends Schema {
 
 defineTypes(Video, {
   url: 'string',
+  subtitles: 'string',
   playing: 'boolean',
   progress: 'number',
   updateTimestamp: 'number',

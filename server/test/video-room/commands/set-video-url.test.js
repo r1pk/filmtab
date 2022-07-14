@@ -41,6 +41,14 @@ describe('[VIDEO-ROOM] Command: "set-video-url" tests', () => {
     expect(room.state.video.playing).to.be.false;
   });
 
+  it('resets video subtitles to empty string', async () => {
+    await dispatcher.dispatch(new SetVideoUrlCommand(), {
+      url: 'http://example.com/video.mp4',
+    });
+
+    expect(room.state.video.subtitles).to.be.equal('');
+  });
+
   it('updates `updateTimestamp` property when command is dispatched', async () => {
     await dispatcher.dispatch(new SetVideoUrlCommand(), {
       url: 'http://example.com/video.mp4',
