@@ -28,7 +28,7 @@ describe('[VIDEO-ROOM] Command: "validate-username" tests', () => {
       return dispatcher.dispatch(new ValidateUsernameCommand(), {});
     };
 
-    expect(validateUsername()).to.be.rejectedWith(/Username must be provided!/);
+    await expect(validateUsername()).to.be.rejectedWith('Username must be provided!');
   });
 
   it('throws error when username is too short', async () => {
@@ -38,7 +38,7 @@ describe('[VIDEO-ROOM] Command: "validate-username" tests', () => {
       });
     };
 
-    expect(validateUsername()).to.be.rejectedWith(/Username must be at least 3 characters long!/);
+    await expect(validateUsername()).to.be.rejectedWith('Username must be at least 3 characters long!');
   });
 
   it('throws error when username is too short after normalization', async () => {
@@ -48,7 +48,7 @@ describe('[VIDEO-ROOM] Command: "validate-username" tests', () => {
       });
     };
 
-    expect(validateUsername()).to.be.rejectedWith(/Username must be at least 3 characters long!/);
+    await expect(validateUsername()).to.be.rejectedWith('Username must be at least 3 characters long!');
   });
 
   it('throws error when username is already taken', async () => {
@@ -65,7 +65,7 @@ describe('[VIDEO-ROOM] Command: "validate-username" tests', () => {
       });
     };
 
-    expect(validateUsername()).to.be.rejectedWith(/Username is already taken!/);
+    await expect(validateUsername()).to.be.rejectedWith('Username is already taken!');
   });
 
   it('throws error when username is already taken after normalization', async () => {
@@ -82,6 +82,6 @@ describe('[VIDEO-ROOM] Command: "validate-username" tests', () => {
       });
     };
 
-    expect(validateUsername()).to.be.rejectedWith(/Username is already taken!/);
+    await expect(validateUsername()).to.be.rejectedWith('Username is already taken!');
   });
 });

@@ -25,7 +25,7 @@ describe('[VIDEO-ROOM] Command: "validate-message-content" tests', () => {
       return dispatcher.dispatch(new ValidateMessageContentCommand(), {});
     };
 
-    expect(validateMessage()).to.be.rejectedWith(/Message content must be provided!/);
+    await expect(validateMessage()).to.be.rejectedWith('Message content must be provided!');
   });
 
   it('throws error when message content is too short', async () => {
@@ -35,7 +35,7 @@ describe('[VIDEO-ROOM] Command: "validate-message-content" tests', () => {
       });
     };
 
-    expect(validateMessage()).to.be.rejectedWith(/Message must have at least one character!/);
+    await expect(validateMessage()).to.be.rejectedWith('Message must have at least one character!');
   });
 
   it('throws error when message content is too short after normalization', async () => {
@@ -45,7 +45,7 @@ describe('[VIDEO-ROOM] Command: "validate-message-content" tests', () => {
       });
     };
 
-    expect(validateMessage()).to.be.rejectedWith(/Message must have at least one character!/);
+    await expect(validateMessage()).to.be.rejectedWith('Message must have at least one character!');
   });
 
   it('throws error when message content is too long', async () => {
@@ -55,6 +55,6 @@ describe('[VIDEO-ROOM] Command: "validate-message-content" tests', () => {
       });
     };
 
-    expect(validateMessage()).to.be.rejectedWith(/The length of message is too long. The maximum length is 140!/);
+    await expect(validateMessage()).to.be.rejectedWith('The length of message is too long. The maximum length is 140!');
   });
 });
