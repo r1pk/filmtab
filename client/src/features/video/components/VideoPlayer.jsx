@@ -9,7 +9,7 @@ import { reduceProgressDelay } from '../utils/reduceProgressDelay';
 import { options } from '../defaults/options';
 
 const VideoPlayer = (props) => {
-  const { url, playing, progress, updateTimestamp, onTogglePlayback, onSeekVideo, onVideoProgress, ...rest } = props;
+  const { url, subtitles, playing, progress, updateTimestamp, onTogglePlayback, onSeekVideo, onVideoProgress } = props;
 
   const [isPlayerReady, setIsPlayerReady] = useState(false);
 
@@ -81,14 +81,14 @@ const VideoPlayer = (props) => {
 
   useEffect(() => {
     const setPlayerSource = () => {
-      player.current.source = buildPlyrSourceObject(url);
+      player.current.source = buildPlyrSourceObject(url, subtitles);
       setIsPlayerReady(false);
     };
 
-    if (player.current && player.current.source !== url) {
+    if (player.current) {
       setPlayerSource();
     }
-  }, [url]);
+  }, [url, subtitles]);
 
   useEffect(() => {
     const updatePlayerParameters = async () => {
@@ -117,11 +117,12 @@ const VideoPlayer = (props) => {
     };
   }, [onVideoProgress]);
 
-  return <video ref={video} {...rest} />;
+  return <video ref={video} />;
 };
 
 VideoPlayer.propTypes = {
   url: PropTypes.string.isRequired,
+  subtitles: PropTypes.string.isRequired,
   playing: PropTypes.bool.isRequired,
   progress: PropTypes.number.isRequired,
   updateTimestamp: PropTypes.number.isRequired,

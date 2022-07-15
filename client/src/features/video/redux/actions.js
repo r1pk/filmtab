@@ -1,4 +1,6 @@
 export const SET_VIDEO = 'video/set';
+export const SET_VIDEO_SUBTITLES = 'video/set_subtitles';
+export const CLEAR_VIDEO_SUBTITLES = 'video/clear_subtitles';
 export const TOGGLE_VIDEO_PLAYBACK = 'video/toggle_playback';
 export const SEEK_VIDEO = 'video/seek';
 export const SET_VIDEO_PROGRESS = 'video/set_video_progress';
@@ -11,6 +13,17 @@ export const setVideo = (url) => ({
   payload: {
     url,
   },
+});
+
+export const setVideoSubtitles = (subtitles) => ({
+  type: SET_VIDEO_SUBTITLES,
+  payload: {
+    subtitles,
+  },
+});
+
+export const clearVideoSubtitles = () => ({
+  type: CLEAR_VIDEO_SUBTITLES,
 });
 
 export const toggleVideoPlayback = (progress) => ({

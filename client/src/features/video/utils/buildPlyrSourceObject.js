@@ -1,19 +1,28 @@
 import { providers } from '../defaults/providers';
 
-export const buildPlyrSourceObject = (url) => {
+export const buildPlyrSourceObject = (url, subtitles) => {
   const provider = providers.find((provider) => provider.isVideoSupported(url));
+  const source = {
+    type: 'video',
+    sources: [],
+    tracks: [],
+  };
 
   if (provider) {
-    return {
-      type: 'video',
-      sources: [
-        {
-          src: url,
-          provider: provider.getProviderName(),
-        },
-      ],
-    };
+    source.sources.push({
+      src: url,
+      provider: provider.getProviderName(),
+    });
   }
 
-  return null;
+  if (subtitles) {
+    const blob = new Blob([subtitles], { type: 'text/vtt' });
+
+    source.tracks.push({
+      kind: 'subtitles',
+      src: URL.createObjectURL(blob),
+    });
+  }
+
+  return source;
 };

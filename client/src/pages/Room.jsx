@@ -4,7 +4,8 @@ import { useParams, Link as RouterLink } from 'react-router-dom';
 
 import { Grid, Stack, Backdrop, Link } from '@mui/material';
 
-import { VideoAddressBarContainer, VideoPlayerContainer, TheaterModeButton, TheaterModeBox } from '../features/video';
+import { VideoAddressBarContainer, VideoPlayerContainer, TheaterModeBox } from '../features/video';
+import { TheaterModeButton, SetSubtitlesButtonContainer, ClearSubtitlesButtonContainer } from '../features/video';
 import { JoinRoomCardContainer, LeaveRoomButtonContainer, UserListContainer, actions } from '../features/affiliation';
 import { ChatContainer } from '../features/chat';
 
@@ -50,12 +51,16 @@ const Room = () => {
             <TheaterModeBox isTheaterModeActive={isTheaterModeActive}>
               <VideoPlayerContainer />
             </TheaterModeBox>
-            <UserListContainer />
             <Stack direction="row" spacing={1} justifyContent="flex-end">
+              <SetSubtitlesButtonContainer />
+              <ClearSubtitlesButtonContainer />
               <TheaterModeButton
                 isTheaterModeActive={isTheaterModeActive}
                 onToggleTheaterMode={handleToggleTheaterMode}
               />
+            </Stack>
+            <UserListContainer />
+            <Stack direction="row" spacing={1} justifyContent="flex-end">
               <LeaveRoomButtonContainer />
             </Stack>
           </Stack>

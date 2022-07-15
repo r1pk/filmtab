@@ -14,6 +14,14 @@ class ColyseusVideoModule {
     await this.colyseus.roomInstance.send('video::set', { url: payload.url });
   };
 
+  handleSetVideoSubtitles = async (payload) => {
+    await this.colyseus.roomInstance.send('video::set_subtitles', { subtitles: payload.subtitles });
+  };
+
+  handleClearVideoSubtitles = async () => {
+    await this.colyseus.roomInstance.send('video::clear_subtitles');
+  };
+
   handleToggleVideoPlayback = async (payload) => {
     if (this.store.getState().video.playing) {
       await this.handlePauseVideo(payload);
@@ -53,6 +61,8 @@ class ColyseusVideoModule {
   getModuleActions = () => {
     return {
       [actions.SET_VIDEO]: this.handleSetVideo,
+      [actions.SET_VIDEO_SUBTITLES]: this.handleSetVideoSubtitles,
+      [actions.CLEAR_VIDEO_SUBTITLES]: this.handleClearVideoSubtitles,
       [actions.TOGGLE_VIDEO_PLAYBACK]: this.handleToggleVideoPlayback,
       [actions.SEEK_VIDEO]: this.handleSeekVideo,
       [actions.SAVE_VIDEO_PROGRESS]: this.handleSaveVideoProgress,

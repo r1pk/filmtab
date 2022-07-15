@@ -4,6 +4,7 @@ import { getTimestamp } from '../utils/getTimestamp';
 
 const initialReducerState = {
   url: '',
+  subtitles: '',
   playing: false,
   progress: 0,
   updateTimestamp: 0,

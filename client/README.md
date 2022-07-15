@@ -8,7 +8,7 @@ Home page
 ![Home page](https://i.imgur.com/XYaH9AX.png)
 
 Room page with playing video
-![Video player page](https://i.imgur.com/P61VAyh.png)
+![Video player page](https://i.imgur.com/2OHnywe.png)
 
 Room page with theater mode
 ![Teater Mode](https://i.imgur.com/n4KRPSa.png)
