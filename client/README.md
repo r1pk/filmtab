@@ -5,13 +5,13 @@ Filmtab-client is a responsive application written in React which uses tools suc
 ## Screenshots
 
 Home page
-![Home page](https://i.imgur.com/XYaH9AX.png)
+![Home page](https://i.imgur.com/Od9phGH.png)
 
 Room page with playing video
-![Video player page](https://i.imgur.com/2OHnywe.png)
+![Video player page](https://i.imgur.com/xOalmDR.png)
 
 Room page with theater mode
-![Teater Mode](https://i.imgur.com/n4KRPSa.png)
+![Teater Mode](https://i.imgur.com/QsoKTk1.png)
 
 ## Pre-requisites
 

@@ -117,7 +117,7 @@ const VideoPlayer = (props) => {
     };
   }, [onVideoProgress]);
 
-  return <video ref={video} />;
+  return <video ref={video} style={{ '--plyr-color-main': '#d81b60' }} />;
 };
 
 VideoPlayer.propTypes = {
