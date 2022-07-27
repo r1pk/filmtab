@@ -51,7 +51,7 @@ const Room = () => {
             <TheaterModeBox isTheaterModeActive={isTheaterModeActive}>
               <VideoPlayerContainer />
             </TheaterModeBox>
-            <Stack direction="row" spacing={1} justifyContent="flex-end">
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} justifyContent="flex-end" alignItems="center">
               <SetSubtitlesButtonContainer />
               <ClearSubtitlesButtonContainer />
               <TheaterModeButton
