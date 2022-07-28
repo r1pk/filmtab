@@ -57,7 +57,6 @@ room schema {
   }
   video: {
     url: string - address to the currently playing video
-    subtitles: string - string containing subtitles for the video
     playing: boolean - status of the currently set video
     progress: number - number of seconds that elapsed from the beginning of the video (until the last update)
     updateTimestamp: number - time at which a video object was changed by, for example, a play/pause action
@@ -93,16 +92,6 @@ room schema {
     message {
       url: string - address of the video that should be set for the whole room
     }
-  ```
-- `video::set_subtitles`
-  ```
-    message {
-      subtitles: string - string containing subtitles for the video
-    }
-  ```
-- `video::clear_subtitles`
-  ```
-    message {}
   ```
 - `video::play`
   ```
