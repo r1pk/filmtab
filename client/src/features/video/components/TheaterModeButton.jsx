@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 
-import { PanoramaWideAngle, PanoramaHorizontal } from '@mui/icons-material';
+import { Fullscreen, FullscreenExit } from '@mui/icons-material';
 
 import Button from '../../../components/Button';
 
 const TheaterModeButton = ({ isTheaterModeActive, onToggleTheaterMode, ...rest }) => {
-  const icon = isTheaterModeActive ? <PanoramaHorizontal /> : <PanoramaWideAngle />;
+  const icon = isTheaterModeActive ? <FullscreenExit /> : <Fullscreen />;
 
   const handleLeaveRoom = () => {
     onToggleTheaterMode();
