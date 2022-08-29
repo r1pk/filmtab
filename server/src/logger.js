@@ -1,28 +1,33 @@
 import winston from 'winston';
+import { consoleFormat } from 'winston-console-format';
 
 export const logger = winston.createLogger({
-  exitOnError: false,
+  level: 'silly',
   format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.ms(),
     winston.format.errors({ stack: true }),
-    winston.format.prettyPrint(),
-    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    winston.format.printf((log) => {
-      if (log.stack) {
-        return `[${log.level}] : ${log.timestamp} : ${log.stack}`;
-      }
-      return `[${log.level}] : ${log.timestamp} : ${log.message}`;
-    })
+    winston.format.splat(),
+    winston.format.json()
   ),
+  defaultMeta: { service: 'FilmTab-Server' },
   transports: [
-    new winston.transports.File({
-      level: 'error',
-      filename: './logs/logs.log',
-      handleExceptions: true,
-    }),
     new winston.transports.Console({
-      level: process.env.NODE_ENV === 'development' ? 'silly' : 'error',
-      silent: process.env.NODE_ENV === 'test',
-      handleExceptions: true,
+      format: winston.format.combine(
+        winston.format.colorize({ all: true }),
+        winston.format.padLevels(),
+        consoleFormat({
+          showMeta: true,
+          metaStrip: ['service'],
+          inspectOptions: {
+            depth: Infinity,
+            colors: true,
+            maxArrayLength: Infinity,
+            breakLength: 120,
+            compact: Infinity,
+          },
+        })
+      ),
     }),
   ],
 });
