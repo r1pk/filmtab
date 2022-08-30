@@ -8,6 +8,7 @@ import { logger } from '##/logger.js';
 import { ValidateUsername } from '../commands/ValidateUsername.js';
 import { CheckUsernameUniqueness } from '../commands/CheckUsernameUniqueness.js';
 import { CreateUserInstance } from '../commands/CreateUserInstance.js';
+import { DeleteUserInstance } from '../commands/DeleteUserInstance.js';
 
 export class VideoRoom extends Room {
   onCreate() {
@@ -38,6 +39,20 @@ export class VideoRoom extends Room {
     } catch (error) {
       this.errorHandler(client, error);
     }
+  }
+
+  onLeave(client) {
+    this.dispatcher.dispatch(new DeleteUserInstance(), {
+      id: client.sessionId,
+    });
+
+    logger.debug('Client left!', { roomId: this.roomId, clientId: client.sessionId });
+  }
+
+  onDispose() {
+    logger.debug('Room instance disposed!', { roomId: this.roomId });
+
+    this.dispatcher.stop();
   }
 
   errorHandler(client, error) {
