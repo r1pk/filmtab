@@ -4,7 +4,7 @@ import { User } from '../schemas/User.js';
 
 import { createUserColor } from '../utils/createUserColor.js';
 
-export class JoinRoom extends Command {
+export class CreateUserInstance extends Command {
   execute({ id, username }) {
     const user = new User().assign({
       id: id,

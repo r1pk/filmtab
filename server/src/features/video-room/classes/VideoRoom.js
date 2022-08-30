@@ -7,7 +7,7 @@ import { logger } from '##/logger.js';
 
 import { ValidateUsername } from '../commands/ValidateUsername.js';
 import { CheckUsernameUniqueness } from '../commands/CheckUsernameUniqueness.js';
-import { JoinRoom } from '../commands/JoinRoom.js';
+import { CreateUserInstance } from '../commands/CreateUserInstance.js';
 
 export class VideoRoom extends Room {
   onCreate() {
@@ -29,7 +29,7 @@ export class VideoRoom extends Room {
         username: options.username,
       });
 
-      this.dispatcher.dispatch(new JoinRoom(), {
+      this.dispatcher.dispatch(new CreateUserInstance(), {
         id: client.sessionId,
         username: options.username,
       });
