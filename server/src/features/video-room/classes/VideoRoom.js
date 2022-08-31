@@ -10,6 +10,7 @@ import { CheckUsernameUniqueness } from '../commands/CheckUsernameUniqueness.js'
 import { CreateUserInstance } from '../commands/CreateUserInstance.js';
 import { DeleteUserInstance } from '../commands/DeleteUserInstance.js';
 import { ValidateVideoUrl } from '../commands/ValidateVideoUrl.js';
+import { UpdateVideoStateTimestamp } from '../commands/UpdateVideoStateTimestamp.js';
 import { SetVideoUrl } from '../commands/SetVideoUrl.js';
 import { ValidateVideoProgress } from '../commands/ValidateVideoProgress.js';
 import { PlayVideo } from '../commands/PlayVideo.js';
@@ -76,6 +77,14 @@ export class VideoRoom extends Room {
         url: message.url,
       });
 
+      this.dispatcher.dispatch(new SetVideoProgress(), {
+        progress: 0,
+      });
+
+      this.dispatcher.dispatch(new PauseVideo());
+
+      this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
+
       logger.debug('Video url set!', { roomId: this.roomId, sessionId: client.sessionId, url: message.url });
     } catch (error) {
       this.errorHandler(client, error);
@@ -88,11 +97,13 @@ export class VideoRoom extends Room {
         progress: message.progress,
       });
 
-      this.dispatcher.dispatch(new PlayVideo());
-
       this.dispatcher.dispatch(new SetVideoProgress(), {
         progress: message.progress,
       });
+
+      this.dispatcher.dispatch(new PlayVideo());
+
+      this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video played!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
     } catch (error) {
@@ -106,11 +117,13 @@ export class VideoRoom extends Room {
         progress: message.progress,
       });
 
-      this.dispatcher.dispatch(new PauseVideo());
-
       this.dispatcher.dispatch(new SetVideoProgress(), {
         progress: message.progress,
       });
+
+      this.dispatcher.dispatch(new PauseVideo());
+
+      this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video paused!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
     } catch (error) {
@@ -127,6 +140,8 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new SetVideoProgress(), {
         progress: message.progress,
       });
+
+      this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video seeked!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
     } catch (error) {

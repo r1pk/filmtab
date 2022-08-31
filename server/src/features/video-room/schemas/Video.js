@@ -8,7 +8,7 @@ export class Video extends Schema {
     this.subtitles = '';
     this.progress = 0;
     this.playing = false;
-    this.updateTimestamp = 0;
+    this.updatedAt = 0;
   }
 }
 
@@ -17,5 +17,5 @@ defineTypes(Video, {
   subtitles: 'string',
   progress: 'number',
   playing: 'boolean',
-  updateTimestamp: 'number',
+  updatedAt: 'number',
 });
