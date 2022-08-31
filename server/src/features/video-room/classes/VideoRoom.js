@@ -11,6 +11,10 @@ import { CreateUserInstance } from '../commands/CreateUserInstance.js';
 import { DeleteUserInstance } from '../commands/DeleteUserInstance.js';
 import { ValidateVideoUrl } from '../commands/ValidateVideoUrl.js';
 import { SetVideoUrl } from '../commands/SetVideoUrl.js';
+import { ValidateVideoProgress } from '../commands/ValidateVideoProgress.js';
+import { PlayVideo } from '../commands/PlayVideo.js';
+import { PauseVideo } from '../commands/PauseVideo.js';
+import { SetVideoProgress } from '../commands/SetVideoProgress.js';
 
 export class VideoRoom extends Room {
   onCreate() {
@@ -21,6 +25,9 @@ export class VideoRoom extends Room {
     this.dispatcher = new Dispatcher(this);
 
     this.onMessage('video::set_url', this.onSetVideoUrl.bind(this));
+    this.onMessage('video::play', this.onPlayVideo.bind(this));
+    this.onMessage('video::pause', this.onPauseVideo.bind(this));
+    this.onMessage('video::seek', this.onSeekVideo.bind(this));
   }
 
   onJoin(client, options) {
@@ -70,6 +77,58 @@ export class VideoRoom extends Room {
       });
 
       logger.debug('Video url set!', { roomId: this.roomId, sessionId: client.sessionId, url: message.url });
+    } catch (error) {
+      this.errorHandler(client, error);
+    }
+  }
+
+  onPlayVideo(client, message) {
+    try {
+      this.dispatcher.dispatch(new ValidateVideoProgress(), {
+        progress: message.progress,
+      });
+
+      this.dispatcher.dispatch(new PlayVideo());
+
+      this.dispatcher.dispatch(new SetVideoProgress(), {
+        progress: message.progress,
+      });
+
+      logger.debug('Video played!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
+    } catch (error) {
+      this.errorHandler(client, error);
+    }
+  }
+
+  onPauseVideo(client, message) {
+    try {
+      this.dispatcher.dispatch(new ValidateVideoProgress(), {
+        progress: message.progress,
+      });
+
+      this.dispatcher.dispatch(new PauseVideo());
+
+      this.dispatcher.dispatch(new SetVideoProgress(), {
+        progress: message.progress,
+      });
+
+      logger.debug('Video paused!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
+    } catch (error) {
+      this.errorHandler(client, error);
+    }
+  }
+
+  onSeekVideo(client, message) {
+    try {
+      this.dispatcher.dispatch(new ValidateVideoProgress(), {
+        progress: message.progress,
+      });
+
+      this.dispatcher.dispatch(new SetVideoProgress(), {
+        progress: message.progress,
+      });
+
+      logger.debug('Video seeked!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
     } catch (error) {
       this.errorHandler(client, error);
     }
