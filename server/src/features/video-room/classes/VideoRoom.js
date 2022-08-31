@@ -8,6 +8,7 @@ import { logger } from '##/logger.js';
 import { ValidateUsername } from '../commands/ValidateUsername.js';
 import { CheckUsernameUniqueness } from '../commands/CheckUsernameUniqueness.js';
 import { CreateUserInstance } from '../commands/CreateUserInstance.js';
+import { CreateUserColor } from '../commands/CreateUserColor.js';
 import { DeleteUserInstance } from '../commands/DeleteUserInstance.js';
 import { ValidateVideoUrl } from '../commands/ValidateVideoUrl.js';
 import { UpdateVideoStateTimestamp } from '../commands/UpdateVideoStateTimestamp.js';
@@ -43,6 +44,11 @@ export class VideoRoom extends Room {
       });
 
       this.dispatcher.dispatch(new CreateUserInstance(), {
+        id: client.sessionId,
+        username: options.username,
+      });
+
+      this.dispatcher.dispatch(new CreateUserColor(), {
         id: client.sessionId,
         username: options.username,
       });
