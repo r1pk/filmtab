@@ -23,8 +23,6 @@ import { UpdateVideoStateTimestamp } from '../commands/UpdateVideoStateTimestamp
 
 export class VideoRoom extends Room {
   onCreate() {
-    logger.debug('Room instance created!', { roomId: this.roomId });
-
     this.setPrivate(true);
     this.setState(new RoomState());
     this.dispatcher = new Dispatcher(this);
@@ -35,6 +33,8 @@ export class VideoRoom extends Room {
     this.onMessage('video::seek', this.onSeekVideo.bind(this));
     this.onMessage('video::set_subtitles', this.onSetVideoSubtitles.bind(this));
     this.onMessage('video::delete_subtitles', this.onDeleteVideoSubtitles.bind(this));
+
+    logger.debug('Room instance created!', { roomId: this.roomId });
   }
 
   onJoin(client, options) {
@@ -42,17 +42,14 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new ValidateUsername(), {
         username: options.username,
       });
-
       this.dispatcher.dispatch(new ValidateUsernameUniqueness(), {
         users: this.state.users.values(),
         username: options.username,
       });
-
       this.dispatcher.dispatch(new CreateUserInstance(), {
         id: client.sessionId,
         username: options.username,
       });
-
       this.dispatcher.dispatch(new CreateUserColor(), {
         id: client.sessionId,
         username: options.username,
@@ -60,7 +57,7 @@ export class VideoRoom extends Room {
 
       logger.debug('Client joined!', { roomId: this.roomId, sessionId: client.sessionId, username: options.username });
     } catch (error) {
-      this.errorHandler(client, error);
+      this.onError(client, error);
     }
   }
 
@@ -73,9 +70,15 @@ export class VideoRoom extends Room {
   }
 
   onDispose() {
-    logger.debug('Room instance disposed!', { roomId: this.roomId });
-
     this.dispatcher.stop();
+
+    logger.debug('Room instance disposed!', { roomId: this.roomId });
+  }
+
+  onError(client, error) {
+    client.error(0, error.message);
+
+    logger.error('Something went wrong!', { roomId: this.roomId, sessionId: client.sessionId, message: error.message });
   }
 
   onSetVideoUrl(client, message) {
@@ -83,26 +86,21 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new ValidateVideoUrl(), {
         url: message.url,
       });
-
       this.dispatcher.dispatch(new SetVideoUrl(), {
         url: message.url,
       });
-
       this.dispatcher.dispatch(new SetVideoProgress(), {
         progress: 0,
       });
-
       this.dispatcher.dispatch(new SetVideoPlayback(), {
         playing: false,
       });
-
       this.dispatcher.dispatch(new DeleteVideoSubtitles());
-
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video url set!', { roomId: this.roomId, sessionId: client.sessionId, url: message.url });
     } catch (error) {
-      this.errorHandler(client, error);
+      this.onError(client, error);
     }
   }
 
@@ -111,20 +109,17 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new ValidateVideoProgress(), {
         progress: message.progress,
       });
-
       this.dispatcher.dispatch(new SetVideoProgress(), {
         progress: message.progress,
       });
-
       this.dispatcher.dispatch(new SetVideoPlayback(), {
         playing: true,
       });
-
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video played!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
     } catch (error) {
-      this.errorHandler(client, error);
+      this.onError(client, error);
     }
   }
 
@@ -133,20 +128,17 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new ValidateVideoProgress(), {
         progress: message.progress,
       });
-
       this.dispatcher.dispatch(new SetVideoProgress(), {
         progress: message.progress,
       });
-
       this.dispatcher.dispatch(new SetVideoPlayback(), {
         playing: false,
       });
-
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video paused!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
     } catch (error) {
-      this.errorHandler(client, error);
+      this.onError(client, error);
     }
   }
 
@@ -155,16 +147,14 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new ValidateVideoProgress(), {
         progress: message.progress,
       });
-
       this.dispatcher.dispatch(new SetVideoProgress(), {
         progress: message.progress,
       });
-
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video seeked!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
     } catch (error) {
-      this.errorHandler(client, error);
+      this.onError(client, error);
     }
   }
 
@@ -173,33 +163,25 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new ValidateVideoSubtitles(), {
         subtitles: message.subtitles,
       });
-
       this.dispatcher.dispatch(new SetVideoSubtitles(), {
         subtitles: message.subtitles,
       });
-
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video subtitles set!', { roomId: this.roomId, sessionId: client.sessionId });
     } catch (error) {
-      this.errorHandler(client, error);
+      this.onError(client, error);
     }
   }
 
   onDeleteVideoSubtitles(client) {
     try {
       this.dispatcher.dispatch(new DeleteVideoSubtitles());
-
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video subtitles deleted!', { roomId: this.roomId, sessionId: client.sessionId });
     } catch (error) {
-      this.errorHandler(client, error);
+      this.onError(client, error);
     }
-  }
-
-  errorHandler(client, error) {
-    logger.error('Something went wrong!', { roomId: this.roomId, sessionId: client.sessionId, message: error.message });
-    client.error(0, error.message);
   }
 }
