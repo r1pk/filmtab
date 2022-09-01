@@ -43,19 +43,18 @@ export class VideoRoom extends Room {
         username: options.username,
       });
       this.dispatcher.dispatch(new ValidateUsernameUniqueness(), {
-        users: this.state.users.values(),
         username: options.username,
       });
       this.dispatcher.dispatch(new CreateUserInstance(), {
-        id: client.sessionId,
+        userId: client.sessionId,
         username: options.username,
       });
       this.dispatcher.dispatch(new CreateUserColor(), {
-        id: client.sessionId,
+        userId: client.sessionId,
         username: options.username,
       });
 
-      logger.debug('Client joined!', { roomId: this.roomId, sessionId: client.sessionId, username: options.username });
+      logger.debug('Client joined!', { roomId: this.roomId, userId: client.sessionId, username: options.username });
     } catch (error) {
       this.onError(client, error);
     }
@@ -63,10 +62,10 @@ export class VideoRoom extends Room {
 
   onLeave(client) {
     this.dispatcher.dispatch(new DeleteUserInstance(), {
-      id: client.sessionId,
+      userId: client.sessionId,
     });
 
-    logger.debug('Client left!', { roomId: this.roomId, sessionId: client.sessionId });
+    logger.debug('Client left!', { roomId: this.roomId, userId: client.sessionId });
   }
 
   onDispose() {
@@ -78,7 +77,7 @@ export class VideoRoom extends Room {
   onError(client, error) {
     client.error(0, error.message);
 
-    logger.error('Something went wrong!', { roomId: this.roomId, sessionId: client.sessionId, message: error.message });
+    logger.error('Something went wrong!', { roomId: this.roomId, userId: client.sessionId, message: error.message });
   }
 
   onSetVideoUrl(client, message) {
@@ -98,7 +97,7 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new DeleteVideoSubtitles());
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
-      logger.debug('Video url set!', { roomId: this.roomId, sessionId: client.sessionId, url: message.url });
+      logger.debug('Video url set!', { roomId: this.roomId, userId: client.sessionId, url: message.url });
     } catch (error) {
       this.onError(client, error);
     }
@@ -117,7 +116,7 @@ export class VideoRoom extends Room {
       });
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
-      logger.debug('Video played!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
+      logger.debug('Video played!', { roomId: this.roomId, userId: client.sessionId, progress: message.progress });
     } catch (error) {
       this.onError(client, error);
     }
@@ -136,7 +135,7 @@ export class VideoRoom extends Room {
       });
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
-      logger.debug('Video paused!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
+      logger.debug('Video paused!', { roomId: this.roomId, userId: client.sessionId, progress: message.progress });
     } catch (error) {
       this.onError(client, error);
     }
@@ -152,7 +151,7 @@ export class VideoRoom extends Room {
       });
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
-      logger.debug('Video seeked!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
+      logger.debug('Video seeked!', { roomId: this.roomId, userId: client.sessionId, progress: message.progress });
     } catch (error) {
       this.onError(client, error);
     }
@@ -168,7 +167,7 @@ export class VideoRoom extends Room {
       });
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
-      logger.debug('Video subtitles set!', { roomId: this.roomId, sessionId: client.sessionId });
+      logger.debug('Video subtitles set!', { roomId: this.roomId, userId: client.sessionId });
     } catch (error) {
       this.onError(client, error);
     }
@@ -179,7 +178,7 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new DeleteVideoSubtitles());
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
-      logger.debug('Video subtitles deleted!', { roomId: this.roomId, sessionId: client.sessionId });
+      logger.debug('Video subtitles deleted!', { roomId: this.roomId, userId: client.sessionId });
     } catch (error) {
       this.onError(client, error);
     }
