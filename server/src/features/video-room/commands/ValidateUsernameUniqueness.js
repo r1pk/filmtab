@@ -1,6 +1,6 @@
 import { Command } from '@colyseus/command';
 
-export class CheckUsernameUniqueness extends Command {
+export class ValidateUsernameUniqueness extends Command {
   execute({ users, username }) {
     for (const user of users) {
       if (user.username === username) {

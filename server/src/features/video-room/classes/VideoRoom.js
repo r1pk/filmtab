@@ -6,20 +6,20 @@ import { RoomState } from '../schemas/RoomState.js';
 import { logger } from '##/logger.js';
 
 import { ValidateUsername } from '../commands/ValidateUsername.js';
-import { CheckUsernameUniqueness } from '../commands/CheckUsernameUniqueness.js';
-import { CreateUserInstance } from '../commands/CreateUserInstance.js';
-import { CreateUserColor } from '../commands/CreateUserColor.js';
-import { DeleteUserInstance } from '../commands/DeleteUserInstance.js';
+import { ValidateUsernameUniqueness } from '../commands/ValidateUsernameUniqueness.js';
 import { ValidateVideoUrl } from '../commands/ValidateVideoUrl.js';
-import { UpdateVideoStateTimestamp } from '../commands/UpdateVideoStateTimestamp.js';
-import { SetVideoUrl } from '../commands/SetVideoUrl.js';
 import { ValidateVideoProgress } from '../commands/ValidateVideoProgress.js';
-import { PlayVideo } from '../commands/PlayVideo.js';
-import { PauseVideo } from '../commands/PauseVideo.js';
-import { SetVideoProgress } from '../commands/SetVideoProgress.js';
 import { ValidateVideoSubtitles } from '../commands/ValidateVideoSubtitles.js';
+
+import { CreateUserInstance } from '../commands/CreateUserInstance.js';
+import { DeleteUserInstance } from '../commands/DeleteUserInstance.js';
+import { CreateUserColor } from '../commands/CreateUserColor.js';
+import { SetVideoUrl } from '../commands/SetVideoUrl.js';
+import { SetVideoPlayback } from '../commands/SetVideoPlayback.js';
+import { SetVideoProgress } from '../commands/SetVideoProgress.js';
 import { SetVideoSubtitles } from '../commands/SetVideoSubtitles.js';
 import { DeleteVideoSubtitles } from '../commands/DeleteVideoSubtitles.js';
+import { UpdateVideoStateTimestamp } from '../commands/UpdateVideoStateTimestamp.js';
 
 export class VideoRoom extends Room {
   onCreate() {
@@ -43,7 +43,7 @@ export class VideoRoom extends Room {
         username: options.username,
       });
 
-      this.dispatcher.dispatch(new CheckUsernameUniqueness(), {
+      this.dispatcher.dispatch(new ValidateUsernameUniqueness(), {
         users: this.state.users.values(),
         username: options.username,
       });
@@ -92,7 +92,9 @@ export class VideoRoom extends Room {
         progress: 0,
       });
 
-      this.dispatcher.dispatch(new PauseVideo());
+      this.dispatcher.dispatch(new SetVideoPlayback(), {
+        playing: false,
+      });
 
       this.dispatcher.dispatch(new DeleteVideoSubtitles());
 
@@ -114,7 +116,9 @@ export class VideoRoom extends Room {
         progress: message.progress,
       });
 
-      this.dispatcher.dispatch(new PlayVideo());
+      this.dispatcher.dispatch(new SetVideoPlayback(), {
+        playing: true,
+      });
 
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
@@ -134,7 +138,9 @@ export class VideoRoom extends Room {
         progress: message.progress,
       });
 
-      this.dispatcher.dispatch(new PauseVideo());
+      this.dispatcher.dispatch(new SetVideoPlayback(), {
+        playing: false,
+      });
 
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
