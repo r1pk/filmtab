@@ -17,6 +17,9 @@ import { ValidateVideoProgress } from '../commands/ValidateVideoProgress.js';
 import { PlayVideo } from '../commands/PlayVideo.js';
 import { PauseVideo } from '../commands/PauseVideo.js';
 import { SetVideoProgress } from '../commands/SetVideoProgress.js';
+import { ValidateVideoSubtitles } from '../commands/ValidateVideoSubtitles.js';
+import { SetVideoSubtitles } from '../commands/SetVideoSubtitles.js';
+import { DeleteVideoSubtitles } from '../commands/DeleteVideoSubtitles.js';
 
 export class VideoRoom extends Room {
   onCreate() {
@@ -30,6 +33,8 @@ export class VideoRoom extends Room {
     this.onMessage('video::play', this.onPlayVideo.bind(this));
     this.onMessage('video::pause', this.onPauseVideo.bind(this));
     this.onMessage('video::seek', this.onSeekVideo.bind(this));
+    this.onMessage('video::set_subtitles', this.onSetVideoSubtitles.bind(this));
+    this.onMessage('video::delete_subtitles', this.onDeleteVideoSubtitles.bind(this));
   }
 
   onJoin(client, options) {
@@ -88,6 +93,8 @@ export class VideoRoom extends Room {
       });
 
       this.dispatcher.dispatch(new PauseVideo());
+
+      this.dispatcher.dispatch(new DeleteVideoSubtitles());
 
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
@@ -150,6 +157,36 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video seeked!', { roomId: this.roomId, sessionId: client.sessionId, progress: message.progress });
+    } catch (error) {
+      this.errorHandler(client, error);
+    }
+  }
+
+  onSetVideoSubtitles(client, message) {
+    try {
+      this.dispatcher.dispatch(new ValidateVideoSubtitles(), {
+        subtitles: message.subtitles,
+      });
+
+      this.dispatcher.dispatch(new SetVideoSubtitles(), {
+        subtitles: message.subtitles,
+      });
+
+      this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
+
+      logger.debug('Video subtitles set!', { roomId: this.roomId, sessionId: client.sessionId });
+    } catch (error) {
+      this.errorHandler(client, error);
+    }
+  }
+
+  onDeleteVideoSubtitles(client) {
+    try {
+      this.dispatcher.dispatch(new DeleteVideoSubtitles());
+
+      this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
+
+      logger.debug('Video subtitles deleted!', { roomId: this.roomId, sessionId: client.sessionId });
     } catch (error) {
       this.errorHandler(client, error);
     }
