@@ -20,6 +20,10 @@ import { SetVideoProgress } from '../commands/SetVideoProgress.js';
 import { SetVideoSubtitles } from '../commands/SetVideoSubtitles.js';
 import { DeleteVideoSubtitles } from '../commands/DeleteVideoSubtitles.js';
 import { UpdateVideoStateTimestamp } from '../commands/UpdateVideoStateTimestamp.js';
+import { RegisterRequest } from '../commands/RegisterRequest.js';
+import { ClearRequests } from '../commands/ClearRequests.js';
+import { BroadcastVideoProgressRequest } from '../commands/BroadcastVideoProgressRequest.js';
+import { NotifyVideoProgressRequestors } from '../commands/NotifyVideoProgressRequestors.js';
 
 export class VideoRoom extends Room {
   onCreate() {
@@ -33,6 +37,8 @@ export class VideoRoom extends Room {
     this.onMessage('video::seek', this.onSeekVideo.bind(this));
     this.onMessage('video::set_subtitles', this.onSetVideoSubtitles.bind(this));
     this.onMessage('video::delete_subtitles', this.onDeleteVideoSubtitles.bind(this));
+    this.onMessage('video::progress_request', this.onVideoProgressRequest.bind(this));
+    this.onMessage('video::progress_response', this.onVideoProgressRequestResponse.bind(this));
 
     logger.debug('Room instance created!', { roomId: this.roomId });
   }
@@ -179,6 +185,40 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video subtitles deleted!', { roomId: this.roomId, userId: client.sessionId });
+    } catch (error) {
+      this.onError(client, error);
+    }
+  }
+
+  onVideoProgressRequest(client) {
+    try {
+      this.dispatcher.dispatch(new RegisterRequest(), {
+        requestType: 'video_progress',
+        userId: client.sessionId,
+      });
+      this.dispatcher.dispatch(new BroadcastVideoProgressRequest(), {
+        requestor: client,
+      });
+
+      logger.debug('Video progress request registered!', { roomId: this.roomId, userId: client.sessionId });
+    } catch (error) {
+      this.onError(client, error);
+    }
+  }
+
+  onVideoProgressRequestResponse(client, message) {
+    try {
+      this.dispatcher.dispatch(new ValidateVideoProgress(), {
+        progress: message.progress,
+      });
+      this.dispatcher.dispatch(new NotifyVideoProgressRequestors(), {
+        progress: message.progress,
+      });
+      this.dispatcher.dispatch(new ClearRequests(), {
+        requestType: 'video_progress',
+      });
+
+      logger.debug('Video progress request response received!', { roomId: this.roomId, userId: client.sessionId });
     } catch (error) {
       this.onError(client, error);
     }

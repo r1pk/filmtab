@@ -1,4 +1,4 @@
-import { Schema, MapSchema, defineTypes } from '@colyseus/schema';
+import { Schema, MapSchema, ArraySchema, defineTypes } from '@colyseus/schema';
 
 import { User } from './User.js';
 import { Video } from './Video.js';
@@ -9,6 +9,9 @@ export class RoomState extends Schema {
 
     this.users = new MapSchema();
     this.video = new Video();
+    this.requests = new MapSchema({
+      video_progress: new ArraySchema(),
+    });
   }
 }
 
