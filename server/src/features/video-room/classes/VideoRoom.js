@@ -10,6 +10,7 @@ import { ValidateUsernameUniqueness } from '../commands/ValidateUsernameUniquene
 import { ValidateVideoUrl } from '../commands/ValidateVideoUrl.js';
 import { ValidateVideoProgress } from '../commands/ValidateVideoProgress.js';
 import { ValidateVideoSubtitles } from '../commands/ValidateVideoSubtitles.js';
+import { ValidateChatMessageContent } from '../commands/ValidateChatMessageContent.js';
 
 import { CreateUserInstance } from '../commands/CreateUserInstance.js';
 import { DeleteUserInstance } from '../commands/DeleteUserInstance.js';
@@ -24,6 +25,7 @@ import { RegisterRequest } from '../commands/RegisterRequest.js';
 import { ClearRequests } from '../commands/ClearRequests.js';
 import { BroadcastVideoProgressRequest } from '../commands/BroadcastVideoProgressRequest.js';
 import { NotifyVideoProgressRequestors } from '../commands/NotifyVideoProgressRequestors.js';
+import { BroadcastChatMessage } from '../commands/BroadcastChatMessage.js';
 
 export class VideoRoom extends Room {
   onCreate() {
@@ -39,6 +41,8 @@ export class VideoRoom extends Room {
     this.onMessage('video::delete_subtitles', this.onDeleteVideoSubtitles.bind(this));
     this.onMessage('video::progress_request', this.onVideoProgressRequest.bind(this));
     this.onMessage('video::progress_response', this.onVideoProgressRequestResponse.bind(this));
+
+    this.onMessage('chat::message', this.onChatMessage.bind(this));
 
     logger.debug('Room instance created!', { roomId: this.roomId });
   }
@@ -219,6 +223,22 @@ export class VideoRoom extends Room {
       });
 
       logger.debug('Video progress request response received!', { roomId: this.roomId, userId: client.sessionId });
+    } catch (error) {
+      this.onError(client, error);
+    }
+  }
+
+  onChatMessage(client, message) {
+    try {
+      this.dispatcher.dispatch(new ValidateChatMessageContent(), {
+        content: message.content,
+      });
+      this.dispatcher.dispatch(new BroadcastChatMessage(), {
+        userId: client.sessionId,
+        content: message.content,
+      });
+
+      logger.debug('Chat message received!', { roomId: this.roomId, userId: client.sessionId });
     } catch (error) {
       this.onError(client, error);
     }
