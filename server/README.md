@@ -56,7 +56,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
 
 #### Events listened by server
 
-- `video::set_url` - sets video url.
+- `video::set_url` - sets video url.  
   Accepts object with `url` field which is a string with url to the video.
 
   ```
@@ -65,7 +65,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   }
   ```
 
-- `video::play` - plays video.
+- `video::play` - plays video.  
   Accepts object with `progress` field which is a number with current progress of the video.
 
   ```
@@ -74,7 +74,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   }
   ```
 
-- `video::pause` - pauses video.
+- `video::pause` - pauses video.  
   Accepts object with `progress` field which is a number with current progress of the video.
 
   ```
@@ -83,7 +83,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   }
   ```
 
-- `video::seek` - seeks video.
+- `video::seek` - seeks video.  
   Accepts object with `progress` field which is a number with current progress of the video.
 
   ```
@@ -92,7 +92,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   }
   ```
 
-- `video::set_subtitles` - sets subtitles.
+- `video::set_subtitles` - sets subtitles.  
   Accepts object with `subtitles` field which is a string with valid WebVTT subtitles.
 
   ```
@@ -101,21 +101,21 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   }
   ```
 
-- `video::delete_subtitles` - deletes subtitles.
+- `video::delete_subtitles` - deletes subtitles.  
   Accepts empty object.
 
   ```
   {}
   ```
 
-- `video::progress_request` - requests current progress of the video.
+- `video::progress_request` - requests current progress of the video.  
   Accepts empty object.
 
   ```
   {}
   ```
 
-- `video::progress_response` - synchronizes current progress of the video with users that requested it with `video::progress_request` event.
+- `video::progress_response` - synchronizes current progress of the video with users that requested it with `video::progress_request` event.  
   Accepts object with `progress` field which is a number with current progress of the video.
 
   ```
@@ -124,7 +124,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   }
   ```
 
-- `chat::message` - sends received message to all users in the room.
+- `chat::message` - sends received message to all users in the room.  
   Accepts object with `content` field which is a string with message content.
 
   ```
@@ -135,7 +135,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
 
 #### Events emitted by server
 
-- `video::progress_request` - requests current progress of the video.
+- `video::progress_request` - requests current progress of the video.  
   Payload sent with this event is empty object.
 
   ```
@@ -144,7 +144,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
 
   Every user that receives this event should respond with `video::progress_response` event.
 
-- `video::progress_response` - Sends current progress of the video received from fastest user.
+- `video::progress_response` - Sends current progress of the video received from fastest user.  
   Payload sent with this event is object with `progress` field which is a number with current progress of the video.
 
   ```
@@ -155,7 +155,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
 
   This event is sent only to users that requested current progress with `video::progress_request` event.
 
-- `chat::message` - Chat message received from other user.
+- `chat::message` - Chat message received from other user.  
   Payload sent with this event is object with `id`, `content`, `createdAt`, `author` fields.
 
   ```
