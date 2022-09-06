@@ -15,6 +15,8 @@ export const middleware = (store) => {
 
         return next(result);
       } catch (error) {}
+    } else {
+      return next(action);
     }
   };
 };
