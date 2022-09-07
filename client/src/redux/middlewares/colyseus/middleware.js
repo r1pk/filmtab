@@ -1,11 +1,12 @@
 import EnhancedColyseusClient from './clients/EnhancedColyseusClient';
 
 import RoomManagementModule from './modules/RoomManagementModule';
+import VideoManagementModule from './modules/VideoManagementModule';
 
 export const middleware = (store) => {
   const client = new EnhancedColyseusClient(import.meta.env.VITE_COLYSEUS_URL);
 
-  const modules = [new RoomManagementModule(client, store)];
+  const modules = [new RoomManagementModule(client, store), new VideoManagementModule(client, store)];
   const actions = modules.reduce((actions, module) => ({ ...actions, ...module.getModuleActions() }), {});
 
   return (next) => async (action) => {
