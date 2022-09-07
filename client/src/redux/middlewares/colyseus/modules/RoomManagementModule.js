@@ -40,10 +40,10 @@ export default class RoomManagementModule {
     });
   };
 
-  handleLeaveRoomAction = async () => {
+  handleLeaveRoomAction = async (action) => {
     await this.client.room.leave();
 
-    return room.leave();
+    return room.leave(action.payload);
   };
 
   handleOnLeaveEvent = () => {
