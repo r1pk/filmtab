@@ -5,7 +5,7 @@ import { room } from '../middlewares/colyseus/actions';
 const initialState = {
   roomId: '',
   user: {
-    userId: '',
+    id: '',
     username: '',
   },
   users: [],
@@ -18,16 +18,16 @@ const slice = createSlice({
     builder.addCase(room.create.type, (state, action) => {
       state.roomId = action.payload.roomId;
       state.user = {
-        userId: action.payload.clientId,
-        username: action.payload.username,
+        id: action.payload.user.id,
+        username: action.payload.user.username,
       };
     });
 
     builder.addCase(room.join.type, (state, action) => {
       state.roomId = action.payload.roomId;
       state.user = {
-        userId: action.payload.clientId,
-        username: action.payload.username,
+        id: action.payload.user.id,
+        username: action.payload.user.username,
       };
     });
 
@@ -37,14 +37,14 @@ const slice = createSlice({
 
     builder.addCase(room.onAddUser.type, (state, action) => {
       state.users.push({
-        id: action.payload.id,
-        username: action.payload.username,
-        color: action.payload.color,
+        id: action.payload.user.id,
+        username: action.payload.user.username,
+        color: action.payload.user.color,
       });
     });
 
     builder.addCase(room.onRemoveUser.type, (state, action) => {
-      state.users = state.users.filter((user) => user.id !== action.payload.id);
+      state.users = state.users.filter((user) => user.id !== action.payload.user.id);
     });
   },
 });

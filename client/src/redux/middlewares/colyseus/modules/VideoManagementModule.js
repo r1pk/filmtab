@@ -80,7 +80,7 @@ export default class VideoManagementModule {
   };
 
   handleStateChangesEvent = (changes) => {
-    this.store.dispatch(video.onStateChanges(changes));
+    this.store.dispatch(video.onStateChanges({ changes: changes }));
   };
 
   handleRoomChangeEvent = (room) => {

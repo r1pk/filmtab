@@ -22,9 +22,11 @@ export default class RoomManagementModule {
     });
 
     return room.create({
-      username: action.payload.username,
       roomId: result.id,
-      clientId: result.sessionId,
+      user: {
+        id: result.sessionId,
+        username: action.payload.username,
+      },
     });
   };
 
@@ -34,9 +36,11 @@ export default class RoomManagementModule {
     });
 
     return room.join({
-      username: action.payload.username,
       roomId: result.id,
-      clientId: result.sessionId,
+      user: {
+        id: result.sessionId,
+        username: action.payload.username,
+      },
     });
   };
 
@@ -51,11 +55,11 @@ export default class RoomManagementModule {
   };
 
   handleOnAddUserEvent = (user) => {
-    this.store.dispatch(room.onAddUser(user));
+    this.store.dispatch(room.onAddUser({ user: user }));
   };
 
   handleOnRemoveUserEvent = (user) => {
-    this.store.dispatch(room.onRemoveUser(user));
+    this.store.dispatch(room.onRemoveUser({ user: user }));
   };
 
   handleRoomChangeEvent = (room) => {
