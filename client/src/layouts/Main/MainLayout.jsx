@@ -1,20 +1,15 @@
-import PropTypes from 'prop-types';
-
+import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import FixedBackground from './FixedBackground';
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   return (
     <Box sx={{ p: 2 }}>
       <FixedBackground />
-      {children}
+      <Outlet />
     </Box>
   );
-};
-
-MainLayout.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 export default MainLayout;
