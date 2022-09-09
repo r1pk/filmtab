@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { video } from '../middlewares/colyseus/actions';
+import { video, room } from '../middlewares/colyseus/actions';
 
 const initialState = {
   player: {
@@ -19,6 +19,10 @@ const slice = createSlice({
   name: 'video',
   initialState: initialState,
   extraReducers: (builder) => {
+    builder.addCase(room.leave, () => {
+      return initialState;
+    });
+
     builder.addCase(video.progress.response, (state) => {
       state.requests.progress = false;
     });
