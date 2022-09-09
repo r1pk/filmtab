@@ -11,6 +11,7 @@ import { ValidateVideoUrl } from '../commands/ValidateVideoUrl.js';
 import { ValidateVideoProgress } from '../commands/ValidateVideoProgress.js';
 import { ValidateVideoSubtitles } from '../commands/ValidateVideoSubtitles.js';
 import { ValidateChatMessageContent } from '../commands/ValidateChatMessageContent.js';
+import { ValidateVideoProgressRequest } from '../commands/ValidateVideoProgressRequest.js';
 
 import { CreateUserInstance } from '../commands/CreateUserInstance.js';
 import { DeleteUserInstance } from '../commands/DeleteUserInstance.js';
@@ -196,6 +197,7 @@ export class VideoRoom extends Room {
 
   onVideoProgressRequest(client) {
     try {
+      this.dispatcher.dispatch(new ValidateVideoProgressRequest());
       this.dispatcher.dispatch(new RegisterRequest(), {
         requestType: 'video_progress',
         userId: client.sessionId,
