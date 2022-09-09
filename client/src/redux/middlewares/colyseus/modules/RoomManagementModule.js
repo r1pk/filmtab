@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 import { room } from '../actions';
 
 export default class RoomManagementModule {
@@ -17,37 +19,49 @@ export default class RoomManagementModule {
   };
 
   handleCreateRoomAction = async (action) => {
-    const result = await this.client.create('video-room', {
-      username: action.payload.username,
-    });
-
-    return room.create({
-      roomId: result.id,
-      user: {
-        id: result.sessionId,
+    try {
+      const result = await this.client.create('video-room', {
         username: action.payload.username,
-      },
-    });
+      });
+
+      return room.create({
+        roomId: result.id,
+        user: {
+          id: result.sessionId,
+          username: action.payload.username,
+        },
+      });
+    } catch (error) {
+      this.handleRoomError(0, error.message);
+    }
   };
 
   handleJoinRoomAction = async (action) => {
-    const result = await this.client.joinById(action.payload.roomId, {
-      username: action.payload.username,
-    });
-
-    return room.join({
-      roomId: result.id,
-      user: {
-        id: result.sessionId,
+    try {
+      const result = await this.client.joinById(action.payload.roomId, {
         username: action.payload.username,
-      },
-    });
+      });
+
+      return room.join({
+        roomId: result.id,
+        user: {
+          id: result.sessionId,
+          username: action.payload.username,
+        },
+      });
+    } catch (error) {
+      this.handleRoomError(0, error.message);
+    }
   };
 
   handleLeaveRoomAction = async (action) => {
-    await this.client.room.leave();
+    try {
+      await this.client.room.leave();
 
-    return room.leave(action.payload);
+      return room.leave(action.payload);
+    } catch (error) {
+      this.handleRoomError(0, error.message);
+    }
   };
 
   handleOnLeaveEvent = () => {
@@ -62,10 +76,16 @@ export default class RoomManagementModule {
     this.store.dispatch(room.onRemoveUser({ user: user }));
   };
 
+  handleRoomError = (code, message) => {
+    toast.error(message);
+    console.error(code, message);
+  };
+
   handleRoomChangeEvent = (room) => {
     room.state.users.onAdd = this.handleOnAddUserEvent;
     room.state.users.onRemove = this.handleOnRemoveUserEvent;
 
+    room.onError(this.handleRoomError);
     room.onLeave(this.handleOnLeaveEvent);
   };
 }

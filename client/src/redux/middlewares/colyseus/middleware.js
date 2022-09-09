@@ -14,8 +14,12 @@ export const middleware = (store) => {
       try {
         const result = await actions[action.type](action);
 
-        return next(result);
-      } catch (error) {}
+        if (result) {
+          return next(result);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       return next(action);
     }
