@@ -8,7 +8,7 @@ import { TextField, Button } from '@/components/form';
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import { CreateRoomFormSchema } from '../../schemas/CreateRoomFormSchema';
+import { CreateRoomFormSchema } from '../schemas/CreateRoomFormSchema';
 
 const CreateRoomForm = forwardRef(({ onCreateRoom, defaultValues, ...rest }, ref) => {
   const { control, handleSubmit, formState } = useForm({
