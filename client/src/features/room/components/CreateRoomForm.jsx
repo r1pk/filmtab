@@ -11,15 +11,17 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { CreateRoomFormSchema } from '../schemas/CreateRoomFormSchema';
 
 const CreateRoomForm = forwardRef(({ onCreateRoom, defaultValues, ...rest }, ref) => {
-  const { control, handleSubmit, formState } = useForm({
+  const { control, formState, handleSubmit } = useForm({
     mode: 'all',
     defaultValues: Object.assign({}, { username: '' }, defaultValues),
     resolver: joiResolver(CreateRoomFormSchema),
   });
 
   const onSubmit = (data) => {
-    if (onCreateRoom) {
-      onCreateRoom(data);
+    if (formState.isValid) {
+      if (onCreateRoom) {
+        onCreateRoom(data);
+      }
     }
   };
 

@@ -11,15 +11,17 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { JoinRoomFormSchema } from '../schemas/JoinRoomFormSchema';
 
 const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, ...rest }, ref) => {
-  const { control, handleSubmit, formState } = useForm({
+  const { control, formState, handleSubmit } = useForm({
     mode: 'all',
     defaultValues: Object.assign({}, { roomId: '', username: '' }, defaultValues),
     resolver: joiResolver(JoinRoomFormSchema),
   });
 
   const onSubmit = (data) => {
-    if (onJoinRoom) {
-      onJoinRoom(data);
+    if (formState.isValid) {
+      if (onJoinRoom) {
+        onJoinRoom(data);
+      }
     }
   };
 
