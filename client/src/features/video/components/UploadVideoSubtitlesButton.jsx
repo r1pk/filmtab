@@ -14,7 +14,7 @@ const UploadVideoSubtitlesButton = forwardRef(({ onUploadVideoSubtitles, ...rest
     }
   };
 
-  const handleFileChange = (event) => {
+  const handleInputChange = (event) => {
     const reader = new FileReader();
     const file = event.target.files[0];
 
@@ -29,7 +29,7 @@ const UploadVideoSubtitlesButton = forwardRef(({ onUploadVideoSubtitles, ...rest
   return (
     <Button component="label" startIcon={<UploadFileOutlined />} ref={ref} {...rest}>
       Upload subtitles
-      <input type="file" accept="text/vtt" hidden onChange={handleFileChange} />
+      <input type="file" accept="text/vtt" hidden onChange={handleInputChange} />
     </Button>
   );
 });
