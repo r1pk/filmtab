@@ -1,5 +1,5 @@
 import Joi from 'joi';
 
-export const SetVideoUrlFormSchema = Joi.object({
+export const SetVideoFormSchema = Joi.object({
   url: Joi.string().trim().uri().required().label('url'),
 });

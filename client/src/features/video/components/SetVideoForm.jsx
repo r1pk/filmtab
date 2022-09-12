@@ -9,21 +9,21 @@ import { TextField, Button } from '@/components/form';
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import { SetVideoUrlFormSchema } from '../schemas/SetVideoUrlFormSchema';
+import { SetVideoFormSchema } from '../schemas/SetVideoFormSchema';
 
-const SetVideoUrlForm = forwardRef(({ onSetVideoUrl, url, ...rest }, ref) => {
+const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
   const { control, formState, reset, handleSubmit } = useForm({
     mode: 'all',
     defaultValues: {
       url: url,
     },
-    resolver: joiResolver(SetVideoUrlFormSchema),
+    resolver: joiResolver(SetVideoFormSchema),
   });
 
   const onSubmit = (data) => {
     if (formState.isValid && formState.isDirty) {
-      if (onSetVideoUrl) {
-        onSetVideoUrl(data.url);
+      if (onSetVideo) {
+        onSetVideo(data);
       }
     }
   };
@@ -52,11 +52,11 @@ const SetVideoUrlForm = forwardRef(({ onSetVideoUrl, url, ...rest }, ref) => {
   );
 });
 
-SetVideoUrlForm.displayName = 'SetVideoUrlForm';
+SetVideoForm.displayName = 'SetVideoForm';
 
-SetVideoUrlForm.propTypes = {
+SetVideoForm.propTypes = {
   url: PropTypes.string.isRequired,
-  onSetVideoUrl: PropTypes.func.isRequired,
+  onSetVideo: PropTypes.func.isRequired,
 };
 
-export default SetVideoUrlForm;
+export default SetVideoForm;
