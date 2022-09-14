@@ -13,6 +13,7 @@ export const video = {
   set: createAction('colyseus/video/set'),
   play: createAction('colyseus/video/play'),
   pause: createAction('colyseus/video/pause'),
+  togglePlayback: createAction('colyseus/video/togglePlayback'),
   seek: createAction('colyseus/video/seek'),
 
   subtitles: {

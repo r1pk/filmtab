@@ -13,6 +13,7 @@ export default class VideoManagementModule {
       [video.set.type]: this.handleSetVideoAction,
       [video.play.type]: this.handlePlayVideoAction,
       [video.pause.type]: this.handlePauseVideoAction,
+      [video.togglePlayback.type]: this.handleTogglePlaybackVideoAction,
       [video.seek.type]: this.handleSeekVideoAction,
 
       [video.subtitles.set.type]: this.handleSetSubtitlesAction,
@@ -39,6 +40,12 @@ export default class VideoManagementModule {
     await this.client.room.send('video::pause', { progress: action.payload.progress });
 
     return video.pause(action.payload);
+  };
+
+  handleTogglePlaybackVideoAction = async (action) => {
+    await this.client.room.send('video::toggle_playback', { progress: action.payload.progress });
+
+    return video.togglePlayback(action.payload);
   };
 
   handleSeekVideoAction = async (action) => {
