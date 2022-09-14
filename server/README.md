@@ -83,6 +83,15 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   }
   ```
 
+- `video::toggle_playback` - toggles video playback.  
+  Accepts object with `progress` field which is a number with current progress of the video.
+
+  ```
+  {
+    progress: number
+  }
+  ```
+
 - `video::seek` - seeks video.  
   Accepts object with `progress` field which is a number with current progress of the video.
 

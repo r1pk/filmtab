@@ -37,6 +37,7 @@ export class VideoRoom extends Room {
     this.onMessage('video::set_url', this.onSetVideoUrl.bind(this));
     this.onMessage('video::play', this.onPlayVideo.bind(this));
     this.onMessage('video::pause', this.onPauseVideo.bind(this));
+    this.onMessage('video::toggle_playback', this.onToggleVideoPlayback.bind(this));
     this.onMessage('video::seek', this.onSeekVideo.bind(this));
     this.onMessage('video::set_subtitles', this.onSetVideoSubtitles.bind(this));
     this.onMessage('video::delete_subtitles', this.onDeleteVideoSubtitles.bind(this));
@@ -147,6 +148,25 @@ export class VideoRoom extends Room {
       this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
 
       logger.debug('Video paused!', { roomId: this.roomId, userId: client.sessionId, progress: message.progress });
+    } catch (error) {
+      this.onError(client, error);
+    }
+  }
+
+  onToggleVideoPlayback(client, message) {
+    try {
+      this.dispatcher.dispatch(new ValidateVideoProgress(), {
+        progress: message.progress,
+      });
+      this.dispatcher.dispatch(new SetVideoProgress(), {
+        progress: message.progress,
+      });
+      this.dispatcher.dispatch(new SetVideoPlayback(), {
+        playing: !this.state.video.playing,
+      });
+      this.dispatcher.dispatch(new UpdateVideoStateTimestamp());
+
+      logger.debug('Video playback toggled!', { roomId: this.roomId, userId: client.sessionId });
     } catch (error) {
       this.onError(client, error);
     }
