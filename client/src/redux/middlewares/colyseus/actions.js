@@ -5,8 +5,10 @@ export const room = {
   join: createAction('colyseus/room/join'),
   leave: createAction('colyseus/room/leave'),
 
-  onAddUser: createAction('colyseus/room/onAddUser'),
-  onRemoveUser: createAction('colyseus/room/onRemoveUser'),
+  users: {
+    onAdd: createAction('colyseus/room/users/onAdd'),
+    onRemove: createAction('colyseus/room/users/onRemove'),
+  },
 };
 
 export const video = {

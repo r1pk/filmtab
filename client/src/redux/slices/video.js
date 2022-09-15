@@ -19,23 +19,23 @@ const slice = createSlice({
   name: 'video',
   initialState: initialState,
   extraReducers: (builder) => {
-    builder.addCase(room.leave, () => {
+    builder.addCase(room.leave.type, () => {
       return initialState;
     });
 
-    builder.addCase(video.progress.response, (state) => {
+    builder.addCase(video.progress.response.type, (state) => {
       state.requests.progress = false;
     });
 
-    builder.addCase(video.progress.onRequest, (state) => {
+    builder.addCase(video.progress.onRequest.type, (state) => {
       state.requests.progress = true;
     });
 
-    builder.addCase(video.progress.onResponse, (state, action) => {
+    builder.addCase(video.progress.onResponse.type, (state, action) => {
       state.player.progress = action.payload.progress;
     });
 
-    builder.addCase(video.onStateChanges, (state, action) => {
+    builder.addCase(video.onStateChanges.type, (state, action) => {
       for (const change of action.payload.changes) {
         state.player[change.field] = change.value;
       }

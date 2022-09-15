@@ -35,7 +35,7 @@ const slice = createSlice({
       return initialState;
     });
 
-    builder.addCase(room.onAddUser.type, (state, action) => {
+    builder.addCase(room.users.onAdd.type, (state, action) => {
       state.users.push({
         id: action.payload.user.id,
         username: action.payload.user.username,
@@ -43,7 +43,7 @@ const slice = createSlice({
       });
     });
 
-    builder.addCase(room.onRemoveUser.type, (state, action) => {
+    builder.addCase(room.users.onRemove.type, (state, action) => {
       state.users = state.users.filter((user) => user.id !== action.payload.user.id);
     });
   },

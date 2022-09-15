@@ -69,11 +69,11 @@ export default class RoomManagementModule {
   };
 
   handleOnAddUserEvent = (user) => {
-    this.store.dispatch(room.onAddUser({ user: user }));
+    this.store.dispatch(room.users.onAdd({ user: user }));
   };
 
   handleOnRemoveUserEvent = (user) => {
-    this.store.dispatch(room.onRemoveUser({ user: user }));
+    this.store.dispatch(room.users.onRemove({ user: user }));
   };
 
   handleRoomError = (code, message) => {
