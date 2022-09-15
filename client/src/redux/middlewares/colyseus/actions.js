@@ -33,3 +33,11 @@ export const video = {
 
   onStateChanges: createAction('colyseus/video/onStateChanges'),
 };
+
+export const chat = {
+  message: {
+    send: createAction('colyseus/chat/message/send'),
+  },
+
+  onMessage: createAction('colyseus/chat/onMessage'),
+};
