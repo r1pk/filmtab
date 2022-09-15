@@ -7,6 +7,7 @@ import { useTheme } from '@mui/material';
 
 import { options } from '../settings/plyr';
 import { buildPlayerSource } from '../utils/buildPlayerSource';
+import { createSubtitleTrack } from '../utils/createSubtitleTrack';
 
 const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onProgressRequest }) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
@@ -44,6 +45,34 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onProgres
 
     setVideoSource();
   }, [state.url]);
+
+  useEffect(() => {
+    const addVideoSubtitles = () => {
+      if (isPlayerReady && plyr.current.isHTML5) {
+        if (state.subtitles !== '') {
+          const track = createSubtitleTrack(state.subtitles);
+
+          plyr.current.media.appendChild(track);
+          plyr.current.media.textTracks[0].mode = 'hidden';
+        }
+      }
+    };
+
+    addVideoSubtitles();
+
+    return () => {
+      const clearVideoSubtitles = () => {
+        if (plyr.current.isHTML5 && plyr.current.media) {
+          plyr.current.media.querySelectorAll('track').forEach((track) => {
+            track.remove();
+          });
+          plyr.current.currentTrack = -1;
+        }
+      };
+
+      clearVideoSubtitles();
+    };
+  }, [isPlayerReady, state.subtitles]);
 
   useEffect(() => {
     const setVideoPlayback = async () => {
