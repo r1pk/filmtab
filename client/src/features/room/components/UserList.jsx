@@ -5,9 +5,9 @@ import { Paper, AvatarGroup } from '@mui/material';
 
 import UserListItem from './UserListItem';
 
-const UserList = forwardRef(({ users }, ref) => {
+const UserList = forwardRef(({ users, ...rest }, ref) => {
   return (
-    <Paper component={AvatarGroup} max={8} sx={{ p: 2, justifyContent: 'center' }} ref={ref}>
+    <Paper component={AvatarGroup} max={8} sx={{ p: 2, justifyContent: 'center' }} ref={ref} {...rest}>
       {users.map((user) => (
         <UserListItem key={user.id} user={user} />
       ))}

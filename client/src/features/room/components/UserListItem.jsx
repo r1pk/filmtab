@@ -3,10 +3,10 @@ import { forwardRef } from 'react';
 
 import { Avatar, Tooltip } from '@mui/material';
 
-const UserListItem = forwardRef(({ user }, ref) => {
+const UserListItem = forwardRef(({ user, ...rest }, ref) => {
   return (
     <Tooltip title={user.username}>
-      <Avatar name={user.username} alt={user.username} sx={{ backgroundColor: user.color }} ref={ref}>
+      <Avatar name={user.username} alt={user.username} sx={{ backgroundColor: user.color }} ref={ref} {...rest}>
         {user.username[0]}
       </Avatar>
     </Tooltip>
