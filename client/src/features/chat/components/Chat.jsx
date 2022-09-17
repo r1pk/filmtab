@@ -29,7 +29,7 @@ const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref)
         sx={{ textAlign: 'center' }}
       />
       <Divider />
-      <CardContent sx={{ height: 480, overflowY: 'scroll', scrollBehavior: 'smooth' }} ref={content}>
+      <CardContent sx={{ height: { xs: 300, md: 480 }, overflowY: 'scroll', scrollBehavior: 'smooth' }} ref={content}>
         <ChatMessageList messages={messages} />
       </CardContent>
       <Divider />
