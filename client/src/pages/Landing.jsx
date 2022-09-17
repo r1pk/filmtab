@@ -52,7 +52,7 @@ const Landing = () => {
       </Grid>
 
       <Grid container item xs={12} sx={{ justifyContent: 'center' }}>
-        <Grid item xs={10} sm={6} md={4} lg={3} xl={2}>
+        <Grid item xs={10} sm={6} md={4} lg={3}>
           <Paper sx={{ border: 1, borderColor: 'primary.main' }}>
             <Tabs centered value={tab} onChange={handleTabChange}>
               <Tab value={0} label="Create Room" />
@@ -63,7 +63,7 @@ const Landing = () => {
       </Grid>
 
       <Grid container item xs={12} sx={{ justifyContent: 'center' }}>
-        <Grid item xs={10} sm={6} md={4} lg={3} xl={2}>
+        <Grid item xs={10} sm={6} md={4} lg={3}>
           {tab === 0 && <CreateRoomForm onCreateRoom={handleCreateRoom} />}
           {tab === 1 && <JoinRoomForm onJoinRoom={handleJoinRoom} />}
         </Grid>
