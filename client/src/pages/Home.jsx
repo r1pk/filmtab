@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Grid, Paper, Typography, Tabs, Tab } from '@mui/material';
+import { Box, Grid, Paper, Typography, Tabs, Tab } from '@mui/material';
 
 import { CreateRoomForm, JoinRoomForm } from '@/features/room';
 
 import { colyseus } from '@/redux';
 
-const Landing = () => {
+const Home = () => {
   const [tab, setTab] = useState(0);
 
   const dispatch = useDispatch();
@@ -40,36 +40,31 @@ const Landing = () => {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid container item xs={12} sx={{ justifyContent: 'center' }}>
+    <Box>
+      <Grid container sx={{ justifyContent: 'center' }}>
         <Grid item xs={12} sm={10} md={6} lg={4}>
-          <Paper sx={{ border: 1, borderColor: 'primary.main' }}>
+          <Paper>
             <Typography variant="h1" component="h1" sx={{ p: 2, textAlign: 'center' }}>
               FilmTab
             </Typography>
+            <Paper elevation={2}>
+              <Tabs centered value={tab} onChange={handleTabChange}>
+                <Tab value={0} label="Create Room" />
+                <Tab value={1} label="Join Room" />
+              </Tabs>
+            </Paper>
           </Paper>
         </Grid>
       </Grid>
 
-      <Grid container item xs={12} sx={{ justifyContent: 'center' }}>
-        <Grid item xs={10} sm={6} md={4} lg={3}>
-          <Paper sx={{ border: 1, borderColor: 'primary.main' }}>
-            <Tabs centered value={tab} onChange={handleTabChange}>
-              <Tab value={0} label="Create Room" />
-              <Tab value={1} label="Join Room" />
-            </Tabs>
-          </Paper>
-        </Grid>
-      </Grid>
-
-      <Grid container item xs={12} sx={{ justifyContent: 'center' }}>
-        <Grid item xs={10} sm={6} md={4} lg={3}>
+      <Grid container columns={16} sx={{ justifyContent: 'center', my: 2 }}>
+        <Grid item xs={14} sm={8} md={6} lg={4} xl={3}>
           {tab === 0 && <CreateRoomForm onCreateRoom={handleCreateRoom} />}
           {tab === 1 && <JoinRoomForm onJoinRoom={handleJoinRoom} />}
         </Grid>
       </Grid>
-    </Grid>
+    </Box>
   );
 };
 
-export default Landing;
+export default Home;

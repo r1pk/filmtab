@@ -1,6 +1,6 @@
 import { MainLayout } from '@/layouts';
 
-import Landing from '@/pages/Landing';
+import Home from '@/pages/Home';
 import Room from '@/pages/Room';
 
 export const routes = [
@@ -9,7 +9,7 @@ export const routes = [
     children: [
       {
         index: true,
-        element: <Landing />,
+        element: <Home />,
       },
       {
         path: 'rooms',
