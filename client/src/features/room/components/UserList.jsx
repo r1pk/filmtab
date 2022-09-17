@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 
-import { Paper, AvatarGroup } from '@mui/material';
+import { Paper, AvatarGroup, Skeleton } from '@mui/material';
 
 import UserListItem from './UserListItem';
 
 const UserList = forwardRef(({ users, ...rest }, ref) => {
   return (
     <Paper component={AvatarGroup} max={8} sx={{ p: 2, justifyContent: 'center' }} ref={ref} {...rest}>
-      {users.map((user) => (
-        <UserListItem key={user.id} user={user} />
-      ))}
+      {users.length === 0 && <Skeleton variant="circular" width={44} height={44} />}
+      {users.length > 0 && users.map((user) => <UserListItem key={user.id} user={user} />)}
     </Paper>
   );
 });
