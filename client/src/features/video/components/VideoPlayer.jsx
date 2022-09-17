@@ -9,7 +9,7 @@ import { options } from '../settings/plyr';
 import { buildPlayerSource } from '../utils/buildPlayerSource';
 import { createSubtitleTrack } from '../utils/createSubtitleTrack';
 
-const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onProgressRequest }) => {
+const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onProgressResponse }) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
 
   const theme = useTheme();
@@ -145,14 +145,14 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onProgres
   }, [isPlayerReady, onSeekVideo]);
 
   useEffect(() => {
-    const handleProgressRequest = () => {
+    const emitProgressResponse = () => {
       if (requests.progress) {
-        onProgressRequest(plyr.current.currentTime);
+        onProgressResponse(plyr.current.currentTime);
       }
     };
 
-    handleProgressRequest();
-  }, [requests.progress, onProgressRequest]);
+    emitProgressResponse();
+  }, [requests.progress, onProgressResponse]);
 
   return <video className="filmtab-player-target" style={{ '--plyr-color-main': theme.palette.primary.main }} />;
 };
@@ -169,7 +169,7 @@ VideoPlayer.propTypes = {
   }),
   onTogglePlayback: PropTypes.func.isRequired,
   onSeekVideo: PropTypes.func.isRequired,
-  onProgressRequest: PropTypes.func.isRequired,
+  onProgressResponse: PropTypes.func.isRequired,
 };
 
 export default VideoPlayer;
