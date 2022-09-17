@@ -10,7 +10,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 
 import { JoinRoomFormSchema } from '../schemas/JoinRoomFormSchema';
 
-const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, ...rest }, ref) => {
+const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, disableRoomIdInput, ...rest }, ref) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
     defaultValues: Object.assign({}, { roomId: '', username: '' }, defaultValues),
@@ -45,6 +45,7 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, ...rest }, ref) =>
                 label="Room ID"
                 error={Boolean(fieldState.error)}
                 helperText={fieldState.error?.message}
+                disabled={disableRoomIdInput}
                 fullWidth
                 {...field}
               />
@@ -82,6 +83,7 @@ JoinRoomForm.propTypes = {
     roomId: PropTypes.string,
     username: PropTypes.string,
   }),
+  disableRoomIdInput: PropTypes.bool,
 };
 
 export default JoinRoomForm;
