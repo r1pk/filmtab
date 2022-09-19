@@ -7,19 +7,25 @@ import { Box, Grid, Paper, Typography, Tabs, Tab } from '@mui/material';
 
 import { CreateRoomForm, JoinRoomForm } from '@/features/room';
 
+import { useRoomStatus } from '@/hooks';
+
 import { colyseus } from '@/redux';
 
 const Home = () => {
   const [tab, setTab] = useState(0);
+  const [isFormDisabled, setIsFormDisabled] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { isRoomMember } = useRoomStatus();
 
   const handleTabChange = (_, value) => {
     setTab(value);
   };
 
   const handleCreateRoom = async (data) => {
+    setIsFormDisabled(true);
     const result = await dispatch(colyseus.room.create({ username: data.username }));
 
     if (result) {
@@ -27,9 +33,11 @@ const Home = () => {
 
       navigate(`/rooms/${roomId}`);
     }
+    setIsFormDisabled(false);
   };
 
   const handleJoinRoom = async (data) => {
+    setIsFormDisabled(true);
     const result = await dispatch(colyseus.room.join({ roomId: data.roomId, username: data.username }));
 
     if (result) {
@@ -37,6 +45,7 @@ const Home = () => {
 
       navigate(`/rooms/${roomId}`);
     }
+    setIsFormDisabled(false);
   };
 
   return (
@@ -59,8 +68,8 @@ const Home = () => {
 
       <Grid container columns={16} sx={{ justifyContent: 'center', my: 2 }}>
         <Grid item xs={14} sm={8} md={6} lg={4} xl={3}>
-          {tab === 0 && <CreateRoomForm onCreateRoom={handleCreateRoom} />}
-          {tab === 1 && <JoinRoomForm onJoinRoom={handleJoinRoom} />}
+          {tab === 0 && <CreateRoomForm onCreateRoom={handleCreateRoom} disableForm={isFormDisabled || isRoomMember} />}
+          {tab === 1 && <JoinRoomForm onJoinRoom={handleJoinRoom} disableForm={isFormDisabled || isRoomMember} />}
         </Grid>
       </Grid>
     </Box>
