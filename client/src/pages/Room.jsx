@@ -67,12 +67,8 @@ const Room = () => {
   };
 
   const handleLeavePage = async (transition) => {
-    const isActionConfirmed = window.confirm('Are you sure you want to leave the room?');
-
-    if (isActionConfirmed) {
-      await dispatch(colyseus.room.leave());
-      transition.retry();
-    }
+    await dispatch(colyseus.room.leave());
+    transition.retry();
   };
 
   useNavigationBlocker(handleLeavePage, isRoomMember);
