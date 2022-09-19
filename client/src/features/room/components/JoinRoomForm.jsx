@@ -10,7 +10,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 
 import { JoinRoomFormSchema } from '../schemas/JoinRoomFormSchema';
 
-const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, disableRoomIdInput, ...rest }, ref) => {
+const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, disableRoomIdInput, disableForm, ...rest }, ref) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
     defaultValues: Object.assign({}, { roomId: '', username: '' }, defaultValues),
@@ -18,7 +18,7 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, disableRoomIdInput
   });
 
   const onSubmit = (data) => {
-    if (formState.isValid) {
+    if (formState.isValid && !disableForm) {
       if (onJoinRoom) {
         onJoinRoom(data);
       }
@@ -67,7 +67,7 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, disableRoomIdInput
         </Stack>
       </CardContent>
       <CardActions>
-        <Button type="submit" disabled={!formState.isValid} fullWidth>
+        <Button type="submit" disabled={!formState.isValid || disableForm} fullWidth>
           Join
         </Button>
       </CardActions>
@@ -84,6 +84,7 @@ JoinRoomForm.propTypes = {
     username: PropTypes.string,
   }),
   disableRoomIdInput: PropTypes.bool,
+  disableForm: PropTypes.bool,
 };
 
 export default JoinRoomForm;

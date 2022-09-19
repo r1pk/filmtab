@@ -10,7 +10,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 
 import { CreateRoomFormSchema } from '../schemas/CreateRoomFormSchema';
 
-const CreateRoomForm = forwardRef(({ onCreateRoom, defaultValues, ...rest }, ref) => {
+const CreateRoomForm = forwardRef(({ onCreateRoom, defaultValues, disableForm, ...rest }, ref) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
     defaultValues: Object.assign({}, { username: '' }, defaultValues),
@@ -18,7 +18,7 @@ const CreateRoomForm = forwardRef(({ onCreateRoom, defaultValues, ...rest }, ref
   });
 
   const onSubmit = (data) => {
-    if (formState.isValid) {
+    if (formState.isValid && !disableForm) {
       if (onCreateRoom) {
         onCreateRoom(data);
       }
@@ -51,7 +51,7 @@ const CreateRoomForm = forwardRef(({ onCreateRoom, defaultValues, ...rest }, ref
         />
       </CardContent>
       <CardActions>
-        <Button type="submit" disabled={!formState.isValid} fullWidth>
+        <Button type="submit" disabled={!formState.isValid || disableForm} fullWidth>
           Create
         </Button>
       </CardActions>
@@ -66,6 +66,7 @@ CreateRoomForm.propTypes = {
   defaultValues: PropTypes.shape({
     username: PropTypes.string,
   }),
+  disableForm: PropTypes.bool,
 };
 
 export default CreateRoomForm;
