@@ -1,4 +1,4 @@
-import { AppProvider } from '@/providers/AppProvider';
+import { AppProvider } from '@/providers';
 
 const App = () => {
   return <AppProvider />;

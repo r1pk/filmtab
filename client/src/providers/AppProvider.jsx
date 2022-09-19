@@ -9,7 +9,7 @@ import { Router } from '@/router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const AppProvider = () => {
+const AppProvider = () => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -20,3 +20,5 @@ export const AppProvider = () => {
     </Provider>
   );
 };
+
+export default AppProvider;
