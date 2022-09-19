@@ -23,13 +23,6 @@ const Room = () => {
 
   const isRoomMember = Boolean(room.roomId);
 
-  const handleSetVideo = useCallback(
-    (data) => {
-      dispatch(colyseus.video.set({ url: data.url }));
-    },
-    [dispatch]
-  );
-
   const handleTogglePlayback = useCallback(
     (progress) => {
       dispatch(colyseus.video.togglePlayback({ progress: progress }));
@@ -44,51 +37,43 @@ const Room = () => {
     [dispatch]
   );
 
-  const handleProgressResponse = useCallback(
-    (progress) => {
-      dispatch(colyseus.video.progress.response({ progress: progress }));
-    },
-    [dispatch]
-  );
+  const handleSetVideo = (data) => {
+    dispatch(colyseus.video.set({ url: data.url }));
+  };
 
-  const handleLeaveRoom = useCallback(async () => {
+  const handleProgressResponse = (progress) => {
+    dispatch(colyseus.video.progress.response({ progress: progress }));
+  };
+
+  const handleLeaveRoom = async () => {
     await dispatch(colyseus.room.leave());
     navigate('/');
-  }, [navigate, dispatch]);
+  };
 
-  const handleUploadVideoSubtitles = useCallback(
-    (subtitles) => {
-      dispatch(colyseus.video.subtitles.set({ subtitles: subtitles }));
-    },
-    [dispatch]
-  );
+  const handleUploadVideoSubtitles = (subtitles) => {
+    dispatch(colyseus.video.subtitles.set({ subtitles: subtitles }));
+  };
 
-  const handleDeleteVideoSubtitles = useCallback(() => {
+  const handleDeleteVideoSubtitles = () => {
     dispatch(colyseus.video.subtitles.delete());
-  }, [dispatch]);
+  };
 
-  const handleSendMessage = useCallback(
-    (data) => {
-      dispatch(colyseus.chat.message.send({ content: data.content }));
-    },
-    [dispatch]
-  );
+  const handleSendMessage = (data) => {
+    dispatch(colyseus.chat.message.send({ content: data.content }));
+  };
 
-  const handleClearChat = useCallback(() => {
+  const handleClearChat = () => {
     dispatch(chat.clear());
-  }, [dispatch]);
+  };
 
-  const handleLeavePage = useCallback(
-    async (transition) => {
-      const isActionConfirmed = window.confirm('Are you sure you want to leave the room?');
+  const handleLeavePage = async (transition) => {
+    const isActionConfirmed = window.confirm('Are you sure you want to leave the room?');
 
-      if (isActionConfirmed) {
-        await dispatch(colyseus.room.leave());
-        transition.retry();
-      }
-    },
-    [dispatch]
-  );
+    if (isActionConfirmed) {
+      await dispatch(colyseus.room.leave());
+      transition.retry();
+    }
+  };
 
   useNavigationBlocker(handleLeavePage, isRoomMember);
 
