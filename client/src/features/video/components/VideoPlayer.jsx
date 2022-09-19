@@ -16,10 +16,33 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onProgres
   const plyr = useRef(null);
 
   useEffect(() => {
+    const handleTogglePlayback = () => {
+      if (onTogglePlayback) {
+        onTogglePlayback(plyr.current.currentTime);
+      }
+    };
+
+    const handleSeekVideo = () => {
+      const { value, max } = plyr.current.elements.inputs.seek;
+      const currentProgress = (value / max) * plyr.current.media.duration;
+
+      if (onSeekVideo) {
+        onSeekVideo(currentProgress);
+      }
+    };
+
     const setupPlyrPlayer = () => {
       setIsPlayerReady(false);
 
-      plyr.current = new Plyr('.filmtab-player-target', options);
+      plyr.current = new Plyr(
+        '.filmtab-player-target',
+        Object.assign({}, options, {
+          listeners: {
+            play: handleTogglePlayback,
+            seek: handleSeekVideo,
+          },
+        })
+      );
       plyr.current.on('ready', () => setIsPlayerReady(true));
     };
 
@@ -32,7 +55,7 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onProgres
 
       destroyPlyrPlayer();
     };
-  }, []);
+  }, [onSeekVideo, onTogglePlayback]);
 
   useEffect(() => {
     const setVideoSource = () => {
@@ -84,65 +107,6 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onProgres
 
     setVideoPlayback();
   }, [isPlayerReady, state.playing, state.progress]);
-
-  useEffect(() => {
-    const handleTogglePlayback = () => {
-      if (onTogglePlayback) {
-        onTogglePlayback(plyr.current.currentTime);
-      }
-    };
-
-    const setupListeners = () => {
-      if (isPlayerReady) {
-        plyr.current.elements.buttons.play.forEach((element) => {
-          element.addEventListener('click', handleTogglePlayback);
-        });
-      }
-    };
-
-    setupListeners();
-
-    return () => {
-      const removeListeners = () => {
-        if (plyr.current.elements.buttons.play) {
-          plyr.current.elements.buttons.play.forEach((element) => {
-            element.removeEventListener('input', handleTogglePlayback);
-          });
-        }
-      };
-
-      removeListeners();
-    };
-  }, [isPlayerReady, onTogglePlayback]);
-
-  useEffect(() => {
-    const handleSeekVideo = () => {
-      const { value, max } = plyr.current.elements.inputs.seek;
-      const currentProgress = (value / max) * plyr.current.media.duration;
-
-      if (onSeekVideo) {
-        onSeekVideo(currentProgress);
-      }
-    };
-
-    const setupListeners = () => {
-      if (isPlayerReady) {
-        plyr.current.elements.inputs.seek.addEventListener('input', handleSeekVideo);
-      }
-    };
-
-    setupListeners();
-
-    return () => {
-      const removeListeners = () => {
-        if (plyr.current.elements.inputs.seek) {
-          plyr.current.elements.inputs.seek.removeEventListener('input', handleSeekVideo);
-        }
-      };
-
-      removeListeners();
-    };
-  }, [isPlayerReady, onSeekVideo]);
 
   useEffect(() => {
     const emitProgressResponse = () => {
