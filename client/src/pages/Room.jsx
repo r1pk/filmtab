@@ -21,6 +21,8 @@ const Room = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const isRoomMember = Boolean(room.roomId);
+
   const handleSetVideo = useCallback(
     (data) => {
       dispatch(colyseus.video.set({ url: data.url }));
@@ -88,7 +90,7 @@ const Room = () => {
     [dispatch]
   );
 
-  useNavigationBlocker(handleLeavePage, Boolean(room.roomId));
+  useNavigationBlocker(handleLeavePage, isRoomMember);
 
   return (
     <Grid container spacing={2}>

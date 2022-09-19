@@ -1,13 +1,11 @@
 import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Box, Grid, Paper, Typography, Tabs, Tab } from '@mui/material';
 
 import { CreateRoomForm, JoinRoomForm } from '@/features/room';
-
-import { useRoomStatus } from '@/hooks';
 
 import { colyseus } from '@/redux';
 
@@ -15,10 +13,12 @@ const Home = () => {
   const [tab, setTab] = useState(0);
   const [isFormDisabled, setIsFormDisabled] = useState(false);
 
+  const roomId = useSelector((store) => store.room.roomId);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isRoomMember } = useRoomStatus();
+  const isRoomMember = Boolean(roomId);
 
   const handleTabChange = (_, value) => {
     setTab(value);
