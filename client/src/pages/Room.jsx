@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { Grid, Stack } from '@mui/material';
 
@@ -8,14 +9,17 @@ import { UserList, LeaveRoomButton } from '@/features/room';
 import { SetVideoForm, VideoPlayer, UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton } from '@/features/video';
 import { Chat } from '@/features/chat';
 
+import { useNavigationBlocker } from '@/hooks';
+
 import { colyseus, chat } from '@/redux';
 
 const Room = () => {
   const video = useSelector((store) => store.video);
-  const users = useSelector((store) => store.room.users);
+  const room = useSelector((store) => store.room);
   const messages = useSelector((store) => store.chat.messages);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSetVideo = useCallback(
     (data) => {
@@ -45,9 +49,10 @@ const Room = () => {
     [dispatch]
   );
 
-  const handleLeaveRoom = useCallback(() => {
-    dispatch(colyseus.room.leave());
-  }, [dispatch]);
+  const handleLeaveRoom = useCallback(async () => {
+    await dispatch(colyseus.room.leave());
+    navigate('/');
+  }, [navigate, dispatch]);
 
   const handleUploadVideoSubtitles = useCallback(
     (subtitles) => {
@@ -71,6 +76,20 @@ const Room = () => {
     dispatch(chat.clear());
   }, [dispatch]);
 
+  const handleLeavePage = useCallback(
+    async (transition) => {
+      const isActionConfirmed = window.confirm('Are you sure you want to leave the room?');
+
+      if (isActionConfirmed) {
+        await dispatch(colyseus.room.leave());
+        transition.retry();
+      }
+    },
+    [dispatch]
+  );
+
+  useNavigationBlocker(handleLeavePage, Boolean(room.roomId));
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -90,7 +109,7 @@ const Room = () => {
             <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
             <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
           </Stack>
-          <UserList users={users} />
+          <UserList users={room.users} />
         </Stack>
       </Grid>
       <Grid item xs={12} lg={4} xl={3}>
