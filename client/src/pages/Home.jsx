@@ -67,7 +67,7 @@ const Home = () => {
       </Grid>
 
       <Grid container columns={16} sx={{ justifyContent: 'center', my: 2 }}>
-        <Grid item xs={14} sm={8} md={6} lg={4} xl={3}>
+        <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
           {tab === 0 && <CreateRoomForm onCreateRoom={handleCreateRoom} disableForm={isFormDisabled || isRoomMember} />}
           {tab === 1 && <JoinRoomForm onJoinRoom={handleJoinRoom} disableForm={isFormDisabled || isRoomMember} />}
         </Grid>
