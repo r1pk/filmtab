@@ -9,7 +9,7 @@ import { options } from '../settings/plyr';
 import { buildPlayerSource } from '../utils/buildPlayerSource';
 import { createSubtitleTrack } from '../utils/createSubtitleTrack';
 
-const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onProgressResponse }) => {
+const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncProgressResponse }) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
 
   const theme = useTheme();
@@ -110,13 +110,15 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onProgres
 
   useEffect(() => {
     const emitProgressResponse = () => {
-      if (requests.progress) {
-        onProgressResponse(plyr.current.currentTime);
+      if (requests.syncProgress) {
+        if (onSyncProgressResponse) {
+          onSyncProgressResponse(plyr.current.currentTime);
+        }
       }
     };
 
     emitProgressResponse();
-  }, [requests.progress, onProgressResponse]);
+  }, [requests.syncProgress, onSyncProgressResponse]);
 
   return <video className="filmtab-player-target" style={{ '--plyr-color-main': theme.palette.primary.main }} />;
 };
@@ -129,11 +131,11 @@ VideoPlayer.propTypes = {
     playing: PropTypes.bool.isRequired,
   }),
   requests: PropTypes.shape({
-    progress: PropTypes.bool.isRequired,
+    syncProgress: PropTypes.bool.isRequired,
   }),
   onTogglePlayback: PropTypes.func.isRequired,
   onSeekVideo: PropTypes.func.isRequired,
-  onProgressResponse: PropTypes.func.isRequired,
+  onSyncProgressResponse: PropTypes.func.isRequired,
 };
 
 export default VideoPlayer;

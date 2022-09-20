@@ -24,11 +24,11 @@ export const video = {
   },
 
   progress: {
-    request: createAction('colyseus/video/progress/request'),
-    response: createAction('colyseus/video/progress/response'),
+    syncRequest: createAction('colyseus/video/progress/syncRequest'),
+    syncResponse: createAction('colyseus/video/progress/syncResponse'),
 
-    onRequest: createAction('colyseus/video/progress/onRequest'),
-    onResponse: createAction('colyseus/video/progress/onResponse'),
+    onSyncRequest: createAction('colyseus/video/progress/onSyncRequest'),
+    onSyncResponse: createAction('colyseus/video/progress/onSyncResponse'),
   },
 
   onStateChanges: createAction('colyseus/video/onStateChanges'),

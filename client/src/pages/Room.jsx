@@ -41,8 +41,8 @@ const Room = () => {
     dispatch(colyseus.video.set({ url: data.url }));
   };
 
-  const handleProgressResponse = (progress) => {
-    dispatch(colyseus.video.progress.response({ progress: progress }));
+  const handleSyncProgressResponse = (progress) => {
+    dispatch(colyseus.video.progress.syncResponse({ progress: progress }));
   };
 
   const handleLeaveRoom = async () => {
@@ -85,7 +85,7 @@ const Room = () => {
             requests={video.requests}
             onTogglePlayback={handleTogglePlayback}
             onSeekVideo={handleSeekVideo}
-            onProgressResponse={handleProgressResponse}
+            onSyncProgressResponse={handleSyncProgressResponse}
           />
           <Stack direction={{ xs: 'column-reverse', sm: 'row-reverse' }} spacing={2}>
             <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />

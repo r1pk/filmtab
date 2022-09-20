@@ -19,8 +19,8 @@ export default class VideoManagementModule {
       [video.subtitles.set.type]: this.handleSetSubtitlesAction,
       [video.subtitles.delete.type]: this.handleDeleteSubtitlesAction,
 
-      [video.progress.request.type]: this.handleProgressRequestAction,
-      [video.progress.response.type]: this.handleProgressResponseAction,
+      [video.progress.syncRequest.type]: this.handleSyncProgressRequestAction,
+      [video.progress.syncResponse.type]: this.handleSyncProgressResponseAction,
     };
   };
 
@@ -66,24 +66,24 @@ export default class VideoManagementModule {
     return video.subtitles.delete(action.payload);
   };
 
-  handleProgressRequestAction = async (action) => {
-    await this.client.room.send('video::progress_request');
+  handleSyncProgressRequestAction = async (action) => {
+    await this.client.room.send('video::sync_progress_request');
 
-    return video.progress.request(action.payload);
+    return video.progress.syncRequest(action.payload);
   };
 
-  handleProgressResponseAction = async (action) => {
-    await this.client.room.send('video::progress_response', { progress: action.payload.progress });
+  handleSyncProgressResponseAction = async (action) => {
+    await this.client.room.send('video::sync_progress_response', { progress: action.payload.progress });
 
-    return video.progress.response(action.payload);
+    return video.progress.syncResponse(action.payload);
   };
 
-  handleProgressRequestEvent = () => {
-    this.store.dispatch(video.progress.onRequest());
+  handleSyncProgressRequestEvent = () => {
+    this.store.dispatch(video.progress.onSyncRequest());
   };
 
-  handleProgressResponseEvent = (event) => {
-    this.store.dispatch(video.progress.onResponse({ progress: event.progress }));
+  handleSyncProgressResponseEvent = (event) => {
+    this.store.dispatch(video.progress.onSyncResponse({ progress: event.progress }));
   };
 
   handleStateChangesEvent = (changes) => {
@@ -91,8 +91,8 @@ export default class VideoManagementModule {
   };
 
   handleRoomChangeEvent = (room) => {
-    room.onMessage('video::progress_request', this.handleProgressRequestEvent);
-    room.onMessage('video::progress_response', this.handleProgressResponseEvent);
+    room.onMessage('video::sync_progress_request', this.handleSyncProgressRequestEvent);
+    room.onMessage('video::sync_progress_response', this.handleSyncProgressResponseEvent);
 
     room.state.video.onChange = this.handleStateChangesEvent;
   };

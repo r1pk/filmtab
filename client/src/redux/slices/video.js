@@ -11,7 +11,7 @@ const initialState = {
     updatedAt: 0,
   },
   requests: {
-    progress: false,
+    syncProgress: false,
   },
 };
 
@@ -23,15 +23,15 @@ const slice = createSlice({
       return initialState;
     });
 
-    builder.addCase(video.progress.response.type, (state) => {
-      state.requests.progress = false;
+    builder.addCase(video.progress.syncResponse.type, (state) => {
+      state.requests.syncProgress = false;
     });
 
-    builder.addCase(video.progress.onRequest.type, (state) => {
-      state.requests.progress = true;
+    builder.addCase(video.progress.onSyncRequest.type, (state) => {
+      state.requests.syncProgress = true;
     });
 
-    builder.addCase(video.progress.onResponse.type, (state, action) => {
+    builder.addCase(video.progress.onSyncResponse.type, (state, action) => {
       state.player.progress = action.payload.progress;
     });
 
