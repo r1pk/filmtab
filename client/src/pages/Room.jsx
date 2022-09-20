@@ -74,11 +74,11 @@ const Room = () => {
   useNavigationBlocker(handleLeavePage, isRoomMember);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Grid container columns={16} spacing={2}>
+      <Grid item xs={16}>
         <SetVideoForm url={video.player.url} onSetVideo={handleSetVideo} />
       </Grid>
-      <Grid item xs={12} lg={8} xl={9}>
+      <Grid item xs={16} lg={12}>
         <Stack direction="column" spacing={2}>
           <VideoPlayer
             state={video.player}
@@ -95,7 +95,7 @@ const Room = () => {
           <UserList users={room.users} />
         </Stack>
       </Grid>
-      <Grid item xs={12} lg={4} xl={3}>
+      <Grid item xs={16} lg={4}>
         <Chat messages={messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
       </Grid>
     </Grid>

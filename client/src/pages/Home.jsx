@@ -50,8 +50,8 @@ const Home = () => {
 
   return (
     <Box>
-      <Grid container sx={{ justifyContent: 'center' }}>
-        <Grid item xs={12} sm={10} md={6} lg={4}>
+      <Grid container columns={16} sx={{ justifyContent: 'center' }}>
+        <Grid item xs={16} sm={12} md={8} lg={6}>
           <Paper>
             <Typography variant="h1" component="h1" sx={{ p: 2, textAlign: 'center' }}>
               FilmTab
