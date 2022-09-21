@@ -19,25 +19,21 @@ const slice = createSlice({
   name: 'video',
   initialState: initialState,
   extraReducers: (builder) => {
-    builder.addCase(colyseus.actions.room.leave.type, () => initialState);
-
-    builder.addCase(colyseus.actions.video.progress.syncResponse.type, (state) => {
+    builder.addCase(colyseus.actions.responseSyncVideoProgress.type, (state) => {
       state.requests.syncProgress = false;
     });
 
-    builder.addCase(colyseus.actions.video.progress.onSyncRequest.type, (state) => {
+    builder.addCase(colyseus.actions.syncVideoProgressRequested.type, (state) => {
       state.requests.syncProgress = true;
     });
 
-    builder.addCase(colyseus.actions.video.progress.onSyncResponse.type, (state, action) => {
-      state.player.progress = action.payload.progress;
-    });
-
-    builder.addCase(colyseus.actions.video.onStateChanges.type, (state, action) => {
+    builder.addCase(colyseus.actions.videoStateChanged.type, (state, action) => {
       for (const change of action.payload.changes) {
         state.player[change.field] = change.value;
       }
     });
+
+    builder.addCase(colyseus.actions.leaveRoom.type, () => initialState);
   },
 });
 

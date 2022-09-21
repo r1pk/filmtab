@@ -15,15 +15,15 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(colyseus.actions.room.leave.type, () => initialState);
-
-    builder.addCase(colyseus.actions.chat.onMessage.type, (state, action) => {
+    builder.addCase(colyseus.actions.chatMessageReceived.type, (state, action) => {
       if (state.messages.length >= 50) {
         state.messages.shift();
       }
 
       state.messages.push(action.payload.message);
     });
+
+    builder.addCase(colyseus.actions.leaveRoom.type, () => initialState);
   },
 });
 

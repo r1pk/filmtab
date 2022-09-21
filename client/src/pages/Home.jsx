@@ -26,7 +26,7 @@ const Home = () => {
 
   const handleCreateRoom = async (data) => {
     setIsFormDisabled(true);
-    const result = await dispatch(colyseus.room.create({ username: data.username }));
+    const result = await dispatch(colyseus.createRoom({ username: data.username }));
 
     if (result) {
       const { roomId } = result.payload;
@@ -38,7 +38,7 @@ const Home = () => {
 
   const handleJoinRoom = async (data) => {
     setIsFormDisabled(true);
-    const result = await dispatch(colyseus.room.join({ roomId: data.roomId, username: data.username }));
+    const result = await dispatch(colyseus.joinRoom({ roomId: data.roomId, username: data.username }));
 
     if (result) {
       const { roomId } = result.payload;

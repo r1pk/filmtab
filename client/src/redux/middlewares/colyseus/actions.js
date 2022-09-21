@@ -1,43 +1,29 @@
 import { createAction } from '@reduxjs/toolkit';
 
-export const room = {
-  create: createAction('colyseus/room/create'),
-  join: createAction('colyseus/room/join'),
-  leave: createAction('colyseus/room/leave'),
+// Actions listened to by the Colyseus middleware
+export const createRoom = createAction('colyseus/createRoom');
+export const joinRoom = createAction('colyseus/joinRoom');
+export const leaveRoom = createAction('colyseus/leaveRoom');
 
-  users: {
-    onAdd: createAction('colyseus/room/users/onAdd'),
-    onRemove: createAction('colyseus/room/users/onRemove'),
-  },
-};
+export const setVideo = createAction('colyseus/setVideo');
+export const playVideo = createAction('colyseus/playVideo');
+export const pauseVideo = createAction('colyseus/pauseVideo');
+export const toggleVideoPlayback = createAction('colyseus/toggleVideoPlayback');
+export const seekVideo = createAction('colyseus/seekVideo');
 
-export const video = {
-  set: createAction('colyseus/video/set'),
-  play: createAction('colyseus/video/play'),
-  pause: createAction('colyseus/video/pause'),
-  togglePlayback: createAction('colyseus/video/togglePlayback'),
-  seek: createAction('colyseus/video/seek'),
+export const setVideoSubtitles = createAction('colyseus/setVideoSubtitles');
+export const deleteVideoSubtitles = createAction('colyseus/deleteVideoSubtitles');
 
-  subtitles: {
-    set: createAction('colyseus/video/subtitles/set'),
-    delete: createAction('colyseus/video/subtitles/delete'),
-  },
+export const requestSyncVideoProgress = createAction('colyseus/requestSyncVideoProgress');
+export const responseSyncVideoProgress = createAction('colyseus/responseSyncVideoProgress');
 
-  progress: {
-    syncRequest: createAction('colyseus/video/progress/syncRequest'),
-    syncResponse: createAction('colyseus/video/progress/syncResponse'),
+export const sendChatMessage = createAction('colyseus/sendChatMessage');
 
-    onSyncRequest: createAction('colyseus/video/progress/onSyncRequest'),
-    onSyncResponse: createAction('colyseus/video/progress/onSyncResponse'),
-  },
+// Actions dispatched by the Colyseus middleware
+export const userJoined = createAction('colyseus/userJoined');
+export const userLeft = createAction('colyseus/userLeft');
 
-  onStateChanges: createAction('colyseus/video/onStateChanges'),
-};
+export const syncVideoProgressRequested = createAction('colyseus/syncVideoProgressRequested');
+export const videoStateChanged = createAction('colyseus/videoStateChanged');
 
-export const chat = {
-  message: {
-    send: createAction('colyseus/chat/message/send'),
-  },
-
-  onMessage: createAction('colyseus/chat/onMessage'),
-};
+export const chatMessageReceived = createAction('colyseus/chatMessageReceived');

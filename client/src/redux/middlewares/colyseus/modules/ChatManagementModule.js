@@ -1,4 +1,4 @@
-import { chat } from '../actions';
+import * as actions from '../actions';
 
 export default class ChatManagementModule {
   constructor(client, store) {
@@ -10,21 +10,21 @@ export default class ChatManagementModule {
 
   getModuleActions = () => {
     return {
-      [chat.message.send.type]: this.handleSendChatMessageAction,
+      [actions.sendChatMessage.type]: this.handleSendChatMessageAction,
     };
   };
 
   handleSendChatMessageAction = async (action) => {
     await this.client.room.send('chat::message', { content: action.payload.content });
 
-    return chat.message.send(action.payload);
+    return actions.sendChatMessage(action.payload);
   };
 
-  handleOnChatMessageEvent = (message) => {
-    this.store.dispatch(chat.onMessage({ message: message }));
+  handleChatMessageEvent = (message) => {
+    this.store.dispatch(actions.chatMessageReceived({ message: message }));
   };
 
   handleRoomChangeEvent = (room) => {
-    room.onMessage('chat::message', this.handleOnChatMessageEvent);
+    room.onMessage('chat::message', this.handleChatMessageEvent);
   };
 }

@@ -1,4 +1,4 @@
-import { video } from '../actions';
+import * as actions from '../actions';
 
 export default class VideoManagementModule {
   constructor(client, store) {
@@ -10,90 +10,94 @@ export default class VideoManagementModule {
 
   getModuleActions = () => {
     return {
-      [video.set.type]: this.handleSetVideoAction,
-      [video.play.type]: this.handlePlayVideoAction,
-      [video.pause.type]: this.handlePauseVideoAction,
-      [video.togglePlayback.type]: this.handleTogglePlaybackVideoAction,
-      [video.seek.type]: this.handleSeekVideoAction,
+      [actions.setVideo.type]: this.handleSetVideoAction,
+      [actions.playVideo.type]: this.handlePlayVideoAction,
+      [actions.pauseVideo.type]: this.handlePauseVideoAction,
+      [actions.toggleVideoPlayback.type]: this.handleToggleVideoPlaybackAction,
+      [actions.seekVideo.type]: this.handleSeekVideoAction,
 
-      [video.subtitles.set.type]: this.handleSetSubtitlesAction,
-      [video.subtitles.delete.type]: this.handleDeleteSubtitlesAction,
+      [actions.setVideoSubtitles.type]: this.handleSetVideoSubtitlesAction,
+      [actions.deleteVideoSubtitles.type]: this.handleDeleteVideoSubtitlesAction,
 
-      [video.progress.syncRequest.type]: this.handleSyncProgressRequestAction,
-      [video.progress.syncResponse.type]: this.handleSyncProgressResponseAction,
+      [actions.requestSyncVideoProgress.type]: this.handleRequestSyncVideoProgressAction,
+      [actions.responseSyncVideoProgress.type]: this.handleResponseSyncVideoProgressAction,
     };
   };
 
   handleSetVideoAction = async (action) => {
     await this.client.room.send('video::set_url', { url: action.payload.url });
 
-    return video.set(action.payload);
+    return actions.setVideo(action.payload);
   };
 
   handlePlayVideoAction = async (action) => {
     await this.client.room.send('video::play', { progress: action.payload.progress });
 
-    return video.play(action.payload);
+    return actions.playVideo(action.payload);
   };
 
   handlePauseVideoAction = async (action) => {
     await this.client.room.send('video::pause', { progress: action.payload.progress });
 
-    return video.pause(action.payload);
+    return actions.pauseVideo(action.payload);
   };
 
-  handleTogglePlaybackVideoAction = async (action) => {
+  handleToggleVideoPlaybackAction = async (action) => {
     await this.client.room.send('video::toggle_playback', { progress: action.payload.progress });
 
-    return video.togglePlayback(action.payload);
+    return actions.toggleVideoPlayback(action.payload);
   };
 
   handleSeekVideoAction = async (action) => {
     await this.client.room.send('video::seek', { progress: action.payload.progress });
 
-    return video.seek(action.payload);
+    return actions.seekVideo(action.payload);
   };
 
-  handleSetSubtitlesAction = async (action) => {
+  handleSetVideoSubtitlesAction = async (action) => {
     await this.client.room.send('video::set_subtitles', { subtitles: action.payload.subtitles });
 
-    return video.subtitles.set(action.payload);
+    return actions.setVideoSubtitles(action.payload);
   };
 
-  handleDeleteSubtitlesAction = async (action) => {
+  handleDeleteVideoSubtitlesAction = async (action) => {
     await this.client.room.send('video::delete_subtitles');
 
-    return video.subtitles.delete(action.payload);
+    return actions.deleteVideoSubtitles(action.payload);
   };
 
-  handleSyncProgressRequestAction = async (action) => {
+  handleRequestSyncVideoProgressAction = async (action) => {
     await this.client.room.send('video::sync_progress_request');
 
-    return video.progress.syncRequest(action.payload);
+    return actions.requestSyncVideoProgress(action.payload);
   };
 
-  handleSyncProgressResponseAction = async (action) => {
+  handleResponseSyncVideoProgressAction = async (action) => {
     await this.client.room.send('video::sync_progress_response', { progress: action.payload.progress });
 
-    return video.progress.syncResponse(action.payload);
+    return actions.responseSyncVideoProgress(action.payload);
   };
 
-  handleSyncProgressRequestEvent = () => {
-    this.store.dispatch(video.progress.onSyncRequest());
+  handleSyncVideoProgressRequestEvent = () => {
+    this.store.dispatch(actions.syncVideoProgressRequested());
   };
 
-  handleSyncProgressResponseEvent = (event) => {
-    this.store.dispatch(video.progress.onSyncResponse({ progress: event.progress }));
+  handleSyncVideoProgressResponseEvent = (event) => {
+    this.store.dispatch(
+      actions.videoStateChanged({
+        changes: [{ field: 'progress', value: event.progress }],
+      })
+    );
   };
 
-  handleStateChangesEvent = (changes) => {
-    this.store.dispatch(video.onStateChanges({ changes: changes }));
+  handleVideoStateChangeEvent = (changes) => {
+    this.store.dispatch(actions.videoStateChanged({ changes: changes }));
   };
 
   handleRoomChangeEvent = (room) => {
-    room.onMessage('video::sync_progress_request', this.handleSyncProgressRequestEvent);
-    room.onMessage('video::sync_progress_response', this.handleSyncProgressResponseEvent);
+    room.onMessage('video::sync_progress_request', this.handleSyncVideoProgressRequestEvent);
+    room.onMessage('video::sync_progress_response', this.handleSyncVideoProgressResponseEvent);
 
-    room.state.video.onChange = this.handleStateChangesEvent;
+    room.state.video.onChange = this.handleVideoStateChangeEvent;
   };
 }

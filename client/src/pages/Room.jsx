@@ -25,41 +25,41 @@ const Room = () => {
 
   const handleTogglePlayback = useCallback(
     (progress) => {
-      dispatch(colyseus.video.togglePlayback({ progress: progress }));
+      dispatch(colyseus.toggleVideoPlayback({ progress: progress }));
     },
     [dispatch]
   );
 
   const handleSeekVideo = useCallback(
     (progress) => {
-      dispatch(colyseus.video.seek({ progress: progress }));
+      dispatch(colyseus.seekVideo({ progress: progress }));
     },
     [dispatch]
   );
 
   const handleSetVideo = (data) => {
-    dispatch(colyseus.video.set({ url: data.url }));
+    dispatch(colyseus.setVideo({ url: data.url }));
   };
 
   const handleSyncProgressResponse = (progress) => {
-    dispatch(colyseus.video.progress.syncResponse({ progress: progress }));
+    dispatch(colyseus.responseSyncVideoProgress({ progress: progress }));
   };
 
   const handleLeaveRoom = async () => {
-    await dispatch(colyseus.room.leave());
+    await dispatch(colyseus.leaveRoom());
     navigate('/');
   };
 
   const handleUploadVideoSubtitles = (subtitles) => {
-    dispatch(colyseus.video.subtitles.set({ subtitles: subtitles }));
+    dispatch(colyseus.setVideoSubtitles({ subtitles: subtitles }));
   };
 
   const handleDeleteVideoSubtitles = () => {
-    dispatch(colyseus.video.subtitles.delete());
+    dispatch(colyseus.deleteVideoSubtitles());
   };
 
   const handleSendMessage = (data) => {
-    dispatch(colyseus.chat.message.send({ content: data.content }));
+    dispatch(colyseus.sendChatMessage({ content: data.content }));
   };
 
   const handleClearChat = () => {
@@ -67,7 +67,7 @@ const Room = () => {
   };
 
   const handleLeavePage = async (transition) => {
-    await dispatch(colyseus.room.leave());
+    await dispatch(colyseus.leaveRoom());
     transition.retry();
   };
 
