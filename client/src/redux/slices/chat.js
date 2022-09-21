@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { chat, room } from '../middlewares/colyseus/actions';
+import * as colyseus from '../middlewares/colyseus';
 
 const initialState = {
   messages: [],
@@ -15,11 +15,9 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(room.leave.type, () => {
-      return initialState;
-    });
+    builder.addCase(colyseus.actions.room.leave.type, () => initialState);
 
-    builder.addCase(chat.onMessage.type, (state, action) => {
+    builder.addCase(colyseus.actions.chat.onMessage.type, (state, action) => {
       if (state.messages.length >= 50) {
         state.messages.shift();
       }

@@ -4,7 +4,7 @@ import room from './slices/room';
 import video from './slices/video';
 import chat from './slices/chat';
 
-import colyseus from './middlewares/colyseus';
+import * as colyseus from './middlewares/colyseus';
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +12,5 @@ export const store = configureStore({
     video: video,
     chat: chat,
   },
-  middleware: [colyseus],
+  middleware: [colyseus.middleware],
 });

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { room } from '../middlewares/colyseus/actions';
+import * as colyseus from '../middlewares/colyseus';
 
 const initialState = {
   roomId: '',
@@ -15,7 +15,7 @@ const slice = createSlice({
   name: 'room',
   initialState: initialState,
   extraReducers: (builder) => {
-    builder.addCase(room.create.type, (state, action) => {
+    builder.addCase(colyseus.actions.room.create.type, (state, action) => {
       state.roomId = action.payload.roomId;
       state.user = {
         id: action.payload.user.id,
@@ -23,7 +23,7 @@ const slice = createSlice({
       };
     });
 
-    builder.addCase(room.join.type, (state, action) => {
+    builder.addCase(colyseus.actions.room.join.type, (state, action) => {
       state.roomId = action.payload.roomId;
       state.user = {
         id: action.payload.user.id,
@@ -31,11 +31,9 @@ const slice = createSlice({
       };
     });
 
-    builder.addCase(room.leave.type, () => {
-      return initialState;
-    });
+    builder.addCase(colyseus.actions.room.leave.type, () => initialState);
 
-    builder.addCase(room.users.onAdd.type, (state, action) => {
+    builder.addCase(colyseus.actions.room.users.onAdd.type, (state, action) => {
       state.users.push({
         id: action.payload.user.id,
         username: action.payload.user.username,
@@ -43,7 +41,7 @@ const slice = createSlice({
       });
     });
 
-    builder.addCase(room.users.onRemove.type, (state, action) => {
+    builder.addCase(colyseus.actions.room.users.onRemove.type, (state, action) => {
       state.users = state.users.filter((user) => user.id !== action.payload.user.id);
     });
   },

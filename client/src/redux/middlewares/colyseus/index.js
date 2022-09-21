@@ -1,3 +1,2 @@
-export * as colyseus from './actions';
-
-export { middleware as default } from './middleware';
+export * as actions from './actions';
+export { middleware } from './middleware';
