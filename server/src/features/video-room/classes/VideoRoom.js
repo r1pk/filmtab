@@ -65,6 +65,12 @@ export class VideoRoom extends Room {
         userId: client.sessionId,
         username: options.username,
       });
+      this.dispatcher.dispatch(new RegisterSyncVideoProgressRequest(), {
+        userId: client.sessionId,
+      });
+      this.dispatcher.dispatch(new BroadcastSyncVideoProgressRequest(), {
+        requestor: client,
+      });
 
       logger.debug('Client joined!', { roomId: this.roomId, userId: client.sessionId, username: options.username });
     } catch (error) {

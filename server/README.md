@@ -144,7 +144,8 @@ Files outside of `src` directory are mostly configuration files for git, editor 
 
 #### Events emitted by server
 
-- `video::sync_progress_request` - notification that someone requested video progress synchronization.
+- `video::sync_progress_request` - notification that someone requested video progress synchronization.  
+  This event is emitted every time someone join the room and there is at least one other client connected.
   Payload sent with this event is empty object.
 
   ```
