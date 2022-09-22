@@ -9,7 +9,7 @@ import { UserList, LeaveRoomButton } from '@/features/room';
 import { SetVideoForm, VideoPlayer, UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton } from '@/features/video';
 import { Chat } from '@/features/chat';
 
-import { useNavigationBlocker } from '@/hooks';
+import { useDocumentTitle, useNavigationBlocker } from '@/hooks';
 
 import { colyseus, chat } from '@/redux';
 
@@ -72,6 +72,7 @@ const Room = () => {
   };
 
   useNavigationBlocker(handleLeavePage, isRoomMember);
+  useDocumentTitle(isRoomMember ? `Room [${room.roomId}]` : 'Room');
 
   return (
     <Grid container columns={16} spacing={2}>

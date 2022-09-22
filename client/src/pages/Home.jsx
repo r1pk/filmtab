@@ -7,6 +7,8 @@ import { Box, Grid, Paper, Typography, Tabs, Tab } from '@mui/material';
 
 import { CreateRoomForm, JoinRoomForm } from '@/features/room';
 
+import { useDocumentTitle } from '@/hooks';
+
 import { colyseus } from '@/redux';
 
 const Home = () => {
@@ -47,6 +49,8 @@ const Home = () => {
     }
     setIsFormDisabled(false);
   };
+
+  useDocumentTitle('Home');
 
   return (
     <Box>
