@@ -1,15 +1,8 @@
-import { toast } from 'react-toastify';
+import ManagementModule from '../lib/ManagementModule';
 
 import * as actions from '../actions';
 
-export default class RoomManagementModule {
-  constructor(client, store) {
-    this.client = client;
-    this.store = store;
-
-    this.client.onRoomChange = this.handleRoomChangeEvent;
-  }
-
+class RoomManagementModule extends ManagementModule {
   getModuleActions = () => {
     return {
       [actions.createRoom.type]: this.handleCreateRoomAction,
@@ -32,7 +25,7 @@ export default class RoomManagementModule {
         },
       });
     } catch (error) {
-      this.handleRoomError(0, error.message);
+      this.handleError(0, error.message);
     }
   };
 
@@ -50,17 +43,19 @@ export default class RoomManagementModule {
         },
       });
     } catch (error) {
-      this.handleRoomError(0, error.message);
+      this.handleError(0, error.message);
     }
   };
 
   handleLeaveRoomAction = async (action) => {
     try {
-      await this.client.room.leave();
+      if (this.client.room) {
+        await this.client.room.leave();
+      }
 
       return actions.leaveRoom(action.payload);
     } catch (error) {
-      this.handleRoomError(0, error.message);
+      this.handleError(0, error.message);
     }
   };
 
@@ -72,20 +67,24 @@ export default class RoomManagementModule {
     this.store.dispatch(actions.userLeft({ user: user }));
   };
 
-  handleRoomError = (code, message) => {
-    toast.error(message);
-    console.error(code, message);
-  };
-
   handleLeaveRoomEvent = () => {
-    this.client.room.removeAllListeners();
+    try {
+      this.client.room.removeAllListeners();
+      this.client.room = null;
+    } catch (error) {
+      this.handleError(0, error.message);
+    }
   };
 
-  handleRoomChangeEvent = (room) => {
-    room.state.users.onAdd = this.handleAddUserEvent;
-    room.state.users.onRemove = this.handleRemoveUserEvent;
+  handleRoomChange = (room) => {
+    if (room) {
+      room.state.users.onAdd = this.handleAddUserEvent;
+      room.state.users.onRemove = this.handleRemoveUserEvent;
 
-    room.onError(this.handleRoomError);
-    room.onLeave(this.handleLeaveRoomEvent);
+      room.onError(this.handleError);
+      room.onLeave(this.handleLeaveRoomEvent);
+    }
   };
 }
+
+export default RoomManagementModule;

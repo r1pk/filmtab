@@ -1,11 +1,11 @@
 import { Client } from 'colyseus.js';
 
-class EnhancedColyseusClient extends Client {
+class ColyseusClient extends Client {
   constructor(endpoint) {
     super(endpoint);
 
-    this.__listeners__ = [];
     this.__room__ = null;
+    this.__roomChangeListeners__ = [];
   }
 
   get room() {
@@ -14,13 +14,13 @@ class EnhancedColyseusClient extends Client {
 
   set room(room) {
     this.__room__ = room;
-    this.__listeners__.forEach((listener) => {
+    this.__roomChangeListeners__.forEach((listener) => {
       listener(room);
     });
   }
 
-  set onRoomChange(listener) {
-    this.__listeners__.push(listener);
+  addRoomChangeListener(listener) {
+    this.__roomChangeListeners__.push(listener);
   }
 
   async create(roomName, options, rootSchema) {
@@ -36,4 +36,4 @@ class EnhancedColyseusClient extends Client {
   }
 }
 
-export default EnhancedColyseusClient;
+export default ColyseusClient;

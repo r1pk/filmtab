@@ -1,13 +1,8 @@
+import ManagementModule from '../lib/ManagementModule';
+
 import * as actions from '../actions';
 
-export default class ChatManagementModule {
-  constructor(client, store) {
-    this.client = client;
-    this.store = store;
-
-    this.client.onRoomChange = this.handleRoomChangeEvent;
-  }
-
+class ChatManagementModule extends ManagementModule {
   getModuleActions = () => {
     return {
       [actions.sendChatMessage.type]: this.handleSendChatMessageAction,
@@ -15,16 +10,26 @@ export default class ChatManagementModule {
   };
 
   handleSendChatMessageAction = async (action) => {
-    await this.client.room.send('chat::message', { content: action.payload.content });
+    try {
+      if (this.client.room) {
+        await this.client.room.send('chat::message', { content: action.payload.content });
+      }
 
-    return actions.sendChatMessage(action.payload);
+      return actions.sendChatMessage(action.payload);
+    } catch (error) {
+      this.handleError(0, error.message);
+    }
   };
 
   handleChatMessageEvent = (message) => {
     this.store.dispatch(actions.chatMessageReceived({ message: message }));
   };
 
-  handleRoomChangeEvent = (room) => {
-    room.onMessage('chat::message', this.handleChatMessageEvent);
+  handleRoomChange = (room) => {
+    if (room) {
+      room.onMessage('chat::message', this.handleChatMessageEvent);
+    }
   };
 }
+
+export default ChatManagementModule;

@@ -1,13 +1,8 @@
+import ManagementModule from '../lib/ManagementModule';
+
 import * as actions from '../actions';
 
-export default class VideoManagementModule {
-  constructor(client, store) {
-    this.client = client;
-    this.store = store;
-
-    this.client.onRoomChange = this.handleRoomChangeEvent;
-  }
-
+class VideoManagementModule extends ManagementModule {
   getModuleActions = () => {
     return {
       [actions.setVideo.type]: this.handleSetVideoAction,
@@ -25,57 +20,111 @@ export default class VideoManagementModule {
   };
 
   handleSetVideoAction = async (action) => {
-    await this.client.room.send('video::set_url', { url: action.payload.url });
+    try {
+      if (this.client.room) {
+        await this.client.room.send('video::set_url', { url: action.payload.url });
+      }
 
-    return actions.setVideo(action.payload);
+      return actions.setVideo(action.payload);
+    } catch (error) {
+      this.handleError(0, error.message);
+    }
   };
 
   handlePlayVideoAction = async (action) => {
-    await this.client.room.send('video::play', { progress: action.payload.progress });
+    try {
+      if (this.client.room) {
+        await this.client.room.send('video::play', { progress: action.payload.progress });
+      }
 
-    return actions.playVideo(action.payload);
+      return actions.playVideo(action.payload);
+    } catch (error) {
+      this.handleError(0, error.message);
+    }
   };
 
   handlePauseVideoAction = async (action) => {
-    await this.client.room.send('video::pause', { progress: action.payload.progress });
+    try {
+      if (this.client.room) {
+        await this.client.room.send('video::pause', { progress: action.payload.progress });
+      }
 
-    return actions.pauseVideo(action.payload);
+      return actions.pauseVideo(action.payload);
+    } catch (error) {
+      this.handleError(0, error.message);
+    }
   };
 
   handleToggleVideoPlaybackAction = async (action) => {
-    await this.client.room.send('video::toggle_playback', { progress: action.payload.progress });
+    try {
+      if (this.client.room) {
+        await this.client.room.send('video::toggle_playback', { progress: action.payload.progress });
+      }
 
-    return actions.toggleVideoPlayback(action.payload);
+      return actions.toggleVideoPlayback(action.payload);
+    } catch (error) {
+      this.handleError(0, error.message);
+    }
   };
 
   handleSeekVideoAction = async (action) => {
-    await this.client.room.send('video::seek', { progress: action.payload.progress });
+    try {
+      if (this.client.room) {
+        await this.client.room.send('video::seek', { progress: action.payload.progress });
+      }
 
-    return actions.seekVideo(action.payload);
+      return actions.seekVideo(action.payload);
+    } catch (error) {
+      this.handleError(0, error.message);
+    }
   };
 
   handleSetVideoSubtitlesAction = async (action) => {
-    await this.client.room.send('video::set_subtitles', { subtitles: action.payload.subtitles });
+    try {
+      if (this.client.room) {
+        await this.client.room.send('video::set_subtitles', { subtitles: action.payload.subtitles });
+      }
 
-    return actions.setVideoSubtitles(action.payload);
+      return actions.setVideoSubtitles(action.payload);
+    } catch (error) {
+      this.handleError(0, error.message);
+    }
   };
 
   handleDeleteVideoSubtitlesAction = async (action) => {
-    await this.client.room.send('video::delete_subtitles');
+    try {
+      if (this.client.room) {
+        await this.client.room.send('video::delete_subtitles');
+      }
 
-    return actions.deleteVideoSubtitles(action.payload);
+      return actions.deleteVideoSubtitles(action.payload);
+    } catch (error) {
+      this.handleError(0, error.message);
+    }
   };
 
   handleRequestSyncVideoProgressAction = async (action) => {
-    await this.client.room.send('video::sync_progress_request');
+    try {
+      if (this.client.room) {
+        await this.client.room.send('video::sync_progress_request');
+      }
 
-    return actions.requestSyncVideoProgress(action.payload);
+      return actions.requestSyncVideoProgress(action.payload);
+    } catch (error) {
+      this.handleError(0, error.message);
+    }
   };
 
   handleResponseSyncVideoProgressAction = async (action) => {
-    await this.client.room.send('video::sync_progress_response', { progress: action.payload.progress });
+    try {
+      if (this.client.room) {
+        await this.client.room.send('video::sync_progress_response', { progress: action.payload.progress });
+      }
 
-    return actions.responseSyncVideoProgress(action.payload);
+      return actions.responseSyncVideoProgress(action.payload);
+    } catch (error) {
+      this.handleError(0, error.message);
+    }
   };
 
   handleSyncVideoProgressRequestEvent = () => {
@@ -94,10 +143,14 @@ export default class VideoManagementModule {
     this.store.dispatch(actions.videoStateChanged({ changes: changes }));
   };
 
-  handleRoomChangeEvent = (room) => {
-    room.onMessage('video::sync_progress_request', this.handleSyncVideoProgressRequestEvent);
-    room.onMessage('video::sync_progress_response', this.handleSyncVideoProgressResponseEvent);
+  handleRoomChange = (room) => {
+    if (room) {
+      room.onMessage('video::sync_progress_request', this.handleSyncVideoProgressRequestEvent);
+      room.onMessage('video::sync_progress_response', this.handleSyncVideoProgressResponseEvent);
 
-    room.state.video.onChange = this.handleVideoStateChangeEvent;
+      room.state.video.onChange = this.handleVideoStateChangeEvent;
+    }
   };
 }
+
+export default VideoManagementModule;
