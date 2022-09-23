@@ -1,8 +1,10 @@
-import { useRoutes } from 'react-router-dom';
+import { Navigate, useRoutes } from 'react-router-dom';
 
 import { MainLayout } from '@/layouts';
 
 import Home from '@/pages/Home';
+import CreateRoom from '@/pages/CreateRoom';
+import JoinRoom from '@/pages/JoinRoom';
 import Room from '@/pages/Room';
 
 const Routes = () => {
@@ -11,8 +13,21 @@ const Routes = () => {
       element: <MainLayout />,
       children: [
         {
-          index: true,
+          path: '/',
+          element: <Navigate replace to="/create-room" />,
+        },
+        {
           element: <Home />,
+          children: [
+            {
+              path: 'create-room',
+              element: <CreateRoom />,
+            },
+            {
+              path: 'join-room',
+              element: <JoinRoom />,
+            },
+          ],
         },
         {
           path: 'rooms',

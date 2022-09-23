@@ -1,54 +1,11 @@
-import { useState } from 'react';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom';
 
 import { Box, Grid, Paper, Typography, Tabs, Tab } from '@mui/material';
 
-import { CreateRoomForm, JoinRoomForm } from '@/features/room';
-
 import { useDocumentTitle } from '@/hooks';
 
-import { colyseus } from '@/redux';
-
 const Home = () => {
-  const [tab, setTab] = useState(0);
-  const [isFormDisabled, setIsFormDisabled] = useState(false);
-
-  const roomId = useSelector((store) => store.room.roomId);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const isRoomMember = Boolean(roomId);
-
-  const handleTabChange = (_, value) => {
-    setTab(value);
-  };
-
-  const handleCreateRoom = async (data) => {
-    setIsFormDisabled(true);
-    const result = await dispatch(colyseus.createRoom({ username: data.username }));
-
-    if (result) {
-      const { roomId } = result.payload;
-
-      navigate(`/rooms/${roomId}`);
-    }
-    setIsFormDisabled(false);
-  };
-
-  const handleJoinRoom = async (data) => {
-    setIsFormDisabled(true);
-    const result = await dispatch(colyseus.joinRoom({ roomId: data.roomId, username: data.username }));
-
-    if (result) {
-      const { roomId } = result.payload;
-
-      navigate(`/rooms/${roomId}`);
-    }
-    setIsFormDisabled(false);
-  };
+  const location = useLocation();
 
   useDocumentTitle('Home');
 
@@ -61,9 +18,9 @@ const Home = () => {
               FilmTab
             </Typography>
             <Paper elevation={2}>
-              <Tabs centered value={tab} onChange={handleTabChange}>
-                <Tab value={0} label="Create Room" />
-                <Tab value={1} label="Join Room" />
+              <Tabs centered value={location.pathname}>
+                <Tab label="Create Room" value="/create-room" to="/create-room" component={Link} />
+                <Tab label="Join Room" value="/join-room" to="/join-room" component={Link} />
               </Tabs>
             </Paper>
           </Paper>
@@ -72,8 +29,7 @@ const Home = () => {
 
       <Grid container columns={16} sx={{ justifyContent: 'center', my: 2 }}>
         <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
-          {tab === 0 && <CreateRoomForm onCreateRoom={handleCreateRoom} disableForm={isFormDisabled || isRoomMember} />}
-          {tab === 1 && <JoinRoomForm onJoinRoom={handleJoinRoom} disableForm={isFormDisabled || isRoomMember} />}
+          <Outlet />
         </Grid>
       </Grid>
     </Box>
