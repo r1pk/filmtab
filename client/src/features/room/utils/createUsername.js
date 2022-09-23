@@ -1,10 +1,10 @@
-import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
+import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
 export const createUsername = () => {
   return uniqueNamesGenerator({
     style: 'capital',
     separator: '',
-    dictionaries: [adjectives, animals],
+    dictionaries: [colors, animals],
     length: 2,
   });
 };
