@@ -14,7 +14,7 @@ const Routes = () => {
       children: [
         {
           path: '/',
-          element: <Navigate replace to="/create-room" />,
+          element: <Navigate to="/create-room" />,
         },
         {
           element: <Home />,

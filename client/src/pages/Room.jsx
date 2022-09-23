@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useNavigationType } from 'react-router-dom';
 
 import { Grid, Stack } from '@mui/material';
 
@@ -20,6 +20,7 @@ const Room = () => {
 
   const dispatch = useDispatch();
   const params = useParams();
+  const navigationType = useNavigationType();
   const navigate = useNavigate();
 
   const isRoomMember = Boolean(room.roomId);
@@ -77,7 +78,7 @@ const Room = () => {
 
   useEffect(() => {
     const redirectUnknownUser = () => {
-      if (!isRoomMember) {
+      if (!isRoomMember && navigationType === 'POP') {
         navigate('/join-room', {
           state: {
             roomId: params.roomId,
@@ -87,7 +88,7 @@ const Room = () => {
     };
 
     redirectUnknownUser();
-  }, [isRoomMember, params, navigate]);
+  }, [isRoomMember, navigationType, params, navigate]);
 
   return (
     <Grid container columns={16} spacing={2}>
