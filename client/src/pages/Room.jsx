@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { Grid, Stack } from '@mui/material';
 
@@ -19,6 +19,7 @@ const Room = () => {
   const messages = useSelector((store) => store.chat.messages);
 
   const dispatch = useDispatch();
+  const params = useParams();
   const navigate = useNavigate();
 
   const isRoomMember = Boolean(room.roomId);
@@ -72,7 +73,21 @@ const Room = () => {
   };
 
   useNavigationBlocker(handleLeavePage, isRoomMember);
-  useDocumentTitle(isRoomMember ? `Room [${room.roomId}]` : 'Room');
+  useDocumentTitle(`Room [${room.roomId}]`);
+
+  useEffect(() => {
+    const redirectUnknownUser = () => {
+      if (!isRoomMember) {
+        navigate('/join-room', {
+          state: {
+            roomId: params.roomId,
+          },
+        });
+      }
+    };
+
+    redirectUnknownUser();
+  }, [isRoomMember, params, navigate]);
 
   return (
     <Grid container columns={16} spacing={2}>
