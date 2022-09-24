@@ -5,7 +5,7 @@ import Plyr from 'plyr';
 
 import { useTheme } from '@mui/material';
 
-import { options } from '../settings/plyr';
+import { options } from '../options/plyr';
 import { buildPlayerSource } from '../utils/buildPlayerSource';
 import { createSubtitleTrack } from '../utils/createSubtitleTrack';
 

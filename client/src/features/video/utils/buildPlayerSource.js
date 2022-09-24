@@ -1,7 +1,8 @@
-import { providers } from '../settings/plyr';
+import { providers } from '../options/providers';
 
 export const buildPlayerSource = (url) => {
-  const provider = Object.keys(providers).find((provider) => providers[provider].test(url));
+  const provider = providers.find((provider) => provider.regexp.test(url));
+
   const source = {
     type: 'video',
     sources: [],
@@ -10,7 +11,7 @@ export const buildPlayerSource = (url) => {
   if (provider) {
     source.sources.push({
       src: url,
-      provider: provider,
+      provider: provider.name,
     });
   }
 
