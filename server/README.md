@@ -32,140 +32,158 @@ npm start
 
 ```
 src
-   |-- commands         # folder containing grouped commands for a given type of room
-   |-- utils            # folder contains utils functions used in many files
-   |-- rooms            # folder contains definitions of room classes
-   |-- schemas          # folder contains state definitions for rooms
-   |-- arena.config.js  # server definition by colyseus/arena
-   |-- logger.js        # file contains definition and config of the module responsible for logs
-   |-- index.js         # start point
+  |-- features            # contains all featured room types
+  |  |-- room-type        # contains all files related to room type
+  |  |  |-- classes       # contains all classes used in given room
+  |  |  |-- commands      # contains all commands related to room type
+  |  |  |-- schemas       # contains all schemas for room type
+  |  |  |-- index.js      # contains room class export
+  |-- arena.config.js     # contains all room definitions and server options
+  |-- logger.js           # contains logger config
+  |-- index.js            # contains server initialization
+
 ```
 
-## Room types
+Files outside of `src` directory are mostly configuration files for git, editor and npm.
 
-Currently the server supports only one type of room
+## Room types
 
 ### Video-Room
 
 #### Room state schema
 
-```
-room schema {
-  users: Map {
-    name: string - username
-    color: string - user color in hsl format
+- [Schema definition](./src/features/video-room/schemas/RoomState.js)
+
+#### Events listened by server
+
+- `video::set_url` - sets video url.  
+  Accepts object with `url` field which is a string with url to the video.
+
+  ```
+  {
+    url: string
   }
-  video: {
-    url: string - address to the currently playing video
-    playing: boolean - status of the currently set video
-    progress: number - number of seconds that elapsed from the beginning of the video (until the last update)
-    updateTimestamp: number - time at which a video object was changed by, for example, a play/pause action
+  ```
+
+- `video::play` - plays video.  
+  Accepts object with `progress` field which is a number with current progress of the video.
+
+  ```
+  {
+    progress: number
   }
-}
-```
-
-#### Available native methods
-
-- onCreate(options) - called if user create a room
-
-  ```
-    options {}
   ```
 
-- onJoin(client, options) - called if user wants to join a room
-  ```
-    client - websocket client provided by colyseus.js
-    options {
-      username: string - name of the user who is going to join the room
-    }
-  ```
-- onLeave(client) - called if user leaves the room
-  ```
-    client - websocket client provided by colyseus.js
-  ```
-- onDispose() - called if room is empty
+- `video::pause` - pauses video.  
+  Accepts object with `progress` field which is a number with current progress of the video.
 
-#### Events listened by the server
-
-- `video::set`
   ```
-    message {
-      url: string - address of the video that should be set for the whole room
-    }
-  ```
-- `video::play`
-  ```
-    message {
-      progress: number - number of seconds passed since the beginning of the video
-    }
-  ```
-- `video::pause`
-  ```
-    message {
-      progress: number - number of seconds passed since the beginning of the video
-    }
-  ```
-- `video::seek`
-  ```
-    message {
-      progress: number - number of seconds passed since the beginning of the video
-    }
-  ```
-- `video::current_progress`
-  ```
-    message {
-      progress: number - current progres of the video
-    }
-  ```
-- `chat::message`
-  ```
-    message {
-      content: string - message with a maximum length of 140 characters.
-    }
+  {
+    progress: number
+  }
   ```
 
-#### Events emitted by the server
+- `video::toggle_playback` - toggles video playback.  
+  Accepts object with `progress` field which is a number with current progress of the video.
 
-- `video::current_progress`
   ```
-    message {
-      progress: number - number of played seconds received from the fastest response
-      updateTimestamp: number - time at which the event was sent
+  {
+    progress: number
+  }
+  ```
+
+- `video::seek` - seeks video.  
+  Accepts object with `progress` field which is a number with current progress of the video.
+
+  ```
+  {
+    progress: number
+  }
+  ```
+
+- `video::set_subtitles` - sets subtitles.  
+  Accepts object with `subtitles` field which is a string with valid WebVTT subtitles.
+
+  ```
+  {
+    subtitles: string
+  }
+  ```
+
+- `video::delete_subtitles` - deletes subtitles.  
+  Accepts empty object.
+
+  ```
+  {}
+  ```
+
+- `video::sync_progress_request` - requests video progress synchronization. This event requires at least one client except the one who sent it to be connected to the room.
+  Accepts empty object.
+
+  ```
+  {}
+  ```
+
+- `video::sync_progress_response` - video progress sent to this event will be broadcasted to all clients who requested video progress synchronization with `video::sync_progress_request` event.
+  Accepts object with `progress` field which is a number with current progress of the video.
+
+  ```
+  {
+    progress: number
+  }
+  ```
+
+- `chat::message` - sends received message to all users in the room.  
+  Accepts object with `content` field which is a string with message content.
+
+  ```
+  {
+    content: string
+  }
+  ```
+
+#### Events emitted by server
+
+- `video::sync_progress_request` - notification that someone requested video progress synchronization.  
+  This event is emitted every time someone join the room and there is at least one other client connected.
+  Payload sent with this event is empty object.
+
+  ```
+  {}
+  ```
+
+  Every user that receives this event should respond with `video::sync_progress_response` event.
+
+- `video::sync_progress_response` - Sends current progress of the video received from fastest user.  
+  Payload sent with this event is object with `progress` field which is a number with current progress of the video.
+
+  ```
+  {
+    progress: number
+  }
+  ```
+
+  This event is sent only to users that requested current progress with `video::sync_progress_request` event.
+
+- `chat::message` - Chat message received from other user.  
+  Payload sent with this event is object with `id`, `content`, `createdAt`, `author` fields.
+
+  ```
+  {
+    id: string,
+    content: string,
+    createdAt: number,
+    author: {
+      id: string,
+      username: string,
+      color: string
     }
+  }
   ```
-  Event is sent to the new users who have joined the room where the video is currently playing to synchronize the progress of the video.
-- `video::request_progress`
-  ```
-    message {}
-  ```
-  Event is emitted only after new user has joined the room. It is used to request inform users that they should send their current progress of the video in
-  the previous `video::current_progress` event. Event is emitted to all users in the room except the user who just joined.
-- `chat::message`
-  ```
-    message {
-      id: string - unique id
-      author: User {
-        name: string - username of the author
-        color: string - user color in hsl format
-      }
-      content: string - content of the message
-      timestamp: number - time at which the server received the message
-    }
-  ```
-  Event publishes a previously received message to which necessary data such as id, author, timestamp have been added.
 
 #### Client communication
 
-Communication with the clients in the room is performed mainly by updating the room state which is later synchronized for each client by Colyseus.js. The exceptions to the above rule are the three events described below.
-
-- `video::request_progress` - Event is emitted only after new user has joined the room. It is used to request inform users that they should send their current progress of the video in the previous `video::current_progress` event.
-- `video::current_progress` - Event sends current progress of the video to the client.
-- `chat::message` - Event sends the parsed message that was received from a single client to every client in that room.
-
-## Server monitor
-
-The filmtab-server also has a configured monitor provided from the `@colyseus/monitor` package which is available at `{SERVER_IP}:{SERVER_PORT}/colyseus` url.
-The monitor starts only if an admin has assigned authorization data in environment variables (`MONITOR_ADMIN_USERNAME` and `MONITOR_ADMIN_PASSWORD`).
+Communication between client and server is done using [Colyseus.js](https://www.colyseus.io/) framework which notifies every client about changes in room state.
 
 ## Author
 
