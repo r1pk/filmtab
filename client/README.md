@@ -1,22 +1,19 @@
 # Filmtab-client
 
-Filmtab-client is a responsive application written in React which uses tools such as [Redux](https://redux.js.org/), [Material UI](https://mui.com/getting-started/usage/) and [Colyseus.js](https://www.colyseus.io/). Filmtab-client allows you to synchronically watch videos with your friends after you create or join a room.
+Filmtab-client is a responsive application written in React which uses tools such as [Redux](https://redux.js.org/), [Material UI](https://mui.com/getting-started/usage/) and [Colyseus.js](https://www.colyseus.io/). FilmTab is a web application that allows users to watch movies together in real time.
 
 ## Screenshots
 
 Home page
-![Home page](https://i.imgur.com/Od9phGH.png)
+![Home page](https://i.imgur.com/nEXiVku.png)
 
 Room page with playing video
-![Video player page](https://i.imgur.com/xOalmDR.png)
-
-Room page with theater mode
-![Teater Mode](https://i.imgur.com/QsoKTk1.png)
+![Room page](https://i.imgur.com/Euc5lBV.png)
 
 ## Pre-requisites
 
-- [node.js v14.0 or higher](https://nodejs.org/en/)
-- [npm v7.0 or higher](https://nodejs.org/en/download/)
+- [node.js v16+ or higher](https://nodejs.org/en/)
+- [npm v8.0 or higher](https://nodejs.org/en/download/)
 
 ## Installation
 
@@ -36,15 +33,17 @@ npm install
 Before running the application, configure the environment variables to provide the application with [server](https://github.com/r1pk/filmtab-server) address
 
 ```env
-EXTEND_ESLINT=true                   # react environment variable to allow eslint rules to be extended
-REACT_APP_COLYSEUS_ENDPOINT=ADDRESS  # address of colyseus.js server
+VITE_BASE_APP_TITLE=FilmTab   # Application title used as a prefix for the document title
+VITE_COLYSEUS_URL=            # Colyseus server address
 ```
 
 Run the app in development mode
 
 ```bash
-npm start
+npm run dev
 ```
+
+After running the application, open `localhost:5173` in your browser.
 
 Build the app for production to the `build` folder
 
@@ -55,25 +54,41 @@ npm run build
 ## Project structure
 
 ```bash
-public                     # folder containing static files such as index.html
+public                            # static files
 src
-   |-- components          # shared components used across the entire application
-   |-- features            # feature based modules
-   |   |-- feature         # feature module
-   |   |   |-- api         # functions, classes, modules that connects feature with external resources
-   |   |   |-- components  # components scoped to a specific feature
-   |   |   |-- containers  # components of a specific feature connected to a redux store
-   |   |   |-- defaults    # constants and default values for a specific feature
-   |   |   |-- redux       # redux reducer and actions for a specific feature
-   |   |   |-- utils       # utility functions used only by this feature
-   |   |   |-- index.js    # exports of all required elements from specific feature
-   |-- hooks               # custom hooks used by some components
-   |-- middlewares         # middlewares used by redux
-   |-- pages               # folder containing a page template composed of components and containers
-   |-- FilmTab.js          # file containing additional stuff that affect the behavior of the entire app
-   |-- FilmTabRouting.js   # file containing app routing
-   |-- index.js            # starting point to render app and provide app connection to redux store
-   |-- store.js            # file that creates a store from all reducers and middlewares
+   |-- components                 # grouped components used in the application
+   |   |-- group_name             # group of components
+   |   |   |-- index.js           # exports components from the group
+   |-- features                   # feature based modules
+   |   |-- feature_name           # feature module
+   |   |   |-- components         # components used in the feature
+   |   |   |-- schemas            # schemas used in the feature forms
+   |   |   |-- options            # options used across the feature
+   |   |   |-- utils              # utility functions used in the feature components
+   |   |   |-- index.js           # exports components from the feature
+   |-- hooks                      # custom hooks used mostly in the page components
+   |   |-- index.js               # exports hooks from the folder
+   |-- layouts                    # app layouts
+   |   |-- layout_name            # layout
+   |   |-- index.js               # exports layouts from the folder
+   |-- pages                      # page components
+   |-- providers                  # providers used to wrap the application
+   |   |-- index.js               # exports providers from the folder
+   |-- redux                      # redux related files
+   |   |-- middlewares            # middlewares used in the redux store
+   |   |   |-- middleware_name    # middleware
+   |   |   |  |-- index.js        # exports middleware and actions from the folder
+   |   |-- slices                 # redux toolkit store slices
+   |   |-- store.js               # initializes redux store
+   |   |-- index.js               # exports redux related files from the folder
+   |-- routes                     # routes used in the application
+   |   |-- Routes.jsx             # routes component used to render routes
+   |   |-- index.js               # exports routes from the folder
+   |-- theme                      # theme related files used in the application
+   |   |-- theme.js               # theme object used in the application
+   |   |-- index.js               # exports theme from the folder
+   |-- App.jsx                    # main application component
+   |-- main.jsx                   # entry point of the application
 .env                       # file containing environment variables
 ```
 

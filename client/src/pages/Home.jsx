@@ -1,38 +1,38 @@
-import { useState } from 'react';
+import { Outlet, Link, useLocation } from 'react-router-dom';
 
-import { Grid, Typography, Tabs, Tab, Box } from '@mui/material';
+import { Box, Grid, Paper, Typography, Tabs, Tab } from '@mui/material';
 
-import { CreateRoomCardContainer, JoinRoomCardContainer } from '../features/affiliation';
-
-import useDocumentTitle from '../hooks/useDocumentTitle';
+import { useDocumentTitle } from '@/hooks';
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState(0);
+  const location = useLocation();
 
-  const handleChangeTab = (e, tabIndex) => {
-    setActiveTab(tabIndex);
-  };
-
-  useDocumentTitle('FilmTab - Home');
+  useDocumentTitle('Home');
 
   return (
-    <Grid container justifyContent="center" direction="row" spacing={1} mt={2}>
-      <Grid item xs={12}>
-        <Typography variant="h1" component="div" textAlign="center">
-          FilmTab
-        </Typography>
+    <Box>
+      <Grid container columns={16} sx={{ justifyContent: 'center' }}>
+        <Grid item xs={16} sm={12} md={8} lg={6}>
+          <Paper>
+            <Typography variant="h1" component="h1" sx={{ p: 2, textAlign: 'center' }}>
+              FilmTab
+            </Typography>
+            <Paper elevation={2}>
+              <Tabs centered value={location.pathname}>
+                <Tab label="Create Room" value="/create-room" to="/create-room" component={Link} />
+                <Tab label="Join Room" value="/join-room" to="/join-room" component={Link} />
+              </Tabs>
+            </Paper>
+          </Paper>
+        </Grid>
       </Grid>
-      <Grid item>
-        <Tabs centered variant="fullWidth" value={activeTab} onChange={handleChangeTab}>
-          <Tab label="Create room" />
-          <Tab label="Join room" />
-        </Tabs>
-        <Box p={1}>
-          {activeTab === 0 && <CreateRoomCardContainer />}
-          {activeTab === 1 && <JoinRoomCardContainer />}
-        </Box>
+
+      <Grid container columns={16} sx={{ justifyContent: 'center', my: 2 }}>
+        <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
+          <Outlet />
+        </Grid>
       </Grid>
-    </Grid>
+    </Box>
   );
 };
 

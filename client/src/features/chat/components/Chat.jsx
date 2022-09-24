@@ -1,56 +1,51 @@
-import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useEffect, useRef, forwardRef } from 'react';
 
-import { Card, CardContent, CardActions, Stack, Divider } from '@mui/material';
+import { Card, CardHeader, CardContent, CardActions, Divider } from '@mui/material';
 
-import ChatMessage from './ChatMessage';
-import ChatInput from './ChatInput';
+import ChatMessageList from './ChatMessageList';
+import ChatMessageForm from './ChatMessageForm';
 
-const Chat = ({ messages, onSendMessage, onClearChat }) => {
-  const messageList = useRef(null);
+const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref) => {
+  const content = useRef(null);
 
   useEffect(() => {
-    if (messageList.current) {
-      messageList.current.scrollTo(0, messageList.current.scrollHeight);
-    }
+    const scrollToBottom = () => {
+      if (content.current) {
+        content.current.scrollTop = content.current.scrollHeight;
+      }
+    };
+
+    scrollToBottom();
   }, [messages]);
 
   return (
-    <Card sx={{ width: { xs: '100%', lg: 360 } }}>
-      <CardContent ref={messageList} sx={{ height: { xs: 360, lg: 500 }, overflow: 'auto' }}>
-        <Stack>
-          {messages.map((message) => (
-            <ChatMessage
-              key={message.id}
-              author={message.author}
-              content={message.content}
-              timestamp={message.timestamp}
-            />
-          ))}
-        </Stack>
+    <Card ref={ref} {...rest}>
+      <CardHeader
+        title="Chat"
+        titleTypographyProps={{
+          variant: 'h5',
+        }}
+        sx={{ textAlign: 'center' }}
+      />
+      <Divider />
+      <CardContent sx={{ height: { xs: 300, md: 480 }, overflowY: 'scroll', scrollBehavior: 'smooth' }} ref={content}>
+        <ChatMessageList messages={messages} />
       </CardContent>
       <Divider />
       <CardActions>
-        <ChatInput onSendMessage={onSendMessage} onClearChat={onClearChat} />
+        <ChatMessageForm onSendMessage={onSendMessage} onClearChat={onClearChat} />
       </CardActions>
     </Card>
   );
-};
+});
+
+Chat.displayName = 'Chat';
 
 Chat.propTypes = {
-  messages: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      author: PropTypes.shape({
-        name: PropTypes.string,
-        color: PropTypes.string,
-      }),
-      content: PropTypes.string,
-      timestamp: PropTypes.number,
-    })
-  ).isRequired,
-  onSendMessage: PropTypes.func,
-  onClearChat: PropTypes.func,
+  messages: PropTypes.array.isRequired,
+  onSendMessage: PropTypes.func.isRequired,
+  onClearChat: PropTypes.func.isRequired,
 };
 
 export default Chat;

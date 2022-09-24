@@ -1,75 +1,121 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Link as RouterLink } from 'react-router-dom';
+import { useParams, useNavigate, useNavigationType } from 'react-router-dom';
 
-import { Grid, Stack, Backdrop, Link } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 
-import { VideoAddressBarContainer, VideoPlayerContainer, TheaterModeBox } from '../features/video';
-import { TheaterModeButton, SetSubtitlesButtonContainer, ClearSubtitlesButtonContainer } from '../features/video';
-import { JoinRoomCardContainer, LeaveRoomButtonContainer, UserListContainer, actions } from '../features/affiliation';
-import { ChatContainer } from '../features/chat';
+import { UserList, LeaveRoomButton } from '@/features/room';
+import { SetVideoForm, VideoPlayer, UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton } from '@/features/video';
+import { Chat } from '@/features/chat';
 
-import useDocumentTitle from '../hooks/useDocumentTitle';
+import { useDocumentTitle, useNavigationBlocker } from '@/hooks';
+
+import { colyseus, chat } from '@/redux';
 
 const Room = () => {
-  const isRoomMember = useSelector((store) => store.affiliation.isRoomMember);
+  const video = useSelector((store) => store.video);
+  const room = useSelector((store) => store.room);
+  const messages = useSelector((store) => store.chat.messages);
+
   const dispatch = useDispatch();
+  const params = useParams();
+  const navigationType = useNavigationType();
+  const navigate = useNavigate();
 
-  const [isTheaterModeActive, setIsTheaterModeActive] = useState(false);
-  const theaterModeGridSizes = { xs: 12, md: 12, lg: 12, xl: 12 };
+  const isRoomMember = Boolean(room.roomId);
 
-  const handleToggleTheaterMode = () => {
-    setIsTheaterModeActive(!isTheaterModeActive);
+  const handleTogglePlayback = useCallback(
+    (progress) => {
+      dispatch(colyseus.toggleVideoPlayback({ progress: progress }));
+    },
+    [dispatch]
+  );
+
+  const handleSeekVideo = useCallback(
+    (progress) => {
+      dispatch(colyseus.seekVideo({ progress: progress }));
+    },
+    [dispatch]
+  );
+
+  const handleSetVideo = (data) => {
+    dispatch(colyseus.setVideo({ url: data.url }));
   };
 
-  const { roomId } = useParams();
+  const handleSyncProgressResponse = (progress) => {
+    dispatch(colyseus.responseSyncVideoProgress({ progress: progress }));
+  };
+
+  const handleLeaveRoom = async () => {
+    await dispatch(colyseus.leaveRoom());
+    navigate('/');
+  };
+
+  const handleUploadVideoSubtitles = (subtitles) => {
+    dispatch(colyseus.setVideoSubtitles({ subtitles: subtitles }));
+  };
+
+  const handleDeleteVideoSubtitles = () => {
+    dispatch(colyseus.deleteVideoSubtitles());
+  };
+
+  const handleSendMessage = (data) => {
+    dispatch(colyseus.sendChatMessage({ content: data.content }));
+  };
+
+  const handleClearChat = () => {
+    dispatch(chat.clear());
+  };
+
+  const handleLeavePage = async (transition) => {
+    await dispatch(colyseus.leaveRoom());
+    transition.retry();
+  };
+
+  useNavigationBlocker(handleLeavePage, isRoomMember);
+  useDocumentTitle(`Room [${room.roomId}]`);
 
   useEffect(() => {
-    return () => {
-      if (isRoomMember) {
-        dispatch(actions.leaveRoom());
+    const redirectUnknownUser = () => {
+      if (!isRoomMember && navigationType === 'POP') {
+        navigate('/join-room', {
+          state: {
+            roomId: params.roomId,
+          },
+        });
       }
     };
-  }, [dispatch, isRoomMember]);
 
-  useDocumentTitle(`FilmTab - Room: ${roomId}`);
+    redirectUnknownUser();
+  }, [isRoomMember, navigationType, params, navigate]);
 
   return (
-    <>
-      <Backdrop open={!isRoomMember} sx={{ zIndex: 1, backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
-        <Stack alignItems="center" spacing={1}>
-          <JoinRoomCardContainer defaultRoomId={roomId} />
-          <Link to="/" variant="body2" underline="hover" component={RouterLink}>
-            Go Back
-          </Link>
-        </Stack>
-      </Backdrop>
-      <Grid container justifyContent="center" my={2} spacing={1}>
-        <Grid item xs={11} md={10} lg={8} xl={6} {...(isTheaterModeActive && theaterModeGridSizes)}>
-          <Stack spacing={1}>
-            <VideoAddressBarContainer />
-            <TheaterModeBox isTheaterModeActive={isTheaterModeActive}>
-              <VideoPlayerContainer />
-            </TheaterModeBox>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} justifyContent="flex-end" alignItems="center">
-              <SetSubtitlesButtonContainer />
-              <ClearSubtitlesButtonContainer />
-              <TheaterModeButton
-                isTheaterModeActive={isTheaterModeActive}
-                onToggleTheaterMode={handleToggleTheaterMode}
-              />
-            </Stack>
-            <UserListContainer />
-            <Stack direction="row" spacing={1} justifyContent="flex-end">
-              <LeaveRoomButtonContainer />
-            </Stack>
-          </Stack>
-        </Grid>
-        <Grid item xs={11} md={10} lg="auto">
-          <ChatContainer />
-        </Grid>
+    <Grid container columns={16} spacing={2}>
+      <Grid item xs={16}>
+        <SetVideoForm url={video.player.url} onSetVideo={handleSetVideo} />
       </Grid>
-    </>
+      <Grid item xs={16} lg={12}>
+        <Stack direction="column" spacing={2}>
+          <VideoPlayer
+            state={video.player}
+            requests={video.requests}
+            onTogglePlayback={handleTogglePlayback}
+            onSeekVideo={handleSeekVideo}
+            onSyncProgressResponse={handleSyncProgressResponse}
+          />
+          <Stack direction={{ xs: 'column-reverse', sm: 'row-reverse' }} spacing={2}>
+            <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />
+            <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
+            <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
+          </Stack>
+          <UserList users={room.users} />
+        </Stack>
+      </Grid>
+      <Grid item xs={16} lg={4}>
+        <Chat messages={messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
+      </Grid>
+    </Grid>
   );
 };
 

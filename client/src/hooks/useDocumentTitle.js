@@ -1,17 +1,10 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 
-const useDocumentTitle = (title) => {
-  const initialTitle = useRef(document.title);
-
+export const useDocumentTitle = (title) => {
   useEffect(() => {
-    const previousTitle = initialTitle.current;
-
-    document.title = title;
-
+    document.title = `${import.meta.env.VITE_BASE_APP_TITLE} - ${title}`;
     return () => {
-      document.title = previousTitle;
+      document.title = import.meta.env.VITE_BASE_APP_TITLE;
     };
   }, [title]);
 };
-
-export default useDocumentTitle;
