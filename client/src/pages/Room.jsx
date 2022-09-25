@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Stack } from '@mui/material';
 
 import { UserList, LeaveRoomButton } from '@/features/room';
-import { SetVideoForm, VideoPlayer, UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton } from '@/features/video';
+import { SetVideoForm, VideoPlayer } from '@/features/video';
+import { UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton, SyncVideoProgressButton } from '@/features/video';
 import { Chat } from '@/features/chat';
 
 import { useDocumentTitle, useNavigationBlocker } from '@/hooks';
@@ -35,16 +36,16 @@ const Room = () => {
     [dispatch]
   );
 
-  const handleSetVideo = (data) => {
-    dispatch(colyseus.setVideo({ url: data.url }));
+  const handleSyncVideoProgressRequest = () => {
+    dispatch(colyseus.requestSyncVideoProgress());
   };
 
-  const handleSyncProgressResponse = (progress) => {
+  const handleSyncVideoProgressResponse = (progress) => {
     dispatch(colyseus.responseSyncVideoProgress({ progress: progress }));
   };
 
-  const handleLeaveRoom = async () => {
-    await dispatch(colyseus.leaveRoom());
+  const handleSetVideo = (data) => {
+    dispatch(colyseus.setVideo({ url: data.url }));
   };
 
   const handleUploadVideoSubtitles = (subtitles) => {
@@ -63,8 +64,12 @@ const Room = () => {
     dispatch(chat.clear());
   };
 
-  const handleLeavePage = async (transition) => {
-    await dispatch(colyseus.leaveRoom());
+  const handleLeaveRoom = () => {
+    dispatch(colyseus.leaveRoom());
+  };
+
+  const handleLeavePage = (transition) => {
+    dispatch(colyseus.leaveRoom());
     transition.retry();
   };
 
@@ -83,12 +88,18 @@ const Room = () => {
             requests={video.requests}
             onTogglePlayback={handleTogglePlayback}
             onSeekVideo={handleSeekVideo}
-            onSyncProgressResponse={handleSyncProgressResponse}
+            onSyncVideoProgressResponse={handleSyncVideoProgressResponse}
           />
-          <Stack direction={{ xs: 'column-reverse', sm: 'row-reverse' }} spacing={2}>
+          <Stack direction={{ xs: 'column-reverse', md: 'row-reverse' }} spacing={2}>
             <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />
             <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
             <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
+            {room.users.length >= 2 && (
+              <SyncVideoProgressButton
+                timeoutTime={60000}
+                onSyncVideoProgressRequest={handleSyncVideoProgressRequest}
+              />
+            )}
           </Stack>
           <UserList users={room.users} />
         </Stack>
