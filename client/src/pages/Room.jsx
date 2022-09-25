@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Stack } from '@mui/material';
 
 import { UserList, LeaveRoomButton } from '@/features/room';
-import { SetVideoForm, VideoPlayer, UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton } from '@/features/video';
+import { SetVideoForm, VideoPlayer } from '@/features/video';
+import { UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton, SyncVideoProgressButton } from '@/features/video';
 import { Chat } from '@/features/chat';
 
 import { useDocumentTitle, useNavigationBlocker } from '@/hooks';
@@ -37,6 +38,10 @@ const Room = () => {
 
   const handleSetVideo = (data) => {
     dispatch(colyseus.setVideo({ url: data.url }));
+  };
+
+  const handleSyncVideoProgressRequest = () => {
+    dispatch(colyseus.requestSyncVideoProgress());
   };
 
   const handleSyncProgressResponse = (progress) => {
@@ -85,10 +90,13 @@ const Room = () => {
             onSeekVideo={handleSeekVideo}
             onSyncProgressResponse={handleSyncProgressResponse}
           />
-          <Stack direction={{ xs: 'column-reverse', sm: 'row-reverse' }} spacing={2}>
+          <Stack direction={{ xs: 'column-reverse', md: 'row-reverse' }} spacing={2}>
             <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />
             <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
             <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
+            {room.users.length >= 2 && (
+              <SyncVideoProgressButton timeoutTime={60000} onSyncVideoProgress={handleSyncVideoProgressRequest} />
+            )}
           </Stack>
           <UserList users={room.users} />
         </Stack>
