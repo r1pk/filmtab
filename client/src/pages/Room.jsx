@@ -1,7 +1,6 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useNavigate, useNavigationType } from 'react-router-dom';
 
 import { Grid, Stack } from '@mui/material';
 
@@ -19,9 +18,6 @@ const Room = () => {
   const messages = useSelector((store) => store.chat.messages);
 
   const dispatch = useDispatch();
-  const params = useParams();
-  const navigationType = useNavigationType();
-  const navigate = useNavigate();
 
   const isRoomMember = Boolean(room.roomId);
 
@@ -49,7 +45,6 @@ const Room = () => {
 
   const handleLeaveRoom = async () => {
     await dispatch(colyseus.leaveRoom());
-    navigate('/');
   };
 
   const handleUploadVideoSubtitles = (subtitles) => {
@@ -75,20 +70,6 @@ const Room = () => {
 
   useNavigationBlocker(handleLeavePage, isRoomMember);
   useDocumentTitle(`Room [${room.roomId}]`);
-
-  useEffect(() => {
-    const redirectUnknownUser = () => {
-      if (!isRoomMember && navigationType === 'POP') {
-        navigate('/join-room', {
-          state: {
-            roomId: params.roomId,
-          },
-        });
-      }
-    };
-
-    redirectUnknownUser();
-  }, [isRoomMember, navigationType, params, navigate]);
 
   return (
     <Grid container columns={16} spacing={2}>

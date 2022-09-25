@@ -81,9 +81,12 @@ src
    |   |-- slices                 # redux toolkit store slices
    |   |-- store.js               # initializes redux store
    |   |-- index.js               # exports redux related files from the folder
-   |-- routes                     # routes used in the application
-   |   |-- Routes.jsx             # routes component used to render routes
-   |   |-- index.js               # exports routes from the folder
+   |-- router                     # app router related files
+   |   |-- components             # router related components
+   |   |-- routes                 # routes definitions
+   |   |   |-- index.js           # exports routes from the folder
+   |   |-- AppRoutes.jsx          # creates routes for the app
+   |   |-- index.js               # exports files from the folder
    |-- theme                      # theme related files used in the application
    |   |-- theme.js               # theme object used in the application
    |   |-- index.js               # exports theme from the folder
