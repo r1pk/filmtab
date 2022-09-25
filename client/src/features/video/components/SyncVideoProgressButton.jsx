@@ -5,7 +5,7 @@ import { Sync } from '@mui/icons-material';
 
 import { Button } from '@/components/form';
 
-const SyncVideoProgressButton = forwardRef(({ onSyncVideoProgress, timeoutTime, ...rest }, ref) => {
+const SyncVideoProgressButton = forwardRef(({ onSyncVideoProgressRequest, timeoutTime, ...rest }, ref) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const timeout = useRef(null);
@@ -18,8 +18,8 @@ const SyncVideoProgressButton = forwardRef(({ onSyncVideoProgress, timeoutTime, 
 
   const handleButtonClick = () => {
     if (!isButtonDisabled) {
-      if (onSyncVideoProgress) {
-        onSyncVideoProgress();
+      if (onSyncVideoProgressRequest) {
+        onSyncVideoProgressRequest();
       }
 
       temporarilyDisableButton();
@@ -46,7 +46,7 @@ const SyncVideoProgressButton = forwardRef(({ onSyncVideoProgress, timeoutTime, 
 SyncVideoProgressButton.displayName = 'SyncVideoProgressButton';
 
 SyncVideoProgressButton.propTypes = {
-  onSyncVideoProgress: PropTypes.func.isRequired,
+  onSyncVideoProgressRequest: PropTypes.func.isRequired,
   timeoutTime: PropTypes.number.isRequired,
 };
 

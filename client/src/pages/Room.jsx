@@ -36,20 +36,16 @@ const Room = () => {
     [dispatch]
   );
 
-  const handleSetVideo = (data) => {
-    dispatch(colyseus.setVideo({ url: data.url }));
-  };
-
   const handleSyncVideoProgressRequest = () => {
     dispatch(colyseus.requestSyncVideoProgress());
   };
 
-  const handleSyncProgressResponse = (progress) => {
+  const handleSyncVideoProgressResponse = (progress) => {
     dispatch(colyseus.responseSyncVideoProgress({ progress: progress }));
   };
 
-  const handleLeaveRoom = async () => {
-    await dispatch(colyseus.leaveRoom());
+  const handleSetVideo = (data) => {
+    dispatch(colyseus.setVideo({ url: data.url }));
   };
 
   const handleUploadVideoSubtitles = (subtitles) => {
@@ -68,8 +64,12 @@ const Room = () => {
     dispatch(chat.clear());
   };
 
-  const handleLeavePage = async (transition) => {
-    await dispatch(colyseus.leaveRoom());
+  const handleLeaveRoom = () => {
+    dispatch(colyseus.leaveRoom());
+  };
+
+  const handleLeavePage = (transition) => {
+    dispatch(colyseus.leaveRoom());
     transition.retry();
   };
 
@@ -88,14 +88,17 @@ const Room = () => {
             requests={video.requests}
             onTogglePlayback={handleTogglePlayback}
             onSeekVideo={handleSeekVideo}
-            onSyncProgressResponse={handleSyncProgressResponse}
+            onSyncVideoProgressResponse={handleSyncVideoProgressResponse}
           />
           <Stack direction={{ xs: 'column-reverse', md: 'row-reverse' }} spacing={2}>
             <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />
             <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
             <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
             {room.users.length >= 2 && (
-              <SyncVideoProgressButton timeoutTime={60000} onSyncVideoProgress={handleSyncVideoProgressRequest} />
+              <SyncVideoProgressButton
+                timeoutTime={60000}
+                onSyncVideoProgressRequest={handleSyncVideoProgressRequest}
+              />
             )}
           </Stack>
           <UserList users={room.users} />
