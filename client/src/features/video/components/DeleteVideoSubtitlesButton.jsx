@@ -10,9 +10,7 @@ const DeleteVideoSubtitlesButton = forwardRef(({ onDeleteVideoSubtitles, ...rest
     const isActionConfirmed = window.confirm('Are you sure you want to delete subtitles for everyone in this room?');
 
     if (isActionConfirmed) {
-      if (onDeleteVideoSubtitles) {
-        onDeleteVideoSubtitles();
-      }
+      onDeleteVideoSubtitles();
     }
   };
 

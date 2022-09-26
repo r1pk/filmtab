@@ -9,9 +9,7 @@ import { Button } from '@/components/form';
 
 const UploadVideoSubtitlesButton = forwardRef(({ onUploadVideoSubtitles, ...rest }, ref) => {
   const handleFile = (event) => {
-    if (onUploadVideoSubtitles) {
-      onUploadVideoSubtitles(event.target.result);
-    }
+    onUploadVideoSubtitles(event.target.result);
   };
 
   const handleInputChange = (event) => {

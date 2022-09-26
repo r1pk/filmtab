@@ -18,10 +18,7 @@ const SyncVideoProgressButton = forwardRef(({ onSyncVideoProgress, timeoutTime, 
 
   const handleButtonClick = () => {
     if (!isButtonDisabled) {
-      if (onSyncVideoProgress) {
-        onSyncVideoProgress();
-      }
-
+      onSyncVideoProgress();
       temporarilyDisableButton();
     }
   };
