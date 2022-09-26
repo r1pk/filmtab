@@ -36,11 +36,11 @@ const Room = () => {
     [dispatch]
   );
 
-  const handleSyncVideoProgressRequest = () => {
+  const handleSyncRequest = () => {
     dispatch(colyseus.requestSyncVideoProgress());
   };
 
-  const handleSyncVideoProgressResponse = (progress) => {
+  const handleSyncResponse = (progress) => {
     dispatch(colyseus.responseSyncVideoProgress({ progress: progress }));
   };
 
@@ -88,17 +88,14 @@ const Room = () => {
             requests={video.requests}
             onTogglePlayback={handleTogglePlayback}
             onSeekVideo={handleSeekVideo}
-            onSyncVideoProgressResponse={handleSyncVideoProgressResponse}
+            onSyncResponse={handleSyncResponse}
           />
           <Stack direction={{ xs: 'column-reverse', md: 'row-reverse' }} spacing={2}>
             <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />
             <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
             <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
             {room.users.length >= 2 && (
-              <SyncVideoProgressButton
-                timeoutTime={60000}
-                onSyncVideoProgressRequest={handleSyncVideoProgressRequest}
-              />
+              <SyncVideoProgressButton timeoutTime={60000} onSyncVideoProgress={handleSyncRequest} />
             )}
           </Stack>
           <UserList users={room.users} />
