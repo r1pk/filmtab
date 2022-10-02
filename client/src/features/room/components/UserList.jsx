@@ -7,7 +7,7 @@ import UserListItem from './UserListItem';
 
 const UserList = forwardRef(({ users, ...rest }, ref) => {
   return (
-    <Paper component={AvatarGroup} max={8} sx={{ p: 2, justifyContent: 'center' }} ref={ref} {...rest}>
+    <Paper component={AvatarGroup} max={7} sx={{ p: 2, justifyContent: 'center' }} ref={ref} {...rest}>
       {users.length === 0 && <Skeleton variant="circular" width={44} height={44} />}
       {users.length > 0 && users.map((user) => <UserListItem key={user.id} user={user} />)}
     </Paper>

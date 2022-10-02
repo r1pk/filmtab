@@ -98,11 +98,13 @@ const Room = () => {
               <SyncVideoProgressButton timeoutTime={60000} onSyncVideoProgress={handleSyncRequest} />
             )}
           </Stack>
-          <UserList users={room.users} />
         </Stack>
       </Grid>
       <Grid item xs={16} lg={4}>
-        <Chat messages={messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
+        <Stack direction="column" spacing={2}>
+          <UserList users={room.users} />
+          <Chat messages={messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
+        </Stack>
       </Grid>
     </Grid>
   );
