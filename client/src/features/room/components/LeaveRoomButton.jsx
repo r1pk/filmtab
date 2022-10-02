@@ -10,9 +10,7 @@ const LeaveRoomButton = forwardRef(({ onLeaveRoom, ...rest }, ref) => {
     const isActionConfirmed = window.confirm('Are you sure you want to leave the room?');
 
     if (isActionConfirmed) {
-      if (onLeaveRoom) {
-        onLeaveRoom();
-      }
+      onLeaveRoom();
     }
   };
 

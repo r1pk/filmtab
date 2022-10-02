@@ -22,9 +22,7 @@ const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
 
   const onSubmit = (data) => {
     if (formState.isValid && formState.isDirty) {
-      if (onSetVideo) {
-        onSetVideo(data);
-      }
+      onSetVideo(data);
     }
   };
 

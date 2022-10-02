@@ -9,7 +9,7 @@ import { options } from '../options/plyr';
 import { buildPlayerSource } from '../utils/buildPlayerSource';
 import { createSubtitleTrack } from '../utils/createSubtitleTrack';
 
-const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncVideoProgressResponse }) => {
+const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncResponse }) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
 
   const theme = useTheme();
@@ -17,18 +17,14 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncVid
 
   useEffect(() => {
     const handleTogglePlayback = () => {
-      if (onTogglePlayback) {
-        onTogglePlayback(plyr.current.currentTime);
-      }
+      onTogglePlayback(plyr.current.currentTime);
     };
 
     const handleSeekVideo = () => {
       const { value, max } = plyr.current.elements.inputs.seek;
       const currentProgress = (value / max) * plyr.current.media.duration;
 
-      if (onSeekVideo) {
-        onSeekVideo(currentProgress);
-      }
+      onSeekVideo(currentProgress);
     };
 
     const setupPlyrPlayer = () => {
@@ -71,13 +67,11 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncVid
 
   useEffect(() => {
     const addVideoSubtitles = () => {
-      if (isPlayerReady && plyr.current.isHTML5) {
-        if (state.subtitles !== '') {
-          const track = createSubtitleTrack(state.subtitles);
+      if (isPlayerReady && plyr.current.isHTML5 && state.subtitles !== '') {
+        const track = createSubtitleTrack(state.subtitles);
 
-          plyr.current.media.appendChild(track);
-          plyr.current.media.textTracks[0].mode = 'hidden';
-        }
+        plyr.current.media.appendChild(track);
+        plyr.current.media.textTracks[0].mode = 'hidden';
       }
     };
 
@@ -111,14 +105,12 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncVid
   useEffect(() => {
     const emitProgressResponse = () => {
       if (requests.syncProgress) {
-        if (onSyncVideoProgressResponse) {
-          onSyncVideoProgressResponse(plyr.current.currentTime);
-        }
+        onSyncResponse(plyr.current.currentTime);
       }
     };
 
     emitProgressResponse();
-  }, [requests.syncProgress, onSyncVideoProgressResponse]);
+  }, [requests.syncProgress, onSyncResponse]);
 
   return <video className="filmtab-player-target" style={{ '--plyr-color-main': theme.palette.primary.main }} />;
 };
@@ -135,7 +127,7 @@ VideoPlayer.propTypes = {
   }),
   onTogglePlayback: PropTypes.func.isRequired,
   onSeekVideo: PropTypes.func.isRequired,
-  onSyncVideoProgressResponse: PropTypes.func.isRequired,
+  onSyncResponse: PropTypes.func.isRequired,
 };
 
 export default VideoPlayer;

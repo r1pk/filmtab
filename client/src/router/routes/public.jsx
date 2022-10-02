@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 
 import { MainLayout } from '@/layouts';
 
-import { RouterParams } from '../components';
+import RouterParams from '../components/RouterParams';
 
 export const publicRoutes = [
   {

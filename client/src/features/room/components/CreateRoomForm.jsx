@@ -21,9 +21,7 @@ const CreateRoomForm = forwardRef(({ onCreateRoom, defaultValues, disableForm, .
 
   const onSubmit = (data) => {
     if (formState.isValid && !disableForm) {
-      if (onCreateRoom) {
-        onCreateRoom(data);
-      }
+      onCreateRoom(data);
     }
   };
 

@@ -22,17 +22,13 @@ const ChatMessageForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref
 
   const onSubmit = (data) => {
     if (formState.isValid) {
-      if (onSendMessage) {
-        onSendMessage(data);
-      }
+      onSendMessage(data);
       reset();
     }
   };
 
   const handleClearChat = () => {
-    if (onClearChat) {
-      onClearChat();
-    }
+    onClearChat();
   };
 
   return (

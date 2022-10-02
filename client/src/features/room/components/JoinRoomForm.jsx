@@ -21,9 +21,7 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, disableRoomIdInput
 
   const onSubmit = (data) => {
     if (formState.isValid && !disableForm) {
-      if (onJoinRoom) {
-        onJoinRoom(data);
-      }
+      onJoinRoom(data);
     }
   };
 
