@@ -49,7 +49,7 @@ class RoomManagementModule extends ManagementModule {
 
   handleLeaveRoomAction = async (action) => {
     try {
-      if (this.client.room) {
+      if (this.client.isRoomMember) {
         await this.client.room.leave();
       }
 

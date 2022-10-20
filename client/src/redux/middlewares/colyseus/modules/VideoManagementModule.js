@@ -21,7 +21,7 @@ class VideoManagementModule extends ManagementModule {
 
   handleSetVideoAction = async (action) => {
     try {
-      if (this.client.room) {
+      if (this.client.isRoomMember) {
         await this.client.room.send('video::set_url', { url: action.payload.url });
       }
 
@@ -33,7 +33,7 @@ class VideoManagementModule extends ManagementModule {
 
   handlePlayVideoAction = async (action) => {
     try {
-      if (this.client.room) {
+      if (this.client.isRoomMember) {
         await this.client.room.send('video::play', { progress: action.payload.progress });
       }
 
@@ -45,7 +45,7 @@ class VideoManagementModule extends ManagementModule {
 
   handlePauseVideoAction = async (action) => {
     try {
-      if (this.client.room) {
+      if (this.client.isRoomMember) {
         await this.client.room.send('video::pause', { progress: action.payload.progress });
       }
 
@@ -57,7 +57,7 @@ class VideoManagementModule extends ManagementModule {
 
   handleToggleVideoPlaybackAction = async (action) => {
     try {
-      if (this.client.room) {
+      if (this.client.isRoomMember) {
         await this.client.room.send('video::toggle_playback', { progress: action.payload.progress });
       }
 
@@ -69,7 +69,7 @@ class VideoManagementModule extends ManagementModule {
 
   handleSeekVideoAction = async (action) => {
     try {
-      if (this.client.room) {
+      if (this.client.isRoomMember) {
         await this.client.room.send('video::seek', { progress: action.payload.progress });
       }
 
@@ -81,7 +81,7 @@ class VideoManagementModule extends ManagementModule {
 
   handleSetVideoSubtitlesAction = async (action) => {
     try {
-      if (this.client.room) {
+      if (this.client.isRoomMember) {
         await this.client.room.send('video::set_subtitles', { subtitles: action.payload.subtitles });
       }
 
@@ -93,7 +93,7 @@ class VideoManagementModule extends ManagementModule {
 
   handleDeleteVideoSubtitlesAction = async (action) => {
     try {
-      if (this.client.room) {
+      if (this.client.isRoomMember) {
         await this.client.room.send('video::delete_subtitles');
       }
 
@@ -105,7 +105,7 @@ class VideoManagementModule extends ManagementModule {
 
   handleRequestSyncVideoProgressAction = async (action) => {
     try {
-      if (this.client.room) {
+      if (this.client.isRoomMember) {
         await this.client.room.send('video::sync_progress_request');
       }
 
@@ -117,7 +117,7 @@ class VideoManagementModule extends ManagementModule {
 
   handleResponseSyncVideoProgressAction = async (action) => {
     try {
-      if (this.client.room) {
+      if (this.client.isRoomMember) {
         await this.client.room.send('video::sync_progress_response', { progress: action.payload.progress });
       }
 

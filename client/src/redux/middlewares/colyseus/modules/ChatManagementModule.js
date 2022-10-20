@@ -11,7 +11,7 @@ class ChatManagementModule extends ManagementModule {
 
   handleSendChatMessageAction = async (action) => {
     try {
-      if (this.client.room) {
+      if (this.client.isRoomMember) {
         await this.client.room.send('chat::message', { content: action.payload.content });
       }
 
