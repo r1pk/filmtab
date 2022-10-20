@@ -19,6 +19,10 @@ class ColyseusClient extends Client {
     });
   }
 
+  get isRoomMember() {
+    return !!this.room;
+  }
+
   addRoomChangeListener(listener) {
     this.__roomChangeListeners__.push(listener);
   }
