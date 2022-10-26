@@ -36,6 +36,14 @@ const Room = () => {
     [dispatch]
   );
 
+  const handleReadyToSeek = useCallback(() => {
+    dispatch((dispatch, getState) => {
+      if (getState().room.users.length >= 2) {
+        return dispatch(colyseus.requestSyncVideoProgress());
+      }
+    });
+  }, [dispatch]);
+
   const handleSyncRequest = () => {
     dispatch(colyseus.requestSyncVideoProgress());
   };
@@ -89,6 +97,7 @@ const Room = () => {
             onTogglePlayback={handleTogglePlayback}
             onSeekVideo={handleSeekVideo}
             onSyncResponse={handleSyncResponse}
+            onReadyToSeek={handleReadyToSeek}
           />
           <Stack direction={{ xs: 'column-reverse', md: 'row-reverse' }} spacing={2}>
             <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />
