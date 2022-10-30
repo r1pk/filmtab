@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 
 import { MainLayout } from '@/layouts';
 
-import RouterParamsProvider from './components/RouterParamsProvider';
+import JoinRoom from '@/pages/JoinRoom';
 
 export const publicRoutes = [
   {
@@ -13,11 +13,16 @@ export const publicRoutes = [
         children: [
           {
             path: ':roomId',
-            element: (
-              <RouterParamsProvider>
-                {(params) => <Navigate to="/join-room" state={{ ...params }} />}
-              </RouterParamsProvider>
-            ),
+            children: [
+              {
+                index: true,
+                element: <Navigate to="./join-room" />,
+              },
+              {
+                path: 'join-room',
+                element: <JoinRoom />,
+              },
+            ],
           },
         ],
       },

@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { Grid, Stack } from '@mui/material';
 
@@ -19,6 +20,7 @@ const Room = () => {
   const messages = useSelector((store) => store.chat.messages);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isRoomMember = Boolean(room.roomId);
 
@@ -74,6 +76,7 @@ const Room = () => {
 
   const handleLeaveRoom = () => {
     dispatch(colyseus.leaveRoom());
+    navigate('/');
   };
 
   const handleLeavePage = (transition) => {
