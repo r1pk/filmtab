@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 import { UploadFileOutlined } from '@mui/icons-material';
 
-import { Button } from '@/components/form';
+import { Button } from '@/components';
 
 const UploadVideoSubtitlesButton = forwardRef(({ onUploadVideoSubtitles, ...rest }, ref) => {
   const handleFile = (event) => {
