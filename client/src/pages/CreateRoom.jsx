@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { Grid } from '@mui/material';
+
 import { CreateRoomForm } from '@/features/room';
 
 import { useDocumentTitle } from '@/hooks';
@@ -33,7 +35,13 @@ const CreateRoom = () => {
 
   useDocumentTitle('Create room');
 
-  return <CreateRoomForm onCreateRoom={handleCreateRoom} disableForm={isFormDisabled || isRoomMember} />;
+  return (
+    <Grid container columns={16} sx={{ justifyContent: 'center', my: 2 }}>
+      <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
+        <CreateRoomForm onCreateRoom={handleCreateRoom} disableForm={isFormDisabled || isRoomMember} />
+      </Grid>
+    </Grid>
+  );
 };
 
 export default CreateRoom;
