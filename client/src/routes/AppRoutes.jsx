@@ -2,9 +2,9 @@ import { useSelector } from 'react-redux';
 
 import { useRoutes } from 'react-router-dom';
 
-import { commonRoutes } from './routes/common';
-import { protectedRoutes } from './routes/protected';
-import { publicRoutes } from './routes/public';
+import { commonRoutes } from './common-routes';
+import { protectedRoutes } from './protected-routes';
+import { publicRoutes } from './public-routes';
 
 const AppRoutes = () => {
   const roomId = useSelector((store) => store.room.roomId);

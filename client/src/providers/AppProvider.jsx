@@ -5,7 +5,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import { theme } from '@/theme';
 
 import { BrowserRouter } from 'react-router-dom';
-import { AppRoutes } from '@/router';
+import { AppRoutes } from '@/routes';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

@@ -58,7 +58,7 @@ public                            # static files
 src
    |-- components                 # grouped components used in the application
    |   |-- group_name             # group of components
-   |   |   |-- index.js           # exports components from the group
+   |   |-- index.js               # exports all available components as named exports
    |-- features                   # feature based modules
    |   |-- feature_name           # feature module
    |   |   |-- components         # components used in the feature
@@ -81,10 +81,11 @@ src
    |   |-- slices                 # redux toolkit store slices
    |   |-- store.js               # initializes redux store
    |   |-- index.js               # exports redux related files from the folder
-   |-- router                     # app router related files
-   |   |-- components             # router related components
-   |   |-- routes                 # routes definitions
-   |   |   |-- index.js           # exports routes from the folder
+   |-- routes                     # routes used in the application
+   |   |-- components             # helper components used in the routes
+   |   |-- common-routes.js       # routes available for all users
+   |   |-- protected-routes.js    # routes available for users that are room members
+   |   |-- public-routes.js       # routes available for users that are not room members
    |   |-- AppRoutes.jsx          # creates routes for the app
    |   |-- index.js               # exports files from the folder
    |-- theme                      # theme related files used in the application
@@ -92,7 +93,7 @@ src
    |   |-- index.js               # exports theme from the folder
    |-- App.jsx                    # main application component
    |-- main.jsx                   # entry point of the application
-.env                       # file containing environment variables
+.env                              # file containing environment variables
 ```
 
 ## Live Demo
