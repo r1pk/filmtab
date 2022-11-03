@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Grid } from '@mui/material';
 
@@ -17,15 +17,9 @@ const JoinRoom = () => {
   const roomId = useSelector((store) => store.room.roomId);
 
   const dispatch = useDispatch();
-  const params = useParams();
   const navigate = useNavigate();
 
   const isRoomMember = Boolean(roomId);
-  const isRoomIdProvided = Boolean(params?.roomId);
-
-  const defaultFormValues = {
-    roomId: isRoomIdProvided ? params.roomId : '',
-  };
 
   const handleJoinRoom = async (data) => {
     setIsFormDisabled(true);
@@ -40,14 +34,9 @@ const JoinRoom = () => {
   useDocumentTitle('Join room');
 
   return (
-    <Grid container columns={16} sx={{ justifyContent: 'center', my: 2 }}>
+    <Grid container columns={16} sx={{ justifyContent: 'center' }}>
       <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
-        <JoinRoomForm
-          onJoinRoom={handleJoinRoom}
-          defaultValues={defaultFormValues}
-          disableForm={isFormDisabled || isRoomMember}
-          disableRoomIdInput={isRoomIdProvided}
-        />
+        <JoinRoomForm onJoinRoom={handleJoinRoom} disableForm={isFormDisabled || isRoomMember} />
       </Grid>
     </Grid>
   );

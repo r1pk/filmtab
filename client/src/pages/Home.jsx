@@ -10,7 +10,7 @@ const Home = () => {
   useDocumentTitle('Home');
 
   return (
-    <Grid container columns={16} sx={{ justifyContent: 'center' }}>
+    <Grid container columns={16} spacing={2} sx={{ justifyContent: 'center' }}>
       <Grid item xs={16} sm={12} md={8} lg={6}>
         <Paper>
           <Typography variant="h1" component="h1" sx={{ p: 2, textAlign: 'center' }}>

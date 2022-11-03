@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 
 import { MainLayout } from '@/layouts';
 
-import JoinRoom from '@/pages/JoinRoom';
+import RoomInvite from '@/pages/RoomInvite';
 
 export const publicRoutes = [
   {
@@ -20,7 +20,7 @@ export const publicRoutes = [
               },
               {
                 path: 'join-room',
-                element: <JoinRoom />,
+                element: <RoomInvite />,
               },
             ],
           },
