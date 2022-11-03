@@ -2,9 +2,17 @@ import { useEffect } from 'react';
 
 export const useDocumentTitle = (title) => {
   useEffect(() => {
-    document.title = `${import.meta.env.VITE_BASE_APP_TITLE} - ${title}`;
+    const setDocumentTitle = () => {
+      document.title = `${import.meta.env.VITE_BASE_APP_TITLE} - ${title}`;
+    };
+
+    setDocumentTitle();
     return () => {
-      document.title = import.meta.env.VITE_BASE_APP_TITLE;
+      const setDefaultDocumentTitle = () => {
+        document.title = import.meta.env.VITE_BASE_APP_TITLE;
+      };
+
+      setDefaultDocumentTitle();
     };
   }, [title]);
 };

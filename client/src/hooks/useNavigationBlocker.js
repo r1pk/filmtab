@@ -6,7 +6,11 @@ export const useNavigationBlocker = (callback, active = true) => {
   const { navigator } = useContext(UNSAFE_NavigationContext);
 
   useEffect(() => {
-    if (active) {
+    const blockNavigation = () => {
+      if (!active) {
+        return null;
+      }
+
       const unblock = navigator.block((transition) => {
         const autoUnblockingTransition = {
           ...transition,
@@ -20,6 +24,8 @@ export const useNavigationBlocker = (callback, active = true) => {
       });
 
       return unblock;
-    }
+    };
+
+    return blockNavigation();
   }, [navigator, callback, active]);
 };
