@@ -5,7 +5,7 @@ import Plyr from 'plyr';
 
 import { useTheme } from '@mui/material';
 
-import { options } from '../options/plyr';
+import { playerOptions } from '../constants/playerOptions';
 import { buildPlayerSource } from '../utils/buildPlayerSource';
 import { createSubtitleTrack } from '../utils/createSubtitleTrack';
 
@@ -32,7 +32,7 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncRes
 
       plyr.current = new Plyr(
         '.filmtab-player-target',
-        Object.assign({}, options, {
+        Object.assign({}, playerOptions, {
           listeners: {
             play: handleTogglePlayback,
             seek: handleSeekVideo,

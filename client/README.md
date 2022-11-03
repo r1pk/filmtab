@@ -63,7 +63,7 @@ src
    |   |-- feature_name           # feature module
    |   |   |-- components         # components used in the feature
    |   |   |-- schemas            # schemas used in the feature forms
-   |   |   |-- options            # options used across the feature
+   |   |   |-- constants          # constants used across the feature
    |   |   |-- utils              # utility functions used in the feature components
    |   |   |-- index.js           # exports components from the feature
    |-- hooks                      # custom hooks used mostly in the page components

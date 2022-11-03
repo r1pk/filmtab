@@ -1,4 +1,4 @@
-export const options = {
+export const playerOptions = {
   ratio: '16:9',
   debug: false,
   autoplay: false,
