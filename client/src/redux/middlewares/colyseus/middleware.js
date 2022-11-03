@@ -17,12 +17,12 @@ export const middleware = (store) => {
     client.addRoomChangeListener(module.handleRoomChange);
   });
 
-  const actions = modules.reduce((actions, module) => ({ ...actions, ...module.getModuleActions() }), {});
+  const availableActions = modules.reduce((actions, module) => ({ ...actions, ...module.getModuleActions() }), {});
 
   return (next) => async (action) => {
-    if (Object.prototype.hasOwnProperty.call(actions, action.type)) {
+    if (Object.prototype.hasOwnProperty.call(availableActions, action.type)) {
       try {
-        const result = await actions[action.type](action);
+        const result = await availableActions[action.type](action);
 
         if (result) {
           return next(result);
