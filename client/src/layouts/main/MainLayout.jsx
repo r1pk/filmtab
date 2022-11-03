@@ -5,7 +5,7 @@ import FixedBackground from './FixedBackground';
 
 const MainLayout = () => {
   return (
-    <Container maxWidth="xl" sx={{ p: 2 }}>
+    <Container maxWidth="xl" sx={{ py: 2 }}>
       <FixedBackground />
       <Outlet />
     </Container>

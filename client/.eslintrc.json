@@ -1,5 +1,5 @@
 {
-  "extends": ["react-app"],
+  "extends": ["react-app", "eslint:recommended"],
   "rules": {
     "indent": ["error", 2],
     "quotes": ["error", "single"],

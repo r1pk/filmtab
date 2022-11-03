@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import thunk from 'redux-thunk';
 
 import room from './slices/room';
 import video from './slices/video';
@@ -12,5 +13,5 @@ export const store = configureStore({
     video: video,
     chat: chat,
   },
-  middleware: [colyseus.middleware],
+  middleware: [thunk, colyseus.middleware],
 });

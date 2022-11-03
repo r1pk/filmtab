@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { Grid, Stack } from '@mui/material';
 
@@ -19,6 +20,7 @@ const Room = () => {
   const messages = useSelector((store) => store.chat.messages);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isRoomMember = Boolean(room.roomId);
 
@@ -35,6 +37,14 @@ const Room = () => {
     },
     [dispatch]
   );
+
+  const handleReadyToSeek = useCallback(() => {
+    dispatch((dispatchAction, getStateFromStore) => {
+      if (getStateFromStore().room.users.length >= 2) {
+        return dispatchAction(colyseus.requestSyncVideoProgress());
+      }
+    });
+  }, [dispatch]);
 
   const handleSyncRequest = () => {
     dispatch(colyseus.requestSyncVideoProgress());
@@ -66,6 +76,7 @@ const Room = () => {
 
   const handleLeaveRoom = () => {
     dispatch(colyseus.leaveRoom());
+    navigate('/');
   };
 
   const handleLeavePage = (transition) => {
@@ -89,6 +100,7 @@ const Room = () => {
             onTogglePlayback={handleTogglePlayback}
             onSeekVideo={handleSeekVideo}
             onSyncResponse={handleSyncResponse}
+            onReadyToSeek={handleReadyToSeek}
           />
           <Stack direction={{ xs: 'column-reverse', md: 'row-reverse' }} spacing={2}>
             <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />

@@ -1,7 +1,9 @@
 import { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
+import { Grid } from '@mui/material';
 
 import { JoinRoomForm } from '@/features/room';
 
@@ -15,14 +17,14 @@ const JoinRoom = () => {
   const roomId = useSelector((store) => store.room.roomId);
 
   const dispatch = useDispatch();
-  const location = useLocation();
+  const params = useParams();
   const navigate = useNavigate();
 
   const isRoomMember = Boolean(roomId);
-  const isRoomIdProvided = Boolean(location.state?.roomId);
+  const isRoomIdProvided = Boolean(params?.roomId);
 
   const defaultFormValues = {
-    roomId: isRoomIdProvided ? location.state.roomId : '',
+    roomId: isRoomIdProvided ? params.roomId : '',
   };
 
   const handleJoinRoom = async (data) => {
@@ -30,9 +32,7 @@ const JoinRoom = () => {
     const result = await dispatch(colyseus.joinRoom({ roomId: data.roomId, username: data.username }));
 
     if (result) {
-      const { roomId } = result.payload;
-
-      navigate(`/rooms/${roomId}`);
+      navigate(`/rooms/${result.payload.roomId}`);
     }
     setIsFormDisabled(false);
   };
@@ -40,12 +40,16 @@ const JoinRoom = () => {
   useDocumentTitle('Join room');
 
   return (
-    <JoinRoomForm
-      onJoinRoom={handleJoinRoom}
-      defaultValues={defaultFormValues}
-      disableForm={isFormDisabled || isRoomMember}
-      disableRoomIdInput={isRoomIdProvided}
-    />
+    <Grid container columns={16} sx={{ justifyContent: 'center', my: 2 }}>
+      <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
+        <JoinRoomForm
+          onJoinRoom={handleJoinRoom}
+          defaultValues={defaultFormValues}
+          disableForm={isFormDisabled || isRoomMember}
+          disableRoomIdInput={isRoomIdProvided}
+        />
+      </Grid>
+    </Grid>
   );
 };
 

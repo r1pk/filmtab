@@ -12,7 +12,7 @@ export const commonRoutes = [
     children: [
       {
         path: '/',
-        element: <Navigate to="/create-room" />,
+        element: <Navigate to="/create-room" replace />,
       },
       {
         element: <Home />,

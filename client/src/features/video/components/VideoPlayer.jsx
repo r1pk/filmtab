@@ -5,11 +5,11 @@ import Plyr from 'plyr';
 
 import { useTheme } from '@mui/material';
 
-import { options } from '../options/plyr';
+import { playerOptions } from '../constants/playerOptions';
 import { buildPlayerSource } from '../utils/buildPlayerSource';
 import { createSubtitleTrack } from '../utils/createSubtitleTrack';
 
-const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncResponse }) => {
+const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncResponse, onReadyToSeek }) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
 
   const theme = useTheme();
@@ -32,7 +32,7 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncRes
 
       plyr.current = new Plyr(
         '.filmtab-player-target',
-        Object.assign({}, options, {
+        Object.assign({}, playerOptions, {
           listeners: {
             play: handleTogglePlayback,
             seek: handleSeekVideo,
@@ -40,6 +40,9 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncRes
         })
       );
       plyr.current.on('ready', () => setIsPlayerReady(true));
+      plyr.current.once('ready', () => {
+        plyr.current.once('playing', onReadyToSeek);
+      });
     };
 
     setupPlyrPlayer();
@@ -51,7 +54,7 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSyncRes
 
       destroyPlyrPlayer();
     };
-  }, [onSeekVideo, onTogglePlayback]);
+  }, [onSeekVideo, onTogglePlayback, onReadyToSeek]);
 
   useEffect(() => {
     const setVideoSource = () => {
@@ -128,6 +131,7 @@ VideoPlayer.propTypes = {
   onTogglePlayback: PropTypes.func.isRequired,
   onSeekVideo: PropTypes.func.isRequired,
   onSyncResponse: PropTypes.func.isRequired,
+  onReadyToSeek: PropTypes.func.isRequired,
 };
 
 export default VideoPlayer;
