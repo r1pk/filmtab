@@ -26,9 +26,7 @@ const CreateRoom = () => {
     const result = await dispatch(colyseus.createRoom({ username: data.username }));
 
     if (result) {
-      const { roomId } = result.payload;
-
-      navigate(`/rooms/${roomId}`);
+      navigate(`/rooms/${result.payload.roomId}`);
     }
     setIsFormDisabled(false);
   };

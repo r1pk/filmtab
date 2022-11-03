@@ -39,9 +39,9 @@ const Room = () => {
   );
 
   const handleReadyToSeek = useCallback(() => {
-    dispatch((dispatch, getState) => {
-      if (getState().room.users.length >= 2) {
-        return dispatch(colyseus.requestSyncVideoProgress());
+    dispatch((dispatchAction, getStateFromStore) => {
+      if (getStateFromStore().room.users.length >= 2) {
+        return dispatchAction(colyseus.requestSyncVideoProgress());
       }
     });
   }, [dispatch]);

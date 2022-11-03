@@ -32,9 +32,7 @@ const JoinRoom = () => {
     const result = await dispatch(colyseus.joinRoom({ roomId: data.roomId, username: data.username }));
 
     if (result) {
-      const { roomId } = result.payload;
-
-      navigate(`/rooms/${roomId}`);
+      navigate(`/rooms/${result.payload.roomId}`);
     }
     setIsFormDisabled(false);
   };
