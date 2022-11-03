@@ -34,7 +34,7 @@ const CreateRoom = () => {
   useDocumentTitle('Create room');
 
   return (
-    <Grid container columns={16} sx={{ justifyContent: 'center', my: 2 }}>
+    <Grid container columns={16} sx={{ justifyContent: 'center' }}>
       <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
         <CreateRoomForm onCreateRoom={handleCreateRoom} disableForm={isFormDisabled || isRoomMember} />
       </Grid>
