@@ -117,14 +117,14 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   {}
   ```
 
-- `video::sync_progress_request` - requests video progress synchronization. This event requires at least one client except the one who sent it to be connected to the room.
+- `video::request_progress` - requests current video progress. This event requires at least one client except the one who sent it to be connected to the room.
   Accepts empty object.
 
   ```
   {}
   ```
 
-- `video::sync_progress_response` - video progress sent to this event will be broadcasted to all clients who requested video progress synchronization with `video::sync_progress_request` event.
+- `video::progress` - video progress sent to this event will be broadcasted to all clients who requested current video progress with `video::request_progress` event.
   Accepts object with `progress` field which is a number with current progress of the video.
 
   ```
@@ -144,17 +144,17 @@ Files outside of `src` directory are mostly configuration files for git, editor 
 
 #### Events emitted by server
 
-- `video::sync_progress_request` - notification that someone requested video progress synchronization.  
-  This event is emitted every time someone requests it with `video::sync_progress_request` event and there is at least one other client connected.
+- `video::request_progress` - notification that someone requested current video progress.  
+  This event is emitted every time someone requests it with `video::request_progress` event and there is at least one other client connected.
   Payload sent with this event is empty object.
 
   ```
   {}
   ```
 
-  Every user that receives this event should respond with `video::sync_progress_response` event.
+  Every user that receives this event should respond with `video::progress` event.
 
-- `video::sync_progress_response` - Sends current progress of the video received from fastest user.  
+- `video::progress` - Sends current progress of the video received from fastest user.  
   Payload sent with this event is object with `progress` field which is a number with current progress of the video.
 
   ```
@@ -163,7 +163,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   }
   ```
 
-  This event is sent only to users that requested current progress with `video::sync_progress_request` event.
+  This event is sent only to users that requested current progress with `video::request_progress` event.
 
 - `chat::message` - Chat message received from other user.  
   Payload sent with this event is object with `id`, `content`, `createdAt`, `author` fields.

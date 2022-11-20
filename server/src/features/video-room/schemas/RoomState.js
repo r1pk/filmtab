@@ -10,7 +10,7 @@ export class RoomState extends Schema {
     this.users = new MapSchema();
     this.video = new Video();
     this.requests = new MapSchema({
-      sync_video_progress: new ArraySchema(),
+      video_progress: new ArraySchema(),
     });
   }
 }
