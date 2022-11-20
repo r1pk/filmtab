@@ -2,13 +2,13 @@ import { Command } from '@colyseus/command';
 
 import { VideoProgress } from '../schemas/VideoProgress.js';
 
-export class NotifySyncVideoProgressRequestors extends Command {
+export class NotifyVideoProgressRequestors extends Command {
   execute({ progress }) {
-    const requestors = this.state.requests.get('sync_video_progress');
+    const requestors = this.state.requests.get('video_progress');
 
     for (const client of this.room.clients) {
       if (requestors.includes(client.sessionId)) {
-        client.send('video::sync_progress_response', new VideoProgress().assign({ progress: progress }));
+        client.send('video::progress', new VideoProgress().assign({ progress: progress }));
       }
     }
   }
