@@ -11,7 +11,7 @@ const initialState = {
     updatedAt: 0,
   },
   requests: {
-    syncProgress: false,
+    videoProgress: false,
   },
 };
 
@@ -19,12 +19,12 @@ const slice = createSlice({
   name: 'video',
   initialState: initialState,
   extraReducers: (builder) => {
-    builder.addCase(colyseus.actions.responseSyncVideoProgress.type, (state) => {
-      state.requests.syncProgress = false;
+    builder.addCase(colyseus.actions.sendVideoProgress.type, (state) => {
+      state.requests.videoProgress = false;
     });
 
-    builder.addCase(colyseus.actions.syncVideoProgressRequested.type, (state) => {
-      state.requests.syncProgress = true;
+    builder.addCase(colyseus.actions.videoProgressRequested.type, (state) => {
+      state.requests.videoProgress = true;
     });
 
     builder.addCase(colyseus.actions.videoStateChanged.type, (state, action) => {

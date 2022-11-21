@@ -7,7 +7,7 @@ import { Grid, Stack } from '@mui/material';
 
 import { UserList, LeaveRoomButton } from '@/features/room';
 import { SetVideoForm, VideoPlayer } from '@/features/video';
-import { UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton, SyncVideoProgressButton } from '@/features/video';
+import { UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton, RequestVideoProgressButton } from '@/features/video';
 import { Chat } from '@/features/chat';
 
 import { useDocumentTitle, useNavigationBlocker } from '@/hooks';
@@ -41,17 +41,17 @@ const Room = () => {
   const handleReadyToSeek = useCallback(() => {
     dispatch((dispatchAction, getStateFromStore) => {
       if (getStateFromStore().room.users.length >= 2) {
-        return dispatchAction(colyseus.requestSyncVideoProgress());
+        return dispatchAction(colyseus.requestVideoProgress());
       }
     });
   }, [dispatch]);
 
-  const handleSyncRequest = () => {
-    dispatch(colyseus.requestSyncVideoProgress());
+  const handleRequestVideoProgress = () => {
+    dispatch(colyseus.requestVideoProgress());
   };
 
-  const handleSyncResponse = (progress) => {
-    dispatch(colyseus.responseSyncVideoProgress({ progress: progress }));
+  const handleSendVideoProgress = (progress) => {
+    dispatch(colyseus.sendVideoProgress({ progress: progress }));
   };
 
   const handleSetVideo = (data) => {
@@ -99,7 +99,7 @@ const Room = () => {
             requests={video.requests}
             onTogglePlayback={handleTogglePlayback}
             onSeekVideo={handleSeekVideo}
-            onSyncResponse={handleSyncResponse}
+            onSendVideoProgress={handleSendVideoProgress}
             onReadyToSeek={handleReadyToSeek}
           />
           <Stack direction={{ xs: 'column-reverse', md: 'row-reverse' }} spacing={2}>
@@ -107,7 +107,7 @@ const Room = () => {
             <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
             <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
             {room.users.length >= 2 && (
-              <SyncVideoProgressButton timeoutTime={60000} onSyncVideoProgress={handleSyncRequest} />
+              <RequestVideoProgressButton timeoutTime={60000} onRequestVideoProgress={handleRequestVideoProgress} />
             )}
           </Stack>
         </Stack>

@@ -14,8 +14,8 @@ export const seekVideo = createAction('colyseus/seekVideo');
 export const setVideoSubtitles = createAction('colyseus/setVideoSubtitles');
 export const deleteVideoSubtitles = createAction('colyseus/deleteVideoSubtitles');
 
-export const requestSyncVideoProgress = createAction('colyseus/requestSyncVideoProgress');
-export const responseSyncVideoProgress = createAction('colyseus/responseSyncVideoProgress');
+export const requestVideoProgress = createAction('colyseus/requestVideoProgress');
+export const sendVideoProgress = createAction('colyseus/sendVideoProgress');
 
 export const sendChatMessage = createAction('colyseus/sendChatMessage');
 
@@ -23,7 +23,7 @@ export const sendChatMessage = createAction('colyseus/sendChatMessage');
 export const userJoined = createAction('colyseus/userJoined');
 export const userLeft = createAction('colyseus/userLeft');
 
-export const syncVideoProgressRequested = createAction('colyseus/syncVideoProgressRequested');
+export const videoProgressRequested = createAction('colyseus/videoProgressRequested');
 export const videoStateChanged = createAction('colyseus/videoStateChanged');
 
 export const chatMessageReceived = createAction('colyseus/chatMessageReceived');

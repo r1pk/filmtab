@@ -5,7 +5,7 @@ import { Sync } from '@mui/icons-material';
 
 import { Button } from '@/components';
 
-const SyncVideoProgressButton = forwardRef(({ onSyncVideoProgress, timeoutTime, ...rest }, ref) => {
+const RequestVideoProgressButton = forwardRef(({ onRequestVideoProgress, timeoutTime, ...rest }, ref) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const timeout = useRef(null);
@@ -18,7 +18,7 @@ const SyncVideoProgressButton = forwardRef(({ onSyncVideoProgress, timeoutTime, 
 
   const handleButtonClick = () => {
     if (!isButtonDisabled) {
-      onSyncVideoProgress();
+      onRequestVideoProgress();
       temporarilyDisableButton();
     }
   };
@@ -40,11 +40,11 @@ const SyncVideoProgressButton = forwardRef(({ onSyncVideoProgress, timeoutTime, 
   );
 });
 
-SyncVideoProgressButton.displayName = 'SyncVideoProgressButton';
+RequestVideoProgressButton.displayName = 'RequestVideoProgressButton';
 
-SyncVideoProgressButton.propTypes = {
-  onSyncVideoProgress: PropTypes.func.isRequired,
+RequestVideoProgressButton.propTypes = {
+  onRequestVideoProgress: PropTypes.func.isRequired,
   timeoutTime: PropTypes.number.isRequired,
 };
 
-export default SyncVideoProgressButton;
+export default RequestVideoProgressButton;
