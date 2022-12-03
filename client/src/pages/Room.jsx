@@ -102,13 +102,13 @@ const Room = () => {
             onSendVideoProgress={handleSendVideoProgress}
             onReadyToSeek={handleReadyToSeek}
           />
-          <Stack direction={{ xs: 'column-reverse', md: 'row-reverse' }} spacing={2}>
-            <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />
-            <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
-            <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
+          <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ justifyContent: 'flex-end' }}>
             {room.users.length >= 2 && (
               <RequestVideoProgressButton timeoutTime={60000} onRequestVideoProgress={handleRequestVideoProgress} />
             )}
+            <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
+            <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
+            <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />
           </Stack>
         </Stack>
       </Grid>
