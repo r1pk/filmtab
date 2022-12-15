@@ -13,9 +13,9 @@ export const middleware = (store) => {
     new ChatManagementModule(client, store),
   ];
 
-  modules.forEach((module) => {
-    client.addRoomChangeListener(module.handleRoomChange);
-  });
+  client.onRoomChange = (room) => {
+    modules.forEach((module) => module.handleRoomChange(room));
+  };
 
   const availableActions = modules.reduce((actions, module) => ({ ...actions, ...module.getModuleActions() }), {});
 
