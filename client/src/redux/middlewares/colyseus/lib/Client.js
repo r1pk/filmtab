@@ -1,30 +1,24 @@
 import { Client } from 'colyseus.js';
 
 class ColyseusClient extends Client {
-  constructor(endpoint) {
-    super(endpoint);
+  #room = null;
+  #onRoomChange = () => null;
 
-    this.__room__ = null;
-    this.__roomChangeListeners__ = [];
+  set room(room) {
+    this.#room = room;
+    this.#onRoomChange(this.#room);
+  }
+
+  set onRoomChange(callback) {
+    this.#onRoomChange = callback;
   }
 
   get room() {
-    return this.__room__;
-  }
-
-  set room(room) {
-    this.__room__ = room;
-    this.__roomChangeListeners__.forEach((listener) => {
-      listener(room);
-    });
+    return this.#room;
   }
 
   get isRoomMember() {
-    return !!this.room;
-  }
-
-  addRoomChangeListener(listener) {
-    this.__roomChangeListeners__.push(listener);
+    return Boolean(this.room);
   }
 
   async create(roomName, options, rootSchema) {

@@ -72,8 +72,6 @@ src
    |   |-- layout_name            # layout
    |   |-- index.js               # exports layouts from the folder
    |-- pages                      # page components
-   |-- providers                  # providers used to wrap the application
-   |   |-- index.js               # exports providers from the folder
    |-- redux                      # redux related files
    |   |-- middlewares            # middlewares used in the redux store
    |   |   |-- middleware_name    # middleware
@@ -83,10 +81,10 @@ src
    |   |-- index.js               # exports redux related files from the folder
    |-- routes                     # routes used in the application
    |   |-- components             # helper components used in the routes
-   |   |-- common-routes.js       # routes available for all users
-   |   |-- protected-routes.js    # routes available for users that are room members
-   |   |-- public-routes.js       # routes available for users that are not room members
-   |   |-- AppRoutes.jsx          # creates routes for the app
+   |   |-- common-routes.jsx      # routes available for all users
+   |   |-- protected-routes.jsx   # routes available for users that are room members
+   |   |-- public-routes.jsx      # routes available for users that are not room members
+   |   |-- Routes.jsx             # creates routes for the app
    |   |-- index.js               # exports files from the folder
    |-- theme                      # theme related files used in the application
    |   |-- theme.js               # theme object used in the application

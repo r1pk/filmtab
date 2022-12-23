@@ -6,7 +6,7 @@ import { commonRoutes } from './common-routes';
 import { protectedRoutes } from './protected-routes';
 import { publicRoutes } from './public-routes';
 
-const AppRoutes = () => {
+const Routes = () => {
   const roomId = useSelector((store) => store.room.roomId);
 
   const isRoomMember = Boolean(roomId);
@@ -17,4 +17,4 @@ const AppRoutes = () => {
   return element;
 };
 
-export default AppRoutes;
+export default Routes;

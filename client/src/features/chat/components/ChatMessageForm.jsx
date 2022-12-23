@@ -40,15 +40,15 @@ const ChatMessageForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref
           <TextField label="Message" variant="outlined" error={Boolean(fieldState.error)} fullWidth {...field} />
         )}
       />
-      <Stack direction="row-reverse" spacing={1} sx={{ mt: 1 }}>
-        <Button type="submit" disabled={!formState.isValid}>
-          Send
-        </Button>
+      <Stack direction="row" spacing={1} sx={{ mt: 1, justifyContent: 'flex-end' }}>
         <Tooltip title="Clear chat messages" placement="left">
           <IconButton onClick={handleClearChat}>
             <DeleteSweepOutlined />
           </IconButton>
         </Tooltip>
+        <Button type="submit" disabled={!formState.isValid}>
+          Send
+        </Button>
       </Stack>
     </Box>
   );

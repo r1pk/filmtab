@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 
 import Plyr from 'plyr';
 
-import { useTheme } from '@mui/material';
+import { GlobalStyles, useTheme } from '@mui/material';
 
 import { playerOptions } from '../constants/playerOptions';
 import { buildPlayerSource } from '../utils/buildPlayerSource';
@@ -115,7 +115,22 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSendVid
     sendVideoProgress();
   }, [requests.videoProgress, onSendVideoProgress]);
 
-  return <video className="filmtab-player-target" style={{ '--plyr-color-main': theme.palette.primary.main }} />;
+  return (
+    <>
+      <GlobalStyles
+        styles={{
+          '.plyr__caption': {
+            background: 'none',
+            fontFamily: 'Arial, Helvetica Neue, Helvetica, sans-serif',
+            fontSize: '1.8rem',
+            fontWeight: '600',
+            textShadow: '-1px -1px #000, 1px -1px #000, -1px 1px #000, 1px 1px #000, 0 0 0.5rem #000',
+          },
+        }}
+      />
+      <video className="filmtab-player-target" style={{ '--plyr-color-main': theme.palette.primary.main }} />
+    </>
+  );
 };
 
 VideoPlayer.propTypes = {
