@@ -2,7 +2,7 @@
   "type": "module",
   "name": "filmtab-server",
   "description": "Backend for FilmTab application written in Node.js using Colyseus.js framework.",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "./src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -27,6 +27,7 @@
     "@colyseus/command": "^0.2.1",
     "@colyseus/monitor": "^0.14.22",
     "colyseus": "^0.14.9",
+    "express-basic-auth": "^1.2.1",
     "joi": "^17.6.0",
     "nanoid": "^4.0.0",
     "node-webvtt": "^1.9.4",
