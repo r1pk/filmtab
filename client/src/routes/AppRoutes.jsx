@@ -17,6 +17,7 @@ const AppRoutes = () => {
 
   return (
     <Routes>
+      {/* Common routes */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Navigate to="/create-room" replace />} />
 
@@ -24,18 +25,32 @@ const AppRoutes = () => {
           <Route path="create-room" element={<CreateRoomPage />} />
           <Route path="join-room" element={<JoinRoomPage />} />
         </Route>
-
-        <Route path="rooms">
-          {isRoomMember && <Route path=":roomId" element={<RoomPage />} />}
-
-          {!isRoomMember && (
-            <Route path=":roomId">
-              <Route index element={<Navigate to="./join-room" />} />
-              <Route path="join-room" element={<RoomInvitePage />} />
-            </Route>
-          )}
-        </Route>
       </Route>
+
+      {/* Protected routes */}
+      {isRoomMember && (
+        <>
+          <Route element={<MainLayout />}>
+            <Route path="rooms">
+              <Route path=":roomId" element={<RoomPage />} />
+            </Route>
+          </Route>
+        </>
+      )}
+
+      {/* Public routes */}
+      {!isRoomMember && (
+        <>
+          <Route element={<MainLayout />}>
+            <Route path="rooms">
+              <Route path=":roomId">
+                <Route index element={<Navigate to="./join-room" />} />
+                <Route path="join-room" element={<RoomInvitePage />} />
+              </Route>
+            </Route>
+          </Route>
+        </>
+      )}
     </Routes>
   );
 };
