@@ -4,7 +4,7 @@ import { Grid, Paper, Typography, Tabs, Tab } from '@mui/material';
 
 import { useDocumentTitle } from '@/hooks';
 
-const Home = () => {
+const HomePage = () => {
   const location = useLocation();
 
   useDocumentTitle('Home');
@@ -31,4 +31,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

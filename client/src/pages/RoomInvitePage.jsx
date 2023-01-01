@@ -11,7 +11,7 @@ import { useDocumentTitle } from '@/hooks';
 
 import { colyseus } from '@/redux';
 
-const RoomInvite = () => {
+const RoomInvitePage = () => {
   const [isFormDisabled, setIsFormDisabled] = useState(false);
 
   const roomId = useSelector((store) => store.room.roomId);
@@ -68,4 +68,4 @@ const RoomInvite = () => {
   );
 };
 
-export default RoomInvite;
+export default RoomInvitePage;

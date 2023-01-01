@@ -14,7 +14,7 @@ import { useDocumentTitle, useNavigationBlocker } from '@/hooks';
 
 import { colyseus, chat } from '@/redux';
 
-const Room = () => {
+const RoomPage = () => {
   const video = useSelector((store) => store.video);
   const room = useSelector((store) => store.room);
   const messages = useSelector((store) => store.chat.messages);
@@ -122,4 +122,4 @@ const Room = () => {
   );
 };
 
-export default Room;
+export default RoomPage;

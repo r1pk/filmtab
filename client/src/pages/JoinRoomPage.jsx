@@ -11,7 +11,7 @@ import { useDocumentTitle } from '@/hooks';
 
 import { colyseus } from '@/redux';
 
-const JoinRoom = () => {
+const JoinRoomPage = () => {
   const [isFormDisabled, setIsFormDisabled] = useState(false);
 
   const roomId = useSelector((store) => store.room.roomId);
@@ -42,4 +42,4 @@ const JoinRoom = () => {
   );
 };
 
-export default JoinRoom;
+export default JoinRoomPage;
