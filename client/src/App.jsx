@@ -5,7 +5,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import { theme } from '@/theme';
 
 import { BrowserRouter } from 'react-router-dom';
-import { Routes } from '@/routes';
+import { AppRoutes } from '@/routes';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,7 +16,7 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
-          <Routes />
+          <AppRoutes />
         </BrowserRouter>
         <ToastContainer theme="dark" position={toast.POSITION.BOTTOM_LEFT} />
       </ThemeProvider>
