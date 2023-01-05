@@ -57,38 +57,30 @@ npm run build
 public                            # static files
 src
    |-- components                 # grouped components used in the application
-   |   |-- group_name             # group of components
-   |   |-- index.js               # exports all available components as named exports
+   |   |-- group                  # group of components
    |-- features                   # feature based modules
-   |   |-- feature_name           # feature module
+   |   |-- feature                # feature module
    |   |   |-- components         # components used in the feature
    |   |   |-- schemas            # schemas used in the feature forms
    |   |   |-- constants          # constants used across the feature
    |   |   |-- utils              # utility functions used in the feature components
    |   |   |-- index.js           # exports components from the feature
    |-- hooks                      # custom hooks used mostly in the page components
-   |   |-- index.js               # exports hooks from the folder
    |-- layouts                    # app layouts
-   |   |-- layout_name            # layout
-   |   |-- index.js               # exports layouts from the folder
+   |   |-- layout                 # single layout
+   |   |   |-- index.js           # exports main layout component from the folder
    |-- pages                      # page components
    |-- redux                      # redux related files
    |   |-- middlewares            # middlewares used in the redux store
-   |   |   |-- middleware_name    # middleware
+   |   |   |-- middleware         # middleware
    |   |   |  |-- index.js        # exports middleware and actions from the folder
    |   |-- slices                 # redux toolkit store slices
    |   |-- store.js               # initializes redux store
    |   |-- index.js               # exports redux related files from the folder
    |-- routes                     # routes used in the application
-   |   |-- components             # helper components used in the routes
-   |   |-- common-routes.jsx      # routes available for all users
-   |   |-- protected-routes.jsx   # routes available for users that are room members
-   |   |-- public-routes.jsx      # routes available for users that are not room members
-   |   |-- Routes.jsx             # creates routes for the app
-   |   |-- index.js               # exports files from the folder
+   |   |-- AppRoutes.jsx          # available routes in the application
    |-- theme                      # theme related files used in the application
-   |   |-- theme.js               # theme object used in the application
-   |   |-- index.js               # exports theme from the folder
+   |   |-- darkTheme.js           # dark theme object used in the application
    |-- App.jsx                    # main application component
    |-- main.jsx                   # entry point of the application
 .env                              # file containing environment variables

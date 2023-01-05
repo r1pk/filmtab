@@ -4,7 +4,8 @@ import { forwardRef, useEffect } from 'react';
 import { Card, CardActions, Stack } from '@mui/material';
 import { SendOutlined } from '@mui/icons-material';
 
-import { TextField, Button } from '@/components';
+import TextField from '@/components/form/TextField';
+import Button from '@/components/form/Button';
 
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';

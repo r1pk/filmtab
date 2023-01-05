@@ -7,11 +7,11 @@ import { Grid, Paper, Typography, Link as MUILink } from '@mui/material';
 
 import { JoinRoomForm } from '@/features/room';
 
-import { useDocumentTitle } from '@/hooks';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 import { colyseus } from '@/redux';
 
-const RoomInvite = () => {
+const RoomInvitePage = () => {
   const [isFormDisabled, setIsFormDisabled] = useState(false);
 
   const roomId = useSelector((store) => store.room.roomId);
@@ -68,4 +68,4 @@ const RoomInvite = () => {
   );
 };
 
-export default RoomInvite;
+export default RoomInvitePage;

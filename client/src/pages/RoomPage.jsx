@@ -10,11 +10,12 @@ import { SetVideoForm, VideoPlayer } from '@/features/video';
 import { UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton, RequestVideoProgressButton } from '@/features/video';
 import { Chat } from '@/features/chat';
 
-import { useDocumentTitle, useNavigationBlocker } from '@/hooks';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { useNavigationBlocker } from '@/hooks/useNavigationBlocker';
 
 import { colyseus, chat } from '@/redux';
 
-const Room = () => {
+const RoomPage = () => {
   const video = useSelector((store) => store.video);
   const room = useSelector((store) => store.room);
   const messages = useSelector((store) => store.chat.messages);
@@ -122,4 +123,4 @@ const Room = () => {
   );
 };
 
-export default Room;
+export default RoomPage;

@@ -4,7 +4,9 @@ import { forwardRef } from 'react';
 import { Box, Stack, Tooltip } from '@mui/material';
 import { DeleteSweepOutlined } from '@mui/icons-material';
 
-import { TextField, Button, IconButton } from '@/components';
+import TextField from '@/components/form/TextField';
+import Button from '@/components/form/Button';
+import IconButton from '@/components/form/IconButton';
 
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
