@@ -19,7 +19,7 @@ const AppRoutes = () => {
     <Routes>
       {/* Common routes */}
       <Route element={<MainLayout />}>
-        <Route path="/" element={<Navigate to="/create-room" replace />} />
+        <Route index element={<Navigate to="create-room" replace />} />
 
         <Route element={<HomePage />}>
           <Route path="create-room" element={<CreateRoomPage />} />
@@ -44,7 +44,7 @@ const AppRoutes = () => {
           <Route element={<MainLayout />}>
             <Route path="rooms">
               <Route path=":roomId">
-                <Route index element={<Navigate to="./join-room" />} />
+                <Route index element={<Navigate to="join-room" />} />
                 <Route path="join-room" element={<RoomInvitePage />} />
               </Route>
             </Route>
