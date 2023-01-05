@@ -2,7 +2,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 
 import { Grid, Paper, Typography, Tabs, Tab } from '@mui/material';
 
-import { useDocumentTitle } from '@/hooks';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 const HomePage = () => {
   const location = useLocation();

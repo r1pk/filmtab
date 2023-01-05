@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { DeleteOutline } from '@mui/icons-material';
 
-import { Button } from '@/components';
+import Button from '@/components/form/Button';
 
 const DeleteVideoSubtitlesButton = forwardRef(({ onDeleteVideoSubtitles, ...rest }, ref) => {
   const handleButtonClick = () => {

@@ -7,7 +7,7 @@ import { Grid, Paper, Typography, Link as MUILink } from '@mui/material';
 
 import { JoinRoomForm } from '@/features/room';
 
-import { useDocumentTitle } from '@/hooks';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 import { colyseus } from '@/redux';
 

@@ -3,7 +3,8 @@ import { forwardRef } from 'react';
 
 import { Card, CardHeader, CardContent, CardActions, Divider } from '@mui/material';
 
-import { TextField, Button } from '@/components';
+import TextField from '@/components/form/TextField';
+import Button from '@/components/form/Button';
 
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';

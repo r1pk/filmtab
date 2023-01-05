@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 
 import { Sync } from '@mui/icons-material';
 
-import { Button } from '@/components';
+import Button from '@/components/form/Button';
 
 const RequestVideoProgressButton = forwardRef(({ onRequestVideoProgress, timeoutTime, ...rest }, ref) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);

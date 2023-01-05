@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { ExitToAppOutlined } from '@mui/icons-material';
 
-import { Button } from '@/components';
+import Button from '@/components/form/Button';
 
 const LeaveRoomButton = forwardRef(({ onLeaveRoom, ...rest }, ref) => {
   const handleButtonClick = () => {
