@@ -11,12 +11,12 @@ import { joiResolver } from '@hookform/resolvers/joi';
 
 import { JoinRoomFormSchema } from '../schemas/JoinRoomFormSchema';
 
-import { createUsername } from '../utils/createUsername';
+import { createRandomUsername } from '../utils/createRandomUsername';
 
 const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, disableRoomIdInput, disableForm, ...rest }, ref) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
-    defaultValues: Object.assign({}, { roomId: '', username: createUsername() }, defaultValues),
+    defaultValues: Object.assign({}, { roomId: '', username: createRandomUsername() }, defaultValues),
     resolver: joiResolver(JoinRoomFormSchema),
   });
 
