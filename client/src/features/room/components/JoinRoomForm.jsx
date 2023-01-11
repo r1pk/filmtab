@@ -12,16 +12,21 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { JoinRoomFormSchema } from '../schemas/JoinRoomFormSchema';
 
 import { createRandomUsername } from '../utils/createRandomUsername';
+import { restoreLastUsername } from '../utils/restoreLastUsername';
+import { saveUsername } from '../utils/saveUsername';
 
 const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, disableRoomIdInput, disableForm, ...rest }, ref) => {
+  const suggestedUsername = restoreLastUsername() || createRandomUsername();
+
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
-    defaultValues: Object.assign({}, { roomId: '', username: createRandomUsername() }, defaultValues),
+    defaultValues: Object.assign({}, { roomId: '', username: suggestedUsername }, defaultValues),
     resolver: joiResolver(JoinRoomFormSchema),
   });
 
   const onSubmit = (data) => {
     if (formState.isValid && !disableForm) {
+      saveUsername(data.username);
       onJoinRoom(data);
     }
   };
