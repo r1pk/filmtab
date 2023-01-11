@@ -1,6 +1,6 @@
 import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
-export const createUsername = () => {
+export const createRandomUsername = () => {
   return uniqueNamesGenerator({
     style: 'capital',
     separator: '',
