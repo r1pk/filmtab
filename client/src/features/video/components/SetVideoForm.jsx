@@ -34,7 +34,7 @@ const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
   return (
     <Card component="form" onSubmit={handleSubmit(onSubmit)} ref={ref} {...rest}>
       <CardActions>
-        <Stack direction="row" spacing={2} sx={{ width: 1, alignItems: 'center' }}>
+        <Stack direction="row" spacing={1} sx={{ width: 1, alignItems: 'center' }}>
           <Controller
             name="url"
             control={control}

@@ -42,7 +42,7 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, disableRoomIdInput
       />
       <Divider />
       <CardContent>
-        <Stack direction="column" spacing={2}>
+        <Stack direction="column" spacing={1}>
           <Controller
             name="roomId"
             control={control}

@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Grid, Stack } from '@mui/material';
+import { Grid, Stack, Paper, Box } from '@mui/material';
 
 import { UserList, LeaveRoomButton } from '@/features/room';
 import { SetVideoForm, VideoPlayer } from '@/features/video';
@@ -95,22 +95,26 @@ const RoomPage = () => {
       </Grid>
       <Grid item xs={16} lg={12}>
         <Stack direction="column" spacing={2}>
-          <VideoPlayer
-            state={video.player}
-            requests={video.requests}
-            onTogglePlayback={handleTogglePlayback}
-            onSeekVideo={handleSeekVideo}
-            onSendVideoProgress={handleSendVideoProgress}
-            onReadyToSeek={handleReadyToSeek}
-          />
-          <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ justifyContent: 'flex-end' }}>
-            {room.users.length >= 2 && (
-              <RequestVideoProgressButton timeoutTime={60000} onRequestVideoProgress={handleRequestVideoProgress} />
-            )}
-            <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
-            <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
+          <Paper>
+            <VideoPlayer
+              state={video.player}
+              requests={video.requests}
+              onTogglePlayback={handleTogglePlayback}
+              onSeekVideo={handleSeekVideo}
+              onSendVideoProgress={handleSendVideoProgress}
+              onReadyToSeek={handleReadyToSeek}
+            />
+            <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} sx={{ m: 1, justifyContent: 'flex-end' }}>
+              {room.users.length >= 2 && (
+                <RequestVideoProgressButton timeoutTime={60000} onRequestVideoProgress={handleRequestVideoProgress} />
+              )}
+              <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
+              <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
+            </Stack>
+          </Paper>
+          <Box sx={{ alignSelf: 'flex-end' }}>
             <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />
-          </Stack>
+          </Box>
         </Stack>
       </Grid>
       <Grid item xs={16} lg={4}>
