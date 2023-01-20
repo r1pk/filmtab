@@ -5,10 +5,10 @@ Filmtab-client is a responsive application written in React which uses tools suc
 ## Screenshots
 
 Home page
-![Home page](https://i.imgur.com/llfpVYi.png)
+![Home page](https://i.imgur.com/iTVzEpp.png)
 
 Room page with playing video
-![Room page](https://i.imgur.com/0vvlfpo.png)
+![Room page](https://i.imgur.com/ipwe2sw.png)
 
 ## Pre-requisites
 
@@ -33,8 +33,10 @@ npm install
 Before running the application, configure the environment variables to provide the application with [server](https://github.com/r1pk/filmtab-server) address
 
 ```env
-VITE_BASE_APP_TITLE=FilmTab   # Application title used as a prefix for the document title
-VITE_COLYSEUS_URL=            # Colyseus server address
+VITE_BASE_APP_TITLE=FilmTab              # Application title used as a prefix for the document title
+VITE_COLYSEUS_URL=                       # Colyseus server address
+
+VITE_USERNAME_LOCALSTORAGE_KEY=username  # Local storage key used to store username
 ```
 
 Run the app in development mode

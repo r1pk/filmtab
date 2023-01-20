@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 
-import { Card, CardHeader, CardContent, CardActions, Divider } from '@mui/material';
+import { Card, CardHeader, CardContent, CardActions, Divider, Stack } from '@mui/material';
 
 import TextField from '@/components/form/TextField';
+import FormControlLabel from '@/components/form/FormControlLabel';
+import Checkbox from '@/components/form/Checkbox';
 import Button from '@/components/form/Button';
 
 import { Controller, useForm } from 'react-hook-form';
@@ -11,22 +13,26 @@ import { joiResolver } from '@hookform/resolvers/joi';
 
 import { CreateRoomFormSchema } from '../schemas/CreateRoomFormSchema';
 
-import { createRandomUsername } from '../utils/createRandomUsername';
-import { restoreLastUsername } from '../utils/restoreLastUsername';
-import { saveUsername } from '../utils/saveUsername';
+import { usernameManager } from '../utils/usernameManager';
 
-const CreateRoomForm = forwardRef(({ onCreateRoom, defaultValues, disableForm, ...rest }, ref) => {
-  const suggestedUsername = restoreLastUsername() || createRandomUsername();
-
+const CreateRoomForm = forwardRef(({ onCreateRoom, disableForm, ...rest }, ref) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
-    defaultValues: Object.assign({}, { username: suggestedUsername }, defaultValues),
+    defaultValues: {
+      username: usernameManager.getRecommendedUsername(),
+      rememberUsername: usernameManager.isUsernameAlreadySaved(),
+    },
     resolver: joiResolver(CreateRoomFormSchema),
   });
 
   const onSubmit = (data) => {
     if (formState.isValid && !disableForm) {
-      saveUsername(data.username);
+      if (data.rememberUsername) {
+        usernameManager.saveUsername(data.username);
+      } else {
+        usernameManager.removeSavedUsername();
+      }
+
       onCreateRoom(data);
     }
   };
@@ -42,19 +48,31 @@ const CreateRoomForm = forwardRef(({ onCreateRoom, defaultValues, disableForm, .
       />
       <Divider />
       <CardContent>
-        <Controller
-          name="username"
-          control={control}
-          render={({ field, fieldState }) => (
-            <TextField
-              label="Username"
-              error={Boolean(fieldState.error)}
-              helperText={fieldState.error?.message}
-              fullWidth
-              {...field}
-            />
-          )}
-        />
+        <Stack direction="column" spacing={1}>
+          <Controller
+            name="username"
+            control={control}
+            render={({ field, fieldState }) => (
+              <TextField
+                label="Username"
+                error={Boolean(fieldState.error)}
+                helperText={fieldState.error?.message}
+                fullWidth
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name="rememberUsername"
+            control={control}
+            render={({ field }) => (
+              <FormControlLabel
+                label="Remember Username"
+                control={<Checkbox checked={field.value} sx={{ p: 0, mr: 1 }} {...field} />}
+              />
+            )}
+          />
+        </Stack>
       </CardContent>
       <CardActions>
         <Button type="submit" disabled={!formState.isValid || disableForm} fullWidth>
@@ -69,9 +87,6 @@ CreateRoomForm.displayName = 'CreateRoomForm';
 
 CreateRoomForm.propTypes = {
   onCreateRoom: PropTypes.func.isRequired,
-  defaultValues: PropTypes.shape({
-    username: PropTypes.string,
-  }),
   disableForm: PropTypes.bool,
 };
 

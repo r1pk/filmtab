@@ -21,11 +21,6 @@ const RoomInvitePage = () => {
   const navigate = useNavigate();
 
   const isRoomMember = Boolean(roomId);
-  const isRoomIdProvided = Boolean(params?.roomId);
-
-  const defaultFormValues = {
-    roomId: isRoomIdProvided ? params.roomId : '',
-  };
 
   const handleJoinRoom = async (data) => {
     setIsFormDisabled(true);
@@ -37,7 +32,7 @@ const RoomInvitePage = () => {
     setIsFormDisabled(false);
   };
 
-  useDocumentTitle(`Join room ${isRoomIdProvided ? `[${params.roomId}]` : ''}`);
+  useDocumentTitle(`Join room [${params.roomId}]`);
 
   return (
     <Grid container columns={16} spacing={2} sx={{ justifyContent: 'center' }}>
@@ -56,9 +51,8 @@ const RoomInvitePage = () => {
       <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
         <JoinRoomForm
           onJoinRoom={handleJoinRoom}
-          defaultValues={defaultFormValues}
+          roomId={params?.roomId}
           disableForm={isFormDisabled || isRoomMember}
-          disableRoomIdInput={isRoomIdProvided}
         />
         <MUILink to="/" variant="body2" sx={{ display: 'block', textAlign: 'center', my: 2 }} component={Link}>
           Back to Home
