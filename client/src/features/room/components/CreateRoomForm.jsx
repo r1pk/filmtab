@@ -15,12 +15,14 @@ import { createRandomUsername } from '../utils/createRandomUsername';
 import { restoreLastUsername } from '../utils/restoreLastUsername';
 import { saveUsername } from '../utils/saveUsername';
 
-const CreateRoomForm = forwardRef(({ onCreateRoom, defaultValues, disableForm, ...rest }, ref) => {
+const CreateRoomForm = forwardRef(({ onCreateRoom, disableForm, ...rest }, ref) => {
   const suggestedUsername = restoreLastUsername() || createRandomUsername();
 
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
-    defaultValues: Object.assign({}, { username: suggestedUsername }, defaultValues),
+    defaultValues: {
+      username: suggestedUsername,
+    },
     resolver: joiResolver(CreateRoomFormSchema),
   });
 
@@ -69,9 +71,6 @@ CreateRoomForm.displayName = 'CreateRoomForm';
 
 CreateRoomForm.propTypes = {
   onCreateRoom: PropTypes.func.isRequired,
-  defaultValues: PropTypes.shape({
-    username: PropTypes.string,
-  }),
   disableForm: PropTypes.bool,
 };
 

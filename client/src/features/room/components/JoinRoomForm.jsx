@@ -15,12 +15,15 @@ import { createRandomUsername } from '../utils/createRandomUsername';
 import { restoreLastUsername } from '../utils/restoreLastUsername';
 import { saveUsername } from '../utils/saveUsername';
 
-const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, disableRoomIdInput, disableForm, ...rest }, ref) => {
+const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, disableForm, ...rest }, ref) => {
   const suggestedUsername = restoreLastUsername() || createRandomUsername();
 
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
-    defaultValues: Object.assign({}, { roomId: '', username: suggestedUsername }, defaultValues),
+    defaultValues: {
+      roomId: roomId || '',
+      username: suggestedUsername,
+    },
     resolver: joiResolver(JoinRoomFormSchema),
   });
 
@@ -51,7 +54,7 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, defaultValues, disableRoomIdInput
                 label="Room ID"
                 error={Boolean(fieldState.error)}
                 helperText={fieldState.error?.message}
-                disabled={disableRoomIdInput}
+                disabled={Boolean(roomId)}
                 fullWidth
                 {...field}
               />
@@ -85,11 +88,7 @@ JoinRoomForm.displayName = 'JoinRoomForm';
 
 JoinRoomForm.propTypes = {
   onJoinRoom: PropTypes.func.isRequired,
-  defaultValues: PropTypes.shape({
-    roomId: PropTypes.string,
-    username: PropTypes.string,
-  }),
-  disableRoomIdInput: PropTypes.bool,
+  roomId: PropTypes.string,
   disableForm: PropTypes.bool,
 };
 
