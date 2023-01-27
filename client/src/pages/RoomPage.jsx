@@ -6,8 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Grid, Stack, Paper, Box } from '@mui/material';
 
 import { UserList, LeaveRoomButton } from '@/features/room';
-import { SetVideoForm, VideoPlayer } from '@/features/video';
-import { UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton, RequestVideoProgressButton } from '@/features/video';
+import { SetVideoForm, VideoPlayer, UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton } from '@/features/video';
 import { Chat } from '@/features/chat';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
@@ -46,10 +45,6 @@ const RoomPage = () => {
       }
     });
   }, [dispatch]);
-
-  const handleRequestVideoProgress = () => {
-    dispatch(colyseus.requestVideoProgress());
-  };
 
   const handleSendVideoProgress = (progress) => {
     dispatch(colyseus.sendVideoProgress({ progress: progress }));
@@ -105,9 +100,6 @@ const RoomPage = () => {
               onReadyToSeek={handleReadyToSeek}
             />
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} sx={{ m: 1, justifyContent: 'flex-end' }}>
-              {room.users.length >= 2 && (
-                <RequestVideoProgressButton timeoutTime={60000} onRequestVideoProgress={handleRequestVideoProgress} />
-              )}
               <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
               <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
             </Stack>
