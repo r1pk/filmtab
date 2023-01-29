@@ -34,7 +34,7 @@ const CreateRoomPage = () => {
 
   return (
     <Grid container columns={16} sx={{ justifyContent: 'center' }}>
-      <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
+      <Grid item xs={12} sm={8} md={6} lg={4}>
         <CreateRoomForm onCreateRoom={handleCreateRoom} />
       </Grid>
     </Grid>

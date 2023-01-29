@@ -47,7 +47,7 @@ const RoomInvitePage = () => {
         </Grid>
       </Grid>
 
-      <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
+      <Grid item xs={12} sm={8} md={6} lg={4}>
         <JoinRoomForm onJoinRoom={handleJoinRoom} roomId={params?.roomId} />
         <MUILink to="/" variant="body2" sx={{ display: 'block', textAlign: 'center', my: 2 }} component={Link}>
           Back to Home
