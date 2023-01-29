@@ -32,15 +32,15 @@ npm start
 
 ```
 src
-  |-- features            # contains all featured room types
-  |  |-- room-type        # contains all files related to room type
-  |  |  |-- classes       # contains all classes used in given room
-  |  |  |-- commands      # contains all commands related to room type
-  |  |  |-- schemas       # contains all schemas for room type
-  |  |  |-- index.js      # contains room class export
-  |-- arena.config.js     # contains all room definitions and server options
-  |-- logger.js           # contains logger config
-  |-- index.js            # contains server initialization
+  |-- features            # available room types
+  |  |-- room-type        # room directory
+  |  |  |-- classes       # classes related to room (mostly room classes)
+  |  |  |-- commands      # commands used by given room
+  |  |  |-- schemas       # schemas used by given room
+  |  |  |-- index.js      # exports main room class
+  |-- arena.config.js     # contains and exports created arena config
+  |-- logger.js           # logger configuration
+  |-- index.js            # server entry point
 
 ```
 
