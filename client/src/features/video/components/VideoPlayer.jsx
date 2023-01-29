@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, useRef } from 'react';
+import { forwardRef, useRef, useState, useEffect, useImperativeHandle } from 'react';
 
 import Plyr from 'plyr';
 
@@ -7,7 +7,7 @@ import { playerOptions } from '../constants/playerOptions';
 import { buildPlayerSource } from '../utils/buildPlayerSource';
 import { createSubtitleTrack } from '../utils/createSubtitleTrack';
 
-const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSendVideoProgress, onReadyToSeek }) => {
+const VideoPlayer = forwardRef(({ state, onTogglePlayback, onSeekVideo, onReadyToSeek }, ref) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
 
   const plyr = useRef(null);
@@ -102,18 +102,14 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSendVid
     setVideoPlayback();
   }, [isPlayerReady, state.playing, state.progress]);
 
-  useEffect(() => {
-    const sendVideoProgress = () => {
-      if (requests.videoProgress) {
-        onSendVideoProgress(plyr.current.currentTime);
-      }
-    };
-
-    sendVideoProgress();
-  }, [requests.videoProgress, onSendVideoProgress]);
+  useImperativeHandle(ref, () => ({
+    getCurrentProgress: () => plyr.current.currentTime,
+  }));
 
   return <video className="filmtab-player-target" />;
-};
+});
+
+VideoPlayer.displayName = 'VideoPlayer';
 
 VideoPlayer.propTypes = {
   state: PropTypes.shape({
@@ -122,12 +118,8 @@ VideoPlayer.propTypes = {
     progress: PropTypes.number.isRequired,
     playing: PropTypes.bool.isRequired,
   }),
-  requests: PropTypes.shape({
-    videoProgress: PropTypes.bool.isRequired,
-  }),
   onTogglePlayback: PropTypes.func.isRequired,
   onSeekVideo: PropTypes.func.isRequired,
-  onSendVideoProgress: PropTypes.func.isRequired,
   onReadyToSeek: PropTypes.func.isRequired,
 };
 

@@ -1,7 +1,7 @@
-import { useState } from 'react';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import { toast } from 'react-toastify';
 
 import { Grid } from '@mui/material';
 
@@ -9,34 +9,33 @@ import { CreateRoomForm } from '@/features/room';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
-import { colyseus } from '@/redux';
+import { colyseus } from '@/api/colyseus';
+import { actions } from '@/redux';
 
 const CreateRoomPage = () => {
-  const [isFormDisabled, setIsFormDisabled] = useState(false);
-
-  const roomId = useSelector((store) => store.room.roomId);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isRoomMember = Boolean(roomId);
-
   const handleCreateRoom = async (data) => {
-    setIsFormDisabled(true);
-    const result = await dispatch(colyseus.createRoom({ username: data.username }));
+    try {
+      const room = await colyseus.create('video-room', {
+        username: data.username,
+      });
 
-    if (result) {
-      navigate(`/rooms/${result.payload.roomId}`);
+      dispatch(actions.room.setRoomId({ id: room.id }));
+      dispatch(actions.session.setUser({ id: room.sessionId, username: data.username }));
+      navigate(`/rooms/${room.id}`);
+    } catch (error) {
+      toast.error(error.message);
     }
-    setIsFormDisabled(false);
   };
 
-  useDocumentTitle('Create room');
+  useDocumentTitle('Create Room');
 
   return (
     <Grid container columns={16} sx={{ justifyContent: 'center' }}>
       <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
-        <CreateRoomForm onCreateRoom={handleCreateRoom} disableForm={isFormDisabled || isRoomMember} />
+        <CreateRoomForm onCreateRoom={handleCreateRoom} />
       </Grid>
     </Grid>
   );

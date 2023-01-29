@@ -11,7 +11,7 @@ import RoomInvitePage from '@/pages/RoomInvitePage';
 import RoomPage from '@/pages/RoomPage';
 
 const AppRoutes = () => {
-  const roomId = useSelector((store) => store.room.roomId);
+  const roomId = useSelector((store) => store.room.id);
 
   const isRoomMember = Boolean(roomId);
 
