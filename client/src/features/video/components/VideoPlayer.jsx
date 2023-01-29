@@ -1,18 +1,15 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, useRef } from 'react';
+import { forwardRef, useRef, useState, useEffect, useImperativeHandle } from 'react';
 
 import Plyr from 'plyr';
-
-import { GlobalStyles, useTheme } from '@mui/material';
 
 import { playerOptions } from '../constants/playerOptions';
 import { buildPlayerSource } from '../utils/buildPlayerSource';
 import { createSubtitleTrack } from '../utils/createSubtitleTrack';
 
-const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSendVideoProgress, onReadyToSeek }) => {
+const VideoPlayer = forwardRef(({ state, onTogglePlayback, onSeekVideo, onReadyToSeek }, ref) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
 
-  const theme = useTheme();
   const plyr = useRef(null);
 
   useEffect(() => {
@@ -105,33 +102,14 @@ const VideoPlayer = ({ state, requests, onTogglePlayback, onSeekVideo, onSendVid
     setVideoPlayback();
   }, [isPlayerReady, state.playing, state.progress]);
 
-  useEffect(() => {
-    const sendVideoProgress = () => {
-      if (requests.videoProgress) {
-        onSendVideoProgress(plyr.current.currentTime);
-      }
-    };
+  useImperativeHandle(ref, () => ({
+    getCurrentProgress: () => plyr.current.currentTime,
+  }));
 
-    sendVideoProgress();
-  }, [requests.videoProgress, onSendVideoProgress]);
+  return <video className="filmtab-player-target" />;
+});
 
-  return (
-    <>
-      <GlobalStyles
-        styles={{
-          '.plyr__caption': {
-            background: 'none',
-            fontFamily: 'Arial, Helvetica Neue, Helvetica, sans-serif',
-            fontSize: '1.8rem',
-            fontWeight: '600',
-            textShadow: '-1px -1px #000, 1px -1px #000, -1px 1px #000, 1px 1px #000, 0 0 0.5rem #000',
-          },
-        }}
-      />
-      <video className="filmtab-player-target" style={{ '--plyr-color-main': theme.palette.primary.main }} />
-    </>
-  );
-};
+VideoPlayer.displayName = 'VideoPlayer';
 
 VideoPlayer.propTypes = {
   state: PropTypes.shape({
@@ -140,12 +118,8 @@ VideoPlayer.propTypes = {
     progress: PropTypes.number.isRequired,
     playing: PropTypes.bool.isRequired,
   }),
-  requests: PropTypes.shape({
-    videoProgress: PropTypes.bool.isRequired,
-  }),
   onTogglePlayback: PropTypes.func.isRequired,
   onSeekVideo: PropTypes.func.isRequired,
-  onSendVideoProgress: PropTypes.func.isRequired,
   onReadyToSeek: PropTypes.func.isRequired,
 };
 

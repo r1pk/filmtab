@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { Box, Typography } from '@mui/material';
 
-const ChatMessageListItem = forwardRef(({ message, ...rest }, ref) => {
+const ChatMessage = forwardRef(({ message, ...rest }, ref) => {
   return (
     <Box sx={{ '&:hover': { background: 'rgba(0, 0, 0, 0.1)' } }} ref={ref} {...rest}>
       <Typography component="span" variant="subtitle2" sx={{ color: message.author.color }}>
@@ -16,9 +16,9 @@ const ChatMessageListItem = forwardRef(({ message, ...rest }, ref) => {
   );
 });
 
-ChatMessageListItem.displayName = 'ChatMessageListItem';
+ChatMessage.displayName = 'ChatMessage';
 
-ChatMessageListItem.propTypes = {
+ChatMessage.propTypes = {
   message: PropTypes.shape({
     author: PropTypes.shape({
       username: PropTypes.string.isRequired,
@@ -28,4 +28,4 @@ ChatMessageListItem.propTypes = {
   }).isRequired,
 };
 
-export default ChatMessageListItem;
+export default ChatMessage;

@@ -3,13 +3,13 @@ import { forwardRef } from 'react';
 
 import { Stack } from '@mui/material';
 
-import ChatMessageListItem from './ChatMessageListItem';
+import ChatMessage from './ChatMessage';
 
 const ChatMessageList = forwardRef(({ messages, ...rest }, ref) => {
   return (
     <Stack direction="column" spacing={1} ref={ref} {...rest}>
       {messages.map((message) => (
-        <ChatMessageListItem message={message} key={message.id} />
+        <ChatMessage message={message} key={message.id} />
       ))}
     </Stack>
   );

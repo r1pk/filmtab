@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -6,108 +6,129 @@ import { useNavigate } from 'react-router-dom';
 import { Grid, Stack, Paper, Box } from '@mui/material';
 
 import { UserList, LeaveRoomButton } from '@/features/room';
-import { SetVideoForm, VideoPlayer } from '@/features/video';
-import { UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton, RequestVideoProgressButton } from '@/features/video';
+import { SetVideoForm, VideoPlayer, UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton } from '@/features/video';
 import { Chat } from '@/features/chat';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useNavigationBlocker } from '@/hooks/useNavigationBlocker';
 
-import { colyseus, chat } from '@/redux';
+import { colyseus } from '@/api/colyseus';
+import { store, actions } from '@/redux';
 
 const RoomPage = () => {
-  const video = useSelector((store) => store.video);
-  const room = useSelector((store) => store.room);
+  const player = useRef(null);
+
+  const roomId = useSelector((store) => store.room.id);
+  const users = useSelector((store) => store.room.users);
+  const video = useSelector((store) => store.room.video);
   const messages = useSelector((store) => store.chat.messages);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isRoomMember = Boolean(room.roomId);
+  const isRoomMember = Boolean(roomId);
 
-  const handleTogglePlayback = useCallback(
-    (progress) => {
-      dispatch(colyseus.toggleVideoPlayback({ progress: progress }));
-    },
-    [dispatch]
-  );
+  const handleTogglePlayback = useCallback((progress) => {
+    colyseus.room.send('video::toggle_playback', { progress: progress });
+  }, []);
 
-  const handleSeekVideo = useCallback(
-    (progress) => {
-      dispatch(colyseus.seekVideo({ progress: progress }));
-    },
-    [dispatch]
-  );
+  const handleSeekVideo = useCallback((progress) => {
+    colyseus.room.send('video::seek', { progress: progress });
+  }, []);
 
   const handleReadyToSeek = useCallback(() => {
-    dispatch((dispatchAction, getStateFromStore) => {
-      if (getStateFromStore().room.users.length >= 2) {
-        return dispatchAction(colyseus.requestVideoProgress());
-      }
-    });
-  }, [dispatch]);
-
-  const handleRequestVideoProgress = () => {
-    dispatch(colyseus.requestVideoProgress());
-  };
-
-  const handleSendVideoProgress = (progress) => {
-    dispatch(colyseus.sendVideoProgress({ progress: progress }));
-  };
+    if (store.getState().room.users.length > 1) {
+      colyseus.room.send('video::request_progress');
+    }
+  }, []);
 
   const handleSetVideo = (data) => {
-    dispatch(colyseus.setVideo({ url: data.url }));
+    colyseus.room.send('video::set_url', { url: data.url });
   };
 
   const handleUploadVideoSubtitles = (subtitles) => {
-    dispatch(colyseus.setVideoSubtitles({ subtitles: subtitles }));
+    colyseus.room.send('video::set_subtitles', { subtitles: subtitles });
   };
 
   const handleDeleteVideoSubtitles = () => {
-    dispatch(colyseus.deleteVideoSubtitles());
+    colyseus.room.send('video::delete_subtitles');
   };
 
   const handleSendMessage = (data) => {
-    dispatch(colyseus.sendChatMessage({ content: data.content }));
+    colyseus.room.send('chat::message', { content: data.content });
   };
 
   const handleClearChat = () => {
-    dispatch(chat.clear());
+    dispatch(actions.chat.clear());
   };
 
   const handleLeaveRoom = () => {
-    dispatch(colyseus.leaveRoom());
+    colyseus.room.leave();
     navigate('/');
   };
 
   const handleLeavePage = (transition) => {
-    dispatch(colyseus.leaveRoom());
+    colyseus.room.leave();
     transition.retry();
   };
 
+  useEffect(() => {
+    const createRequestVideoProgressListener = () => {
+      return colyseus.room.onMessage('video::request_progress', () => {
+        if (player.current) {
+          colyseus.room.send('video::progress', { progress: player.current.getCurrentProgress() });
+        }
+      });
+    };
+
+    const removeRequestVideoProgressListener = createRequestVideoProgressListener();
+
+    return () => removeRequestVideoProgressListener();
+  }, []);
+
+  useEffect(() => {
+    const createVideoProgressListener = () => {
+      return colyseus.room.onMessage('video::progress', (data) => {
+        dispatch(actions.room.setVideoProgress({ progress: data.progress }));
+      });
+    };
+
+    const removeVideoProgressListener = createVideoProgressListener();
+
+    return () => removeVideoProgressListener();
+  }, [dispatch]);
+
+  useEffect(() => {
+    const createChatMessageListener = () => {
+      return colyseus.room.onMessage('chat::message', (message) => {
+        dispatch(actions.chat.addMessage({ message: message }));
+      });
+    };
+
+    const removeChatMessageListener = createChatMessageListener();
+
+    return () => removeChatMessageListener();
+  }, [dispatch]);
+
   useNavigationBlocker(handleLeavePage, isRoomMember);
-  useDocumentTitle(`Room [${room.roomId}]`);
+  useDocumentTitle('Room');
 
   return (
     <Grid container columns={16} spacing={2}>
       <Grid item xs={16}>
-        <SetVideoForm url={video.player.url} onSetVideo={handleSetVideo} />
+        <SetVideoForm url={video.url} onSetVideo={handleSetVideo} />
       </Grid>
       <Grid item xs={16} lg={12}>
         <Stack direction="column" spacing={2}>
           <Paper>
             <VideoPlayer
-              state={video.player}
-              requests={video.requests}
+              state={video}
               onTogglePlayback={handleTogglePlayback}
               onSeekVideo={handleSeekVideo}
-              onSendVideoProgress={handleSendVideoProgress}
               onReadyToSeek={handleReadyToSeek}
+              ref={player}
             />
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} sx={{ m: 1, justifyContent: 'flex-end' }}>
-              {room.users.length >= 2 && (
-                <RequestVideoProgressButton timeoutTime={60000} onRequestVideoProgress={handleRequestVideoProgress} />
-              )}
               <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
               <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
             </Stack>
@@ -119,7 +140,7 @@ const RoomPage = () => {
       </Grid>
       <Grid item xs={16} lg={4}>
         <Stack direction="column" spacing={2}>
-          <UserList users={room.users} />
+          <UserList users={users} />
           <Chat messages={messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
         </Stack>
       </Grid>

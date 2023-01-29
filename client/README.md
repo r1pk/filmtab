@@ -58,6 +58,9 @@ npm run build
 ```bash
 public                            # static files
 src
+   |-- api                        # api related folders and files
+   |   |-- group                  # group of files related to a single api
+   |   |   |-- index.js           # exports main api instance from the folder
    |-- components                 # grouped components used in the application
    |   |-- group                  # group of components
    |-- features                   # feature based modules
@@ -73,9 +76,6 @@ src
    |   |   |-- index.js           # exports main layout component from the folder
    |-- pages                      # page components
    |-- redux                      # redux related files
-   |   |-- middlewares            # middlewares used in the redux store
-   |   |   |-- middleware         # middleware
-   |   |   |  |-- index.js        # exports middleware and actions from the folder
    |   |-- slices                 # redux toolkit store slices
    |   |-- store.js               # initializes redux store
    |   |-- index.js               # exports redux related files from the folder

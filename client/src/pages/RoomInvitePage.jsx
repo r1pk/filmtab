@@ -1,7 +1,7 @@
-import { useState } from 'react';
-
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+
+import { toast } from 'react-toastify';
 
 import { Grid, Paper, Typography, Link as MUILink } from '@mui/material';
 
@@ -9,30 +9,29 @@ import { JoinRoomForm } from '@/features/room';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
-import { colyseus } from '@/redux';
+import { colyseus } from '@/api/colyseus';
+import { actions } from '@/redux';
 
 const RoomInvitePage = () => {
-  const [isFormDisabled, setIsFormDisabled] = useState(false);
-
-  const roomId = useSelector((store) => store.room.roomId);
-
   const dispatch = useDispatch();
-  const params = useParams();
   const navigate = useNavigate();
-
-  const isRoomMember = Boolean(roomId);
+  const params = useParams();
 
   const handleJoinRoom = async (data) => {
-    setIsFormDisabled(true);
-    const result = await dispatch(colyseus.joinRoom({ roomId: data.roomId, username: data.username }));
+    try {
+      const room = await colyseus.joinById(data.roomId, {
+        username: data.username,
+      });
 
-    if (result) {
-      navigate(`/rooms/${result.payload.roomId}`);
+      dispatch(actions.room.setRoomId({ id: room.id }));
+      dispatch(actions.session.setUser({ id: room.sessionId, username: data.username }));
+      navigate(`/rooms/${room.id}`);
+    } catch (error) {
+      toast.error(error.message);
     }
-    setIsFormDisabled(false);
   };
 
-  useDocumentTitle(`Join room [${params.roomId}]`);
+  useDocumentTitle('Room Invite');
 
   return (
     <Grid container columns={16} spacing={2} sx={{ justifyContent: 'center' }}>
@@ -48,12 +47,8 @@ const RoomInvitePage = () => {
         </Grid>
       </Grid>
 
-      <Grid item xs={12} sm={8} md={6} lg={4} xl={3}>
-        <JoinRoomForm
-          onJoinRoom={handleJoinRoom}
-          roomId={params?.roomId}
-          disableForm={isFormDisabled || isRoomMember}
-        />
+      <Grid item xs={12} sm={8} md={6} lg={4}>
+        <JoinRoomForm onJoinRoom={handleJoinRoom} roomId={params?.roomId} />
         <MUILink to="/" variant="body2" sx={{ display: 'block', textAlign: 'center', my: 2 }} component={Link}>
           Back to Home
         </MUILink>
