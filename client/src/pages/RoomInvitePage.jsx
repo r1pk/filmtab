@@ -40,7 +40,7 @@ const RoomInvitePage = () => {
           <Grid item xs={16} sm={12} md={8} lg={6}>
             <Paper>
               <Typography variant="h1" component="h1" sx={{ p: 2, textAlign: 'center' }}>
-                FilmTab
+                {import.meta.env.VITE_BASE_APP_TITLE}
               </Typography>
             </Paper>
           </Grid>
