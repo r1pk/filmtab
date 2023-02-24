@@ -43,9 +43,9 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, disableForm, ...rest }, r
       <CardHeader
         title="Join Room"
         titleTypographyProps={{
-          variant: 'h5',
+          variant: 'h6',
         }}
-        sx={{ textAlign: 'center' }}
+        sx={{ textAlign: 'center', textTransform: 'uppercase', p: 1 }}
       />
       <Divider />
       <CardContent>
