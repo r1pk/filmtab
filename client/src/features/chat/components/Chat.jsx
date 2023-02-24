@@ -20,7 +20,7 @@ const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref)
   }, [messages]);
 
   return (
-    <Card ref={ref} {...rest}>
+    <Card sx={{ display: 'flex', flexDirection: 'column', height: 1 }} ref={ref} {...rest}>
       <CardHeader
         title="Chat"
         titleTypographyProps={{
@@ -29,7 +29,7 @@ const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref)
         sx={{ textAlign: 'center' }}
       />
       <Divider />
-      <CardContent sx={{ height: { xs: 300, md: 480 }, overflowY: 'scroll', scrollBehavior: 'smooth' }} ref={content}>
+      <CardContent sx={{ flexGrow: 1, overflowY: 'scroll', scrollBehavior: 'smooth' }} ref={content}>
         <ChatMessageList messages={messages} />
       </CardContent>
       <Divider />
