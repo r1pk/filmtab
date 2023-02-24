@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 
 import { Card, CardHeader, CardContent, CardActions, Divider, Stack } from '@mui/material';
+import { BookmarkBorder, Bookmark } from '@mui/icons-material';
 
 import TextField from '@/components/form/TextField';
 import FormControlLabel from '@/components/form/FormControlLabel';
@@ -43,9 +44,9 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, disableForm, ...rest }, r
       <CardHeader
         title="Join Room"
         titleTypographyProps={{
-          variant: 'h5',
+          variant: 'h6',
         }}
-        sx={{ textAlign: 'center' }}
+        sx={{ textAlign: 'center', textTransform: 'uppercase', p: 1 }}
       />
       <Divider />
       <CardContent>
@@ -83,7 +84,16 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, disableForm, ...rest }, r
             render={({ field }) => (
               <FormControlLabel
                 label="Remember Username"
-                control={<Checkbox checked={field.value} sx={{ p: 0, mr: 1 }} {...field} />}
+                componentsProps={{ typography: { variant: 'button' } }}
+                control={
+                  <Checkbox
+                    checked={field.value}
+                    icon={<BookmarkBorder />}
+                    checkedIcon={<Bookmark />}
+                    sx={{ p: 0, mr: 1 }}
+                    {...field}
+                  />
+                }
               />
             )}
           />

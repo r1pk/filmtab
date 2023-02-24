@@ -6,10 +6,10 @@ Application is built using [Vite](https://vitejs.dev/), [Redux](https://redux.js
 ## Screenshots
 
 Home page
-![Home page](https://i.imgur.com/iTVzEpp.png)
+![Home page](https://i.imgur.com/epCuUVR.png)
 
 Room page with playing video
-![Room page](https://i.imgur.com/ipwe2sw.png)
+![Room page](https://i.imgur.com/aBbfYxp.png)
 
 ## Pre-requisites
 
