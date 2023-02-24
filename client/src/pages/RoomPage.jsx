@@ -16,6 +16,9 @@ import { colyseus } from '@/api/colyseus';
 import { store, actions } from '@/redux';
 
 const RoomPage = () => {
+  const mainSection = useRef(null);
+  const sideSection = useRef(null);
+
   const player = useRef(null);
 
   const roomId = useSelector((store) => store.room.id);
@@ -81,9 +84,7 @@ const RoomPage = () => {
       });
     };
 
-    const removeRequestVideoProgressListener = createRequestVideoProgressListener();
-
-    return () => removeRequestVideoProgressListener();
+    return createRequestVideoProgressListener();
   }, []);
 
   useEffect(() => {
@@ -93,9 +94,7 @@ const RoomPage = () => {
       });
     };
 
-    const removeVideoProgressListener = createVideoProgressListener();
-
-    return () => removeVideoProgressListener();
+    return createVideoProgressListener();
   }, [dispatch]);
 
   useEffect(() => {
@@ -105,20 +104,34 @@ const RoomPage = () => {
       });
     };
 
-    const removeChatMessageListener = createChatMessageListener();
-
-    return () => removeChatMessageListener();
+    return createChatMessageListener();
   }, [dispatch]);
+
+  useEffect(() => {
+    const createWindowResizeListener = () => {
+      const resizeSideSection = () => {
+        if (mainSection.current && sideSection.current) {
+          sideSection.current.style.height = `${mainSection.current.clientHeight}px`;
+        }
+      };
+
+      window.addEventListener('resize', resizeSideSection);
+
+      return () => window.removeEventListener('resize', resizeSideSection);
+    };
+
+    return createWindowResizeListener();
+  }, []);
 
   useNavigationBlocker(handleLeavePage, isRoomMember);
   useDocumentTitle('Room');
 
   return (
-    <Grid container columns={16} spacing={2}>
+    <Grid container columns={16} spacing={2} sx={{ alignItems: 'start' }}>
       <Grid item xs={16}>
         <SetVideoForm url={video.url} onSetVideo={handleSetVideo} />
       </Grid>
-      <Grid item xs={16} lg={12}>
+      <Grid item xs={16} lg={12} ref={mainSection}>
         <Stack direction="column" spacing={2}>
           <Paper>
             <VideoPlayer
@@ -138,8 +151,8 @@ const RoomPage = () => {
           </Box>
         </Stack>
       </Grid>
-      <Grid item xs={16} lg={4}>
-        <Stack direction="column" spacing={2}>
+      <Grid item xs={16} lg={4} sx={{ alignSelf: 'stretch', minHeight: { xs: 480 } }} ref={sideSection}>
+        <Stack direction="column" spacing={2} sx={{ height: 1 }}>
           <UserList users={users} />
           <Chat messages={messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
         </Stack>
