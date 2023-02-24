@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 
 import { Card, CardHeader, CardContent, CardActions, Divider, Stack } from '@mui/material';
+import { BookmarkBorder, Bookmark } from '@mui/icons-material';
 
 import TextField from '@/components/form/TextField';
 import FormControlLabel from '@/components/form/FormControlLabel';
@@ -68,7 +69,16 @@ const CreateRoomForm = forwardRef(({ onCreateRoom, disableForm, ...rest }, ref) 
             render={({ field }) => (
               <FormControlLabel
                 label="Remember Username"
-                control={<Checkbox checked={field.value} sx={{ p: 0, mr: 1 }} {...field} />}
+                componentsProps={{ typography: { variant: 'button' } }}
+                control={
+                  <Checkbox
+                    checked={field.value}
+                    icon={<BookmarkBorder />}
+                    checkedIcon={<Bookmark />}
+                    sx={{ p: 0, mr: 1 }}
+                    {...field}
+                  />
+                }
               />
             )}
           />
