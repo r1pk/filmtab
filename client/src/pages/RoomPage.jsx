@@ -84,9 +84,7 @@ const RoomPage = () => {
       });
     };
 
-    const removeRequestVideoProgressListener = createRequestVideoProgressListener();
-
-    return () => removeRequestVideoProgressListener();
+    return createRequestVideoProgressListener();
   }, []);
 
   useEffect(() => {
@@ -96,9 +94,7 @@ const RoomPage = () => {
       });
     };
 
-    const removeVideoProgressListener = createVideoProgressListener();
-
-    return () => removeVideoProgressListener();
+    return createVideoProgressListener();
   }, [dispatch]);
 
   useEffect(() => {
@@ -108,9 +104,7 @@ const RoomPage = () => {
       });
     };
 
-    const removeChatMessageListener = createChatMessageListener();
-
-    return () => removeChatMessageListener();
+    return createChatMessageListener();
   }, [dispatch]);
 
   useEffect(() => {
@@ -126,9 +120,7 @@ const RoomPage = () => {
       return () => window.removeEventListener('resize', resizeSideSection);
     };
 
-    const removeWindowResizeListener = createWindowResizeListener();
-
-    return () => removeWindowResizeListener();
+    return createWindowResizeListener();
   }, []);
 
   useNavigationBlocker(handleLeavePage, isRoomMember);
