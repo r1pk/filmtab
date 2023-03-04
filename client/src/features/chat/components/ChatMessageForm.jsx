@@ -39,7 +39,13 @@ const ChatMessageForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref
         name="content"
         control={control}
         render={({ field, fieldState }) => (
-          <TextField label="Message" variant="outlined" error={Boolean(fieldState.error)} fullWidth {...field} />
+          <TextField
+            label="Message"
+            variant="outlined"
+            error={fieldState.error && fieldState.value > 0}
+            fullWidth
+            {...field}
+          />
         )}
       />
       <Stack direction="row" spacing={1} sx={{ mt: 1, justifyContent: 'flex-end' }}>
