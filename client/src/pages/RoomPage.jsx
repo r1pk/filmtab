@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Grid, Stack, Paper, Box } from '@mui/material';
 
 import { UserList, LeaveRoomButton } from '@/features/room';
-import { SetVideoForm, VideoPlayer, UploadVideoSubtitlesButton, DeleteVideoSubtitlesButton } from '@/features/video';
+import { SetVideoForm, VideoPlayer, UploadSubtitlesButton, DeleteSubtitlesButton } from '@/features/video';
 import { Chat } from '@/features/chat';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
@@ -49,11 +49,11 @@ const RoomPage = () => {
     colyseus.room.send('video::set_url', { url: data.url });
   };
 
-  const handleUploadVideoSubtitles = (subtitles) => {
+  const handleUploadSubtitles = (subtitles) => {
     colyseus.room.send('video::set_subtitles', { subtitles: subtitles });
   };
 
-  const handleDeleteVideoSubtitles = () => {
+  const handleDeleteSubtitles = () => {
     colyseus.room.send('video::delete_subtitles');
   };
 
@@ -142,8 +142,8 @@ const RoomPage = () => {
               ref={player}
             />
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} sx={{ m: 1, justifyContent: 'flex-end' }}>
-              <UploadVideoSubtitlesButton onUploadVideoSubtitles={handleUploadVideoSubtitles} />
-              <DeleteVideoSubtitlesButton onDeleteVideoSubtitles={handleDeleteVideoSubtitles} />
+              <UploadSubtitlesButton onUploadSubtitles={handleUploadSubtitles} />
+              <DeleteSubtitlesButton onDeleteSubtitles={handleDeleteSubtitles} />
             </Stack>
           </Paper>
           <Box sx={{ alignSelf: 'flex-end' }}>

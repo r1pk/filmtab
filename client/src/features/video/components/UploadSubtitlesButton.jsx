@@ -7,9 +7,9 @@ import { UploadFileOutlined } from '@mui/icons-material';
 
 import Button from '@/components/form/Button';
 
-const UploadVideoSubtitlesButton = forwardRef(({ onUploadVideoSubtitles, ...rest }, ref) => {
+const UploadSubtitlesButton = forwardRef(({ onUploadSubtitles, ...rest }, ref) => {
   const handleFile = (event) => {
-    onUploadVideoSubtitles(event.target.result);
+    onUploadSubtitles(event.target.result);
   };
 
   const handleInputChange = (event) => {
@@ -32,10 +32,10 @@ const UploadVideoSubtitlesButton = forwardRef(({ onUploadVideoSubtitles, ...rest
   );
 });
 
-UploadVideoSubtitlesButton.displayName = 'UploadVideoSubtitlesButton';
+UploadSubtitlesButton.displayName = 'UploadSubtitlesButton';
 
-UploadVideoSubtitlesButton.propTypes = {
-  onUploadVideoSubtitles: PropTypes.func.isRequired,
+UploadSubtitlesButton.propTypes = {
+  onUploadSubtitles: PropTypes.func.isRequired,
 };
 
-export default UploadVideoSubtitlesButton;
+export default UploadSubtitlesButton;
