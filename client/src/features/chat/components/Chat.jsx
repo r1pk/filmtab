@@ -9,15 +9,14 @@ import ChatMessageForm from './ChatMessageForm';
 const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref) => {
   const content = useRef(null);
 
-  useEffect(() => {
-    const scrollToBottom = () => {
+  useEffect(
+    function scrollToBottom() {
       if (content.current) {
         content.current.scrollTop = content.current.scrollHeight;
       }
-    };
-
-    scrollToBottom();
-  }, [messages]);
+    },
+    [messages]
+  );
 
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column', height: 1 }} ref={ref} {...rest}>

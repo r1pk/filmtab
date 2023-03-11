@@ -5,12 +5,12 @@ import { DeleteOutline } from '@mui/icons-material';
 
 import Button from '@/components/form/Button';
 
-const DeleteVideoSubtitlesButton = forwardRef(({ onDeleteVideoSubtitles, ...rest }, ref) => {
+const DeleteSubtitlesButton = forwardRef(({ onDeleteSubtitles, ...rest }, ref) => {
   const handleButtonClick = () => {
     const isActionConfirmed = window.confirm('Are you sure you want to delete subtitles for everyone in this room?');
 
     if (isActionConfirmed) {
-      onDeleteVideoSubtitles();
+      onDeleteSubtitles();
     }
   };
 
@@ -21,10 +21,10 @@ const DeleteVideoSubtitlesButton = forwardRef(({ onDeleteVideoSubtitles, ...rest
   );
 });
 
-DeleteVideoSubtitlesButton.displayName = 'DeleteVideoSubtitlesButton';
+DeleteSubtitlesButton.displayName = 'DeleteSubtitlesButton';
 
-DeleteVideoSubtitlesButton.propTypes = {
-  onDeleteVideoSubtitles: PropTypes.func.isRequired,
+DeleteSubtitlesButton.propTypes = {
+  onDeleteSubtitles: PropTypes.func.isRequired,
 };
 
-export default DeleteVideoSubtitlesButton;
+export default DeleteSubtitlesButton;

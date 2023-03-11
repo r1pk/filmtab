@@ -5,8 +5,8 @@ import { UNSAFE_NavigationContext } from 'react-router-dom';
 export const useNavigationBlocker = (callback, active = true) => {
   const { navigator } = useContext(UNSAFE_NavigationContext);
 
-  useEffect(() => {
-    const createNavigationBlocker = () => {
+  useEffect(
+    function createNavigationBlocker() {
       if (!active) {
         return null;
       }
@@ -23,9 +23,10 @@ export const useNavigationBlocker = (callback, active = true) => {
         callback(autoUnblockingTransition);
       });
 
-      return unblockNavigation;
-    };
-
-    return createNavigationBlocker();
-  }, [navigator, callback, active]);
+      return function removeNavigationBlocker() {
+        unblockNavigation();
+      };
+    },
+    [navigator, callback, active]
+  );
 };
