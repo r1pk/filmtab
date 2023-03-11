@@ -27,9 +27,12 @@ const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
     }
   };
 
-  useEffect(() => {
-    reset({ url: url }, { shouldDirty: false });
-  }, [url, reset]);
+  useEffect(
+    function updateFormState() {
+      reset({ url: url }, { shouldDirty: false });
+    },
+    [url, reset]
+  );
 
   return (
     <Card component="form" onSubmit={handleSubmit(onSubmit)} ref={ref} {...rest}>

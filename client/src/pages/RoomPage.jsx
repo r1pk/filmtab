@@ -75,52 +75,62 @@ const RoomPage = () => {
     transition.retry();
   };
 
-  useEffect(() => {
-    const createRequestVideoProgressListener = () => {
-      return colyseus.room.onMessage('video::request_progress', () => {
-        if (player.current) {
-          colyseus.room.send('video::progress', { progress: player.current.getCurrentProgress() });
-        }
-      });
+  useEffect(function createRequestVideoProgressListener() {
+    const handleRequestVideoProgress = () => {
+      if (player.current) {
+        colyseus.room.send('video::progress', { progress: player.current.getCurrentProgress() });
+      }
     };
 
-    return createRequestVideoProgressListener();
+    const removeColyseusListener = colyseus.room.onMessage('video::request_progress', handleRequestVideoProgress);
+
+    return function removeRequestVideoProgressListener() {
+      removeColyseusListener();
+    };
   }, []);
 
-  useEffect(() => {
-    const createVideoProgressListener = () => {
-      return colyseus.room.onMessage('video::progress', (data) => {
+  useEffect(
+    function createVideoProgressListener() {
+      const handleVideoProgress = (data) => {
         dispatch(actions.room.setVideoProgress({ progress: data.progress }));
-      });
-    };
-
-    return createVideoProgressListener();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const createChatMessageListener = () => {
-      return colyseus.room.onMessage('chat::message', (message) => {
-        dispatch(actions.chat.addMessage({ message: message }));
-      });
-    };
-
-    return createChatMessageListener();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const createWindowResizeListener = () => {
-      const resizeSideSection = () => {
-        if (mainSection.current && sideSection.current) {
-          sideSection.current.style.height = `${mainSection.current.clientHeight}px`;
-        }
       };
 
-      window.addEventListener('resize', resizeSideSection);
+      const removeColyseusListener = colyseus.room.onMessage('video::progress', handleVideoProgress);
 
-      return () => window.removeEventListener('resize', resizeSideSection);
+      return function removeVideoProgressListener() {
+        removeColyseusListener();
+      };
+    },
+    [dispatch]
+  );
+
+  useEffect(
+    function createChatMessageListener() {
+      const handleChatMessage = (message) => {
+        dispatch(actions.chat.addMessage({ message: message }));
+      };
+
+      const removeColyseusListener = colyseus.room.onMessage('chat::message', handleChatMessage);
+
+      return function removeChatMessageListener() {
+        removeColyseusListener();
+      };
+    },
+    [dispatch]
+  );
+
+  useEffect(function createWindowResizeListener() {
+    const resizeSideSection = () => {
+      if (mainSection.current && sideSection.current) {
+        sideSection.current.style.height = `${mainSection.current.clientHeight}px`;
+      }
     };
 
-    return createWindowResizeListener();
+    window.addEventListener('resize', resizeSideSection);
+
+    return function removeWindowResizeListener() {
+      window.removeEventListener('resize', resizeSideSection);
+    };
   }, []);
 
   useNavigationBlocker(handleLeavePage, isRoomMember);
