@@ -126,6 +126,7 @@ const RoomPage = () => {
       }
     };
 
+    resizeSideSection();
     window.addEventListener('resize', resizeSideSection);
 
     return function removeWindowResizeListener() {
