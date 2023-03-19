@@ -2,7 +2,7 @@ import { Provider } from 'react-redux';
 import { store } from '@/redux';
 
 import { ThemeProvider, CssBaseline } from '@mui/material';
-import { darkTheme } from '@/theme/darkTheme';
+import { dark } from '@/themes/dark';
 
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from '@/routes/AppRoutes';
@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const App = () => {
   return (
     <Provider store={store}>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={dark}>
         <CssBaseline />
         <BrowserRouter>
           <AppRoutes />

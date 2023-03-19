@@ -82,8 +82,8 @@ src
    |   |-- index.js               # exports redux related files from the folder
    |-- routes                     # routes used in the application
    |   |-- AppRoutes.jsx          # available routes in the application
-   |-- theme                      # theme related files used in the application
-   |   |-- darkTheme.js           # dark theme object used in the application
+   |-- themes                     # theme related files used in the application
+   |   |-- dark.js                # dark theme object used in the application
    |-- App.jsx                    # main application component
    |-- main.jsx                   # entry point of the application
 .env                              # file containing environment variables
