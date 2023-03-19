@@ -12,7 +12,7 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { colyseus } from '@/api/colyseus';
 import { actions } from '@/redux';
 
-const JoinRoomPage = () => {
+const JoinRoom = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -41,4 +41,4 @@ const JoinRoomPage = () => {
   );
 };
 
-export default JoinRoomPage;
+export default JoinRoom;
