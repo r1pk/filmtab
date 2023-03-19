@@ -15,7 +15,7 @@ import { useNavigationBlocker } from '@/hooks/useNavigationBlocker';
 import { colyseus } from '@/api/colyseus';
 import { store, actions } from '@/redux';
 
-const RoomPage = () => {
+const Room = () => {
   const mainSection = useRef(null);
   const sideSection = useRef(null);
 
@@ -172,4 +172,4 @@ const RoomPage = () => {
   );
 };
 
-export default RoomPage;
+export default Room;

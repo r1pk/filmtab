@@ -4,11 +4,11 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { MainLayout } from '@/layouts/main';
 
-import HomePage from '@/pages/HomePage';
-import CreateRoomPage from '@/pages/CreateRoomPage';
-import JoinRoomPage from '@/pages/JoinRoomPage';
-import RoomInvitePage from '@/pages/RoomInvitePage';
-import RoomPage from '@/pages/RoomPage';
+import Home from '@/pages/Home';
+import CreateRoom from '@/pages/CreateRoom';
+import JoinRoom from '@/pages/JoinRoom';
+import Room from '@/pages/Room';
+import RoomInvite from '@/pages/RoomInvite';
 
 const AppRoutes = () => {
   const roomId = useSelector((store) => store.room.id);
@@ -21,15 +21,15 @@ const AppRoutes = () => {
         <Route index element={<Navigate to="create-room" replace />} />
 
         {/* Common routes */}
-        <Route element={<HomePage />}>
-          <Route path="create-room" element={<CreateRoomPage />} />
-          <Route path="join-room" element={<JoinRoomPage />} />
+        <Route element={<Home />}>
+          <Route path="create-room" element={<CreateRoom />} />
+          <Route path="join-room" element={<JoinRoom />} />
         </Route>
 
         {/* Protected routes */}
         {isRoomMember && (
           <Route path="rooms">
-            <Route path=":roomId" element={<RoomPage />} />
+            <Route path=":roomId" element={<Room />} />
           </Route>
         )}
 
@@ -38,7 +38,7 @@ const AppRoutes = () => {
           <Route path="rooms">
             <Route path=":roomId">
               <Route index element={<Navigate to="join-room" />} />
-              <Route path="join-room" element={<RoomInvitePage />} />
+              <Route path="join-room" element={<RoomInvite />} />
             </Route>
           </Route>
         )}
