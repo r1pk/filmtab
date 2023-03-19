@@ -80,11 +80,10 @@ src
    |   |-- slices                 # redux toolkit store slices
    |   |-- store.js               # initializes redux store
    |   |-- index.js               # exports redux related files from the folder
-   |-- routes                     # routes used in the application
-   |   |-- AppRoutes.jsx          # available routes in the application
    |-- themes                     # theme related files used in the application
    |   |-- dark.js                # dark theme object used in the application
    |-- App.jsx                    # main application component
+   |-- AppRoutes.jsx              # available routes in the application
    |-- main.jsx                   # entry point of the application
 .env                              # file containing environment variables
 ```
