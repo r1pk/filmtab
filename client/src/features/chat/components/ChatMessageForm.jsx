@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
+import Joi from 'joi';
 
 import { Box, Stack, Tooltip } from '@mui/material';
 import { DeleteSweepOutlined } from '@mui/icons-material';
@@ -11,7 +12,9 @@ import IconButton from '@/components/form/IconButton';
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import { ChatMessageFormSchema } from '../schemas/ChatMessageFormSchema';
+const schema = Joi.object({
+  content: Joi.string().trim().min(1).max(140).required().label('content'),
+});
 
 const ChatMessageForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref) => {
   const { control, formState, handleSubmit, reset } = useForm({
@@ -19,7 +22,7 @@ const ChatMessageForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref
     defaultValues: {
       content: '',
     },
-    resolver: joiResolver(ChatMessageFormSchema),
+    resolver: joiResolver(schema),
   });
 
   const onSubmit = (data) => {

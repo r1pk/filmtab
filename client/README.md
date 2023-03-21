@@ -67,7 +67,6 @@ src
    |-- features                   # feature based modules
    |   |-- feature                # feature module
    |   |   |-- components         # components used in the feature
-   |   |   |-- schemas            # schemas used in the feature forms
    |   |   |-- constants          # constants used across the feature
    |   |   |-- utils              # utility functions used in the feature components
    |   |   |-- index.js           # exports components from the feature

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { forwardRef, useEffect } from 'react';
+import Joi from 'joi';
 
 import { Card, CardActions, Stack } from '@mui/material';
 import { SendOutlined } from '@mui/icons-material';
@@ -10,7 +11,9 @@ import Button from '@/components/form/Button';
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import { SetVideoFormSchema } from '../schemas/SetVideoFormSchema';
+const schema = Joi.object({
+  url: Joi.string().trim().uri().required().label('url'),
+});
 
 const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
   const { control, formState, reset, handleSubmit } = useForm({
@@ -18,7 +21,7 @@ const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
     defaultValues: {
       url: url,
     },
-    resolver: joiResolver(SetVideoFormSchema),
+    resolver: joiResolver(schema),
   });
 
   const onSubmit = (data) => {
