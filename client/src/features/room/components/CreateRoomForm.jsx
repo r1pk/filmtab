@@ -20,7 +20,7 @@ const schema = Joi.object({
   rememberUsername: Joi.boolean().label('rememberUsername'),
 });
 
-const CreateRoomForm = forwardRef(({ onCreateRoom, disableForm, ...rest }, ref) => {
+const CreateRoomForm = forwardRef(({ onCreateRoom, ...rest }, ref) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
     defaultValues: {
@@ -29,9 +29,10 @@ const CreateRoomForm = forwardRef(({ onCreateRoom, disableForm, ...rest }, ref) 
     },
     resolver: joiResolver(schema),
   });
+  const { isValid } = formState;
 
   const onSubmit = (data) => {
-    if (formState.isValid && !disableForm) {
+    if (isValid) {
       if (data.rememberUsername) {
         usernameManager.saveUsername(data.username);
       } else {
@@ -89,7 +90,7 @@ const CreateRoomForm = forwardRef(({ onCreateRoom, disableForm, ...rest }, ref) 
         </Stack>
       </CardContent>
       <CardActions>
-        <Button type="submit" disabled={!formState.isValid || disableForm} fullWidth>
+        <Button type="submit" disabled={!isValid} fullWidth>
           Create
         </Button>
       </CardActions>
@@ -101,7 +102,6 @@ CreateRoomForm.displayName = 'CreateRoomForm';
 
 CreateRoomForm.propTypes = {
   onCreateRoom: PropTypes.func.isRequired,
-  disableForm: PropTypes.bool,
 };
 
 export default CreateRoomForm;
