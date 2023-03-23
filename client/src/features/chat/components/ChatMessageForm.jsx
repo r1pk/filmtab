@@ -24,9 +24,10 @@ const ChatMessageForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref
     },
     resolver: joiResolver(schema),
   });
+  const { isValid, isDirty } = formState;
 
   const onSubmit = (data) => {
-    if (formState.isValid) {
+    if (isValid && isDirty) {
       onSendMessage(data);
       reset();
     }
@@ -57,7 +58,7 @@ const ChatMessageForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref
             <DeleteSweepOutlined />
           </IconButton>
         </Tooltip>
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button type="submit" disabled={!(isValid && isDirty)}>
           Send
         </Button>
       </Stack>

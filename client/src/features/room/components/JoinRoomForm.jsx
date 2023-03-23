@@ -21,7 +21,7 @@ const schema = Joi.object({
   rememberUsername: Joi.boolean().label('rememberUsername'),
 });
 
-const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, disableForm, ...rest }, ref) => {
+const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
     defaultValues: {
@@ -31,9 +31,10 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, disableForm, ...rest }, r
     },
     resolver: joiResolver(schema),
   });
+  const { isValid } = formState;
 
   const onSubmit = (data) => {
-    if (formState.isValid && !disableForm) {
+    if (isValid) {
       if (data.rememberUsername) {
         usernameManager.saveUsername(data.username);
       } else {
@@ -105,7 +106,7 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, disableForm, ...rest }, r
         </Stack>
       </CardContent>
       <CardActions>
-        <Button type="submit" disabled={!formState.isValid || disableForm} fullWidth>
+        <Button type="submit" disabled={!isValid} fullWidth>
           Join
         </Button>
       </CardActions>
@@ -118,7 +119,6 @@ JoinRoomForm.displayName = 'JoinRoomForm';
 JoinRoomForm.propTypes = {
   onJoinRoom: PropTypes.func.isRequired,
   roomId: PropTypes.string,
-  disableForm: PropTypes.bool,
 };
 
 export default JoinRoomForm;

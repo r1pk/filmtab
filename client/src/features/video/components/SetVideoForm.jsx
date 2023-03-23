@@ -23,9 +23,10 @@ const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
     },
     resolver: joiResolver(schema),
   });
+  const { isValid, isDirty } = formState;
 
   const onSubmit = (data) => {
-    if (formState.isValid && formState.isDirty) {
+    if (isValid && isDirty) {
       onSetVideo(data);
     }
   };
@@ -48,7 +49,7 @@ const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
               <TextField variant="outlined" label="Video URL" error={Boolean(fieldState.error)} fullWidth {...field} />
             )}
           />
-          <Button type="submit" disabled={!(formState.isValid && formState.isDirty)} startIcon={<SendOutlined />}>
+          <Button type="submit" disabled={!(isValid && isDirty)} startIcon={<SendOutlined />}>
             Set
           </Button>
         </Stack>
