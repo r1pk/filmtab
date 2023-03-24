@@ -26,8 +26,8 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
     mode: 'all',
     defaultValues: {
       roomId: roomId || '',
-      username: usernameManager.getRecommendedUsername(),
-      rememberUsername: usernameManager.isUsernameAlreadySaved(),
+      username: usernameManager.readFromLocalStorage() || usernameManager.createRandom(),
+      rememberUsername: true,
     },
     resolver: joiResolver(schema),
   });
@@ -36,9 +36,9 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
   const onSubmit = (data) => {
     if (isValid) {
       if (data.rememberUsername) {
-        usernameManager.saveUsername(data.username);
+        usernameManager.saveToLocalStorage(data.username);
       } else {
-        usernameManager.removeSavedUsername();
+        usernameManager.clearLocalStorage();
       }
 
       onJoinRoom(data);
