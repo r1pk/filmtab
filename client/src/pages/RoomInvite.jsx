@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link as RouterLink } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
-import { Grid, Paper, Typography, Link as MUILink } from '@mui/material';
+import { Grid, Paper, Typography, Link } from '@mui/material';
 
 import { JoinRoomForm } from '@/features/room';
 
@@ -49,9 +49,9 @@ const RoomInvite = () => {
 
       <Grid item xs={12} sm={8} md={6} lg={4}>
         <JoinRoomForm onJoinRoom={handleJoinRoom} roomId={params?.roomId} />
-        <MUILink to="/" variant="body2" sx={{ display: 'block', textAlign: 'center', my: 2 }} component={Link}>
+        <Link component={RouterLink} to="/" variant="body2" sx={{ display: 'block', textAlign: 'center', my: 2 }}>
           Back to Home
-        </MUILink>
+        </Link>
       </Grid>
     </Grid>
   );
