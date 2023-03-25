@@ -12,7 +12,7 @@ import { Chat } from '@/features/chat';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useNavigationBlocker } from '@/hooks/useNavigationBlocker';
 
-import { colyseus } from '@/api/colyseus';
+import { colyseus } from '@/apis/colyseus';
 import { store, actions } from '@/redux';
 
 const Room = () => {
