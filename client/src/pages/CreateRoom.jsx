@@ -9,7 +9,7 @@ import { CreateRoomForm } from '@/features/room';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
-import { colyseus } from '@/api/colyseus';
+import { colyseus } from '@/apis/colyseus';
 import { actions } from '@/redux';
 
 const CreateRoom = () => {
