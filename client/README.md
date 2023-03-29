@@ -80,6 +80,7 @@ src
    |   |-- store.js               # initializes redux store
    |   |-- index.js               # exports redux related files from the folder
    |-- themes                     # theme related files used in the application
+   |   |-- base.js                # base style object used in the application
    |   |-- dark.js                # dark theme object used in the application
    |-- App.jsx                    # main application component
    |-- AppRoutes.jsx              # available routes in the application
