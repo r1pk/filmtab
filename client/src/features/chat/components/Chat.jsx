@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect, useRef, forwardRef } from 'react';
 
-import { Card, CardHeader, CardContent, CardActions, Divider } from '@mui/material';
+import { Card, CardHeader, CardContent, CardActions, Stack, Divider } from '@mui/material';
 
-import ChatMessageList from './ChatMessageList';
-import ChatMessageForm from './ChatMessageForm';
+import ChatMessage from './ChatMessage';
+import ChatForm from './ChatForm';
 
 const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref) => {
   const content = useRef(null);
@@ -29,11 +29,15 @@ const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref)
       />
       <Divider />
       <CardContent sx={{ flexGrow: 1, overflowY: 'scroll', scrollBehavior: 'smooth' }} ref={content}>
-        <ChatMessageList messages={messages} />
+        <Stack direction="column" spacing={1}>
+          {messages.map((message) => (
+            <ChatMessage message={message} key={message.id} />
+          ))}
+        </Stack>
       </CardContent>
       <Divider />
       <CardActions>
-        <ChatMessageForm onSendMessage={onSendMessage} onClearChat={onClearChat} />
+        <ChatForm onSendMessage={onSendMessage} onClearChat={onClearChat} />
       </CardActions>
     </Card>
   );
