@@ -16,7 +16,7 @@ const schema = Joi.object({
   content: Joi.string().trim().min(1).max(140).required().label('content'),
 });
 
-const ChatMessageForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref) => {
+const ChatForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref) => {
   const { control, formState, handleSubmit, reset } = useForm({
     mode: 'all',
     defaultValues: {
@@ -66,11 +66,11 @@ const ChatMessageForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref
   );
 });
 
-ChatMessageForm.displayName = 'ChatMessageForm';
+ChatForm.displayName = 'ChatForm';
 
-ChatMessageForm.propTypes = {
+ChatForm.propTypes = {
   onSendMessage: PropTypes.func.isRequired,
   onClearChat: PropTypes.func.isRequired,
 };
 
-export default ChatMessageForm;
+export default ChatForm;
