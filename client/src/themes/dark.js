@@ -11,12 +11,6 @@ export const dark = responsiveFontSizes(
         primary: {
           main: '#FBAE3C',
         },
-        secondary: {
-          main: '#8CB369',
-        },
-        background: {
-          main: '#363537',
-        },
       },
     })
   )
