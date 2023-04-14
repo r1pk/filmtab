@@ -5,8 +5,12 @@ Server is responsible for handling all communication between clients in specific
 
 ## Pre-requisites
 
-- [node.js v14.0 or higher](https://nodejs.org/en/)
-- [npm v7.0 or higher](https://nodejs.org/en/download/)
+Server was developed and tested in a stable environment, utilizing the following versions:
+
+- [node.js v19.7.0](https://nodejs.org/en/)
+- [npm v9.6.0](https://nodejs.org/en/download/)
+
+This ensures that the application runs smoothly and efficiently.
 
 ## Installation
 
