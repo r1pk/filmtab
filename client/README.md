@@ -13,8 +13,12 @@ Room page with playing video
 
 ## Pre-requisites
 
-- [node.js v16+ or higher](https://nodejs.org/en/)
-- [npm v8.0 or higher](https://nodejs.org/en/download/)
+FilmTab was developed and tested in a stable environment, utilizing the following versions:
+
+- [node.js v19.7.0](https://nodejs.org/en/)
+- [npm v9.6.0](https://nodejs.org/en/download/)
+
+This ensures that the application runs smoothly and efficiently.
 
 ## Installation
 
@@ -60,35 +64,35 @@ npm run build
 public                            # static files
 src
    |-- apis                       # api related folders and files
-   |   |-- group                  # group of files related to a single api
-   |   |   |-- index.js           # exports main api instance from the folder
-   |-- components                 # grouped components used in the application
-   |   |-- group                  # group of components
+   |   |-- group                  # files grouped by specific api
+   |   |   |-- index.js           # exports main api instance
+   |-- components                 # components used across the application
+   |   |-- group                  # components grouped by their purpose
    |-- features                   # feature based modules
-   |   |-- feature                # feature module
-   |   |   |-- components         # components used in the feature
-   |   |   |-- constants          # constants used across the feature
-   |   |   |-- utils              # utility functions used in the feature components
-   |   |   |-- index.js           # exports components from the feature
-   |-- hooks                      # custom hooks used mostly in the page components
-   |-- layouts                    # app layouts
-   |   |-- layout                 # single layout
+   |   |-- feature                # resources grouped by the feature
+   |   |   |-- components         # feature components
+   |   |   |-- constants          # feature constants
+   |   |   |-- utils              # feature utils
+   |   |   |-- index.js           # exports resources from the feature folder
+   |-- hooks                      # hooks used across the application
+   |-- layouts                    # application layouts
+   |   |-- layout                 # layout components grouped by their purpose
    |   |   |-- index.js           # exports main layout component from the folder
    |-- pages                      # page components
    |-- redux                      # redux related files
    |   |-- slices                 # redux toolkit store slices
-   |   |-- store.js               # initializes redux store
-   |   |-- index.js               # exports redux related files from the folder
-   |-- themes                     # theme related files used in the application
-   |   |-- base.js                # base style object used in the application
-   |   |-- dark.js                # dark theme object used in the application
+   |   |-- store.js               # store configuration
+   |   |-- index.js               # exports redux related resources from the folder
+   |-- themes                     # theme related files
+   |   |-- base.js                # base style object containing common styles
+   |   |-- dark.js                # dark theme object
    |-- App.jsx                    # main application component
    |-- AppRoutes.jsx              # available routes in the application
    |-- main.jsx                   # entry point of the application
 .env                              # file containing environment variables
 ```
 
-## Live Demo
+## Live demo
 
 Application is automatically deployed using Vercel.
 
