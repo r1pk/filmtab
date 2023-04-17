@@ -2,8 +2,6 @@
 
 FilmTab is a responsive web application that allows users to watch videos together at the same time and provides a way for users to communicate with each other using a text chat feature. FilmTab is built using technologies such as [React](https://reactjs.org/), [React-Router](https://reactrouter.com), [Redux](https://redux.js.org/), [Material-UI](https://mui.com/).
 
-
-
 ## Screenshots
 
 Home page
@@ -11,7 +9,6 @@ Home page
 
 Room page with playing video
 ![Room page](https://i.imgur.com/aBbfYxp.png)
-
 
 ## Pre-requisites
 
@@ -21,6 +18,7 @@ Application was developed and tested in a stable environment, utilizing the foll
 - [npm v9.6.0](https://nodejs.org/en/download/)
 
 This ensures that the application runs smoothly and efficiently.
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your `.env` file
@@ -31,7 +29,6 @@ VITE_COLYSEUS_URL=                       # Colyseus server address
 
 VITE_USERNAME_LOCALSTORAGE_KEY=username  # Local storage key used to store username
 ```
-
 
 ## Run Locally
 
@@ -58,7 +55,6 @@ Run the project locally
 ```bash
   npm run dev
 ```
-
 
 ## Project file structure
 
@@ -90,17 +86,16 @@ src
    |-- main.jsx                   # entry point of the application
 .env                              # file containing environment variables
 ```
+
 ## Demo
 
 Application is automatically deployed using Vercel.
 
 [FilmTab Live Demo](https://filmtab.vercel.app/)
 
-
 ## Authors
 
 - [@r1pk](https://github.com/r1pk)
-
 
 ## License
 
