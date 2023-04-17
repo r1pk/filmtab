@@ -5,8 +5,8 @@ import Joi from 'joi';
 import { Card, CardActions, Stack } from '@mui/material';
 import { SendOutlined } from '@mui/icons-material';
 
-import TextField from '@/components/form/TextField';
-import Button from '@/components/form/Button';
+import TextField from '@/components/common/TextField';
+import Button from '@/components/common/Button';
 
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';

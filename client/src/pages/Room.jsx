@@ -5,9 +5,15 @@ import { useNavigate } from 'react-router-dom';
 
 import { Grid, Stack, Paper, Box } from '@mui/material';
 
-import { UserList, LeaveRoomButton } from '@/features/room';
-import { SetVideoForm, VideoPlayer, UploadSubtitlesButton, DeleteSubtitlesButton } from '@/features/video';
-import { Chat } from '@/features/chat';
+import UserList from '@/components/room/UserList';
+import LeaveRoomButton from '@/components/room/LeaveRoomButton';
+
+import SetVideoForm from '@/components/video/SetVideoForm';
+import VideoPlayer from '@/components/video/VideoPlayer';
+import UploadSubtitlesButton from '@/components/video/UploadSubtitlesButton';
+import DeleteSubtitlesButton from '@/components/video/DeleteSubtitlesButton';
+
+import Chat from '@/components/chat/Chat';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useNavigationBlocker } from '@/hooks/useNavigationBlocker';
