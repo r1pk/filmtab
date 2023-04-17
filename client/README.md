@@ -1,7 +1,8 @@
-# Filmtab-client
+# FilmTab
 
-Filmtab-client is a responsive web application written in [React](https://reactjs.org/), allowing users to watch videos from various streaming services together in private rooms.  
-Application is built using [Vite](https://vitejs.dev/), [Redux](https://redux.js.org/), [React Router](https://reacttraining.com/react-router/) and [Material UI](https://mui.com/).
+FilmTab is a responsive web application that allows users to watch videos together at the same time and provides a way for users to communicate with each other using a text chat feature. FilmTab is built using technologies such as [React](https://reactjs.org/), [React-Router](https://reactrouter.com), [Redux](https://redux.js.org/), [Material-UI](https://mui.com/).
+
+
 
 ## Screenshots
 
@@ -11,54 +12,55 @@ Home page
 Room page with playing video
 ![Room page](https://i.imgur.com/aBbfYxp.png)
 
+
 ## Pre-requisites
 
-FilmTab was developed and tested in a stable environment, utilizing the following versions:
+Application was developed and tested in a stable environment, utilizing the following versions:
 
 - [node.js v19.7.0](https://nodejs.org/en/)
 - [npm v9.6.0](https://nodejs.org/en/download/)
 
 This ensures that the application runs smoothly and efficiently.
+## Environment Variables
 
-## Installation
-
-Clone Filmtab-client repository
-
-```bash
-git clone https://github.com/r1pk/filmtab-client.git master
-```
-
-Install all dependencies
+To run this project, you will need to add the following environment variables to your `.env` file
 
 ```bash
-cd ./master
-npm install
-```
-
-Before running the application, configure the environment variables to provide the application with [server](https://github.com/r1pk/filmtab-server) address
-
-```env
-VITE_BASE_APP_TITLE=FilmTab              # Application title used as a prefix for the document title
+VITE_BASE_APP_TITLE=FilmTab              # Base application title
 VITE_COLYSEUS_URL=                       # Colyseus server address
 
 VITE_USERNAME_LOCALSTORAGE_KEY=username  # Local storage key used to store username
 ```
 
-Run the app in development mode
+
+## Run Locally
+
+Clone the project
 
 ```bash
-npm run dev
+  git clone https://github.com/r1pk/filmtab-client.git
 ```
 
-After running the application, open `localhost:5173` in your browser.
-
-Build the app for production to the `build` folder
+Go to the project directory
 
 ```bash
-npm run build
+  cd filmtab-client
 ```
 
-## Project structure
+Install dependencies
+
+```bash
+  npm install
+```
+
+Run the project locally
+
+```bash
+  npm run dev
+```
+
+
+## Project file structure
 
 ```bash
 public                            # static files
@@ -67,7 +69,7 @@ src
    |   |-- group                  # files grouped by specific api
    |   |   |-- index.js           # exports main api instance
    |-- components                 # components used across the application
-   |   |-- common                 # common components used across the application and other components
+   |   |-- common                 # common components used across the application
    |   |-- group                  # components grouped by their purpose
    |-- constants                  # constants used across the application
    |-- hooks                      # hooks used across the application
@@ -88,17 +90,18 @@ src
    |-- main.jsx                   # entry point of the application
 .env                              # file containing environment variables
 ```
-
-## Live demo
+## Demo
 
 Application is automatically deployed using Vercel.
 
-[Live demo](https://filmtab.vercel.app)
+[FilmTab Live Demo](https://filmtab.vercel.app/)
 
-## Author
 
-- Patryk [r1pk](https://github.com/r1pk) Krawczyk
+## Authors
+
+- [@r1pk](https://github.com/r1pk)
+
 
 ## License
 
-- [MIT](https://choosealicense.com/licenses/mit/)
+[MIT](https://choosealicense.com/licenses/mit/)
