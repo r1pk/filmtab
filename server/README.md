@@ -1,36 +1,49 @@
 # Filmtab-server
 
-Filmtab-server is a server written in [Node.js](https://nodejs.org/en/) using [Colyseus.js](https://www.colyseus.io/) framework for Filmtab application.  
-Server is responsible for handling all communication between clients in specific rooms and managing room state.
+Repository contains the server-side application for [Filmtab project](https://github.com/r1pk/filmtab-client). Server is written in Node.js and uses the [Colyseus](https://colyseus.io/) framework.
 
 ## Pre-requisites
 
-Server was developed and tested in a stable environment, utilizing the following versions:
+Application was developed and tested in a stable environment, utilizing the following versions:
 
 - [node.js v19.7.0](https://nodejs.org/en/)
 - [npm v9.6.0](https://nodejs.org/en/download/)
 
 This ensures that the application runs smoothly and efficiently.
 
-## Installation
+## Environment Variables
 
-Clone Filmtab-server repository
+To run this project, you will need to add the following environment variables to your `.env` file
 
 ```bash
-git clone https://github.com/r1pk/filmtab-server.git master
+NODE_ENV=development         # node environment
+COLYSEUS_MONITOR_PASSWORD=   # password for colyseus monitor
 ```
 
-Install all dependencies
+## Run Locally
+
+Clone the project
 
 ```bash
-cd ./master
-npm install
+  git clone https://github.com/r1pk/filmtab-server.git
 ```
 
-Run server
+Go to the project directory
 
 ```bash
-npm start
+  cd filmtab-server
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Run the project locally
+
+```bash
+  npm start
 ```
 
 ## Project structure
