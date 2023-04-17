@@ -13,7 +13,7 @@ import Button from '@/components/common/Button';
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import { usernameManager } from '@/utils/usernameManager';
+import { usernameManager } from '@/utils/username-manager';
 
 const schema = Joi.object({
   username: Joi.string().trim().alphanum().min(3).max(20).required().label('username'),
