@@ -1,6 +1,6 @@
 # Filmtab-client
 
-Filmtab-client is a responsive web application written in [React](https://reactjs.org/), allowing users to watch videos synchronously in private rooms from various streaming services.  
+Filmtab-client is a responsive web application written in [React](https://reactjs.org/), allowing users to watch videos from various streaming services together in private rooms.  
 Application is built using [Vite](https://vitejs.dev/), [Redux](https://redux.js.org/), [React Router](https://reacttraining.com/react-router/) and [Material UI](https://mui.com/).
 
 ## Screenshots
