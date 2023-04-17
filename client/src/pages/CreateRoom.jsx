@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 import { Grid } from '@mui/material';
 
-import { CreateRoomForm } from '@/features/room';
+import CreateRoomForm from '@/components/room/CreateRoomForm';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 

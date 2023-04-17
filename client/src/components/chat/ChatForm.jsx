@@ -5,9 +5,9 @@ import Joi from 'joi';
 import { Box, Stack, Tooltip } from '@mui/material';
 import { DeleteSweepOutlined } from '@mui/icons-material';
 
-import TextField from '@/components/form/TextField';
-import Button from '@/components/form/Button';
-import IconButton from '@/components/form/IconButton';
+import TextField from '@/components/common/TextField';
+import Button from '@/components/common/Button';
+import IconButton from '@/components/common/IconButton';
 
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';

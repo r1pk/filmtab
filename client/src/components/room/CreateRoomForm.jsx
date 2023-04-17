@@ -5,27 +5,25 @@ import Joi from 'joi';
 import { Card, CardHeader, CardContent, CardActions, Divider, Stack } from '@mui/material';
 import { BookmarkBorder, Bookmark } from '@mui/icons-material';
 
-import TextField from '@/components/form/TextField';
-import FormControlLabel from '@/components/form/FormControlLabel';
-import Checkbox from '@/components/form/Checkbox';
-import Button from '@/components/form/Button';
+import TextField from '@/components/common/TextField';
+import FormControlLabel from '@/components/common/FormControlLabel';
+import Checkbox from '@/components/common/Checkbox';
+import Button from '@/components/common/Button';
 
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import { usernameManager } from '../utils/usernameManager';
+import { usernameManager } from '@/utils/usernameManager';
 
 const schema = Joi.object({
-  roomId: Joi.string().trim().length(9).required().label('roomId'),
   username: Joi.string().trim().alphanum().min(3).max(20).required().label('username'),
   rememberUsername: Joi.boolean().label('rememberUsername'),
 });
 
-const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
+const CreateRoomForm = forwardRef(({ onCreateRoom, ...rest }, ref) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
     defaultValues: {
-      roomId: roomId || '',
       username: usernameManager.readFromLocalStorage() || usernameManager.createRandom(),
       rememberUsername: true,
     },
@@ -41,14 +39,14 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
         usernameManager.clearLocalStorage();
       }
 
-      onJoinRoom(data);
+      onCreateRoom(data);
     }
   };
 
   return (
     <Card component="form" onSubmit={handleSubmit(onSubmit)} ref={ref} {...rest}>
       <CardHeader
-        title="Join Room"
+        title="Create Room"
         titleTypographyProps={{
           variant: 'h6',
         }}
@@ -57,20 +55,6 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
       <Divider />
       <CardContent>
         <Stack direction="column" spacing={1}>
-          <Controller
-            name="roomId"
-            control={control}
-            render={({ field, fieldState }) => (
-              <TextField
-                label="Room ID"
-                error={Boolean(fieldState.error)}
-                helperText={fieldState.error?.message}
-                disabled={Boolean(roomId)}
-                fullWidth
-                {...field}
-              />
-            )}
-          />
           <Controller
             name="username"
             control={control}
@@ -107,18 +91,17 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
       </CardContent>
       <CardActions>
         <Button type="submit" disabled={!isValid} fullWidth>
-          Join
+          Create
         </Button>
       </CardActions>
     </Card>
   );
 });
 
-JoinRoomForm.displayName = 'JoinRoomForm';
+CreateRoomForm.displayName = 'CreateRoomForm';
 
-JoinRoomForm.propTypes = {
-  onJoinRoom: PropTypes.func.isRequired,
-  roomId: PropTypes.string,
+CreateRoomForm.propTypes = {
+  onCreateRoom: PropTypes.func.isRequired,
 };
 
-export default JoinRoomForm;
+export default CreateRoomForm;

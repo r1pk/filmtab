@@ -67,13 +67,9 @@ src
    |   |-- group                  # files grouped by specific api
    |   |   |-- index.js           # exports main api instance
    |-- components                 # components used across the application
+   |   |-- common                 # common components used across the application and other components
    |   |-- group                  # components grouped by their purpose
-   |-- features                   # feature based modules
-   |   |-- feature                # resources grouped by the feature
-   |   |   |-- components         # feature components
-   |   |   |-- constants          # feature constants
-   |   |   |-- utils              # feature utils
-   |   |   |-- index.js           # exports resources from the feature folder
+   |-- constants                  # constants used across the application
    |-- hooks                      # hooks used across the application
    |-- layouts                    # application layouts
    |   |-- layout                 # layout components grouped by their purpose
@@ -86,6 +82,7 @@ src
    |-- themes                     # theme related files
    |   |-- base.js                # base style object containing common styles
    |   |-- dark.js                # dark theme object
+   |-- utils                      # utility functions used across the application
    |-- App.jsx                    # main application component
    |-- AppRoutes.jsx              # available routes in the application
    |-- main.jsx                   # entry point of the application

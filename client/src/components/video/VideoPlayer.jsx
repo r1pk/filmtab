@@ -3,9 +3,9 @@ import { forwardRef, useRef, useState, useEffect, useImperativeHandle } from 're
 
 import Plyr from 'plyr';
 
-import { playerOptions } from '../constants/playerOptions';
-import { buildPlayerSource } from '../utils/buildPlayerSource';
-import { createSubtitleTrack } from '../utils/createSubtitleTrack';
+import { playerOptions } from '@/constants/playerOptions';
+import { buildPlayerSource } from '@/utils/buildPlayerSource';
+import { createSubtitleTrack } from '@/utils/createSubtitleTrack';
 
 const VideoPlayer = forwardRef(({ state, onTogglePlayback, onSeekVideo, onReadyToSeek }, ref) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
