@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 
-import { Grid } from '@mui/material';
+import { Unstable_Grid2 as Grid } from '@mui/material';
 
 import CreateRoomForm from '@/components/room/CreateRoomForm';
 
@@ -34,7 +34,7 @@ const CreateRoom = () => {
 
   return (
     <Grid container columns={16} sx={{ justifyContent: 'center' }}>
-      <Grid item xs={12} sm={8} md={6} lg={4}>
+      <Grid xs={12} sm={8} md={6} lg={4}>
         <CreateRoomForm onCreateRoom={handleCreateRoom} />
       </Grid>
     </Grid>

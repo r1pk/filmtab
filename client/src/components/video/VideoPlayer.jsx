@@ -3,7 +3,7 @@ import { forwardRef, useRef, useState, useEffect, useImperativeHandle } from 're
 
 import Plyr from 'plyr';
 
-import { playerOptions } from '@/constants/player-options';
+import { playerConfig } from '@/configs/player-config';
 import { buildPlayerSource } from '@/utils/build-player-source';
 import { createSubtitleTrack } from '@/utils/create-subtitle-track';
 
@@ -29,7 +29,7 @@ const VideoPlayer = forwardRef(({ state, onTogglePlayback, onSeekVideo, onReadyT
 
       plyr.current = new Plyr(
         '.filmtab-player-target',
-        Object.assign({}, playerOptions, {
+        Object.assign({}, playerConfig, {
           listeners: {
             play: handleTogglePlayback,
             seek: handleSeekVideo,

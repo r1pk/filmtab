@@ -67,7 +67,7 @@ src
    |-- components                 # components used across the application
    |   |-- common                 # common components used across the application
    |   |-- group                  # components grouped by their purpose
-   |-- constants                  # constants used across the application
+   |-- configs                    # configuration files
    |-- hooks                      # hooks used across the application
    |-- layouts                    # application layouts
    |   |-- layout                 # layout components grouped by their purpose

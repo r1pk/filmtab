@@ -1,4 +1,4 @@
-import { playerProviders } from '@/constants/player-providers';
+import { playerProviders } from '@/configs/player-providers';
 
 export const buildPlayerSource = (url) => {
   const provider = playerProviders.find((provider) => provider.regexp.test(url));

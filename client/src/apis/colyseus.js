@@ -60,4 +60,4 @@ class ColyseusClient extends Client {
   }
 }
 
-export default ColyseusClient;
+export const colyseus = new ColyseusClient(import.meta.env.VITE_COLYSEUS_URL);
