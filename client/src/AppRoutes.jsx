@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { MainLayout } from '@/layouts/main';
+import MainLayout from '@/layouts/main/MainLayout';
 
 import Home from '@/pages/Home';
 import CreateRoom from '@/pages/CreateRoom';
