@@ -3,7 +3,7 @@ import { useRef, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Grid, Stack, Paper, Box } from '@mui/material';
+import { Unstable_Grid2 as Grid, Stack, Paper, Box } from '@mui/material';
 
 import UserList from '@/components/room/UserList';
 import LeaveRoomButton from '@/components/room/LeaveRoomButton';
@@ -145,10 +145,10 @@ const Room = () => {
 
   return (
     <Grid container columns={16} spacing={2} sx={{ alignItems: 'start' }}>
-      <Grid item xs={16}>
+      <Grid xs={16}>
         <SetVideoForm url={video.url} onSetVideo={handleSetVideo} />
       </Grid>
-      <Grid item xs={16} lg={12} ref={mainSection}>
+      <Grid xs={16} lg={12} ref={mainSection}>
         <Stack direction="column" spacing={2}>
           <Paper>
             <VideoPlayer
@@ -168,7 +168,7 @@ const Room = () => {
           </Box>
         </Stack>
       </Grid>
-      <Grid item xs={16} lg={4} sx={{ alignSelf: 'stretch', minHeight: { xs: 480 } }} ref={sideSection}>
+      <Grid xs={16} lg={4} sx={{ alignSelf: 'stretch', minHeight: { xs: 480 } }} ref={sideSection}>
         <Stack direction="column" spacing={2} sx={{ height: 1 }}>
           <UserList users={users} />
           <Chat messages={messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
