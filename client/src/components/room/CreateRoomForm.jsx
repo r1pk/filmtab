@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import Joi from 'joi';
 
-import { Card, CardHeader, CardContent, CardActions, Divider, Stack } from '@mui/material';
+import { Card, CardHeader, CardContent, CardActions, Stack } from '@mui/material';
 import { BookmarkBorder, Bookmark } from '@mui/icons-material';
 
 import TextField from '@/components/common/TextField';
@@ -48,11 +48,10 @@ const CreateRoomForm = forwardRef(({ onCreateRoom, ...rest }, ref) => {
       <CardHeader
         title="Create Room"
         titleTypographyProps={{
-          variant: 'h6',
+          variant: 'overline',
         }}
-        sx={{ textAlign: 'center', textTransform: 'uppercase', p: 1 }}
+        sx={{ textAlign: 'center', p: 1 }}
       />
-      <Divider />
       <CardContent>
         <Stack direction="column" spacing={1}>
           <Controller

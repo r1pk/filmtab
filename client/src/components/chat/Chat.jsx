@@ -23,9 +23,9 @@ const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref)
       <CardHeader
         title="Chat"
         titleTypographyProps={{
-          variant: 'h6',
+          variant: 'overline',
         }}
-        sx={{ textAlign: 'center', textTransform: 'uppercase', p: 1 }}
+        sx={{ textAlign: 'center', p: 1 }}
       />
       <Divider />
       <CardContent sx={{ flexGrow: 1, overflowY: 'scroll', scrollBehavior: 'smooth' }} ref={content}>
