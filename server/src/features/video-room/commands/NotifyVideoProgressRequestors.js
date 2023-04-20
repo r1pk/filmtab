@@ -8,7 +8,7 @@ export class NotifyVideoProgressRequestors extends Command {
 
     for (const client of this.room.clients) {
       if (requestors.includes(client.sessionId)) {
-        client.send('video::progress', new VideoProgress().assign({ progress: progress }));
+        client.send('video::latest_progress', new VideoProgress().assign({ progress: progress }));
       }
     }
   }

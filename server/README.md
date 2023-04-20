@@ -142,7 +142,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   {}
   ```
 
-- `video::progress` - video progress sent to this event will be broadcasted to all clients who requested current video progress with `video::request_progress` event.
+- `video::latest_progress` - video progress sent to this event will be broadcasted to all clients who requested current video progress with `video::request_progress` event.
   Accepts object with `progress` field which is a number with current progress of the video.
 
   ```
@@ -170,9 +170,9 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   {}
   ```
 
-  Every user that receives this event should respond with `video::progress` event.
+  Every user that receives this event should respond with `video::latest_progress` event.
 
-- `video::progress` - Sends current progress of the video received from fastest user.  
+- `video::latest_progress` - Sends current progress of the video received from fastest user.  
   Payload sent with this event is object with `progress` field which is a number with current progress of the video.
 
   ```
