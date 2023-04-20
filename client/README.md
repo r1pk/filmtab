@@ -5,10 +5,10 @@ FilmTab is a responsive web application that allows users to watch videos togeth
 ## Screenshots
 
 Home page
-![Home page](https://i.imgur.com/epCuUVR.png)
+![Home page](https://i.imgur.com/d5ItWRZ.png)
 
 Room page with playing video
-![Room page](https://i.imgur.com/aBbfYxp.png)
+![Room page](https://i.imgur.com/53MGePL.png)
 
 ## Pre-requisites
 
