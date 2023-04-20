@@ -7,9 +7,11 @@ import User from './User';
 
 const UserList = forwardRef(({ users, ...rest }, ref) => {
   return (
-    <Paper component={AvatarGroup} max={7} sx={{ p: 2, justifyContent: 'center' }} ref={ref} {...rest}>
-      {users.length === 0 && <Skeleton variant="circular" width={44} height={44} />}
-      {users.length > 0 && users.map((user) => <User key={user.id} user={user} />)}
+    <Paper ref={ref} {...rest}>
+      <AvatarGroup max={7} sx={{ p: 1, justifyContent: 'center' }}>
+        {users.length === 0 && <Skeleton variant="circular" width={44} height={44} />}
+        {users.length > 0 && users.map((user) => <User key={user.id} user={user} />)}
+      </AvatarGroup>
     </Paper>
   );
 });
