@@ -84,7 +84,7 @@ const Room = () => {
   useEffect(function createVideoProgressRequestListener() {
     const handleVideoProgressRequest = () => {
       if (player.current) {
-        colyseus.room.send('video::progress', { progress: player.current.getCurrentProgress() });
+        colyseus.room.send('video::latest_progress', { progress: player.current.getCurrentProgress() });
       }
     };
 
@@ -96,12 +96,12 @@ const Room = () => {
   }, []);
 
   useEffect(
-    function createVideoProgressListener() {
-      const handleVideoProgress = (data) => {
+    function createLatestVideoProgressListener() {
+      const handleLatestVideoProgress = (data) => {
         dispatch(actions.room.setVideoProgress({ progress: data.progress }));
       };
 
-      const removeColyseusListener = colyseus.room.onMessage('video::progress', handleVideoProgress);
+      const removeColyseusListener = colyseus.room.onMessage('video::latest_progress', handleLatestVideoProgress);
 
       return function cleanup() {
         removeColyseusListener();
