@@ -81,16 +81,16 @@ const Room = () => {
     transition.retry();
   };
 
-  useEffect(function createRequestVideoProgressListener() {
-    const handleRequestVideoProgress = () => {
+  useEffect(function createVideoProgressRequestListener() {
+    const handleVideoProgressRequest = () => {
       if (player.current) {
         colyseus.room.send('video::progress', { progress: player.current.getCurrentProgress() });
       }
     };
 
-    const removeColyseusListener = colyseus.room.onMessage('video::request_progress', handleRequestVideoProgress);
+    const removeColyseusListener = colyseus.room.onMessage('video::request_progress', handleVideoProgressRequest);
 
-    return function removeRequestVideoProgressListener() {
+    return function cleanup() {
       removeColyseusListener();
     };
   }, []);
@@ -103,7 +103,7 @@ const Room = () => {
 
       const removeColyseusListener = colyseus.room.onMessage('video::progress', handleVideoProgress);
 
-      return function removeVideoProgressListener() {
+      return function cleanup() {
         removeColyseusListener();
       };
     },
@@ -118,7 +118,7 @@ const Room = () => {
 
       const removeColyseusListener = colyseus.room.onMessage('chat::message', handleChatMessage);
 
-      return function removeChatMessageListener() {
+      return function cleanup() {
         removeColyseusListener();
       };
     },
@@ -126,17 +126,17 @@ const Room = () => {
   );
 
   useEffect(function createWindowResizeListener() {
-    const resizeSideSection = () => {
+    const handleWindowResize = () => {
       if (mainSection.current && sideSection.current) {
         sideSection.current.style.height = `${mainSection.current.clientHeight}px`;
       }
     };
 
-    resizeSideSection();
-    window.addEventListener('resize', resizeSideSection);
+    handleWindowResize();
+    window.addEventListener('resize', handleWindowResize);
 
-    return function removeWindowResizeListener() {
-      window.removeEventListener('resize', resizeSideSection);
+    return function cleanup() {
+      window.removeEventListener('resize', handleWindowResize);
     };
   }, []);
 

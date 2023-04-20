@@ -5,7 +5,7 @@ export const useDocumentTitle = (title) => {
     function setDocumentTitle() {
       document.title = `${import.meta.env.VITE_BASE_APP_TITLE} :: ${title}`;
 
-      return function setDefaultDocumentTitle() {
+      return function setBaseDocumentTitle() {
         document.title = import.meta.env.VITE_BASE_APP_TITLE;
       };
     },

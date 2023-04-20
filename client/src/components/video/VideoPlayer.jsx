@@ -60,7 +60,7 @@ const VideoPlayer = forwardRef(({ state, onTogglePlayback, onSeekVideo, onReadyT
   );
 
   useEffect(
-    function setVideoSubtitles() {
+    function createVideoSubtitles() {
       if (isPlayerReady && plyr.current.isHTML5 && state.subtitles !== '') {
         const track = createSubtitleTrack(state.subtitles);
 
@@ -68,7 +68,7 @@ const VideoPlayer = forwardRef(({ state, onTogglePlayback, onSeekVideo, onReadyT
         plyr.current.media.textTracks[0].mode = 'hidden';
       }
 
-      return function clearVideoSubtitles() {
+      return function removeVideoSubtitles() {
         if (plyr.current.isHTML5 && plyr.current.media) {
           plyr.current.media.querySelectorAll('track').forEach((track) => {
             track.remove();
