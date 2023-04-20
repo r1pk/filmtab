@@ -172,7 +172,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
 
   Every user that receives this event should respond with `video::latest_progress` event.
 
-- `video::latest_progress` - Sends current progress of the video received from fastest user.  
+- `video::latest_progress` - sends current progress of the video received from fastest user.  
   Payload sent with this event is object with `progress` field which is a number with current progress of the video.
 
   ```
@@ -183,7 +183,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
 
   This event is sent only to users that requested current progress with `video::request_progress` event.
 
-- `chat::message` - Chat message received from other user.  
+- `chat::message` - chat message received from other user.  
   Payload sent with this event is object with `id`, `content`, `createdAt`, `author` fields.
 
   ```
