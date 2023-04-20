@@ -43,7 +43,7 @@ export class VideoRoom extends Room {
     this.onMessage('video::delete_subtitles', this.onDeleteVideoSubtitles.bind(this));
 
     this.onMessage('video::request_progress', this.onRequestVideoProgress.bind(this));
-    this.onMessage('video::progress', this.onVideoProgress.bind(this));
+    this.onMessage('video::latest_progress', this.onLatestVideoProgress.bind(this));
 
     this.onMessage('chat::message', this.onChatMessage.bind(this));
 
@@ -232,7 +232,7 @@ export class VideoRoom extends Room {
     }
   }
 
-  onVideoProgress(client, message) {
+  onLatestVideoProgress(client, message) {
     try {
       this.dispatcher.dispatch(new ValidateVideoProgress(), {
         progress: message.progress,
@@ -242,7 +242,7 @@ export class VideoRoom extends Room {
       });
       this.dispatcher.dispatch(new ClearVideoProgressRequests());
 
-      logger.debug('Video progress received!', { roomId: this.roomId, userId: client.sessionId });
+      logger.debug('Latest video progress received!', { roomId: this.roomId, userId: client.sessionId });
     } catch (error) {
       this.onError(client, error);
     }
