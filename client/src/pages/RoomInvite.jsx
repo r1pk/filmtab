@@ -37,8 +37,8 @@ const RoomInvite = () => {
     <Grid container columns={16} spacing={2} sx={{ justifyContent: 'center' }}>
       <Grid container xs={16} sx={{ justifyContent: 'center' }}>
         <Grid xs={16} sm={12} md={8} lg={6}>
-          <Paper>
-            <Typography variant="h1" component="h1" sx={{ p: 2, textAlign: 'center' }}>
+          <Paper sx={{ p: 2 }}>
+            <Typography variant="h1" component="h1" sx={{ textAlign: 'center' }}>
               {import.meta.env.VITE_BASE_APP_TITLE}
             </Typography>
           </Paper>
