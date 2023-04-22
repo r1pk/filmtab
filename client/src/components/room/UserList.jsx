@@ -7,8 +7,8 @@ import User from './User';
 
 const UserList = forwardRef(({ users, ...rest }, ref) => {
   return (
-    <Paper ref={ref} {...rest}>
-      <AvatarGroup max={7} sx={{ p: 1, justifyContent: 'center' }}>
+    <Paper sx={{ p: 1 }} ref={ref} {...rest}>
+      <AvatarGroup max={7} sx={{ justifyContent: 'center' }}>
         {users.length === 0 && <Skeleton variant="circular" width={44} height={44} />}
         {users.length > 0 && users.map((user) => <User key={user.id} user={user} />)}
       </AvatarGroup>
