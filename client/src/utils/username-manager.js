@@ -2,19 +2,19 @@ import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
 
 class UsernameManager {
   constructor() {
-    this.LOCAL_STORAGE_KEY = import.meta.env.VITE_USERNAME_LOCALSTORAGE_KEY;
+    this.STORAGE_KEY = import.meta.env.VITE_USERNAME_STORAGE_KEY;
   }
 
   saveToLocalStorage(username) {
-    return window.localStorage.setItem(this.LOCAL_STORAGE_KEY, username);
+    return window.localStorage.setItem(this.STORAGE_KEY, username);
   }
 
   readFromLocalStorage() {
-    return window.localStorage.getItem(this.LOCAL_STORAGE_KEY);
+    return window.localStorage.getItem(this.STORAGE_KEY);
   }
 
   clearLocalStorage() {
-    return window.localStorage.removeItem(this.LOCAL_STORAGE_KEY);
+    return window.localStorage.removeItem(this.STORAGE_KEY);
   }
 
   createRandom() {

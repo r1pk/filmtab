@@ -27,7 +27,7 @@ To run this project, you will need to add the following environment variables to
 VITE_BASE_APP_TITLE=FilmTab              # Base application title
 VITE_COLYSEUS_URL=                       # Colyseus server address
 
-VITE_USERNAME_LOCALSTORAGE_KEY=username  # Local storage key used to store username
+VITE_USERNAME_STORAGE_KEY=username       # storage key used to store username
 ```
 
 ## Run Locally
