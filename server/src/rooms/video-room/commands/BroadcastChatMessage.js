@@ -5,6 +5,10 @@ import { nanoid } from 'nanoid';
 import { ChatMessage } from '../schemas/ChatMessage.js';
 
 export class BroadcastChatMessage extends Command {
+  validate({ enabled = true }) {
+    return enabled;
+  }
+
   execute({ userId, content }) {
     const chatMessage = new ChatMessage().assign({
       id: nanoid(),

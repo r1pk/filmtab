@@ -50,11 +50,11 @@ Run the project locally
 
 ```
 src
-  |-- features            # available room types
+  |-- rooms               # available room types
   |  |-- room-type        # room directory
-  |  |  |-- classes       # classes related to room (mostly room classes)
   |  |  |-- commands      # commands used by given room
   |  |  |-- schemas       # schemas used by given room
+  |  |  |-- RoomName.js   # room class
   |  |  |-- index.js      # exports main room class
   |-- arena.config.js     # contains and exports created arena config
   |-- logger.js           # logger configuration

@@ -2,7 +2,7 @@ import Arena from '@colyseus/arena';
 import { monitor } from '@colyseus/monitor';
 import expressBasicAuth from 'express-basic-auth';
 
-import { VideoRoom } from './features/video-room/index.js';
+import { VideoRoom } from './rooms/video-room/index.js';
 
 export default Arena.default({
   getId: () => 'FilmTab Server',
