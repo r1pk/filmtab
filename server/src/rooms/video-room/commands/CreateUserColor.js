@@ -1,8 +1,8 @@
 import { Command } from '@colyseus/command';
 
 export class CreateUserColor extends Command {
-  validate({ enabled = true }) {
-    return enabled;
+  validate(payload = {}) {
+    return payload.enabled ?? true;
   }
 
   execute({ userId, username }) {

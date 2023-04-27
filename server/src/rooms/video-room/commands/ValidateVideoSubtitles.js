@@ -4,8 +4,8 @@ import Joi from 'joi';
 import WebVTT from 'node-webvtt';
 
 export class ValidateVideoSubtitles extends Command {
-  validate({ enabled = true }) {
-    return enabled;
+  validate(payload = {}) {
+    return payload.enabled ?? true;
   }
 
   execute({ subtitles }) {
