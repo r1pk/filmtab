@@ -5,8 +5,8 @@ import { nanoid } from 'nanoid';
 import { ChatMessage } from '../schemas/ChatMessage.js';
 
 export class BroadcastChatMessage extends Command {
-  validate({ enabled = true }) {
-    return enabled;
+  validate(payload = {}) {
+    return payload.enabled ?? true;
   }
 
   execute({ userId, content }) {

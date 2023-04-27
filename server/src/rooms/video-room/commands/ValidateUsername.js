@@ -3,8 +3,8 @@ import { Command } from '@colyseus/command';
 import Joi from 'joi';
 
 export class ValidateUsername extends Command {
-  validate({ enabled = true }) {
-    return enabled;
+  validate(payload = {}) {
+    return payload.enabled ?? true;
   }
 
   execute({ username }) {

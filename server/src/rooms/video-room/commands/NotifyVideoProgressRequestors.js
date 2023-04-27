@@ -3,8 +3,8 @@ import { Command } from '@colyseus/command';
 import { VideoProgress } from '../schemas/VideoProgress.js';
 
 export class NotifyVideoProgressRequestors extends Command {
-  validate({ enabled = true }) {
-    return enabled;
+  validate(payload = {}) {
+    return payload.enabled ?? true;
   }
 
   execute({ progress }) {
