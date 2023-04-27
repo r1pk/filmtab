@@ -1,32 +1,32 @@
 import { Room } from '@colyseus/core';
 import { Dispatcher } from '@colyseus/command';
 
-import { RoomState } from '../schemas/RoomState.js';
+import { RoomState } from './schemas/RoomState.js';
 
 import { logger } from '##/logger.js';
 
-import { ValidateUsername } from '../commands/ValidateUsername.js';
-import { ValidateUsernameUniqueness } from '../commands/ValidateUsernameUniqueness.js';
-import { ValidateVideoUrl } from '../commands/ValidateVideoUrl.js';
-import { ValidateVideoProgress } from '../commands/ValidateVideoProgress.js';
-import { ValidateVideoSubtitles } from '../commands/ValidateVideoSubtitles.js';
-import { ValidateChatMessageContent } from '../commands/ValidateChatMessageContent.js';
-import { ValidateVideoProgressRequest } from '../commands/ValidateVideoProgressRequest.js';
+import { ValidateUsername } from './commands/ValidateUsername.js';
+import { ValidateUsernameUniqueness } from './commands/ValidateUsernameUniqueness.js';
+import { ValidateVideoUrl } from './commands/ValidateVideoUrl.js';
+import { ValidateVideoProgress } from './commands/ValidateVideoProgress.js';
+import { ValidateVideoSubtitles } from './commands/ValidateVideoSubtitles.js';
+import { ValidateChatMessageContent } from './commands/ValidateChatMessageContent.js';
+import { ValidateVideoProgressRequest } from './commands/ValidateVideoProgressRequest.js';
 
-import { CreateUserInstance } from '../commands/CreateUserInstance.js';
-import { DeleteUserInstance } from '../commands/DeleteUserInstance.js';
-import { CreateUserColor } from '../commands/CreateUserColor.js';
-import { SetVideoUrl } from '../commands/SetVideoUrl.js';
-import { SetVideoPlayback } from '../commands/SetVideoPlayback.js';
-import { SetVideoProgress } from '../commands/SetVideoProgress.js';
-import { SetVideoSubtitles } from '../commands/SetVideoSubtitles.js';
-import { DeleteVideoSubtitles } from '../commands/DeleteVideoSubtitles.js';
-import { UpdateVideoStateTimestamp } from '../commands/UpdateVideoStateTimestamp.js';
-import { RegisterVideoProgressRequest } from '../commands/RegisterVideoProgressRequest.js';
-import { ClearVideoProgressRequests } from '../commands/ClearVideoProgressRequests.js';
-import { BroadcastVideoProgressRequest } from '../commands/BroadcastVideoProgressRequest.js';
-import { NotifyVideoProgressRequestors } from '../commands/NotifyVideoProgressRequestors.js';
-import { BroadcastChatMessage } from '../commands/BroadcastChatMessage.js';
+import { CreateUserInstance } from './commands/CreateUserInstance.js';
+import { DeleteUserInstance } from './commands/DeleteUserInstance.js';
+import { CreateUserColor } from './commands/CreateUserColor.js';
+import { SetVideoUrl } from './commands/SetVideoUrl.js';
+import { SetVideoPlayback } from './commands/SetVideoPlayback.js';
+import { SetVideoProgress } from './commands/SetVideoProgress.js';
+import { SetVideoSubtitles } from './commands/SetVideoSubtitles.js';
+import { DeleteVideoSubtitles } from './commands/DeleteVideoSubtitles.js';
+import { UpdateVideoStateTimestamp } from './commands/UpdateVideoStateTimestamp.js';
+import { RegisterVideoProgressRequest } from './commands/RegisterVideoProgressRequest.js';
+import { ClearVideoProgressRequests } from './commands/ClearVideoProgressRequests.js';
+import { BroadcastVideoProgressRequest } from './commands/BroadcastVideoProgressRequest.js';
+import { NotifyVideoProgressRequestors } from './commands/NotifyVideoProgressRequestors.js';
+import { BroadcastChatMessage } from './commands/BroadcastChatMessage.js';
 
 export class VideoRoom extends Room {
   onCreate() {
