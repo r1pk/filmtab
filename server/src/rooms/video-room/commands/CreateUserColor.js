@@ -1,6 +1,10 @@
 import { Command } from '@colyseus/command';
 
 export class CreateUserColor extends Command {
+  validate({ enabled = true }) {
+    return enabled;
+  }
+
   execute({ userId, username }) {
     const value = username.split('').reduce((p, c) => p + c.charCodeAt(0), 0);
 
