@@ -149,7 +149,7 @@ const Room = () => {
         <SetVideoForm url={video.url} onSetVideo={handleSetVideo} />
       </Grid>
       <Grid xs={16} lg={12} ref={mainSection}>
-        <Stack direction="column" spacing={2}>
+        <Stack spacing={2}>
           <Paper>
             <VideoPlayer
               state={video}
@@ -169,7 +169,7 @@ const Room = () => {
         </Stack>
       </Grid>
       <Grid xs={16} lg={4} sx={{ alignSelf: 'stretch', minHeight: { xs: 480 } }} ref={sideSection}>
-        <Stack direction="column" spacing={2} sx={{ height: 1 }}>
+        <Stack spacing={2} sx={{ height: 1 }}>
           <UserList users={users} />
           <Chat messages={messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
         </Stack>
