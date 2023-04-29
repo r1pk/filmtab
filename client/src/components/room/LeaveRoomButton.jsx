@@ -14,14 +14,7 @@ const LeaveRoomButton = forwardRef(({ onLeaveRoom, ...rest }, ref) => {
   };
 
   return (
-    <Button
-      size="small"
-      variant="text"
-      startIcon={<ExitToAppOutlined />}
-      onClick={handleButtonClick}
-      ref={ref}
-      {...rest}
-    >
+    <Button size="small" startIcon={<ExitToAppOutlined />} onClick={handleButtonClick} ref={ref} {...rest}>
       Leave room
     </Button>
   );

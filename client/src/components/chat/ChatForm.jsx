@@ -42,7 +42,6 @@ const ChatForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref) => {
           <TextField
             size="small"
             label="Message"
-            variant="outlined"
             error={fieldState.error && fieldState.value > 0}
             fullWidth
             {...field}

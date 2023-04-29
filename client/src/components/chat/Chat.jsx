@@ -29,7 +29,7 @@ const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref)
       />
       <Divider />
       <CardContent sx={{ flexGrow: 1, overflowY: 'scroll', scrollBehavior: 'smooth' }} ref={content}>
-        <Stack direction="column" spacing={1}>
+        <Stack spacing={1}>
           {messages.map((message) => (
             <ChatMessage message={message} key={message.id} />
           ))}

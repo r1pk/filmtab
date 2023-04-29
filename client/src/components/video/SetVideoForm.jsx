@@ -43,23 +43,10 @@ const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
             name="url"
             control={control}
             render={({ field, fieldState }) => (
-              <TextField
-                size="small"
-                variant="outlined"
-                label="Video URL"
-                error={Boolean(fieldState.error)}
-                fullWidth
-                {...field}
-              />
+              <TextField size="small" label="Video URL" error={Boolean(fieldState.error)} fullWidth {...field} />
             )}
           />
-          <Button
-            size="small"
-            variant="contained"
-            type="submit"
-            disabled={!(isValid && isDirty)}
-            startIcon={<SendOutlined />}
-          >
+          <Button size="small" type="submit" disabled={!(isValid && isDirty)} startIcon={<SendOutlined />}>
             Set
           </Button>
         </Stack>

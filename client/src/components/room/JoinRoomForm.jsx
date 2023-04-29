@@ -61,14 +61,13 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
       />
 
       <CardContent>
-        <Stack direction="column" spacing={1}>
+        <Stack spacing={2}>
           <Controller
             name="roomId"
             control={control}
             render={({ field, fieldState }) => (
               <TextField
                 size="small"
-                variant="standard"
                 label="Room ID"
                 error={Boolean(fieldState.error)}
                 helperText={fieldState.error?.message}
@@ -84,7 +83,6 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
             render={({ field, fieldState }) => (
               <TextField
                 size="small"
-                variant="standard"
                 label="Username"
                 error={Boolean(fieldState.error)}
                 helperText={fieldState.error?.message}

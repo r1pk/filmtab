@@ -58,14 +58,13 @@ const CreateRoomForm = forwardRef(({ onCreateRoom, ...rest }, ref) => {
         sx={{ textAlign: 'center', p: 1 }}
       />
       <CardContent>
-        <Stack direction="column" spacing={1}>
+        <Stack spacing={2}>
           <Controller
             name="username"
             control={control}
             render={({ field, fieldState }) => (
               <TextField
                 size="small"
-                variant="standard"
                 label="Username"
                 error={Boolean(fieldState.error)}
                 helperText={fieldState.error?.message}
