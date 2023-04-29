@@ -3,9 +3,8 @@ import { forwardRef } from 'react';
 
 import { toast } from 'react-toastify';
 
+import { Button } from '@mui/material';
 import { UploadFileOutlined } from '@mui/icons-material';
-
-import Button from '@/components/common/Button';
 
 const UploadSubtitlesButton = forwardRef(({ onUploadSubtitles, ...rest }, ref) => {
   const handleFile = (event) => {
@@ -25,7 +24,7 @@ const UploadSubtitlesButton = forwardRef(({ onUploadSubtitles, ...rest }, ref) =
   };
 
   return (
-    <Button component="label" startIcon={<UploadFileOutlined />} ref={ref} {...rest}>
+    <Button size="small" variant="contained" component="label" startIcon={<UploadFileOutlined />} ref={ref} {...rest}>
       Upload subtitles
       <input type="file" accept="text/vtt" hidden onChange={handleInputChange} />
     </Button>

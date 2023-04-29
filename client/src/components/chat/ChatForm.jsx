@@ -2,12 +2,8 @@ import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import Joi from 'joi';
 
-import { Box, Stack, Tooltip } from '@mui/material';
+import { Box, Stack, Tooltip, TextField, Button, IconButton } from '@mui/material';
 import { DeleteSweepOutlined } from '@mui/icons-material';
-
-import TextField from '@/components/common/TextField';
-import Button from '@/components/common/Button';
-import IconButton from '@/components/common/IconButton';
 
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -44,6 +40,7 @@ const ChatForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref) => {
         control={control}
         render={({ field, fieldState }) => (
           <TextField
+            size="small"
             label="Message"
             variant="outlined"
             error={fieldState.error && fieldState.value > 0}
@@ -54,11 +51,11 @@ const ChatForm = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref) => {
       />
       <Stack direction="row" spacing={1} sx={{ mt: 1, justifyContent: 'flex-end' }}>
         <Tooltip title="Clear chat messages" placement="left">
-          <IconButton onClick={handleClearChat}>
+          <IconButton size="small" onClick={handleClearChat}>
             <DeleteSweepOutlined />
           </IconButton>
         </Tooltip>
-        <Button type="submit" disabled={!(isValid && isDirty)}>
+        <Button size="small" variant="contained" type="submit" disabled={!(isValid && isDirty)}>
           Send
         </Button>
       </Stack>

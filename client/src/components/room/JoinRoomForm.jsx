@@ -2,13 +2,18 @@ import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import Joi from 'joi';
 
-import { Card, CardHeader, CardContent, CardActions, Stack } from '@mui/material';
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Stack,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Button,
+} from '@mui/material';
 import { BookmarkBorder, Bookmark } from '@mui/icons-material';
-
-import TextField from '@/components/common/TextField';
-import FormControlLabel from '@/components/common/FormControlLabel';
-import Checkbox from '@/components/common/Checkbox';
-import Button from '@/components/common/Button';
 
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -62,6 +67,8 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
             control={control}
             render={({ field, fieldState }) => (
               <TextField
+                size="small"
+                variant="standard"
                 label="Room ID"
                 error={Boolean(fieldState.error)}
                 helperText={fieldState.error?.message}
@@ -76,6 +83,8 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
             control={control}
             render={({ field, fieldState }) => (
               <TextField
+                size="small"
+                variant="standard"
                 label="Username"
                 error={Boolean(fieldState.error)}
                 helperText={fieldState.error?.message}
@@ -93,6 +102,7 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
                 componentsProps={{ typography: { variant: 'button' } }}
                 control={
                   <Checkbox
+                    size="small"
                     checked={field.value}
                     icon={<BookmarkBorder />}
                     checkedIcon={<Bookmark />}
@@ -106,7 +116,7 @@ const JoinRoomForm = forwardRef(({ onJoinRoom, roomId, ...rest }, ref) => {
         </Stack>
       </CardContent>
       <CardActions>
-        <Button type="submit" disabled={!isValid} fullWidth>
+        <Button size="small" variant="contained" type="submit" disabled={!isValid} fullWidth>
           Join
         </Button>
       </CardActions>
