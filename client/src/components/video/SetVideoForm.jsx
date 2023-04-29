@@ -2,11 +2,8 @@ import PropTypes from 'prop-types';
 import { forwardRef, useEffect } from 'react';
 import Joi from 'joi';
 
-import { Card, CardActions, Stack } from '@mui/material';
+import { Card, CardActions, Stack, TextField, Button } from '@mui/material';
 import { SendOutlined } from '@mui/icons-material';
-
-import TextField from '@/components/common/TextField';
-import Button from '@/components/common/Button';
 
 import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -46,10 +43,23 @@ const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
             name="url"
             control={control}
             render={({ field, fieldState }) => (
-              <TextField variant="outlined" label="Video URL" error={Boolean(fieldState.error)} fullWidth {...field} />
+              <TextField
+                size="small"
+                variant="outlined"
+                label="Video URL"
+                error={Boolean(fieldState.error)}
+                fullWidth
+                {...field}
+              />
             )}
           />
-          <Button type="submit" disabled={!(isValid && isDirty)} startIcon={<SendOutlined />}>
+          <Button
+            size="small"
+            variant="contained"
+            type="submit"
+            disabled={!(isValid && isDirty)}
+            startIcon={<SendOutlined />}
+          >
             Set
           </Button>
         </Stack>

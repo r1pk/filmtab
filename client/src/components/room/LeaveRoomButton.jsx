@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 
+import { Button } from '@mui/material';
 import { ExitToAppOutlined } from '@mui/icons-material';
-
-import Button from '@/components/common/Button';
 
 const LeaveRoomButton = forwardRef(({ onLeaveRoom, ...rest }, ref) => {
   const handleButtonClick = () => {
@@ -15,7 +14,14 @@ const LeaveRoomButton = forwardRef(({ onLeaveRoom, ...rest }, ref) => {
   };
 
   return (
-    <Button variant="text" startIcon={<ExitToAppOutlined />} onClick={handleButtonClick} ref={ref} {...rest}>
+    <Button
+      size="small"
+      variant="text"
+      startIcon={<ExitToAppOutlined />}
+      onClick={handleButtonClick}
+      ref={ref}
+      {...rest}
+    >
       Leave room
     </Button>
   );

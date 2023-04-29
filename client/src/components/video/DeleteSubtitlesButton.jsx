@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 
+import { Button } from '@mui/material';
 import { DeleteOutline } from '@mui/icons-material';
-
-import Button from '@/components/common/Button';
 
 const DeleteSubtitlesButton = forwardRef(({ onDeleteSubtitles, ...rest }, ref) => {
   const handleButtonClick = () => {
@@ -15,7 +14,14 @@ const DeleteSubtitlesButton = forwardRef(({ onDeleteSubtitles, ...rest }, ref) =
   };
 
   return (
-    <Button startIcon={<DeleteOutline />} onClick={handleButtonClick} ref={ref} {...rest}>
+    <Button
+      size="small"
+      variant="contained"
+      startIcon={<DeleteOutline />}
+      onClick={handleButtonClick}
+      ref={ref}
+      {...rest}
+    >
       Delete subtitles
     </Button>
   );
