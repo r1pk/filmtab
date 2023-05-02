@@ -1,19 +1,30 @@
 # Filmtab-server
 
-Repository contains the server-side application for [Filmtab project](https://github.com/r1pk/filmtab-client). Server is written in Node.js and uses the [Colyseus](https://colyseus.io/) framework.
+Directory containing server-side application for [FilmTab project](https://github.com/r1pk/filmtab). FilmTab server is written in Node.js and uses the [Colyseus](https://colyseus.io/) framework.
 
-## Pre-requisites
+## Project structure
 
-Application was developed and tested in a stable environment, utilizing the following versions:
+```bash
+server/                 # root directory
+├─ src/                 # application source code
+│  ├─ rooms/            # room related files grouped by room type
+│  ├─ arena.config.js   # server initialization
+│  ├─ index.js          # application entry point
+│  ├─ logger.js         # logger configuration
+├─ arena.env            # arena cloud configuration
+├─ development.env      # local development configuration
+```
 
-- [node.js v19.7.0](https://nodejs.org/en/)
-- [npm v9.6.0](https://nodejs.org/en/download/)
-
-This ensures that the application runs smoothly and efficiently.
+Files outside of `src` directory are mostly configuration files for git, editor and npm.
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your `.env` file
+To run the application locally, you might need to change the following configuration in specific files:
+
+- `development.env` - Default configuration used by the local development server.
+- `arena.env` - Configuration used by the Arena Cloud service.
+
+Default configuration:
 
 ```bash
 NODE_ENV=development         # node environment
@@ -25,13 +36,13 @@ COLYSEUS_MONITOR_PASSWORD=   # password for colyseus monitor
 Clone the project
 
 ```bash
-  git clone https://github.com/r1pk/filmtab-server.git
+  git clone https://github.com/r1pk/filmtab.git
 ```
 
-Go to the project directory
+Go to the server directory
 
 ```bash
-  cd filmtab-server
+  cd server
 ```
 
 Install dependencies
@@ -46,117 +57,101 @@ Run the project locally
   npm start
 ```
 
-## Project structure
-
-```
-src
-  |-- rooms               # available room types
-  |  |-- room-type        # room directory
-  |  |  |-- commands      # commands used by given room
-  |  |  |-- schemas       # schemas used by given room
-  |  |  |-- RoomName.js   # room class
-  |  |  |-- index.js      # exports main room class
-  |-- arena.config.js     # contains and exports created arena config
-  |-- logger.js           # logger configuration
-  |-- index.js            # server entry point
-
-```
-
-Files outside of `src` directory are mostly configuration files for git, editor and npm.
-
 ## Room types
 
 ### Video-Room
 
 #### Room state schema
 
-- [Schema definition](./src/features/video-room/schemas/RoomState.js)
+- [Schema definition](./src/rooms/video-room/schemas/RoomState.js)
 
 #### Events listened by server
 
 - `video::set_url` - sets video url.  
   Accepts object with `url` field which is a string with url to the video.
 
-  ```
+  ```javascript
   {
-    url: string
+    url: string;
   }
   ```
 
 - `video::play` - plays video.  
   Accepts object with `progress` field which is a number with current progress of the video.
 
-  ```
+  ```javascript
   {
-    progress: number
+    progress: number;
   }
   ```
 
 - `video::pause` - pauses video.  
   Accepts object with `progress` field which is a number with current progress of the video.
 
-  ```
+  ```javascript
   {
-    progress: number
+    progress: number;
   }
   ```
 
 - `video::toggle_playback` - toggles video playback.  
   Accepts object with `progress` field which is a number with current progress of the video.
 
-  ```
+  ```javascript
   {
-    progress: number
+    progress: number;
   }
   ```
 
 - `video::seek` - seeks video.  
   Accepts object with `progress` field which is a number with current progress of the video.
 
-  ```
+  ```javascript
   {
-    progress: number
+    progress: number;
   }
   ```
 
 - `video::set_subtitles` - sets subtitles.  
   Accepts object with `subtitles` field which is a string with valid WebVTT subtitles.
 
-  ```
+  ```javascript
   {
-    subtitles: string
+    subtitles: string;
   }
   ```
 
 - `video::delete_subtitles` - deletes subtitles.  
   Accepts empty object.
 
-  ```
-  {}
+  ```javascript
+  {
+  }
   ```
 
 - `video::request_progress` - requests current video progress. This event requires at least one client except the one who sent it to be connected to the room.
   Accepts empty object.
 
-  ```
-  {}
+  ```javascript
+  {
+  }
   ```
 
 - `video::latest_progress` - video progress sent to this event will be broadcasted to all clients who requested current video progress with `video::request_progress` event.
   Accepts object with `progress` field which is a number with current progress of the video.
 
-  ```
+  ```javascript
   {
-    progress: number
+    progress: number;
   }
   ```
 
 - `chat::message` - sends received message to all users in the room.  
   Accepts object with `content` field which is a string with message content.
 
-  ```
+  ```javascript
   {
-    content: string
+    content: string;
   }
   ```
 
@@ -166,8 +161,9 @@ Files outside of `src` directory are mostly configuration files for git, editor 
   This event is emitted every time someone requests it with `video::request_progress` event and there is at least one other client connected.
   Payload sent with this event is empty object.
 
-  ```
-  {}
+  ```javascript
+  {
+  }
   ```
 
   Every user that receives this event should respond with `video::latest_progress` event.
@@ -175,9 +171,9 @@ Files outside of `src` directory are mostly configuration files for git, editor 
 - `video::latest_progress` - sends current progress of the video received from fastest user.  
   Payload sent with this event is object with `progress` field which is a number with current progress of the video.
 
-  ```
+  ```javascript
   {
-    progress: number
+    progress: number;
   }
   ```
 
@@ -186,7 +182,7 @@ Files outside of `src` directory are mostly configuration files for git, editor 
 - `chat::message` - chat message received from other user.  
   Payload sent with this event is object with `id`, `content`, `createdAt`, `author` fields.
 
-  ```
+  ```javascript
   {
     id: string,
     content: string,
@@ -206,7 +202,3 @@ Communication between client and server is done using [Colyseus.js](https://www.
 ## Author
 
 - Patryk [r1pk](https://github.com/r1pk) Krawczyk
-
-## License
-
-- [MIT](https://choosealicense.com/licenses/mit/)
