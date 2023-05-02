@@ -1,0 +1,36 @@
+{
+  "type": "module",
+  "name": "filmtab-server",
+  "version": "2.0.2",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "lint": "eslint src/. --config .eslintrc.json --fix",
+    "prettier": "prettier --write ."
+  },
+  "author": {
+    "name": "Patryk Krawczyk",
+    "email": "patrykekrawczyk@gmail.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/r1pk/filmtab-backend",
+  "imports": {
+    "##/*": "./src/*"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "prettier": "2.5.1"
+  },
+  "dependencies": {
+    "@colyseus/arena": "^0.14.7",
+    "@colyseus/command": "^0.2.1",
+    "@colyseus/monitor": "^0.14.22",
+    "colyseus": "^0.14.9",
+    "express-basic-auth": "^1.2.1",
+    "joi": "^17.6.0",
+    "nanoid": "^4.0.0",
+    "node-webvtt": "^1.9.4",
+    "winston": "^3.3.0",
+    "winston-console-format": "^1.0.8"
+  }
+}
