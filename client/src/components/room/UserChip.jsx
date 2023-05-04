@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { Avatar, Tooltip } from '@mui/material';
 
-const User = forwardRef(({ user, ...rest }, ref) => {
+const UserChip = forwardRef(({ user, ...rest }, ref) => {
   return (
     <Tooltip title={user.username}>
       <Avatar name={user.username} alt={user.username} sx={{ backgroundColor: user.color }} ref={ref} {...rest}>
@@ -13,13 +13,13 @@ const User = forwardRef(({ user, ...rest }, ref) => {
   );
 });
 
-User.displayName = 'User';
+UserChip.displayName = 'UserChip';
 
-User.propTypes = {
+UserChip.propTypes = {
   user: PropTypes.shape({
     username: PropTypes.string.isRequired,
     color: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default User;
+export default UserChip;

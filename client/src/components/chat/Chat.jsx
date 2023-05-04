@@ -4,7 +4,7 @@ import { useEffect, useRef, forwardRef } from 'react';
 import { Card, CardHeader, CardContent, CardActions, Stack, Divider } from '@mui/material';
 
 import ChatMessage from './ChatMessage';
-import ChatForm from './ChatForm';
+import ChatControls from './ChatControls';
 
 const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref) => {
   const content = useRef(null);
@@ -37,7 +37,7 @@ const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref)
       </CardContent>
       <Divider />
       <CardActions>
-        <ChatForm onSendMessage={onSendMessage} onClearChat={onClearChat} />
+        <ChatControls onSendMessage={onSendMessage} onClearChat={onClearChat} />
       </CardActions>
     </Card>
   );

@@ -3,14 +3,14 @@ import { forwardRef } from 'react';
 
 import { Paper, AvatarGroup, Skeleton } from '@mui/material';
 
-import User from './User';
+import UserChip from './UserChip';
 
 const UserList = forwardRef(({ users, ...rest }, ref) => {
   return (
     <Paper sx={{ p: 1 }} ref={ref} {...rest}>
       <AvatarGroup max={7} sx={{ justifyContent: 'center' }}>
         {users.length === 0 && <Skeleton variant="circular" width={44} height={44} />}
-        {users.length > 0 && users.map((user) => <User key={user.id} user={user} />)}
+        {users.length > 0 && users.map((user) => <UserChip key={user.id} user={user} />)}
       </AvatarGroup>
     </Paper>
   );
