@@ -3,7 +3,8 @@ import { useRef, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Unstable_Grid2 as Grid, Stack, Paper, Box } from '@mui/material';
+import { Unstable_Grid2 as Grid } from '@mui/material';
+import { Stack, Paper, Box } from '@mui/material';
 
 import UserList from '@/components/room/UserList';
 import LeaveRoomButton from '@/components/room/LeaveRoomButton';
