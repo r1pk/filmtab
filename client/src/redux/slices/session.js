@@ -11,13 +11,12 @@ const slice = createSlice({
   name: 'session',
   initialState: initialState,
   reducers: {
-    setUser: (state, action) => {
+    setSessionUser: (state, action) => {
       state.user.id = action.payload.id;
       state.user.username = action.payload.username;
     },
-    resetState: () => initialState,
+    resetSessionState: () => initialState,
   },
 });
 
-export const actions = slice.actions;
-export default slice.reducer;
+export default slice;

@@ -20,7 +20,8 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useNavigationBlocker } from '@/hooks/useNavigationBlocker';
 
 import { colyseus } from '@/apis/colyseus';
-import { store, actions } from '@/redux';
+import { store } from '@/redux/store';
+import { actions } from '@/redux/actions';
 
 const Room = () => {
   const mainSection = useRef(null);
@@ -28,15 +29,14 @@ const Room = () => {
 
   const player = useRef(null);
 
-  const roomId = useSelector((store) => store.room.id);
-  const users = useSelector((store) => store.room.users);
-  const video = useSelector((store) => store.room.video);
-  const messages = useSelector((store) => store.chat.messages);
+  const room = useSelector((store) => store.room);
+  const video = useSelector((store) => store.video);
+  const chat = useSelector((store) => store.chat);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isRoomMember = Boolean(roomId);
+  const isRoomMember = Boolean(room.id);
 
   const handleTogglePlayback = useCallback((progress) => {
     colyseus.room.send('video::toggle_playback', { progress: progress });
@@ -69,7 +69,7 @@ const Room = () => {
   };
 
   const handleClearChat = () => {
-    dispatch(actions.chat.clear());
+    dispatch(actions.chat.clearChat());
   };
 
   const handleLeaveRoom = () => {
@@ -99,7 +99,7 @@ const Room = () => {
   useEffect(
     function createLatestVideoProgressListener() {
       const handleLatestVideoProgress = (data) => {
-        dispatch(actions.room.setVideoProgress({ progress: data.progress }));
+        dispatch(actions.video.setVideoProgress(data.progress));
       };
 
       const removeColyseusListener = colyseus.room.onMessage('video::latest_progress', handleLatestVideoProgress);
@@ -114,7 +114,7 @@ const Room = () => {
   useEffect(
     function createChatMessageListener() {
       const handleChatMessage = (message) => {
-        dispatch(actions.chat.addMessage({ message: message }));
+        dispatch(actions.chat.addChatMessage(message));
       };
 
       const removeColyseusListener = colyseus.room.onMessage('chat::message', handleChatMessage);
@@ -171,8 +171,8 @@ const Room = () => {
       </Grid>
       <Grid xs={16} lg={4} sx={{ alignSelf: 'stretch', minHeight: { xs: 480 } }} ref={sideSection}>
         <Stack spacing={2} sx={{ height: 1 }}>
-          <UserList users={users} />
-          <Chat messages={messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
+          <UserList users={room.users} />
+          <Chat messages={chat.messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
         </Stack>
       </Grid>
     </Grid>

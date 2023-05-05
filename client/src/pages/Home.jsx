@@ -13,7 +13,7 @@ import CreateRoomForm from '@/components/room/CreateRoomForm';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 import { colyseus } from '@/apis/colyseus';
-import { actions } from '@/redux';
+import { actions } from '@/redux/actions';
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('create-room');
@@ -31,8 +31,8 @@ const Home = () => {
         username: data.username,
       });
 
-      dispatch(actions.room.setRoomId({ id: room.id }));
-      dispatch(actions.session.setUser({ id: room.sessionId, username: data.username }));
+      dispatch(actions.room.setRoomId(room.id));
+      dispatch(actions.session.setSessionUser({ id: room.sessionId, username: data.username }));
       navigate(`/rooms/${room.id}`);
     } catch (error) {
       toast.error(error.message);
@@ -45,8 +45,8 @@ const Home = () => {
         username: data.username,
       });
 
-      dispatch(actions.room.setRoomId({ id: room.id }));
-      dispatch(actions.session.setUser({ id: room.sessionId, username: data.username }));
+      dispatch(actions.room.setRoomId(room.id));
+      dispatch(actions.session.setSessionUser({ id: room.sessionId, username: data.username }));
       navigate(`/rooms/${room.id}`);
     } catch (error) {
       toast.error(error.message);

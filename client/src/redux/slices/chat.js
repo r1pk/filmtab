@@ -8,19 +8,18 @@ const slice = createSlice({
   name: 'chat',
   initialState: initialState,
   reducers: {
-    clear: (state) => {
+    clearChat: (state) => {
       state.messages = [];
     },
-    addMessage: (state, action) => {
+    addChatMessage: (state, action) => {
       if (state.messages.length >= 50) {
         state.messages.shift();
       }
 
-      state.messages.push(action.payload.message);
+      state.messages.push(action.payload);
     },
-    resetState: () => initialState,
+    resetChatState: () => initialState,
   },
 });
 
-export const { actions } = slice;
-export default slice.reducer;
+export default slice;

@@ -3,13 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   id: '',
   users: [],
-  video: {
-    url: '',
-    subtitles: '',
-    playing: false,
-    progress: 0,
-    updatedAt: 0,
-  },
 };
 
 const slice = createSlice({
@@ -17,18 +10,13 @@ const slice = createSlice({
   initialState: initialState,
   reducers: {
     setRoomId: (state, action) => {
-      state.id = action.payload.id;
+      state.id = action.payload;
     },
-    setVideoProgress: (state, action) => {
-      state.video.progress = action.payload.progress;
+    setRoomUsers: (state, action) => {
+      state.users = action.payload;
     },
-    updateState: (state, action) => {
-      state.users = action.payload.users;
-      state.video = action.payload.video;
-    },
-    resetState: () => initialState,
+    resetRoomState: () => initialState,
   },
 });
 
-export const actions = slice.actions;
-export default slice.reducer;
+export default slice;

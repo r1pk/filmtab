@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux';
-import { store } from '@/redux';
+import { store } from '@/redux/store';
 
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { dark } from '@/themes/dark';

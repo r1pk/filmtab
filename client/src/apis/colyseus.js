@@ -1,6 +1,7 @@
 import { Client } from 'colyseus.js';
 
-import { store, actions } from '@/redux';
+import { store } from '@/redux/store';
+import { actions } from '@/redux/actions';
 
 import { toast } from 'react-toastify';
 
@@ -8,20 +9,17 @@ class ColyseusClient extends Client {
   room = null;
 
   #handleRoomStateChange = (state) => {
-    const plainState = JSON.parse(JSON.stringify(state));
+    const { users, video } = JSON.parse(JSON.stringify(state));
 
-    store.dispatch(
-      actions.room.updateState({
-        users: Object.values(plainState.users),
-        video: plainState.video,
-      })
-    );
+    store.dispatch(actions.room.setRoomUsers(Object.values(users)));
+    store.dispatch(actions.video.setVideoState(video));
   };
 
   #handleRoomLeave = () => {
-    store.dispatch(actions.chat.resetState());
-    store.dispatch(actions.room.resetState());
-    store.dispatch(actions.session.resetState());
+    store.dispatch(actions.chat.resetChatState());
+    store.dispatch(actions.room.resetRoomState());
+    store.dispatch(actions.session.resetSessionState());
+    store.dispatch(actions.video.resetVideoState());
 
     this.room = null;
   };
