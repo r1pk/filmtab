@@ -25,8 +25,8 @@ This ensures that the application runs smoothly and efficiently.
 
 To run the server locally, you might need to change the following configuration in specific files:
 
-- `development.env` - Default configuration used by the local development server.
-- `arena.env` - Configuration used by the Arena Cloud service.
+- `.env.development` - Default configuration used by the local development server.
+- `.env.[environment]` - Configuration used by the server in specific environment. `[environment]` is the name of the environment. For example `.env.production` is used by the server in production environment.
 
 Default configuration:
 

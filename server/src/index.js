@@ -1,4 +1,4 @@
-import { listen } from '@colyseus/arena';
-import arenaConfig from './arena.config.js';
+import { listen } from '@colyseus/tools';
+import appConfig from './app.config.js';
 
-listen(arenaConfig);
+listen(appConfig);

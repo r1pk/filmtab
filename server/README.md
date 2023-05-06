@@ -8,11 +8,10 @@ Directory containing server-side application for [FilmTab project](https://githu
 server/                 # root directory
 ├─ src/                 # application source code
 │  ├─ rooms/            # room related files grouped by room type
-│  ├─ arena.config.js   # server initialization
+│  ├─ app.config.js     # server configuration
 │  ├─ index.js          # application entry point
 │  ├─ logger.js         # logger configuration
-├─ arena.env            # arena cloud configuration
-├─ development.env      # local development configuration
+├─ .env.development     # local development configuration
 ```
 
 Files outside of `src` directory are mostly configuration files for git, editor and npm.
@@ -21,8 +20,8 @@ Files outside of `src` directory are mostly configuration files for git, editor 
 
 To run the application locally, you might need to change the following configuration in specific files:
 
-- `development.env` - Default configuration used by the local development server.
-- `arena.env` - Configuration used by the Arena Cloud service.
+- `.env.development` - Default configuration used by the local development server.
+- `.env.[environment]` - Configuration used by the server in specific environment. `[environment]` is the name of the environment set in `NODE_ENV` variable.
 
 Default configuration:
 
