@@ -24,9 +24,6 @@ import { store } from '@/redux/store';
 import { actions } from '@/redux/actions';
 
 const Room = () => {
-  const mainSection = useRef(null);
-  const sideSection = useRef(null);
-
   const player = useRef(null);
 
   const room = useSelector((store) => store.room);
@@ -126,21 +123,6 @@ const Room = () => {
     [dispatch]
   );
 
-  useEffect(function createWindowResizeListener() {
-    const handleWindowResize = () => {
-      if (mainSection.current && sideSection.current) {
-        sideSection.current.style.height = `${mainSection.current.clientHeight}px`;
-      }
-    };
-
-    handleWindowResize();
-    window.addEventListener('resize', handleWindowResize);
-
-    return function cleanup() {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  }, []);
-
   useNavigationBlocker(handleLeavePage, isRoomMember);
   useDocumentTitle('Room');
 
@@ -149,7 +131,7 @@ const Room = () => {
       <Grid xs={16}>
         <SetVideoForm url={video.url} onSetVideo={handleSetVideo} />
       </Grid>
-      <Grid xs={16} lg={12} ref={mainSection}>
+      <Grid xs={16} lg={12}>
         <Stack spacing={2}>
           <Paper>
             <VideoPlayer
@@ -169,10 +151,14 @@ const Room = () => {
           </Box>
         </Stack>
       </Grid>
-      <Grid xs={16} lg={4} sx={{ alignSelf: 'stretch', minHeight: { xs: 480 } }} ref={sideSection}>
+      <Grid xs={16} lg={4} sx={{ alignSelf: 'stretch' }}>
         <Stack spacing={2} sx={{ height: 1 }}>
           <UserList users={room.users} />
-          <Chat messages={chat.messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
+          <Box sx={{ position: 'relative', flex: '1 0 480px' }}>
+            <Box sx={{ position: 'absolute', height: 1, width: 1 }}>
+              <Chat messages={chat.messages} onSendMessage={handleSendMessage} onClearChat={handleClearChat} />
+            </Box>
+          </Box>
         </Stack>
       </Grid>
     </Grid>
