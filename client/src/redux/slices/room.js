@@ -15,7 +15,6 @@ const slice = createSlice({
     setRoomUsers: (state, action) => {
       state.users = action.payload;
     },
-    resetRoomState: () => initialState,
   },
 });
 

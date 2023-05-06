@@ -1,7 +1,8 @@
 import { useRef, useEffect, useCallback } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import { toast } from 'react-toastify';
 
 import { Unstable_Grid2 as Grid } from '@mui/material';
 import { Stack, Paper, Box } from '@mui/material';
@@ -17,7 +18,6 @@ import DeleteSubtitlesButton from '@/components/video/DeleteSubtitlesButton';
 import Chat from '@/components/chat/Chat';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
-import { useNavigationBlocker } from '@/hooks/useNavigationBlocker';
 
 import { colyseus } from '@/apis/colyseus';
 import { store } from '@/redux/store';
@@ -32,8 +32,6 @@ const Room = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const isRoomMember = Boolean(room.id);
 
   const handleTogglePlayback = useCallback((progress) => {
     colyseus.room.send('video::toggle_playback', { progress: progress });
@@ -71,63 +69,57 @@ const Room = () => {
 
   const handleLeaveRoom = () => {
     colyseus.room.leave();
+
+    dispatch(actions.store.clear());
     navigate('/');
   };
 
-  const handleLeavePage = (transition) => {
-    colyseus.room.leave();
-    transition.retry();
-  };
-
-  useEffect(function createVideoProgressRequestListener() {
-    const handleVideoProgressRequest = () => {
-      if (player.current) {
-        colyseus.room.send('video::latest_progress', { progress: player.current.getCurrentProgress() });
-      }
-    };
-
-    const removeColyseusListener = colyseus.room.onMessage('video::request_progress', handleVideoProgressRequest);
-
-    return function cleanup() {
-      removeColyseusListener();
-    };
-  }, []);
-
   useEffect(
-    function createLatestVideoProgressListener() {
+    function setupCoreListeners() {
+      const handleRoomStateChange = (state) => {
+        const { users, video } = JSON.parse(JSON.stringify(state));
+
+        dispatch(actions.room.setRoomUsers(Object.values(users)));
+        dispatch(actions.video.setVideoState(video));
+      };
+
+      const handleRoomError = (code, message) => {
+        console.error(`Room error: ${code} - ${message}`);
+        toast.error(message);
+      };
+
+      const handleChatMessage = (data) => {
+        dispatch(actions.chat.addChatMessage(data));
+      };
+
       const handleLatestVideoProgress = (data) => {
         dispatch(actions.video.setVideoProgress(data.progress));
       };
 
-      const removeColyseusListener = colyseus.room.onMessage('video::latest_progress', handleLatestVideoProgress);
+      const handleVideoProgressRequest = () => {
+        if (player.current) {
+          colyseus.room.send('video::latest_progress', { progress: player.current.getCurrentProgress() });
+        }
+      };
+
+      colyseus.room.onStateChange(handleRoomStateChange);
+      colyseus.room.onError(handleRoomError);
+
+      colyseus.room.onMessage('chat::message', handleChatMessage);
+      colyseus.room.onMessage('video::latest_progress', handleLatestVideoProgress);
+      colyseus.room.onMessage('video::request_progress', handleVideoProgressRequest);
 
       return function cleanup() {
-        removeColyseusListener();
+        colyseus.room.removeAllListeners();
       };
     },
     [dispatch]
   );
 
-  useEffect(
-    function createChatMessageListener() {
-      const handleChatMessage = (message) => {
-        dispatch(actions.chat.addChatMessage(message));
-      };
-
-      const removeColyseusListener = colyseus.room.onMessage('chat::message', handleChatMessage);
-
-      return function cleanup() {
-        removeColyseusListener();
-      };
-    },
-    [dispatch]
-  );
-
-  useNavigationBlocker(handleLeavePage, isRoomMember);
   useDocumentTitle('Room');
 
   return (
-    <Grid container columns={16} spacing={2} sx={{ alignItems: 'start' }}>
+    <Grid container columns={16} spacing={2} sx={{ justifyContent: 'center' }}>
       <Grid xs={16}>
         <SetVideoForm url={video.url} onSetVideo={handleSetVideo} />
       </Grid>

@@ -22,7 +22,6 @@ const slice = createSlice({
       state.progress = action.payload.progress;
       state.updatedAt = action.payload.updatedAt;
     },
-    resetVideoState: () => initialState,
   },
 });
 

@@ -18,7 +18,6 @@ const slice = createSlice({
 
       state.messages.push(action.payload);
     },
-    resetChatState: () => initialState,
   },
 });
 
