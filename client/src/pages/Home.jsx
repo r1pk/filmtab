@@ -25,15 +25,28 @@ const Home = () => {
     setActiveTab(value);
   };
 
+  const handleRoomReady = () => {
+    const { id, sessionId, state } = colyseus.room;
+    const { users, video } = JSON.parse(JSON.stringify(state));
+    const username = state.users.get(sessionId).username;
+
+    dispatch(actions.room.setRoomId(id));
+    dispatch(actions.room.setRoomUsers(Object.values(users)));
+    dispatch(actions.session.setSessionUser({ id: sessionId, username: username }));
+    dispatch(actions.video.setVideoState(video));
+
+    navigate(`/rooms/${id}`);
+  };
+
   const handleCreateRoom = async (data) => {
     try {
-      const room = await colyseus.create('video-room', {
+      await colyseus.create('video-room', {
         username: data.username,
       });
 
-      dispatch(actions.room.setRoomId(room.id));
-      dispatch(actions.session.setSessionUser({ id: room.sessionId, username: data.username }));
-      navigate(`/rooms/${room.id}`);
+      colyseus.room.onStateChange.once(() => {
+        handleRoomReady();
+      });
     } catch (error) {
       toast.error(error.message);
     }
@@ -41,13 +54,13 @@ const Home = () => {
 
   const handleJoinRoom = async (data) => {
     try {
-      const room = await colyseus.joinById(data.roomId, {
+      await colyseus.joinById(data.roomId, {
         username: data.username,
       });
 
-      dispatch(actions.room.setRoomId(room.id));
-      dispatch(actions.session.setSessionUser({ id: room.sessionId, username: data.username }));
-      navigate(`/rooms/${room.id}`);
+      colyseus.room.onStateChange.once(() => {
+        handleRoomReady();
+      });
     } catch (error) {
       toast.error(error.message);
     }

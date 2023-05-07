@@ -74,7 +74,7 @@ const Room = () => {
 
   useEffect(
     function setupCoreListeners() {
-      const handleRoomStateChange = (state) => {
+      const handleRoomState = (state) => {
         const { users, video } = JSON.parse(JSON.stringify(state));
 
         dispatch(actions.room.setRoomUsers(Object.values(users)));
@@ -100,7 +100,7 @@ const Room = () => {
         }
       };
 
-      colyseus.room.onStateChange(handleRoomStateChange);
+      colyseus.room.onStateChange(handleRoomState);
       colyseus.room.onError(handleRoomError);
 
       colyseus.room.onMessage('chat::message', handleChatMessage);
