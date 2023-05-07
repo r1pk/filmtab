@@ -7,7 +7,7 @@ import { playerConfig } from '@/configs/player-config';
 import { buildPlayerSource } from '@/utils/build-player-source';
 import { createSubtitleTrack } from '@/utils/create-subtitle-track';
 
-const VideoPlayer = forwardRef(({ state, onTogglePlayback, onSeekVideo, onReadyToSeek }, ref) => {
+const VideoPlayer = forwardRef(({ state, onPlaybackToggle, onVideoSeek, onceVideoPlaying }, ref) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
 
   const plyr = useRef(null);
@@ -16,36 +16,36 @@ const VideoPlayer = forwardRef(({ state, onTogglePlayback, onSeekVideo, onReadyT
     function setupPlyrPlayer() {
       setIsPlayerReady(false);
 
-      const handleTogglePlayback = () => {
-        onTogglePlayback(plyr.current.currentTime);
+      const handlePlaybackToggle = () => {
+        onPlaybackToggle(plyr.current.currentTime);
       };
 
-      const handleSeekVideo = () => {
+      const handleVideoSeek = () => {
         const { value, max } = plyr.current.elements.inputs.seek;
         const currentProgress = (value / max) * plyr.current.media.duration;
 
-        onSeekVideo(currentProgress);
+        onVideoSeek(currentProgress);
       };
 
       plyr.current = new Plyr(
         '.filmtab-player-target',
         Object.assign({}, playerConfig, {
           listeners: {
-            play: handleTogglePlayback,
-            seek: handleSeekVideo,
+            play: handlePlaybackToggle,
+            seek: handleVideoSeek,
           },
         })
       );
       plyr.current.on('ready', () => setIsPlayerReady(true));
       plyr.current.once('ready', () => {
-        plyr.current.once('playing', onReadyToSeek);
+        plyr.current.once('playing', onceVideoPlaying);
       });
 
       return function destroyPlyrPlayer() {
         plyr.current.destroy(() => setIsPlayerReady(false));
       };
     },
-    [onSeekVideo, onTogglePlayback, onReadyToSeek]
+    [onPlaybackToggle, onVideoSeek, onceVideoPlaying]
   );
 
   useEffect(
@@ -107,9 +107,9 @@ VideoPlayer.propTypes = {
     progress: PropTypes.number.isRequired,
     playing: PropTypes.bool.isRequired,
   }),
-  onTogglePlayback: PropTypes.func.isRequired,
-  onSeekVideo: PropTypes.func.isRequired,
-  onReadyToSeek: PropTypes.func.isRequired,
+  onPlaybackToggle: PropTypes.func.isRequired,
+  onVideoSeek: PropTypes.func.isRequired,
+  onceVideoPlaying: PropTypes.func.isRequired,
 };
 
 export default VideoPlayer;

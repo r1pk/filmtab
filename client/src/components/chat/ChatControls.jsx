@@ -22,19 +22,17 @@ const ChatControls = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref) =
   });
   const { isValid, isDirty } = formState;
 
-  const onSubmit = (data) => {
-    if (isValid && isDirty) {
-      onSendMessage(data);
-      reset();
+  const handleFormSubmit = (data) => {
+    if (!isValid || !isDirty) {
+      return;
     }
-  };
 
-  const handleClearChat = () => {
-    onClearChat();
+    onSendMessage(data);
+    reset();
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ width: 1 }} ref={ref} {...rest}>
+    <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ width: 1 }} ref={ref} {...rest}>
       <Controller
         name="content"
         control={control}
@@ -50,7 +48,7 @@ const ChatControls = forwardRef(({ onSendMessage, onClearChat, ...rest }, ref) =
       />
       <Stack direction="row" spacing={1} sx={{ mt: 1, justifyContent: 'flex-end' }}>
         <Tooltip title="Clear chat messages" placement="left">
-          <IconButton size="small" onClick={handleClearChat}>
+          <IconButton size="small" onClick={onClearChat}>
             <DeleteSweepOutlined />
           </IconButton>
         </Tooltip>

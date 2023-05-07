@@ -18,7 +18,7 @@ const RoomInvite = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  const handleRoomReady = () => {
+  const setupRoomPage = () => {
     const { id, sessionId, state } = colyseus.room;
     const { users, video } = JSON.parse(JSON.stringify(state));
     const username = state.users.get(sessionId).username;
@@ -31,14 +31,14 @@ const RoomInvite = () => {
     navigate(`/rooms/${id}`);
   };
 
-  const handleJoinRoom = async (data) => {
+  const handleJoinRoomFormSubmit = async (data) => {
     try {
       await colyseus.joinById(data.roomId, {
         username: data.username,
       });
 
       colyseus.room.onStateChange.once(() => {
-        handleRoomReady();
+        setupRoomPage();
       });
     } catch (error) {
       toast.error(error.message);
@@ -55,7 +55,7 @@ const RoomInvite = () => {
             <Typography variant="h2" sx={{ p: 2, pb: 0, textAlign: 'center' }}>
               {import.meta.env.VITE_BASE_APP_TITLE}
             </Typography>
-            <JoinRoomForm onJoinRoom={handleJoinRoom} roomId={params?.roomId} elevation={2} />
+            <JoinRoomForm roomId={params?.roomId} onSubmit={handleJoinRoomFormSubmit} elevation={2} />
           </Stack>
         </Paper>
         <Link component={RouterLink} to="/" variant="body2" sx={{ display: 'block', textAlign: 'center', my: 2 }}>

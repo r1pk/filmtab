@@ -21,11 +21,11 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleChangeTab = (_, value) => {
+  const handleTabChange = (_, value) => {
     setActiveTab(value);
   };
 
-  const handleRoomReady = () => {
+  const setupRoomPage = () => {
     const { id, sessionId, state } = colyseus.room;
     const { users, video } = JSON.parse(JSON.stringify(state));
     const username = state.users.get(sessionId).username;
@@ -38,28 +38,28 @@ const Home = () => {
     navigate(`/rooms/${id}`);
   };
 
-  const handleCreateRoom = async (data) => {
+  const handleCreateRoomFormSubmit = async (data) => {
     try {
       await colyseus.create('video-room', {
         username: data.username,
       });
 
       colyseus.room.onStateChange.once(() => {
-        handleRoomReady();
+        setupRoomPage();
       });
     } catch (error) {
       toast.error(error.message);
     }
   };
 
-  const handleJoinRoom = async (data) => {
+  const handleJoinRoomFormSubmit = async (data) => {
     try {
       await colyseus.joinById(data.roomId, {
         username: data.username,
       });
 
       colyseus.room.onStateChange.once(() => {
-        handleRoomReady();
+        setupRoomPage();
       });
     } catch (error) {
       toast.error(error.message);
@@ -76,12 +76,12 @@ const Home = () => {
             <Typography variant="h2" sx={{ p: 2, pb: 0, textAlign: 'center' }}>
               {import.meta.env.VITE_BASE_APP_TITLE}
             </Typography>
-            <Tabs centered value={activeTab} onChange={handleChangeTab}>
+            <Tabs centered value={activeTab} onChange={handleTabChange}>
               <Tab label="Create Room" value="create-room" to="create-room" />
               <Tab label="Join Room" value="join-room" to="join-room" />
             </Tabs>
-            {activeTab === 'create-room' && <CreateRoomForm onCreateRoom={handleCreateRoom} elevation={2} />}
-            {activeTab === 'join-room' && <JoinRoomForm onJoinRoom={handleJoinRoom} elevation={2} />}
+            {activeTab === 'create-room' && <CreateRoomForm onSubmit={handleCreateRoomFormSubmit} elevation={2} />}
+            {activeTab === 'join-room' && <JoinRoomForm onSubmit={handleJoinRoomFormSubmit} elevation={2} />}
           </Stack>
         </Paper>
       </Grid>

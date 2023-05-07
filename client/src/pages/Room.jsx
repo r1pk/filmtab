@@ -31,29 +31,29 @@ const Room = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleTogglePlayback = useCallback((progress) => {
+  const handlePlaybackToggle = useCallback((progress) => {
     colyseus.room.send('video::toggle_playback', { progress: progress });
   }, []);
 
-  const handleSeekVideo = useCallback((progress) => {
+  const handleVideoSeek = useCallback((progress) => {
     colyseus.room.send('video::seek', { progress: progress });
   }, []);
 
-  const handleReadyToSeek = useCallback(() => {
+  const handleVideoPlaying = useCallback(() => {
     if (store.getState().room.users.length > 1) {
       colyseus.room.send('video::request_progress');
     }
   }, []);
 
-  const handleSetVideo = (data) => {
+  const handleSetVideoFormSubmit = (data) => {
     colyseus.room.send('video::set_url', { url: data.url });
   };
 
-  const handleUploadSubtitles = (subtitles) => {
+  const handleSubtitlesLoaded = (subtitles) => {
     colyseus.room.send('video::set_subtitles', { subtitles: subtitles });
   };
 
-  const handleDeleteSubtitles = () => {
+  const handleDeleteSubtitlesButtonClick = () => {
     colyseus.room.send('video::delete_subtitles');
   };
 
@@ -65,9 +65,8 @@ const Room = () => {
     dispatch(actions.chat.clearChat());
   };
 
-  const handleLeaveRoom = () => {
+  const handleLeaveRoomButtonClick = () => {
     colyseus.room.leave();
-
     dispatch(actions.store.clear());
     navigate('/');
   };
@@ -90,7 +89,7 @@ const Room = () => {
         dispatch(actions.chat.addChatMessage(data));
       };
 
-      const handleLatestVideoProgress = (data) => {
+      const handleVideoLatestProgress = (data) => {
         dispatch(actions.video.setVideoProgress(data.progress));
       };
 
@@ -104,7 +103,7 @@ const Room = () => {
       colyseus.room.onError(handleRoomError);
 
       colyseus.room.onMessage('chat::message', handleChatMessage);
-      colyseus.room.onMessage('video::latest_progress', handleLatestVideoProgress);
+      colyseus.room.onMessage('video::latest_progress', handleVideoLatestProgress);
       colyseus.room.onMessage('video::request_progress', handleVideoProgressRequest);
 
       return function cleanup() {
@@ -119,25 +118,25 @@ const Room = () => {
   return (
     <Grid container columns={16} spacing={2} sx={{ justifyContent: 'center' }}>
       <Grid xs={16}>
-        <SetVideoForm url={video.url} onSetVideo={handleSetVideo} />
+        <SetVideoForm url={video.url} onSubmit={handleSetVideoFormSubmit} />
       </Grid>
       <Grid xs={16} lg={12}>
         <Stack spacing={2}>
           <Paper>
             <VideoPlayer
               state={video}
-              onTogglePlayback={handleTogglePlayback}
-              onSeekVideo={handleSeekVideo}
-              onReadyToSeek={handleReadyToSeek}
+              onPlaybackToggle={handlePlaybackToggle}
+              onVideoSeek={handleVideoSeek}
+              onceVideoPlaying={handleVideoPlaying}
               ref={player}
             />
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} sx={{ m: 1, justifyContent: 'flex-end' }}>
-              <UploadSubtitlesButton onUploadSubtitles={handleUploadSubtitles} />
-              <DeleteSubtitlesButton onDeleteSubtitles={handleDeleteSubtitles} />
+              <UploadSubtitlesButton onSubtitlesLoaded={handleSubtitlesLoaded} />
+              <DeleteSubtitlesButton onConfirmedClick={handleDeleteSubtitlesButtonClick} />
             </Stack>
           </Paper>
           <Box sx={{ alignSelf: 'flex-end' }}>
-            <LeaveRoomButton onLeaveRoom={handleLeaveRoom} />
+            <LeaveRoomButton onConfirmedClick={handleLeaveRoomButtonClick} />
           </Box>
         </Stack>
       </Grid>

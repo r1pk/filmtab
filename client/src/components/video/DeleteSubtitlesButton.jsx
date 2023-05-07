@@ -4,13 +4,15 @@ import { forwardRef } from 'react';
 import { Button } from '@mui/material';
 import { DeleteOutline } from '@mui/icons-material';
 
-const DeleteSubtitlesButton = forwardRef(({ onDeleteSubtitles, ...rest }, ref) => {
-  const handleButtonClick = () => {
+const DeleteSubtitlesButton = forwardRef(({ onConfirmedClick, ...rest }, ref) => {
+  const handleButtonClick = (e) => {
     const isActionConfirmed = window.confirm('Are you sure you want to delete subtitles for everyone in this room?');
 
-    if (isActionConfirmed) {
-      onDeleteSubtitles();
+    if (!isActionConfirmed) {
+      return;
     }
+
+    onConfirmedClick(e);
   };
 
   return (
@@ -30,7 +32,7 @@ const DeleteSubtitlesButton = forwardRef(({ onDeleteSubtitles, ...rest }, ref) =
 DeleteSubtitlesButton.displayName = 'DeleteSubtitlesButton';
 
 DeleteSubtitlesButton.propTypes = {
-  onDeleteSubtitles: PropTypes.func.isRequired,
+  onConfirmedClick: PropTypes.func.isRequired,
 };
 
 export default DeleteSubtitlesButton;

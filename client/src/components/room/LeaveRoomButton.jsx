@@ -4,13 +4,15 @@ import { forwardRef } from 'react';
 import { Button } from '@mui/material';
 import { ExitToAppOutlined } from '@mui/icons-material';
 
-const LeaveRoomButton = forwardRef(({ onLeaveRoom, ...rest }, ref) => {
-  const handleButtonClick = () => {
+const LeaveRoomButton = forwardRef(({ onConfirmedClick, ...rest }, ref) => {
+  const handleButtonClick = (e) => {
     const isActionConfirmed = window.confirm('Are you sure you want to leave the room?');
 
-    if (isActionConfirmed) {
-      onLeaveRoom();
+    if (!isActionConfirmed) {
+      return;
     }
+
+    onConfirmedClick(e);
   };
 
   return (
@@ -23,7 +25,7 @@ const LeaveRoomButton = forwardRef(({ onLeaveRoom, ...rest }, ref) => {
 LeaveRoomButton.displayName = 'LeaveRoomButton';
 
 LeaveRoomButton.propTypes = {
-  onLeaveRoom: PropTypes.func.isRequired,
+  onConfirmedClick: PropTypes.func.isRequired,
 };
 
 export default LeaveRoomButton;

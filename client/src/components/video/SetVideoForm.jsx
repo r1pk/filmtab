@@ -12,7 +12,7 @@ const schema = Joi.object({
   url: Joi.string().trim().uri().required().label('url'),
 });
 
-const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
+const SetVideoForm = forwardRef(({ url, onSubmit, ...rest }, ref) => {
   const { control, formState, reset, handleSubmit } = useForm({
     mode: 'all',
     defaultValues: {
@@ -22,10 +22,12 @@ const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
   });
   const { isValid, isDirty } = formState;
 
-  const onSubmit = (data) => {
-    if (isValid && isDirty) {
-      onSetVideo(data);
+  const handleFormSubmit = (data) => {
+    if (!isValid || !isDirty) {
+      return;
     }
+
+    onSubmit(data);
   };
 
   useEffect(
@@ -36,7 +38,7 @@ const SetVideoForm = forwardRef(({ onSetVideo, url, ...rest }, ref) => {
   );
 
   return (
-    <Card component="form" onSubmit={handleSubmit(onSubmit)} ref={ref} {...rest}>
+    <Card component="form" onSubmit={handleSubmit(handleFormSubmit)} ref={ref} {...rest}>
       <CardActions>
         <Stack direction="row" spacing={1} sx={{ width: 1, alignItems: 'center' }}>
           <Controller
@@ -59,7 +61,7 @@ SetVideoForm.displayName = 'SetVideoForm';
 
 SetVideoForm.propTypes = {
   url: PropTypes.string.isRequired,
-  onSetVideo: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default SetVideoForm;

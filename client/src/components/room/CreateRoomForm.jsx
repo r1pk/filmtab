@@ -25,7 +25,7 @@ const schema = Joi.object({
   rememberUsername: Joi.boolean().label('rememberUsername'),
 });
 
-const CreateRoomForm = forwardRef(({ onCreateRoom, ...rest }, ref) => {
+const CreateRoomForm = forwardRef(({ onSubmit, ...rest }, ref) => {
   const { control, formState, handleSubmit } = useForm({
     mode: 'all',
     defaultValues: {
@@ -36,20 +36,22 @@ const CreateRoomForm = forwardRef(({ onCreateRoom, ...rest }, ref) => {
   });
   const { isValid } = formState;
 
-  const onSubmit = (data) => {
-    if (isValid) {
-      if (data.rememberUsername) {
-        usernameManager.saveToLocalStorage(data.username);
-      } else {
-        usernameManager.clearLocalStorage();
-      }
-
-      onCreateRoom(data);
+  const handleFormSubmit = (data) => {
+    if (!isValid) {
+      return;
     }
+
+    if (data.rememberUsername) {
+      usernameManager.saveToLocalStorage(data.username);
+    } else {
+      usernameManager.clearLocalStorage();
+    }
+
+    onSubmit(data);
   };
 
   return (
-    <Card component="form" onSubmit={handleSubmit(onSubmit)} ref={ref} {...rest}>
+    <Card component="form" onSubmit={handleSubmit(handleFormSubmit)} ref={ref} {...rest}>
       <CardHeader
         title="Create Room"
         titleTypographyProps={{
@@ -107,7 +109,7 @@ const CreateRoomForm = forwardRef(({ onCreateRoom, ...rest }, ref) => {
 CreateRoomForm.displayName = 'CreateRoomForm';
 
 CreateRoomForm.propTypes = {
-  onCreateRoom: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default CreateRoomForm;
