@@ -1,25 +1,25 @@
 import { useRef, useEffect, useCallback } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import { toast } from 'react-toastify';
 
-import { Unstable_Grid2 as Grid } from '@mui/material';
-import { Stack, Paper, Box } from '@mui/material';
+import { Unstable_Grid2 as Grid, Stack, Paper, Box } from '@mui/material';
 
-import UserList from '@/components/room/UserList';
-import LeaveRoomButton from '@/components/room/LeaveRoomButton';
-import SetVideoForm from '@/components/video/SetVideoForm';
-import VideoPlayer from '@/components/video/VideoPlayer';
-import UploadSubtitlesButton from '@/components/video/UploadSubtitlesButton';
-import DeleteSubtitlesButton from '@/components/video/DeleteSubtitlesButton';
 import Chat from '@/components/chat/Chat';
+import LeaveRoomButton from '@/components/room/LeaveRoomButton';
+import UserList from '@/components/room/UserList';
+import DeleteSubtitlesButton from '@/components/video/DeleteSubtitlesButton';
+import SetVideoForm from '@/components/video/SetVideoForm';
+import UploadSubtitlesButton from '@/components/video/UploadSubtitlesButton';
+import VideoPlayer from '@/components/video/VideoPlayer';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 import { colyseus } from '@/apis/colyseus';
-import { store } from '@/redux/store';
+
 import { actions } from '@/redux/actions';
+import { store } from '@/redux/store';
 
 const Room = () => {
   const player = useRef(null);

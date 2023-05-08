@@ -1,18 +1,18 @@
 import { useState } from 'react';
+
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import { toast } from 'react-toastify';
 
-import { Unstable_Grid2 as Grid } from '@mui/material';
-import { Paper, Stack, Tabs, Tab, Typography } from '@mui/material';
+import { Unstable_Grid2 as Grid, Paper, Stack, Tabs, Tab, Typography } from '@mui/material';
 
-import JoinRoomForm from '@/components/room/JoinRoomForm';
 import CreateRoomForm from '@/components/room/CreateRoomForm';
+import JoinRoomForm from '@/components/room/JoinRoomForm';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 import { colyseus } from '@/apis/colyseus';
+
 import { actions } from '@/redux/actions';
 
 const Home = () => {

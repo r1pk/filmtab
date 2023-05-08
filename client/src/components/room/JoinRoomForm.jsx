@@ -1,7 +1,12 @@
-import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
-import Joi from 'joi';
 
+import PropTypes from 'prop-types';
+
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
+import { Controller, useForm } from 'react-hook-form';
+
+import { BookmarkBorder, Bookmark } from '@mui/icons-material';
 import {
   Card,
   CardHeader,
@@ -13,10 +18,6 @@ import {
   Checkbox,
   Button,
 } from '@mui/material';
-import { BookmarkBorder, Bookmark } from '@mui/icons-material';
-
-import { Controller, useForm } from 'react-hook-form';
-import { joiResolver } from '@hookform/resolvers/joi';
 
 import { usernameManager } from '@/utils/username-manager';
 

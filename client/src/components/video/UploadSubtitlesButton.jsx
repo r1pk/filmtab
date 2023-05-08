@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
+
+import PropTypes from 'prop-types';
 
 import { toast } from 'react-toastify';
 
-import { Button } from '@mui/material';
 import { UploadFileOutlined } from '@mui/icons-material';
+import { Button } from '@mui/material';
 
 const UploadSubtitlesButton = forwardRef(({ onSubtitlesLoaded, ...rest }, ref) => {
   const handleLoadedFile = (event) => {

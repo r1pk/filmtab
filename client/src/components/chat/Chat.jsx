@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
 import { useEffect, useRef, forwardRef } from 'react';
+
+import PropTypes from 'prop-types';
 
 import { Card, CardHeader, CardContent, CardActions, Stack, Divider } from '@mui/material';
 
-import ChatMessage from './ChatMessage';
 import ChatControls from './ChatControls';
+import ChatMessage from './ChatMessage';
 
 const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref) => {
   const content = useRef(null);

@@ -1,12 +1,13 @@
-import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
-import Joi from 'joi';
 
-import { Box, Stack, Tooltip, TextField, Button, IconButton } from '@mui/material';
-import { DeleteSweepOutlined } from '@mui/icons-material';
+import PropTypes from 'prop-types';
 
-import { Controller, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
+import { Controller, useForm } from 'react-hook-form';
+
+import { DeleteSweepOutlined } from '@mui/icons-material';
+import { Box, Stack, Tooltip, TextField, Button, IconButton } from '@mui/material';
 
 const schema = Joi.object({
   content: Joi.string().trim().min(1).max(140).required().label('content'),

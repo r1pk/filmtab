@@ -1,5 +1,13 @@
 {
-  "extends": ["react-app", "eslint:recommended"],
+  "extends": ["react-app", "eslint:recommended", "plugin:import/recommended"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [["@", "./src"]],
+        "extensions": [".js", ".jsx"]
+      }
+    }
+  },
   "rules": {
     "indent": ["error", 2],
     "quotes": ["error", "single"],
@@ -15,6 +23,75 @@
         "blankLine": "any",
         "prev": ["const", "let"],
         "next": ["const", "let"]
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "pathGroups": [
+          {
+            "pattern": "{react,react-dom/**}",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "prop-types",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "@mui/**",
+            "group": "external",
+            "position": "after"
+          },
+          {
+            "pattern": "@/themes/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/layouts/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/pages/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/components/**",
+            "group": "internal",
+            "position": "before"
+          },
+          {
+            "pattern": "@/hooks/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@/apis/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "@/redux/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "{@/configs/**,@/utils/**}",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
     ]
   }

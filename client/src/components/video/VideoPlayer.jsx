@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import { forwardRef, useRef, useState, useEffect, useImperativeHandle } from 'react';
+
+import PropTypes from 'prop-types';
 
 import Plyr from 'plyr';
 

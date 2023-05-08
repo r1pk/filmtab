@@ -1,6 +1,6 @@
 import { createTheme, responsiveFontSizes } from '@mui/material';
-
 import { deepmerge } from '@mui/utils';
+
 import { base } from './base';
 
 export const dark = responsiveFontSizes(

@@ -1,13 +1,14 @@
 {
   "name": "filmtab-client",
   "private": true,
-  "version": "2.4.56",
+  "version": "2.4.57",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "lint": "eslint --ext .js --ext .jsx --ext .json src/"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -34,6 +35,8 @@
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.0.1",
     "eslint-config-react-app": "^7.0.1",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.27.5",
     "prettier": "2.7.1",
     "vite": "^3.0.7",
     "vite-plugin-eslint": "^1.8.1"

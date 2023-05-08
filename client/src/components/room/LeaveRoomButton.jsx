@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 
-import { Button } from '@mui/material';
+import PropTypes from 'prop-types';
+
 import { ExitToAppOutlined } from '@mui/icons-material';
+import { Button } from '@mui/material';
 
 const LeaveRoomButton = forwardRef(({ onConfirmedClick, ...rest }, ref) => {
   const handleButtonClick = (e) => {

@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
+
+import PropTypes from 'prop-types';
 
 import { Avatar, Tooltip } from '@mui/material';
 
