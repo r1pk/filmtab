@@ -25,15 +25,15 @@ const Home = () => {
     setActiveTab(value);
   };
 
-  const setupRoomPage = () => {
+  const setupRoomPage = async () => {
     const { id, sessionId, state } = colyseus.room;
     const { users, video } = JSON.parse(JSON.stringify(state));
     const username = state.users.get(sessionId).username;
 
-    dispatch(actions.room.setRoomId(id));
-    dispatch(actions.room.setRoomUsers(Object.values(users)));
-    dispatch(actions.session.setSessionUser({ id: sessionId, username: username }));
-    dispatch(actions.video.setVideoState(video));
+    await dispatch(actions.room.setRoomId(id));
+    await dispatch(actions.room.setRoomUsers(Object.values(users)));
+    await dispatch(actions.session.setSessionUser({ id: sessionId, username: username }));
+    await dispatch(actions.video.setVideoState(video));
 
     navigate(`/rooms/${id}`);
   };
