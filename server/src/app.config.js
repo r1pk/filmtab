@@ -8,9 +8,11 @@ import { VideoRoom } from './rooms/video-room/index.js';
 export default config.default({
   getId: () => 'FilmTab Server',
 
-  initializeTransport: () => new WebSocketTransport(),
-
   beforeListen: () => {},
+
+  initializeTransport: (options) => {
+    return new WebSocketTransport(options);
+  },
 
   initializeGameServer: (gameServer) => {
     gameServer.define('video-room', VideoRoom);
