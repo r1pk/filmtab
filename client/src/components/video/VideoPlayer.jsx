@@ -4,9 +4,29 @@ import PropTypes from 'prop-types';
 
 import Plyr from 'plyr';
 
+import { GlobalStyles } from '@mui/material';
+
 import { playerConfig } from '@/configs/player-config';
 import { buildPlayerSource } from '@/utils/build-player-source';
 import { createSubtitleTrack } from '@/utils/create-subtitle-track';
+
+const videoPlayerGlobalStyles = (
+  <GlobalStyles
+    styles={(theme) => ({
+      '.plyr': {
+        '--plyr-color-main': theme.palette.primary.main,
+      },
+
+      '.plyr__caption': {
+        background: 'none',
+        fontFamily: 'Arial, Helvetica Neue, Helvetica, sans-serif',
+        fontSize: '22px',
+        fontWeight: '600',
+        textShadow: '-1px -1px #000, 1px -1px #000, -1px 1px #000, 1px 1px #000, 0 0 0.5rem #000',
+      },
+    })}
+  />
+);
 
 const VideoPlayer = forwardRef(({ state, onPlaybackToggle, onVideoSeek, onceVideoPlaying }, ref) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
@@ -96,7 +116,12 @@ const VideoPlayer = forwardRef(({ state, onPlaybackToggle, onVideoSeek, onceVide
     getCurrentProgress: () => plyr.current.currentTime,
   }));
 
-  return <video className="filmtab-player-target" />;
+  return (
+    <>
+      {videoPlayerGlobalStyles}
+      <video className="filmtab-player-target" />
+    </>
+  );
 });
 
 VideoPlayer.displayName = 'VideoPlayer';
