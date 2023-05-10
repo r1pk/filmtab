@@ -7,7 +7,7 @@ import Joi from 'joi';
 import { Controller, useForm } from 'react-hook-form';
 
 import { SendOutlined } from '@mui/icons-material';
-import { Card, CardActions, Stack, TextField, Button } from '@mui/material';
+import { Button, Card, CardActions, Stack, TextField } from '@mui/material';
 
 const schema = Joi.object({
   url: Joi.string().trim().uri().required().label('url'),

@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Paper, AvatarGroup, Skeleton } from '@mui/material';
+import { AvatarGroup, Paper, Skeleton } from '@mui/material';
 
 import UserChip from './UserChip';
 

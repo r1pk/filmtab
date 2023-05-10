@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Outlet, Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 const ProtectedOutlet = forwardRef(({ disabled, fallback, state, ...rest }, ref) => {
   return disabled ? <Outlet ref={ref} {...rest} /> : <Navigate to={fallback} state={state} ref={ref} {...rest} />;

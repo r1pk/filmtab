@@ -7,7 +7,7 @@ import Joi from 'joi';
 import { Controller, useForm } from 'react-hook-form';
 
 import { DeleteSweepOutlined } from '@mui/icons-material';
-import { Box, Stack, Tooltip, TextField, Button, IconButton } from '@mui/material';
+import { Box, Button, IconButton, Stack, TextField, Tooltip } from '@mui/material';
 
 const schema = Joi.object({
   content: Joi.string().trim().min(1).max(140).required().label('content'),

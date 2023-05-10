@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux';
-import { useParams, useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { Unstable_Grid2 as Grid, Paper, Stack, Typography, Link } from '@mui/material';
+import { Unstable_Grid2 as Grid, Link, Paper, Stack, Typography } from '@mui/material';
 
 import JoinRoomForm from '@/components/room/JoinRoomForm';
 

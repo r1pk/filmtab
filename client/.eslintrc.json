@@ -25,6 +25,7 @@
         "next": ["const", "let"]
       }
     ],
+    "sort-imports": ["error", { "ignoreDeclarationSort": true }],
     "import/order": [
       "error",
       {

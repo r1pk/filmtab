@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { Unstable_Grid2 as Grid, Paper, Stack, Tabs, Tab, Typography } from '@mui/material';
+import { Unstable_Grid2 as Grid, Paper, Stack, Tab, Tabs, Typography } from '@mui/material';
 
 import CreateRoomForm from '@/components/room/CreateRoomForm';
 import JoinRoomForm from '@/components/room/JoinRoomForm';

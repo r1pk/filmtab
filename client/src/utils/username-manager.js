@@ -1,4 +1,4 @@
-import { uniqueNamesGenerator, colors, animals } from 'unique-names-generator';
+import { animals, colors, uniqueNamesGenerator } from 'unique-names-generator';
 
 class UsernameManager {
   constructor() {

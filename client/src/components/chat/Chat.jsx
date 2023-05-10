@@ -1,8 +1,8 @@
-import { useEffect, useRef, forwardRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 
 import PropTypes from 'prop-types';
 
-import { Card, CardHeader, CardContent, CardActions, Stack, Divider } from '@mui/material';
+import { Card, CardActions, CardContent, CardHeader, Divider, Stack } from '@mui/material';
 
 import ChatControls from './ChatControls';
 import ChatMessage from './ChatMessage';

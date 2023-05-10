@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import MainLayout from '@/layouts/main/MainLayout';
 

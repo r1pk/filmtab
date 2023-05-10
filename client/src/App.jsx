@@ -3,7 +3,7 @@
 import { Provider } from 'react-redux';
 import { store } from '@/redux/store';
 
-import { ThemeProvider, CssBaseline } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { dark } from '@/themes/dark';
 
 import { BrowserRouter } from 'react-router-dom';
