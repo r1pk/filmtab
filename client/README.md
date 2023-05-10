@@ -5,10 +5,10 @@ Directory containing client-side application for [FilmTab project](https://githu
 ## Screenshots
 
 Home page
-![Home page](https://i.imgur.com/ygZJRJd.png)
+![Home page](https://i.imgur.com/QNsVQDc.png)
 
 Room page with playing video
-![Room page](https://i.imgur.com/53MGePL.png)
+![Room page](https://i.imgur.com/ZDWpL4f.png)
 
 ## Project structure
 
