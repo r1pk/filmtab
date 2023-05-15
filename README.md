@@ -2,6 +2,14 @@
 
 FilmTab is a responsive web application that allows users to watch videos together at the same time and provides a way for users to communicate with each other using a text chat feature. FilmTab is built using technologies such as [React](https://reactjs.org/), [React-Router](https://reactrouter.com), [Redux](https://redux.js.org/), [Material-UI](https://mui.com/) and [Colyseus](https://colyseus.io/).
 
+## Screenshots
+
+Home page
+![Home page](https://i.imgur.com/QNsVQDc.png)
+
+Room page with playing video
+![Room page](https://i.imgur.com/ZDWpL4f.png)
+
 ## Project structure
 
 ```bash
