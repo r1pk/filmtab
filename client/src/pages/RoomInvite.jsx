@@ -30,7 +30,7 @@ const RoomInvite = () => {
     navigate(`/rooms/${id}`);
   };
 
-  const handleJoinRoomFormSubmit = async (data) => {
+  const handleJoinRoom = async (data) => {
     try {
       await colyseus.joinById(data.roomId, {
         username: data.username,
@@ -54,7 +54,7 @@ const RoomInvite = () => {
             <Typography variant="h2" sx={{ p: 2, pb: 0, textAlign: 'center' }}>
               {import.meta.env.VITE_BASE_APP_TITLE}
             </Typography>
-            <JoinRoomForm roomId={params?.roomId} onSubmit={handleJoinRoomFormSubmit} elevation={2} />
+            <JoinRoomForm roomId={params?.roomId} onSubmit={handleJoinRoom} elevation={2} />
           </Stack>
         </Paper>
         <Link component={RouterLink} to="/" variant="body2" sx={{ display: 'block', textAlign: 'center', my: 2 }}>

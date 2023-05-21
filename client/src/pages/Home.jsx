@@ -38,7 +38,7 @@ const Home = () => {
     navigate(`/rooms/${id}`);
   };
 
-  const handleCreateRoomFormSubmit = async (data) => {
+  const handleCreateRoom = async (data) => {
     try {
       await colyseus.create('video-room', {
         username: data.username,
@@ -52,7 +52,7 @@ const Home = () => {
     }
   };
 
-  const handleJoinRoomFormSubmit = async (data) => {
+  const handleJoinRoom = async (data) => {
     try {
       await colyseus.joinById(data.roomId, {
         username: data.username,
@@ -80,8 +80,8 @@ const Home = () => {
               <Tab label="Create Room" value="create-room" to="create-room" />
               <Tab label="Join Room" value="join-room" to="join-room" />
             </Tabs>
-            {activeTab === 'create-room' && <CreateRoomForm onSubmit={handleCreateRoomFormSubmit} elevation={2} />}
-            {activeTab === 'join-room' && <JoinRoomForm onSubmit={handleJoinRoomFormSubmit} elevation={2} />}
+            {activeTab === 'create-room' && <CreateRoomForm onSubmit={handleCreateRoom} elevation={2} />}
+            {activeTab === 'join-room' && <JoinRoomForm onSubmit={handleJoinRoom} elevation={2} />}
           </Stack>
         </Paper>
       </Grid>

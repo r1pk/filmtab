@@ -31,21 +31,21 @@ const Room = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handlePlaybackToggle = useCallback((progress) => {
+  const handleTogglePlayback = useCallback((progress) => {
     colyseus.room.send('video::toggle_playback', { progress: progress });
   }, []);
 
-  const handleVideoSeek = useCallback((progress) => {
+  const handleSeekVideo = useCallback((progress) => {
     colyseus.room.send('video::seek', { progress: progress });
   }, []);
 
-  const handleVideoPlaying = useCallback(() => {
+  const handlePlayingVideo = useCallback(() => {
     if (store.getState().room.users.length > 1) {
       colyseus.room.send('video::request_progress');
     }
   }, []);
 
-  const handleSetVideoFormSubmit = (data) => {
+  const handleSetVideo = (data) => {
     colyseus.room.send('video::set_url', { url: data.url });
   };
 
@@ -53,7 +53,7 @@ const Room = () => {
     colyseus.room.send('video::set_subtitles', { subtitles: subtitles });
   };
 
-  const handleDeleteSubtitlesButtonClick = () => {
+  const handleDeleteSubtitles = () => {
     colyseus.room.send('video::delete_subtitles');
   };
 
@@ -65,7 +65,7 @@ const Room = () => {
     dispatch(actions.chat.clearChat());
   };
 
-  const handleLeaveRoomButtonClick = () => {
+  const handleLeaveRoom = () => {
     colyseus.room.leave();
     dispatch(actions.store.clear());
     navigate('/');
@@ -118,25 +118,25 @@ const Room = () => {
   return (
     <Grid container columns={16} spacing={2} sx={{ justifyContent: 'center' }}>
       <Grid xs={16}>
-        <SetVideoForm url={video.url} onSubmit={handleSetVideoFormSubmit} />
+        <SetVideoForm url={video.url} onSubmit={handleSetVideo} />
       </Grid>
       <Grid xs={16} lg={12}>
         <Stack spacing={2}>
           <Paper>
             <VideoPlayer
               state={video}
-              onPlaybackToggle={handlePlaybackToggle}
-              onVideoSeek={handleVideoSeek}
-              onceVideoPlaying={handleVideoPlaying}
+              onTogglePlayback={handleTogglePlayback}
+              onSeekVideo={handleSeekVideo}
+              oncePlaying={handlePlayingVideo}
               ref={player}
             />
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} sx={{ m: 1, justifyContent: 'flex-end' }}>
               <UploadSubtitlesButton onUploadSubtitles={handleUploadSubtitles} />
-              <DeleteSubtitlesButton onConfirmedClick={handleDeleteSubtitlesButtonClick} />
+              <DeleteSubtitlesButton onConfirmedClick={handleDeleteSubtitles} />
             </Stack>
           </Paper>
           <Box sx={{ alignSelf: 'flex-end' }}>
-            <LeaveRoomButton onConfirmedClick={handleLeaveRoomButtonClick} />
+            <LeaveRoomButton onConfirmedClick={handleLeaveRoom} />
           </Box>
         </Stack>
       </Grid>
