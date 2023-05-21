@@ -49,7 +49,7 @@ const Room = () => {
     colyseus.room.send('video::set_url', { url: data.url });
   };
 
-  const handleSubtitlesLoaded = (subtitles) => {
+  const handleUploadSubtitles = (subtitles) => {
     colyseus.room.send('video::set_subtitles', { subtitles: subtitles });
   };
 
@@ -131,7 +131,7 @@ const Room = () => {
               ref={player}
             />
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={1} sx={{ m: 1, justifyContent: 'flex-end' }}>
-              <UploadSubtitlesButton onSubtitlesLoaded={handleSubtitlesLoaded} />
+              <UploadSubtitlesButton onUploadSubtitles={handleUploadSubtitles} />
               <DeleteSubtitlesButton onConfirmedClick={handleDeleteSubtitlesButtonClick} />
             </Stack>
           </Paper>

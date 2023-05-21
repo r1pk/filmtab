@@ -7,11 +7,7 @@ import { toast } from 'react-toastify';
 import { UploadFileOutlined } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
-const UploadSubtitlesButton = forwardRef(({ onSubtitlesLoaded, ...rest }, ref) => {
-  const handleLoadedFile = (event) => {
-    onSubtitlesLoaded(event.target.result);
-  };
-
+const UploadSubtitlesButton = forwardRef(({ onUploadSubtitles, ...rest }, ref) => {
   const handleInputChange = (event) => {
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -20,7 +16,9 @@ const UploadSubtitlesButton = forwardRef(({ onSubtitlesLoaded, ...rest }, ref) =
       return toast.error('Unsupported file type');
     }
 
-    reader.addEventListener('load', handleLoadedFile);
+    reader.addEventListener('load', (event) => {
+      onUploadSubtitles(event.target.result);
+    });
     reader.readAsText(file);
   };
 
@@ -35,7 +33,7 @@ const UploadSubtitlesButton = forwardRef(({ onSubtitlesLoaded, ...rest }, ref) =
 UploadSubtitlesButton.displayName = 'UploadSubtitlesButton';
 
 UploadSubtitlesButton.propTypes = {
-  onSubtitlesLoaded: PropTypes.func.isRequired,
+  onUploadSubtitles: PropTypes.func.isRequired,
 };
 
 export default UploadSubtitlesButton;
