@@ -5,7 +5,7 @@ Directory containing client-side application for [FilmTab project](https://githu
 ## Screenshots
 
 Home page
-![Home page](https://i.imgur.com/QNsVQDc.png)
+![Home page](https://i.imgur.com/OCYZmGd.png)
 
 Room page with playing video
 ![Room page](https://i.imgur.com/ZDWpL4f.png)

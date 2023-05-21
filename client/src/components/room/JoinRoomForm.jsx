@@ -6,20 +6,9 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import { Controller, useForm } from 'react-hook-form';
 
-import { Bookmark, BookmarkBorder } from '@mui/icons-material';
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Checkbox,
-  FormControlLabel,
-  Stack,
-  TextField,
-} from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardHeader, Stack, TextField } from '@mui/material';
 
-import { usernameManager } from '@/utils/username-manager';
+import UsernameField from './UsernameField';
 
 const schema = Joi.object({
   roomId: Joi.string().trim().length(9).required().label('roomId'),
@@ -32,7 +21,7 @@ const JoinRoomForm = forwardRef(({ onSubmit, roomId, ...rest }, ref) => {
     mode: 'all',
     defaultValues: {
       roomId: roomId || '',
-      username: usernameManager.readFromLocalStorage() || usernameManager.createRandom(),
+      username: '',
       rememberUsername: true,
     },
     resolver: joiResolver(schema),
@@ -42,12 +31,6 @@ const JoinRoomForm = forwardRef(({ onSubmit, roomId, ...rest }, ref) => {
   const handleFormSubmit = (data) => {
     if (!isValid) {
       return;
-    }
-
-    if (data.rememberUsername) {
-      usernameManager.saveToLocalStorage(data.username);
-    } else {
-      usernameManager.clearLocalStorage();
     }
 
     onSubmit(data);
@@ -84,33 +67,14 @@ const JoinRoomForm = forwardRef(({ onSubmit, roomId, ...rest }, ref) => {
             name="username"
             control={control}
             render={({ field, fieldState }) => (
-              <TextField
+              <UsernameField
                 size="small"
                 label="Username"
                 error={Boolean(fieldState.error)}
                 helperText={fieldState.error?.message}
+                onGenerateUsername={field.onChange}
                 fullWidth
                 {...field}
-              />
-            )}
-          />
-          <Controller
-            name="rememberUsername"
-            control={control}
-            render={({ field }) => (
-              <FormControlLabel
-                label="Remember Username"
-                componentsProps={{ typography: { variant: 'button' } }}
-                control={
-                  <Checkbox
-                    size="small"
-                    checked={field.value}
-                    icon={<BookmarkBorder />}
-                    checkedIcon={<Bookmark />}
-                    sx={{ p: 0, mr: 1 }}
-                    {...field}
-                  />
-                }
               />
             )}
           />
