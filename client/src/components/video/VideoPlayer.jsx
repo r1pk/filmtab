@@ -10,7 +10,7 @@ import { playerConfig } from '@/configs/player-config';
 import { buildPlayerSource } from '@/utils/build-player-source';
 import { createSubtitleTrack } from '@/utils/create-subtitle-track';
 
-const videoPlayerGlobalStyles = (
+const componentGlobalStyles = (
   <GlobalStyles
     styles={(theme) => ({
       '.plyr': {
@@ -118,7 +118,7 @@ const VideoPlayer = forwardRef(({ state, onTogglePlayback, onSeekVideo, oncePlay
 
   return (
     <>
-      {videoPlayerGlobalStyles}
+      {componentGlobalStyles}
       <video className="filmtab-player-target" />
     </>
   );
