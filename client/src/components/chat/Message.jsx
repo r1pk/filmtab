@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Box, Typography } from '@mui/material';
 
-const ChatMessage = forwardRef(({ message, ...rest }, ref) => {
+const Message = forwardRef(({ message, ...rest }, ref) => {
   return (
     <Box sx={{ '&:hover': { background: 'rgba(0, 0, 0, 0.1)' } }} ref={ref} {...rest}>
       <Typography component="span" variant="subtitle2" sx={{ color: message.author.color }}>
@@ -17,9 +17,9 @@ const ChatMessage = forwardRef(({ message, ...rest }, ref) => {
   );
 });
 
-ChatMessage.displayName = 'ChatMessage';
+Message.displayName = 'Message';
 
-ChatMessage.propTypes = {
+Message.propTypes = {
   message: PropTypes.shape({
     author: PropTypes.shape({
       username: PropTypes.string.isRequired,
@@ -29,4 +29,4 @@ ChatMessage.propTypes = {
   }).isRequired,
 };
 
-export default ChatMessage;
+export default Message;

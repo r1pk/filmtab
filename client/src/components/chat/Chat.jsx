@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 import { Card, CardActions, CardContent, CardHeader, Divider, Stack } from '@mui/material';
 
-import ChatControls from './ChatControls';
-import ChatMessage from './ChatMessage';
+import Controls from './Controls';
+import Message from './Message';
 
 const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref) => {
   const content = useRef(null);
@@ -32,13 +32,13 @@ const Chat = forwardRef(({ messages, onSendMessage, onClearChat, ...rest }, ref)
       <CardContent sx={{ flexGrow: 1, overflowY: 'scroll', scrollBehavior: 'smooth' }} ref={content}>
         <Stack spacing={1}>
           {messages.map((message) => (
-            <ChatMessage message={message} key={message.id} />
+            <Message message={message} key={message.id} />
           ))}
         </Stack>
       </CardContent>
       <Divider />
       <CardActions>
-        <ChatControls onSendMessage={onSendMessage} onClearChat={onClearChat} />
+        <Controls onSendMessage={onSendMessage} onClearChat={onClearChat} />
       </CardActions>
     </Card>
   );
