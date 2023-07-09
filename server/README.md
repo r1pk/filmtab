@@ -128,7 +128,7 @@ Run the project locally
   }
   ```
 
-- `video::request_progress` - requests current video progress. This event requires at least one client except the one who sent it to be connected to the room.
+- `video::request_progress` - requests current video progress. This event requires at least one client except the one who sent it to be connected to the room otherwise it will be ignored.
   Accepts empty object.
 
   ```javascript
@@ -176,7 +176,7 @@ Run the project locally
   }
   ```
 
-  This event is sent only to users that requested current progress with `video::request_progress` event.
+  This event is sent only to users that requested current progress with `video::request_progress` event and there is at least one other client connected.
 
 - `chat::message` - chat message received from other user.  
   Payload sent with this event is object with `id`, `content`, `createdAt`, `author` fields.
