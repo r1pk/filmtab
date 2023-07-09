@@ -3,7 +3,7 @@ import { WebSocketTransport } from '@colyseus/ws-transport';
 import { monitor } from '@colyseus/monitor';
 import expressBasicAuth from 'express-basic-auth';
 
-import { VideoRoom } from './rooms/video-room/index.js';
+import { VideoRoom } from './rooms/video-room/VideoRoom.js';
 
 export default config.default({
   getId: () => 'FilmTab Server',
